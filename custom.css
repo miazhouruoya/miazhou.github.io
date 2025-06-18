@@ -1,69 +1,92 @@
+
 /* === Global Styling === */
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #fefefe;
-    color: #333333;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #333;
+  margin: 0;
+  padding: 0;
 }
 
+/* === Typography === */
 h1, h2, h3 {
-    font-weight: 600;
+  font-weight: 600;
+  text-align: center;
 }
 
 a {
-    color: #7E6B8F;
-    text-decoration: none;
+  color: #7E6B8F;
+  text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-  /* === Custom Header Style === */
+/* === Header Style === */
 .custom-header {
-    background: linear-gradient(to right, #E4D0D0, #F6ECEC);
-    padding: 5rem 2rem;
-    text-align: center;
-    color: #2c2c2c;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+  background: linear-gradient(to right, #e4d0d0, #f6ecec);
+  color: #2c2c2c;
+  text-align: center;
 }
 
 .custom-header .btn {
-    margin-top: 20px;
-    background-color: #BDA9C3;
-    color: white;
-    border: none;
+  margin-top: 1rem;
+  background-color: #BDA9C3;
+  color: white;
+  border: none;
 }
 
 .custom-header .btn:hover {
-    background-color: #a088ae;
+  background-color: #a088ae;
 }
 
 .custom-dark-glow {
-    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
-  /* === Interests Gallery === */
+/* === Interests Gallery === */
 section#interests img {
-    margin: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
 }
 
 section#interests img:hover {
-    transform: scale(1.04);
+  transform: scale(1.04);
 }
 
-  /* === Tabbed Sections === */
+/* === Sections === */
+section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.my-custom-color {
+  background-color: #f7f3f0;
+}
+
+/* === Tabs === */
 .nav-tabs .nav-link.active {
-    background-color: #BDA9C3;
-    color: #fff;
+  background-color: #BDA9C3;
+  color: #fff;
 }
 
 .nav-tabs .nav-link {
-    color: #7E6B8F;
+  color: #7E6B8F;
 }
 
-  /* === Footer === */
+/* === Footer === */
 footer.bg-dark {
-    background-color: #8C7C9C !important;
+  background-color: #674a4a !important;
+  color: white;
+}
+
+footer p {
+  margin: 0;
+  text-align: center;
 }
