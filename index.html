@@ -1,41 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Mia Zhou | Portfolio</title> <!-- Spell-check: Add "Zhou" to dictionary -->
-        <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="custom.css" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    </head>   
-<body>
-    <header>
-        <h1>Mia Zhou</h1> <!-- Spell-check: Add "Zhou" to dictionary -->
-        <p>Biostatistics & Applied Math | Neuroscience Minor | UNC Chapel Hill</p>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mia Zhou | Portfolio</title>
+  <meta name="description" content="Mia Zhou's personal portfolio site">
+  <meta name="author" content="Mia Zhou">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="custom.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
 
-    <main>
-        <h2>Featured Projects</h2>
-        <div class="project-container">
-            <div class="project-card">
-                <h3>🧠 Neuromatch Neuron Simulation</h3> <!-- Spell-check: Add "Neuromatch" to dictionary -->
-                <p>Collaborative modeling of neural spike patterns using Python. Final slides coming July 2025.</p>
-            </div>
-            <div class="project-card">
-                <h3>📈 Agent-Based Economic Simulation</h3>
-                <p>Used LLM-guided agents in AgentSociety to explore how inequality and business cycles emerge from micro-level decisions.</p>
-            </div>
-            <div class="project-card">
-                <h3>🔬 NIH Funding Network Analysis</h3>
-                <p>Clustered 30,000+ NIH grants using BERTopic and visualized multi-PI collaboration networks over time.</p>
-            </div>
+<body id="page-top">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background: rgba(103, 74, 74, 0.683);">
+    <div class="container">
+      <a class="navbar-brand" href="#">Mia Zhou</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="custom-header">
+    <div class="container text-center">
+      <h1 class="fw-bolder custom-dark-glow">Mia Zhou</h1>
+      <p class="lead custom-dark-glow">Scroll to learn more about my project!</p>
+      <a class="btn btn-lg btn-light" href="#about">Start scrolling!</a>
+    </div>
+  </header>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container px-4">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <h2>About Me</h2>
+          <p>
+            <img width="200" src="Mia.JPG" alt="Photo of Mia" /><br />
+            I'm a junior at the University of North Carolina at Chapel Hill majoring in Applied Mathematics and Biostatistics, with a minor in Neuroscience.
+            My academic and research interests lie at the intersection of computational neuroscience, biostatistics, differential equations (ODE/PDE), and multi-agent systems in quantitative finance. I’m passionate about combining AI and biological systems to model complexity, explore dynamics, and uncover hidden structures in real-world data.          </p>
+          <p><a class="btn btn-outline-dark" href="mailto:zhoumia@unc.edu">zhoumia@unc.edu</a></p>
+          <p><a class="btn btn-outline-dark" href="Resume.pdf" target="_blank">Download My Resume</a></p>
+          <p><a class="btn btn-outline-dark" href="eNet.pdf" target="_blank">See My Bioinformatics Project</a></p>
         </div>
-    </main>
+      </div>
+    </div>
+  </section>
 
-    <footer>
-        <p>📧 zhoumia@unc.edu | <a href="https://www.linkedin.com/in/miaazhou" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
-    </footer>
+  <!-- Projects -->
+  <section id="projects" class="my-custom-color">
+    <div class="container px-4">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <h2>Projects</h2>
+          <div class="project-card">
+            <h3> Neuromatch Neuron Simulation</h3>
+            <p>Modeling neuron spike dynamics in Python with team-based visualization and presentation.</p>
+          </div>
+          <div class="project-card">
+            <h3> Agent-Based Economic Simulation</h3>
+            <p>Built LLM-driven agents to simulate economic inequality and cycles in AgentSociety.</p>
+            <a href="https://github.com/YOUR-LINK-HERE" target="_blank">View Code</a>
+          </div>
+          <div class="project-card">
+            <h3> NIH Network Analysis using eNet algorithm</h3>
+            <p>Clustered 30,000+ NIH grants to reveal collaboration trends and disparities in funding.</p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">
+        Copyright &copy; Mia Zhou 2025<br />
+        <script>document.write("Last updated: " + document.lastModified);</script>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
