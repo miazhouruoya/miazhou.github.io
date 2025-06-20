@@ -25,62 +25,75 @@
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
           <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="ib.html">IB Portfolio</a></li>
         </ul>
       </div>
     </div>
   </nav>
+  
 
   <!-- Header -->
-  <header class="custom-header">
-    <div class="container text-center">
-      <h1 class="fw-bolder custom-dark-glow">Mia Zhou</h1>
-      <p class="lead custom-dark-glow">Scroll to learn more about my project!</p>
-      <a class="btn btn-lg btn-light" href="#about">Start scrolling!</a>
+  <header class="custom-header split-header">
+    <div class="container d-flex flex-wrap align-items-center justify-content-between">
+      
+      <!-- Left: Name and scroll message -->
+      <div class="intro-text text-start flex-grow-1 pe-4">
+        <h1 class="fw-bold">Mia Zhou</h1>
+        <h1 class="subtitle">Scroll to learn more about my projects!</h1>
+      </div>
+  
+      <!-- Right: About Me and image -->
+      <div class="project-card" data-aos="fade-up" data-aos-duration="800">
+      <div class="about-preview text-center flex-shrink-1">
+        <img src="Mia.JPG" alt="Mia Zhou" class="img-fluid rounded-circle mb-3" width="160">
+        <h2 class="fw-semibold">About Me</h2>
+        <p class="about-text">
+          I'm a junior at the University of North Carolina at Chapel Hill majoring in Applied Mathematics and Biostatistics, with a minor in Neuroscience. My academic and research interests lie at the intersection of computational neuroscience, biostatistics, differential equations (ODE/PDE), and multi-agent systems in quantitative finance. I’m passionate about combining AI and biological systems to model complexity, explore dynamics, and uncover hidden structures in real-world data.
+        </p>
+        <a class="btn btn-outline-dark" href="mailto:zhoumia@unc.edu">zhoumia@unc.edu</a>
+      </div>
     </div>
   </header>
+  
 
-  <!-- About -->
-  <section id="about">
-    <div class="container px-4">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <h2>About Me</h2>
-          <p>
-            <img width="200" src="Mia.JPG" alt="Photo of Mia" /><br />
-            I'm a junior at the University of North Carolina at Chapel Hill majoring in Applied Mathematics and Biostatistics, with a minor in Neuroscience.
-            My academic and research interests lie at the intersection of computational neuroscience, biostatistics, differential equations (ODE/PDE), and multi-agent systems in quantitative finance. I’m passionate about combining AI and biological systems to model complexity, explore dynamics, and uncover hidden structures in real-world data.          </p>
-          <p><a class="btn btn-outline-dark" href="mailto:zhoumia@unc.edu">zhoumia@unc.edu</a></p>
-          <p><a class="btn btn-outline-dark" href="Resume.pdf" target="_blank">Download My Resume</a></p>
-          <p><a class="btn btn-outline-dark" href="eNet.pdf" target="_blank">See My Bioinformatics Project</a></p>
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- Projects Section -->
+<section id="projects" class="my-custom-color">
+  <h2 style="text-align:center; margin-top: 2rem;"> Research Projects</h2>
 
-  <!-- Projects -->
-  <section id="projects" class="my-custom-color">
-    <div class="container px-4">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <h2>Projects</h2>
-          <div class="project-card">
-            <h3> Neuromatch Neuron Simulation</h3>
-            <p>Modeling neuron spike dynamics in Python with team-based visualization and presentation.</p>
-          </div>
-          <div class="project-card">
-            <h3> Agent-Based Economic Simulation</h3>
-            <p>Built LLM-driven agents to simulate economic inequality and cycles in AgentSociety.</p>
-            <a href="https://github.com/YOUR-LINK-HERE" target="_blank">View Code</a>
-          </div>
-          <div class="project-card">
-            <h3> NIH Network Analysis using eNet algorithm</h3>
-            <p>Clustered 30,000+ NIH grants to reveal collaboration trends and disparities in funding.</p>
-          </div>
-          </div>
-        </div>
-      </div>
+  <div class="project-grid">
+
+    <!-- Neuromatch -->
+    <div class="project-card" data-aos="fade-up" data-aos-duration="800">
+      <h3> Neuromatch Neuron Simulation</h3>
+      <p>Modeling neuron spike dynamics in Python with team-based visualization and final presentation in July 2025.</p>
     </div>
-  </section>
+
+    <!-- Agent-Based Simulation -->
+    <div class="project-card" data-aos="fade-up" data-aos-duration="800">
+      <h3> Agent-Based Economic Simulation</h3>
+      <p>Built LLM-driven agents to simulate economic inequality and cycles using the AgentSociety framework.</p>
+      <a href="https://github.com/YOUR-LINK-HERE" target="_blank">🔗 View Code</a>
+    </div>
+
+    <!-- NIH Network Analysis -->
+    <div class="project-card" data-aos="fade-up" data-aos-duration="800">
+      <h3> NIH Network Analysis</h3>
+      <p>Clustered 30,000+ NIH abstracts with BERTopic and visualized co-PI networks to reveal collaboration dynamics and funding inequality at UNC.</p>
+      <iframe src="NIH_Network.pdf" width="100%" height="280px" style="border:1px solid #ccc; border-radius: 10px;"></iframe>
+      <p><a class="btn btn-outline-dark" href="NIH_Network.pdf" target="_blank">🔗 View Full PDF</a></p>
+    </div>
+
+    <!-- eNet Enhancer Network -->
+    <div class="project-card" data-aos="fade-up" data-aos-duration="800">
+      <h3>eNet Enhancer Network Project</h3>
+      <p>Integrated scRNA-seq and scATAC-seq data to model enhancer modularity in MPAL (Mixed Phenotype Acute Leukemia).</p>
+      <iframe src="eNet.pdf" width="100%" height="280px" style="border:1px solid #ccc; border-radius: 10px;"></iframe>
+      <p><a class="btn btn-outline-dark" href="eNet.pdf" target="_blank">🔗 View Full PDF</a></p>
+    </div>
+
+  </div>
+</section>
+
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">

@@ -1,7 +1,7 @@
 
 /* === Global Styling === */
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Times New Roman', serif;
   font-size: 1rem;
   background-color: #ffffff;
   color: #333;
@@ -9,35 +9,63 @@ body {
   padding: 0;
 }
 
-/* === Typography === */
-h1, h2, h3 {
+h1, h2, h3, h4 {
+  font-family: 'Times New Roman', serif;
   font-weight: 600;
-  text-align: center;
+  color: #2c2c2c;
 }
 
-a {
-  color: #7E6B8F;
-  text-decoration: none;
+.subtitle {
+  color: rgb(255, 245, 245);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* optional: 更清晰 */
 }
 
-a:hover {
-  text-decoration: underline;
+p, li, a, button {
+  font-family: 'Times New Roman', serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #333333;
 }
+.about-preview img {
+  transition: transform 0.3s ease;
+}
+
+.about-preview img:hover {
+  transform: scale(1.05);
+}
+
+.btn {
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
 
 /* === Header Style === */
 .custom-header {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-  background: linear-gradient(to right, #e4d0d0, #f6ecec);
-  color: #2c2c2c;
-  text-align: center;
+  background-image: url('header-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  padding: 6rem 2rem;
+  position: relative;
 }
 
-.custom-header .btn {
-  margin-top: 1rem;
-  background-color: #BDA9C3;
-  color: white;
-  border: none;
+.custom-header::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4); /* optional dark overlay */
+  z-index: 1;
+}
+
+.custom-header .container {
+  position: relative;
+  z-index: 2;
 }
 
 .custom-header .btn:hover {
@@ -46,6 +74,35 @@ a:hover {
 
 .custom-dark-glow {
   text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Split header layout */
+.split-header .container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.split-header .intro-text {
+  flex: 1;
+  min-width: 250px;
+}
+
+.split-header .about-preview {
+  max-width: 400px;
+}
+
+.split-header h1 {
+  font-size: 2.8rem;
+  color: #e4e1e1;
+}
+
+.about-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #f4eaea;
+  text-align: left;
 }
 
 /* === Interests Gallery === */
@@ -68,6 +125,69 @@ section {
 
 .my-custom-color {
   background-color: #f7f3f0;
+}
+
+.project-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.project-card {
+  background-color: #fefefe;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  width: 300px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Georgia", serif;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
+}
+
+.project-card h3 {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.project-card p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.project-card iframe {
+  width: 100%;
+  height: 220px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.project-card a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  background-color: #f5f5f5;
+  transition: background-color 0.3s ease;
+}
+
+.project-card a:hover {
+  background-color: #e0e0e0;
 }
 
 /* === Tabs === */

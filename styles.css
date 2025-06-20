@@ -8,7 +8,7 @@ body {
 
 header {
   text-align: center;
-  background-color: #004477;
+  background-color: #F6ECEC;
   color: white;
   padding: 2em 1em;
 }
@@ -21,38 +21,51 @@ main {
 
 h2 {
   text-align: center;
-  color: #003355;
+  color: #4E3C4B;
   margin-bottom: 1em;
 }
 
 .project-container {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 0 1rem;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
 .project-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  padding: 1.5em;
-  width: 280px;
-  transition: transform 0.2s ease-in-out;
+  border-left: 4px solid 	#FFFCF9;
+  padding-left: 1.5rem;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  box-shadow: none;
+  border-radius: 0;
+  transition: background 0.3s ease;
 }
 
 .project-card:hover {
-  transform: scale(1.03);
+  background: rgba(189, 169, 195, 0.05);
 }
 
 .project-card h3 {
-  margin-top: 0;
-  color: #004477;
+  font-size: 1.5rem;
+  color: #274472;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+.project-card p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.7;
 }
 
 .project-card a {
-  color: #0077cc;
-  text-decoration: none;
+  font-size: 0.95rem;
+  color: #7E6B8F;
+  text-decoration: underline;
 }
 
 footer {
