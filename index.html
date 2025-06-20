@@ -11,6 +11,51 @@
   <link href="custom.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    .floating-deco {
+      position: fixed;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(253, 246, 178, 0.941), rgba(255, 255, 255, 0.1));
+      box-shadow: 0 0 15px rgba(255, 252, 159, 0.963);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.7;
+      animation: floatUp linear infinite;
+    }
+  
+    @keyframes floatUp {
+      from {
+        transform: translateY(100vh) scale(1);
+        opacity: 0.6;
+      }
+      to {
+        transform: translateY(-10vh) scale(1.4);
+        opacity: 0;
+      }
+    }
+  </style>
+  <style>
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: radial-gradient(circle, #fff 30%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0.9;
+      animation: sparkle-fade 0.8s ease-out forwards;
+      z-index: 9999;
+    }
+  
+    @keyframes sparkle-fade {
+      to {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+  </style>  
 </head>
 
 <body id="page-top">
@@ -108,4 +153,19 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<script>
+  for (let i = 0; i < 30; i++) {
+    const deco = document.createElement("div");
+    deco.className = "floating-deco";
+    const size = Math.random() * 6 + 6; // 6px to 12px
+    deco.style.width = `${size}px`;
+    deco.style.height = `${size}px`;
+    deco.style.left = `${Math.random() * 100}vw`;
+    deco.style.top = `${Math.random() * 100}vh`;
+    deco.style.animationDuration = `${12 + Math.random() * 8}s`;
+    deco.style.animationDelay = `${Math.random() * 5}s`;
+    document.body.appendChild(deco);
+  }
+</script>
 </html>
+
