@@ -1,176 +1,629 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mia Zhou | Portfolio</title>
-  <meta name="description" content="Mia Zhou's personal portfolio site">
-  <meta name="author" content="Mia Zhou">
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-  <link href="styles.css" rel="stylesheet" />
-  <link href="custom.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <style>
-    .floating-deco {
-      position: fixed;
-      top: 0;
-      left: 0;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(253, 246, 178, 0.941), rgba(255, 255, 255, 0.1));
-      box-shadow: 0 0 15px rgba(255, 252, 159, 0.963);
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.7;
-      animation: floatUp linear infinite;
+    /* ── Dreamy card redesign ───────────────────────────────── */
+    .project-grid-css {
+      grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)) !important;
+      gap: 1.3rem !important;
     }
-  
-    @keyframes floatUp {
-      from {
-        transform: translateY(100vh) scale(1);
-        opacity: 0.6;
-      }
-      to {
-        transform: translateY(-10vh) scale(1.4);
-        opacity: 0;
-      }
+
+    .project-card {
+      border-radius: 22px !important;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255,252,249,0.85) !important;
+      backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(232,165,152,0.2) !important;
+      box-shadow: 0 4px 20px rgba(180,130,120,0.09) !important;
+      transition: transform .35s ease, box-shadow .35s ease !important;
     }
-  </style>
-  <style>
-    .sparkle {
+    .project-card:hover {
+      box-shadow: 0 12px 40px rgba(180,130,120,0.18) !important;
+    }
+
+    /* Illustrated dreamy header */
+    .card-illus {
+      position: relative;
+      height: 125px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .card-bio  .card-illus { background: linear-gradient(135deg, #fde8e0 0%, #ecdaf5 55%, #c8e8e4 100%); }
+    .card-fin  .card-illus { background: linear-gradient(135deg, #ddeef8 0%, #d5f0e8 55%, #f0e8d0 100%); }
+    .card-math .card-illus { background: linear-gradient(135deg, #f0ede0 0%, #e5f0d5 55%, #d5e8f0 100%); }
+    .card-app  .card-illus { background: linear-gradient(135deg, #f8dff0 0%, #e5dff8 55%, #ddf0f8 100%); }
+
+    /* Soft blob decorations */
+    .card-illus::before, .card-illus::after {
+      content: '';
       position: absolute;
-      width: 8px;
-      height: 8px;
-      background: radial-gradient(circle, #fff 30%, transparent 70%);
       border-radius: 50%;
+      opacity: 0.3;
       pointer-events: none;
-      opacity: 0.9;
-      animation: sparkle-fade 0.8s ease-out forwards;
-      z-index: 9999;
     }
-  
-    @keyframes sparkle-fade {
-      to {
-        transform: scale(2);
-        opacity: 0;
-      }
+    .card-bio  .card-illus::before { width:100px;height:100px;background:radial-gradient(circle,#e8a598,#c8b8d8);top:-28px;right:-25px; }
+    .card-bio  .card-illus::after  { width:65px;height:65px;background:radial-gradient(circle,#a8c5c0,#f5d6cb);bottom:-18px;left:-12px; }
+    .card-fin  .card-illus::before { width:90px;height:90px;background:radial-gradient(circle,#a8c5c0,#b8d8c8);top:-22px;right:-20px; }
+    .card-fin  .card-illus::after  { width:58px;height:58px;background:radial-gradient(circle,#c8d8e8,#e8d87a);bottom:-14px;left:-8px; }
+    .card-math .card-illus::before { width:88px;height:88px;background:radial-gradient(circle,#b8c9a0,#e8d898);top:-20px;right:-20px; }
+    .card-math .card-illus::after  { width:55px;height:55px;background:radial-gradient(circle,#c8b8d8,#a8c5c0);bottom:-14px;left:-8px; }
+    .card-app  .card-illus::before { width:85px;height:85px;background:radial-gradient(circle,#c8b8d8,#f5d6cb);top:-20px;right:-18px; }
+    .card-app  .card-illus::after  { width:56px;height:56px;background:radial-gradient(circle,#e8a598,#a8c5c0);bottom:-12px;left:-8px; }
+
+    /* Scattered pastel dots */
+    .card-dot {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.45;
+      pointer-events: none;
     }
-  </style>  
+
+    /* Central emoji */
+    .card-illus-emoji {
+      font-size: 2.9rem;
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 3px 10px rgba(180,130,120,0.22));
+      transition: transform .32s cubic-bezier(.34,1.56,.64,1);
+    }
+    .project-card:hover .card-illus-emoji {
+      transform: scale(1.14) rotate(-5deg);
+    }
+
+    /* Card body */
+    .card-body-inner {
+      padding: .95rem 1.1rem 1.05rem !important;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .card-body-inner h3 {
+      font-family: 'Lora', Georgia, serif !important;
+      font-size: .86rem !important;
+      font-weight: 600 !important;
+      color: #5a3e38 !important;
+      margin: 0 0 .5rem !important;
+      line-height: 1.35;
+    }
+    /* Gradient rule under title */
+    .card-body-inner h3::after {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 2px;
+      border-radius: 2px;
+      margin-top: .38rem;
+      background: linear-gradient(90deg, #e8a598, #a8c5c0);
+      opacity: .65;
+    }
+    .card-desc {
+      font-size: .74rem !important;
+      line-height: 1.56 !important;
+      color: #7a6060 !important;
+      flex: 1;
+      margin: 0 !important;
+    }
+    .card-link-row {
+      margin-top: auto !important;
+      padding-top: .65rem !important;
+      display: flex !important;
+      gap: .42rem !important;
+      flex-wrap: wrap !important;
+    }
+    .card-link {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: .28rem !important;
+      font-size: .63rem !important;
+      font-weight: 700 !important;
+      letter-spacing: .065em !important;
+      text-transform: uppercase !important;
+      text-decoration: none !important;
+      padding: .26rem .72rem !important;
+      border-radius: 50px !important;
+      border: 1.5px solid currentColor !important;
+      transition: background .18s, color .18s, transform .15s !important;
+    }
+    .card-link:hover { transform: translateY(-1px) !important; }
+    .pdf-link  { color: #5a8e88 !important; }
+    .code-link { color: #7060a0 !important; }
+    .pdf-link:hover  { background: #5a8e88 !important; color: #fff !important; }
+    .code-link:hover { background: #7060a0 !important; color: #fff !important; }
+
+    /* Coming soon badge */
+    .coming-banner {
+      position: absolute !important;
+      top: .65rem !important;
+      right: .65rem !important;
+      font-size: .57rem !important;
+      letter-spacing: .08em !important;
+      text-transform: uppercase !important;
+      background: rgba(200,184,216,.3) !important;
+      color: #7a5a8a !important;
+      padding: .2rem .52rem !important;
+      border-radius: 50px !important;
+      backdrop-filter: blur(4px) !important;
+      border: 1px solid rgba(200,184,216,.45) !important;
+      z-index: 3;
+    }
+
+    /* Hide old PDF/img wrap */
+    .card-pdf-wrap, .card-img-wrap { display: none !important; }
+  </style>
 </head>
+<body>
 
-<body id="page-top">
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background: rgba(103, 74, 74, 0.683);">
-    <div class="container">
-      <a class="navbar-brand" href="#">Mia Zhou</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-          <li class="nav-item"><a class="nav-link" href="ib.html">IB Portfolio</a></li>
-        </ul>
-      </div>
-    </div>
+  <div id="cur"></div>
+  <div id="curR"></div>
+  <div id="ptcls"></div>
+  <div id="egg">
+    <div class="rb">✨ Mia is amazing ✨</div>
+    <div style="font-size:.82rem;margin-top:.35rem;color:#9a7878;">secret unlocked 🌸</div>
+  </div>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <div class="nav-logo">Mia Zhou ✦</div>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="ib.html" target="_blank">IB Portfolio</a></li>
+      <li><a href="life.html" target="_blank">My Life</a></li>
+    </ul>
   </nav>
-  
 
-  <!-- Header -->
-  <header class="custom-header split-header">
-    <div class="container d-flex flex-wrap align-items-center justify-content-between">
-      
-      <!-- Left: Name and scroll message -->
-      <div class="intro-text text-start flex-grow-1 pe-4">
-        <h1 class="fw-bold">Mia Zhou</h1>
-        <h1 class="subtitle">Scroll to learn more about my projects!</h1>
+  <!-- ══════════════════════════════════  HERO  ══════════════════════════════════ -->
+  <header class="custom-header split-header" id="home">
+    <div id="sgBg"></div>
+    <div class="container">
+
+      <!-- LEFT -->
+      <div class="intro-text" id="introText">
+        <div class="title-row">
+          <div class="title-text">
+            <h1 class="custom-dark-glow letter-h1" id="nameLetters"></h1>
+            <p class="subtitle" id="typewriterText"></p>
+          </div>
+          <div class="theme-btns">
+            <button id="btnSun" class="theme-btn sun-btn active-btn" title="Day mode">
+              <svg class="sun-svg" viewBox="0 0 60 60">
+                <circle cx="30" cy="30" r="12" fill="#FFD166"/>
+                <g class="sun-rays">
+                  <line x1="30" y1="6"  x2="30" y2="14" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="30" y1="46" x2="30" y2="54" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="6"  y1="30" x2="14" y2="30" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="46" y1="30" x2="54" y2="30" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="13" y1="13" x2="19" y2="19" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="41" y1="41" x2="47" y2="47" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="47" y1="13" x2="41" y2="19" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="19" y1="41" x2="13" y2="47" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
+                </g>
+              </svg>
+            </button>
+            <button id="btnMoon" class="theme-btn moon-btn" title="Night mode">
+              <svg class="moon-svg" viewBox="0 0 60 60">
+                <path d="M38 10 Q16 18 16 30 Q16 45 34 52 Q16 52 10 36 Q4 20 18 10 Q28 4 38 10Z" fill="#c8b8d8"/>
+                <circle cx="46" cy="16" r="2"   fill="#e8e0f0"/>
+                <circle cx="50" cy="28" r="1.5" fill="#e8e0f0"/>
+                <circle cx="44" cy="40" r="1.5" fill="#e8e0f0"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="skill-bubbles">
+          <span class="skill-bubble">Python</span>
+          <span class="skill-bubble">R</span>
+          <span class="skill-bubble">SAS</span>
+          <span class="skill-bubble">MATLAB</span>
+          <span class="skill-bubble">JavaScript</span>
+          <span class="skill-bubble">SQL</span>
+          <span class="skill-bubble">Tableau</span>
+          <span class="skill-bubble">Linux</span>
+        </div>
+
+        <div class="social-icons">
+          <a href="https://github.com/miazhouruoya" target="_blank" class="social-icon" aria-label="GitHub">
+            <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          </a>
+          <a href="https://linkedin.com/in/miaazhoou" target="_blank" class="social-icon" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://instagram.com/miazhou" target="_blank" class="social-icon social-insta" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          </a>
+        </div>
+
+        <div class="scroll-hint">
+          <span>scroll down</span>
+          <div class="scroll-dot"></div>
+        </div>
       </div>
-  
-      <!-- Right: About Me and image -->
-      <div class="project-card" data-aos="fade-up" data-aos-duration="800">
-      <div class="about-preview text-center flex-shrink-1">
-        <img src="Mia.jpg" alt="Mia Zhou" class="img-fluid rounded-circle mb-3" width="160">
-        <h2 class="fw-semibold">About Me</h2>
+
+      <!-- RIGHT: About card -->
+      <div class="about-preview">
+        <div class="photo-wrap" id="heroPic">
+          <img src="Mia.jpg" alt="Mia Zhou"
+              onerror="this.style.background='linear-gradient(135deg,#f5d6cb,#c8b8d8)';this.removeAttribute('src')">
+        </div>
+        <h2>About Me</h2>
         <p class="about-text">
-          I'm a junior at the University of North Carolina at Chapel Hill majoring in Applied Mathematics and Biostatistics, with a minor in Neuroscience. My academic and research interests lie at the intersection of computational neuroscience, biostatistics, differential equations (ODE/PDE), and multi-agent systems in quantitative finance. I’m passionate about combining AI and biological systems to model complexity, explore dynamics, and uncover hidden structures in real-world data.
+          I grew up in China, completed high school in Singapore, and now am pursuing
+          Mathematics &amp; Biostatistics major, neuroscience minor at the University
+          of North Carolina at Chapel Hill. My academic and research interests lie at
+          the intersection of computational neuroscience, biostatistics, differential
+          equations (ODE/PDE), and multi-agent systems in quantitative finance. I'm
+          passionate about combining AI and biological systems to model complexity,
+          explore dynamics, and uncover hidden structures in real-world data.
         </p>
-        <a class="btn btn-outline-dark" href="mailto:zhoumia@unc.edu">zhoumia@unc.edu</a>
+        <a href="mailto:zhoumia@unc.edu" class="btn">zhoumia@unc.edu</a>
       </div>
+
     </div>
   </header>
-  
 
-<!-- Projects Section -->
-<section id="projects" class="my-custom-color">
-  <h2 style="text-align:center; margin-top: 2rem;"> Undergraduate Research Projects</h2>
-  <div class="project-grid">
-    
-    <!-- Neuromatch -->
-    <div class="project-card" data-aos="fade-up" data-aos-duration="800">
-      <h3> Neuromatch Neuron Simulation</h3>
-      <p>Modeling neuron spike dynamics in Python with team-based visualization and final presentation in July 2025.</p>
+  <!-- ══════════════════════════════════  PROJECTS  ══════════════════════════════════ -->
+  <section id="projects" class="proj-bg-section" style="padding:3.5rem 2rem 5.5rem;">
+    <div style="max-width:1180px;margin:0 auto;">
+
+      <div class="rev" style="margin-bottom:1.8rem;">
+        <p class="section-label">✦ research &amp; projects</p>
+      </div>
+
+      <div class="cat-tabs rev" style="transition-delay:.1s;" id="catTabs">
+        <button class="cat-tab tab-all active" data-cat="all"><div class="tab-fill"></div><span>All</span></button>
+        <button class="cat-tab tab-bio"  data-cat="bio" ><div class="tab-fill"></div><span>Biostatistics &amp; Neuro</span></button>
+        <button class="cat-tab tab-fin"  data-cat="fin" ><div class="tab-fill"></div><span>Finance AI</span></button>
+        <button class="cat-tab tab-math" data-cat="math"><div class="tab-fill"></div><span>Math</span></button>
+        <button class="cat-tab tab-app"  data-cat="app" ><div class="tab-fill"></div><span>App Dev</span></button>
+      </div>
+
+      <div class="project-grid-css" id="projectGrid">
+
+        <!-- BIO: Spatial -->
+        <div class="project-card card-bio rev" data-cat="bio" id="card-spatial" style="transition-delay:.04s;">
+          <div class="card-illus">
+            <div class="card-dot" style="width:8px;height:8px;background:#e8a598;top:18%;left:12%;"></div>
+            <div class="card-dot" style="width:5px;height:5px;background:#a8c5c0;top:65%;left:73%;"></div>
+            <div class="card-dot" style="width:6px;height:6px;background:#c8b8d8;top:42%;left:56%;"></div>
+            <div class="card-dot" style="width:4px;height:4px;background:#b8c9a0;top:76%;left:26%;"></div>
+            <div class="card-dot" style="width:5px;height:5px;background:#f5d6cb;top:28%;left:40%;"></div>
+            <span class="card-illus-emoji">🔬</span>
+          </div>
+          <div class="card-body-inner">
+            <h3>Spatial Transcriptomics</h3>
+            <p class="card-desc">Benchmarked 3 graph-building frameworks (Seurat, Squidpy, Niches) on Stimage-1K4M, comparing model outputs and loss matrices for spatial gene expression analysis.</p>
+            <div class="card-link-row">
+              <a class="card-link code-link" href="https://github.com/parkyunjin/stgraph" target="_blank">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                Code
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BIO: NIH -->
+        <div class="project-card card-bio rev" data-cat="bio" id="card-nih" style="transition-delay:.08s;">
+          <div class="card-illus">
+            <div class="card-dot" style="width:7px;height:7px;background:#c8b8d8;top:20%;left:14%;"></div>
+            <div class="card-dot" style="width:5px;height:5px;background:#e8a598;top:62%;left:71%;"></div>
+            <div class="card-dot" style="width:6px;height:6px;background:#a8c5c0;top:36%;left:52%;"></div>
+            <div class="card-dot" style="width:4px;height:4px;background:#f5d6cb;top:78%;left:32%;"></div>
+            <div class="card-dot" style="width:5px;height:5px;background:#b8c9a0;top:50%;left:22%;"></div>
+            <span class="card-illus-emoji">🕸️</span>
+          </div>
+          <div class="card-body-inner">
+            <h3>NIH Network Analysis</h3>
+            <p class="card-desc">Clustered 30,000+ NIH abstracts with BERTopic and visualized co-PI networks to reveal collaboration dynamics and funding inequality at UNC.</p>
+            <div class="card-link-row">
+              <a class="card-link pdf-link" href="Uni/NIH_Network.pdf" target="_blank">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                PDF
+              </a>
+              <a class="card-link code-link" href="https://github.com/CuiranVivianShi/NIH_network" target="_blank">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                Code
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BIO: eNet -->
+        <div class="project-card card-bio rev" data-cat="bio" id="card-enet" style="transition-delay:.12s;">
+          <div class="card-illus">
+            <div class="card-dot" style="width:9px;height:9px;background:#a8c5c0;top:16%;left:10%;"></div>
+            <div class="card-dot" style="width:5px;height:5px;background:#c8b8d8;top:68%;left:74%;"></div>
+            <div class="card-dot" style="width:6px;height:6px;background:#e8a598;top:44%;left:58%;"></div>
+            <div class="card-dot" style="width:4px;height:4px;background:#b8c9a0;top:80%;left:22%;"></div>
+            <div class="card-dot" style="width:5px;height:5px;background:#f5d6cb;top:30%;left:38%;"></div>
+            <span class="card-illus-emoji">🧬</span>
+          </div>
+          <div class="card-body-inner">
+            <h3>eNet Enhancer Network</h3>
+            <p class="card-desc">Constructed enhancer network from single-cell multi-omics (scATAC + scRNA, 18k+ cells), identifying rare modular topologies (8.39%) predictive of MPA Leukemia driver genes.</p>
+            <div class="card-link-row">
+              <a class="card-link pdf-link" href="Uni/eNet.pdf" target="_blank">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                PDF
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BIO: Neuromatch -->
+        <div class="project-card card-bio rev" data-cat="bio" id="card-neuro" style="transition-delay:.16s;">
+          <div class="card-illus">
+            <div class="card-dot" style="width:7px;height:7px;background:#f5d6cb;top:22%;left:13%;"></div>
+            <div class="card-dot" style="width:5px;height:5px;background:#a8c5c0;top:64%;left:70%;"></div>
+            <div class="card-dot" style="width:8px;height:8px;background:#c8b8d8;top:38%;left:54%;"></div>
+            <div class="card-dot" style="width:4px;height:4px;background:#e8a598;top:76%;left:28%;"></div>
+            <div class="card-dot" style="width:5px;height:5px;background:#b8c9a0;top:52%;left:18%;"></div>
+            <span class="card-illus-emoji">🧠</span>
+          </div>
+          <div class="card-body-inner">
+            <h3>Neuromatch Neuron Simulation</h3>
+            <p class="card-desc">Decoded inter-regional brain communication via Leiden Analysis on the IBL dataset (30k+ neurons), predicting trial-by-trial behavioral decisions at 78% accuracy.</p>
+            <div class="card-link-row">
+              <a class="card-link pdf-link" href="Uni/slides.pdf" target="_blank">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Slides
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- FIN: AgentSociety -->
+        <div class="project-card card-fin rev" data-cat="fin" id="card-agent" style="transition-delay:.04s;">
+          <div class="card-illus">
+            <div class="card-dot" style="width:8px;height:8px;background:#a8c5c0;top:20%;left:12%;"></div>
+            <div class="card-dot" style="width:5px;height:5px;background:#e8c87a;top:62%;left:72%;"></div>
+            <div class="card-dot" style="width:6px;height:6px;background:#c8d8e8;top:40%;left:55%;"></div>
+            <div class="card-dot" style="width:4px;height:4px;background:#b8d8c8;top:76%;left:30%;"></div>
+            <div class="card-dot" style="width:5px;height:5px;background:#f0e8d0;top:55%;left:20%;"></div>
+            <span class="card-illus-emoji">📈</span>
+          </div>
+          <div class="card-body-inner">
+            <h3>Agent-Based Economic Simulation</h3>
+            <p class="card-desc">Behavioral agent-based RCK model with Cobb-Douglas production and Poisson-updated social imitation. LLM-driven agents reproduce polarization and echo-chamber dynamics.</p>
+            <div class="card-link-row">
+              <a class="card-link pdf-link" href="Uni/ABM.pdf" target="_blank">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                PDF
+              </a>
+              <a class="card-link code-link" href="https://github.com/miazhouruoya/agent-society-workplace" target="_blank">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                Code
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- MATH placeholder -->
+        <div class="project-card card-math rev" data-cat="math" id="card-math" style="transition-delay:.04s;position:relative;">
+          <div class="coming-banner">coming soon</div>
+          <div class="card-illus">
+            <div class="card-dot" style="width:7px;height:7px;background:#b8c9a0;top:18%;left:13%;"></div>
+            <div class="card-dot" style="width:5px;height:5px;background:#c8b8d8;top:64%;left:70%;"></div>
+            <div class="card-dot" style="width:6px;height:6px;background:#e8d898;top:40%;left:53%;"></div>
+            <div class="card-dot" style="width:4px;height:4px;background:#a8c5c0;top:78%;left:28%;"></div>
+            <span class="card-illus-emoji">📐</span>
+          </div>
+          <div class="card-body-inner">
+            <h3>Still Exploring…</h3>
+            <p class="card-desc">Working at the intersection of ODE/PDE, dynamical systems, and mathematical modeling. Watch this space!</p>
+          </div>
+        </div>
+
+        <!-- APP placeholder -->
+        <div class="project-card card-app rev" data-cat="app" id="card-app" style="transition-delay:.04s;position:relative;">
+          <div class="coming-banner">coming soon</div>
+          <div class="card-illus">
+            <div class="card-dot" style="width:8px;height:8px;background:#c8b8d8;top:20%;left:11%;"></div>
+            <div class="card-dot" style="width:5px;height:5px;background:#e8a598;top:64%;left:71%;"></div>
+            <div class="card-dot" style="width:6px;height:6px;background:#a8c5c0;top:38%;left:54%;"></div>
+            <div class="card-dot" style="width:4px;height:4px;background:#f5d6cb;top:77%;left:29%;"></div>
+            <span class="card-illus-emoji">💻</span>
+          </div>
+          <div class="card-body-inner">
+            <h3>Still Exploring…</h3>
+            <p class="card-desc">Building tools that make science and math more accessible. More coming soon!</p>
+          </div>
+        </div>
+
+      </div><!-- /project-grid-css -->
     </div>
+  </section>
 
-    <!-- Agent-Based Simulation -->
-    <!-- Agent-Based Simulation -->
-  <div class="project-card" data-aos="fade-up" data-aos-duration="800">
-    <h3>Agent-Based Economic Simulation</h3>
-    <p>
-      Built LLM-driven agents to simulate economic inequality and cycles
-      using the AgentSociety framework.
-    </p>
-    <p><a class="btn btn-outline-dark"
-        href="https://github.com/YOUR-LINK-HERE"
-        target="_blank">
-        View Code</a></p>
-    </div>
-
-    <!-- eNet Enhancer Network -->
-    <div class="project-card" data-aos="fade-up" data-aos-duration="800">
-      <h3>eNet Enhancer Network Project</h3>
-      <p>Integrated scRNA-seq and scATAC-seq data to model enhancer modularity in MPAL (Mixed Phenotype Acute Leukemia).</p>
-      <iframe src="Uni/eNet.pdf" width="100%" height="280px" style="border:1px solid #ccc; border-radius: 10px;"></iframe>
-      <p><a class="btn btn-outline-dark" href="Uni/eNet.pdf" target="_blank"> View Full PDF</a></p>
-    </div>
-
-    <!-- NIH Network Analysis -->
-    <div class="project-card" data-aos="fade-up" data-aos-duration="800">
-      <h3>NIH Network Analysis</h3>
-      <p>Clustered 30,000+ NIH abstracts with BERTopic and visualized co-PI networks to reveal collaboration dynamics and funding inequality at UNC.</p>
-      <iframe src="Uni/NIH_Network.pdf" width="100%" height="280px" style="border:1px solid #ccc; border-radius: 10px;"></iframe>
-      <p><a class="btn btn-outline-dark" href="Uni/NIH_Network.pdf" target="_blank"> View Full PDF</a></p>
-    </div>
-  </div>
-</section>
-
-
-  <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">
-        Copyright &copy; Mia Zhou 2025<br />
-        <script>document.write("Last updated: " + document.lastModified);</script>
-      </p>
-    </div>
+  <footer class="bg-dark" style="padding:1.4rem 2rem;">
+    <p>Made with <span class="heart">♥</span> by Mia Zhou &nbsp;·&nbsp; © 2025</p>
+    <p style="font-size:.62rem;opacity:.45;margin-top:.25rem;">Triple-click the photo for a secret 🌸</p>
   </footer>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-<script>
-  for (let i = 0; i < 30; i++) {
-    const deco = document.createElement("div");
-    deco.className = "floating-deco";
-    const size = Math.random() * 6 + 6; // 6px to 12px
-    deco.style.width = `${size}px`;
-    deco.style.height = `${size}px`;
-    deco.style.left = `${Math.random() * 100}vw`;
-    deco.style.top = `${Math.random() * 100}vh`;
-    deco.style.animationDuration = `${12 + Math.random() * 8}s`;
-    deco.style.animationDelay = `${Math.random() * 5}s`;
-    document.body.appendChild(deco);
-  }
-</script>
-</html>
+  <script>
+    // ── Cursor ───────────────────────────────────────────────────
+    const cur = document.getElementById('cur');
+    const curR = document.getElementById('curR');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+    (function animRing(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(animRing);})();
+    document.querySelectorAll('a,button,.project-card').forEach(el=>{
+      el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.2)';curR.style.borderColor='#6a9e98';});
+      el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';curR.style.borderColor='#e8a598';});
+    });
 
+    // ── Sparkle trail ────────────────────────────────────────────
+    const sparkColors=['#e8a598','#f0b8a0','#a8c5c0','#c8b8d8','#b8c9a0','#f5d6cb'];
+    document.addEventListener('mousemove',e=>{
+      if(Math.random()>.62)return;
+      const s=document.createElement('div');s.className='sp2';
+      const sz=3+Math.random()*6;
+      s.style.cssText=`left:${e.clientX+(Math.random()*14-7)}px;top:${e.clientY+(Math.random()*14-7)}px;width:${sz}px;height:${sz}px;background:${sparkColors[~~(Math.random()*sparkColors.length)]};`;
+      document.body.appendChild(s);setTimeout(()=>s.remove(),750);
+    });
+
+    // ── Floaties ─────────────────────────────────────────────────
+    const emojis=['🌸','✨','💫','🌷','⭐','🐚','🌺','💖','🦋','🌙','🎀','🩰','🎧','🦢','🪞','🧸','🍓'];
+    function spawnFloaties(x,y,count=1){
+      for(let i=0;i<count;i++)setTimeout(()=>{
+        const f=document.createElement('div');f.className='fl';
+        f.textContent=emojis[~~(Math.random()*emojis.length)];
+        f.style.left=(x+(Math.random()*40-20))+'px';
+        f.style.top=(y+(Math.random()*20-10))+'px';
+        document.body.appendChild(f);setTimeout(()=>f.remove(),1100);
+      },i*75);
+    }
+    document.addEventListener('click',e=>{
+      if(e.target.closest('a,nav,button'))return;
+      spawnFloaties(e.clientX,e.clientY);
+    });
+
+    // ── Particles ─────────────────────────────────────────────────
+    const ptcls=document.getElementById('ptcls');
+    ['#f5d6cb','#e8a598','#a8c5c0','#c8b8d8','#b8c9a0','#e8c87a'].forEach(c=>{
+      for(let i=0;i<3;i++){
+        const p=document.createElement('div');p.className='ptcl';
+        const sz=3+Math.random()*8;
+        p.style.cssText=`width:${sz}px;height:${sz}px;background:${c};left:${Math.random()*100}%;animation-duration:${9+Math.random()*14}s;animation-delay:${Math.random()*12}s;`;
+        ptcls.appendChild(p);
+      }
+    });
+
+    // ── Name letters ──────────────────────────────────────────────
+    const nameEl=document.getElementById('nameLetters');
+    const nameStr='Mia Zhou';
+    const letterColors=['#f5d6cb','#f0b8a0','#e8a598','#a8c5c0','#c8b8d8','#b8c9a0','#e8c87a','#e8a598'];
+    nameStr.split('').forEach((ch,i)=>{
+      const s=document.createElement('span');
+      s.className='name-letter';
+      s.textContent=ch===' '?'\u00A0':ch;
+      s.style.animationDelay=(i*.07)+'s';
+      s.addEventListener('mouseenter',()=>{
+        s.style.color=letterColors[i%letterColors.length];
+        s.style.transform='translateY(-8px) rotate('+(Math.random()*12-6)+'deg) scale(1.2)';
+        spawnFloaties(nameEl.getBoundingClientRect().left+s.offsetLeft+10,nameEl.getBoundingClientRect().top+10,1);
+      });
+      s.addEventListener('mouseleave',()=>{s.style.color='';s.style.transform='';});
+      nameEl.appendChild(s);
+    });
+
+    // ── Typewriter ────────────────────────────────────────────────
+    const twEl=document.getElementById('typewriterText');
+    const twLines=['Scroll to learn','more about my','projects!'];
+    let twFull=twLines.join('\n'),twIdx=0;
+    function typeNext(){
+      if(twIdx<=twFull.length){
+        twEl.innerHTML=twFull.slice(0,twIdx).replace(/\n/g,'<br>')+'<span class="tw-cursor">|</span>';
+        twIdx++;setTimeout(typeNext,twIdx<twFull.length?45:0);
+      }else{twEl.innerHTML=twFull.replace(/\n/g,'<br>');}
+    }
+    setTimeout(typeNext,900);
+
+    // ── Skill bubbles ─────────────────────────────────────────────
+    document.querySelectorAll('.skill-bubble').forEach(b=>{
+      b.addEventListener('click',e=>spawnFloaties(e.clientX,e.clientY,2));
+    });
+
+    // ── Parallax ──────────────────────────────────────────────────
+    window.addEventListener('scroll',()=>{
+      const sg=document.getElementById('sgBg');
+      if(sg)sg.style.transform=`translateY(${window.scrollY*.3}px)`;
+    });
+
+    // ── Scroll reveal ─────────────────────────────────────────────
+    const revObs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+    },{threshold:0.08});
+    document.querySelectorAll('.rev').forEach(el=>revObs.observe(el));
+
+    // ── Easter egg ────────────────────────────────────────────────
+    let photoClicks=0,photoTimer;
+    document.getElementById('heroPic').addEventListener('click',e=>{
+      e.stopPropagation();photoClicks++;
+      clearTimeout(photoTimer);
+      photoTimer=setTimeout(()=>photoClicks=0,900);
+      if(photoClicks>=3){
+        photoClicks=0;
+        const egg=document.getElementById('egg');
+        egg.style.display='block';
+        setTimeout(()=>egg.style.display='none',2800);
+        spawnFloaties(window.innerWidth/2,window.innerHeight/2,22);
+      }
+    });
+
+    // ── Category filter ───────────────────────────────────────────
+    const grid=document.getElementById('projectGrid');
+    const originalOrder=Array.from(grid.querySelectorAll('.project-card'));
+    document.getElementById('catTabs').addEventListener('click',e=>{
+      const tab=e.target.closest('.cat-tab');if(!tab)return;
+      document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      const cat=tab.dataset.cat;
+      if(cat==='all'){
+        originalOrder.forEach(c=>{grid.appendChild(c);c.classList.remove('hidden');});
+      }else{
+        originalOrder.filter(c=>c.dataset.cat===cat).forEach(c=>{grid.appendChild(c);c.classList.remove('hidden');});
+        originalOrder.filter(c=>c.dataset.cat!==cat).forEach(c=>{grid.appendChild(c);c.classList.add('hidden');});
+      }
+    });
+
+    // ── Dark mode ─────────────────────────────────────────────────
+    const darkCSS=document.createElement('style');
+    darkCSS.textContent=`
+      body.dark-mode .custom-header::before{background:rgba(4,3,8,0.72);}
+      body.dark-mode #sgBg{filter:brightness(0.45) saturate(0.7);}
+      body.dark-mode .proj-bg-section::before{
+        background:linear-gradient(180deg,rgba(18,14,24,.97) 0%,rgba(18,14,24,.93) 50%,rgba(18,14,24,.97) 100%),
+          url('singapore.jpg') center 60%/cover no-repeat;}
+      body.dark-mode footer.bg-dark{background-color:#1a1220!important;}
+      body.dark-mode nav{background:rgba(6,4,10,.65);}
+      body.dark-mode .project-card{background:rgba(28,20,30,0.88)!important;border-color:rgba(200,184,216,0.15)!important;}
+      body.dark-mode .card-body-inner h3{color:#f0d8d0!important;}
+      body.dark-mode .card-desc{color:#b09898!important;}
+      body.dark-mode .card-bio .card-illus{background:linear-gradient(135deg,#3a2030 0%,#2a2038 55%,#1e3030 100%);}
+      body.dark-mode .card-fin .card-illus{background:linear-gradient(135deg,#1e2a38 0%,#1e3028 55%,#2a2018 100%);}
+      body.dark-mode .card-math .card-illus{background:linear-gradient(135deg,#242018 0%,#222818 55%,#182028 100%);}
+      body.dark-mode .card-app .card-illus{background:linear-gradient(135deg,#281828 0%,#201828 55%,#182028 100%);}
+      .custom-header::before,#sgBg,.proj-bg-section::before,footer.bg-dark,nav,.project-card,.card-illus{transition:background 0.6s ease,filter 0.6s ease;}
+    `;
+    document.head.appendChild(darkCSS);
+
+    const btnSun=document.getElementById('btnSun');
+    const btnMoon=document.getElementById('btnMoon');
+    btnSun.classList.add('active-btn');
+    btnMoon.addEventListener('click',e=>{
+      e.stopPropagation();
+      document.body.classList.add('dark-mode');
+      btnMoon.classList.add('active-btn');btnSun.classList.remove('active-btn');
+      spawnFloaties(e.clientX,e.clientY,3);
+    });
+    btnSun.addEventListener('click',e=>{
+      e.stopPropagation();
+      document.body.classList.remove('dark-mode');
+      btnSun.classList.add('active-btn');btnMoon.classList.remove('active-btn');
+      spawnFloaties(e.clientX,e.clientY,3);
+    });
+
+    // ── 3D tilt ───────────────────────────────────────────────────
+    document.querySelectorAll('.project-card').forEach(card=>{
+      card.addEventListener('mousemove',e=>{
+        if(card.classList.contains('hidden'))return;
+        const r=card.getBoundingClientRect();
+        const x=((e.clientX-r.left)/r.width-.5)*10;
+        const y=((e.clientY-r.top)/r.height-.5)*-10;
+        card.style.transform=`perspective(700px) rotateY(${x}deg) rotateX(${y}deg) translateY(-4px) scale(1.01)`;
+      });
+      card.addEventListener('mouseleave',()=>{card.style.transform='';});
+    });
+  </script>
+</body>
+</html>

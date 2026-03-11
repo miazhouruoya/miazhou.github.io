@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Life | Mia Zhou</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --rose: #e8a598; --teal: #a8c5c0; --lav: #c8b8d8;
+      --sage: #b8c9a0; --cream: #fdf8f4;
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: #5a3e38;
+      min-height: 100vh;
+      cursor: none;
+    }
+
+    /* Cursor */
+    #cur { position:fixed;width:8px;height:8px;border-radius:50%;background:var(--rose);transform:translate(-50%,-50%);pointer-events:none;z-index:9999;transition:transform .15s; }
+    #curR { position:fixed;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--rose);transform:translate(-50%,-50%);pointer-events:none;z-index:9998;transition:border-color .3s; }
+
+    /* Sparkle */
+    .sp2 { position:fixed;border-radius:50%;pointer-events:none;z-index:9990;animation:sparkFade .75s ease-out forwards; }
+    @keyframes sparkFade { 0%{opacity:.9;transform:scale(1) translateY(0)} 100%{opacity:0;transform:scale(0) translateY(-18px)} }
+
+    /* Floaties */
+    .fl { position:fixed;font-size:1.3rem;pointer-events:none;z-index:9991;animation:floatUp 1.1s ease-out forwards; }
+    @keyframes floatUp { 0%{opacity:1;transform:translateY(0) scale(1)} 100%{opacity:0;transform:translateY(-70px) scale(.7)} }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .85rem 2.2rem;
+      background: rgba(253,248,244,.72);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(232,165,152,.15);
+    }
+    .nav-logo { font-family: 'Lora', Georgia, serif; font-size: 1.05rem; color: #5a3e38; font-weight: 600; letter-spacing: .02em; }
+    .nav-links { list-style: none; display: flex; gap: 1.8rem; }
+    .nav-links a { text-decoration: none; font-size: .82rem; font-weight: 500; letter-spacing: .04em; color: #7a6060; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover { color: var(--rose); }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Soft blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      opacity: .18;
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .blob-1 { width:420px;height:420px;background:var(--rose);top:-80px;left:-100px; }
+    .blob-2 { width:380px;height:380px;background:var(--teal);bottom:-60px;right:-80px; }
+    .blob-3 { width:300px;height:300px;background:var(--lav);top:40%;left:60%; }
+
+    .hero-emoji { font-size: 3.5rem; margin-bottom: 1.2rem; animation: gentleBob 3s ease-in-out infinite; }
+    @keyframes gentleBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    h1 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 600;
+      color: #5a3e38;
+      line-height: 1.2;
+      margin-bottom: .6rem;
+    }
+    h1 em { color: var(--rose); font-style: italic; }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: #9a7878;
+      margin-bottom: 2.4rem;
+      max-width: 420px;
+      line-height: 1.6;
+    }
+
+    .coming-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(232,165,152,.15);
+      border: 1.5px solid rgba(232,165,152,.4);
+      color: #c07870;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .5rem 1.2rem;
+      border-radius: 50px;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      text-decoration: none;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--teal);
+      border: 1.5px solid var(--teal);
+      padding: .45rem 1.1rem;
+      border-radius: 50px;
+      transition: background .2s, color .2s;
+    }
+    .back-link:hover { background: var(--teal); color: #fff; }
+
+    /* Preview cards row */
+    .preview-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 3.5rem;
+      max-width: 700px;
+    }
+    .preview-card {
+      background: rgba(255,252,249,.8);
+      border: 1.5px solid rgba(232,165,152,.2);
+      border-radius: 18px;
+      padding: 1.2rem 1.4rem;
+      width: 180px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 18px rgba(180,130,120,.08);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .preview-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(180,130,120,.14); }
+    .preview-card .pc-emoji { font-size: 2rem; margin-bottom: .55rem; }
+    .preview-card .pc-label {
+      font-family: 'Lora', serif;
+      font-size: .78rem;
+      font-weight: 600;
+      color: #7a5a58;
+    }
+    .preview-card .pc-sub {
+      font-size: .68rem;
+      color: #a08888;
+      margin-top: .25rem;
+      line-height: 1.4;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.2rem 2rem;
+      font-size: .7rem;
+      color: #b09898;
+      background: rgba(253,248,244,.9);
+      border-top: 1px solid rgba(232,165,152,.12);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cur"></div>
+  <div id="curR"></div>
+
+  <nav>
+    <div class="nav-logo">Mia Zhou ✦</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="ib.html" target="_blank">IB Portfolio</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <div class="hero-emoji">🐚🪞🩰🎧</div>
+
+    <div class="coming-pill">✦ page in progress</div>
+
+    <h1>My <em>Life</em> & World</h1>
+    <p class="hero-sub">
+      Beyond research — travels, hobbies, music, food, and the little things that make life beautiful. Coming soon!
+    </p>
+
+    <a href="index.html" class="back-link">
+      ← Back to Home
+    </a>
+
+    <div class="preview-row">
+      <div class="preview-card">
+        <div class="pc-emoji">✈️</div>
+        <div class="pc-label">Travel</div>
+        <div class="pc-sub">China · Singapore · USA & beyond</div>
+      </div>
+      <div class="preview-card">
+        <div class="pc-emoji">🎵</div>
+        <div class="pc-label">Music</div>
+        <div class="pc-sub">Playlists, concerts & late-night studying</div>
+      </div>
+      <div class="preview-card">
+        <div class="pc-emoji">📚</div>
+        <div class="pc-label">Reading</div>
+        <div class="pc-sub">Books, papers & rabbit holes</div>
+      </div>
+      <div class="preview-card">
+        <div class="pc-emoji">🍜</div>
+        <div class="pc-label">Food</div>
+        <div class="pc-sub">Cooking, eating & food adventures</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>Made with ♥ by Mia Zhou · © 2025</footer>
+
+  <script>
+    const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+    (function ar(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(ar);})();
+
+    const sc=['#e8a598','#f0b8a0','#a8c5c0','#c8b8d8','#b8c9a0'];
+    document.addEventListener('mousemove',e=>{
+      if(Math.random()>.65)return;
+      const s=document.createElement('div');s.className='sp2';
+      const sz=3+Math.random()*5;
+      s.style.cssText=`left:${e.clientX+(Math.random()*12-6)}px;top:${e.clientY+(Math.random()*12-6)}px;width:${sz}px;height:${sz}px;background:${sc[~~(Math.random()*sc.length)]};`;
+      document.body.appendChild(s);setTimeout(()=>s.remove(),750);
+    });
+
+    const em=['🌸','✨','💫','🌷','⭐','🐚','🌺','💖','🦋','🌙','🎀','🩰','🎧','🦢','🪞','🧸','🍓'];
+    document.addEventListener('click',e=>{
+      if(e.target.closest('a,nav'))return;
+      for(let i=0;i<2;i++)setTimeout(()=>{
+        const f=document.createElement('div');f.className='fl';
+        f.textContent=em[~~(Math.random()*em.length)];
+        f.style.left=(e.clientX+(Math.random()*30-15))+'px';
+        f.style.top=(e.clientY+(Math.random()*15-7))+'px';
+        document.body.appendChild(f);setTimeout(()=>f.remove(),1100);
+      },i*80);
+    });
+  </script>
+</body>
+</html>

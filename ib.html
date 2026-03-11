@@ -1,64 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IB Portfolio | Mia Zhou</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="custom.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Georgia&display=swap" rel="stylesheet">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IB Portfolio | Mia Zhou</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── IB-page extras ── */
+
+    .ib-hero {
+      min-height: 38vh;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      background-image: url('singapore.jpg');
+      background-size: cover; background-position: center;
+      overflow: hidden;
+    }
+    .ib-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(20,14,10,.52); z-index: 1;
+    }
+    .ib-hero-content {
+      position: relative; z-index: 2; text-align: center;
+      padding: 5rem 2rem 3rem;
+      animation: slideUp .9s cubic-bezier(.16,1,.3,1) .2s both;
+    }
+    .ib-hero-content h1 {
+      font-family: 'Georgia', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700; color: #fff;
+      text-shadow: 0 2px 20px rgba(0,0,0,.4);
+      margin-bottom: .5rem;
+    }
+    .ib-hero-content p {
+      font-family: 'Georgia', serif;
+      font-size: clamp(.95rem, 2vw, 1.15rem);
+      color: rgba(255,255,255,.82);
+      max-width: 540px; margin: 0 auto 1.6rem;
+      line-height: 1.6;
+    }
+    .ib-back-btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .5rem 1.2rem; border-radius: 50px;
+      background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.4);
+      color: #fff; text-decoration: none; font-size: .8rem; font-weight: 600;
+      letter-spacing: .05em; backdrop-filter: blur(6px);
+      transition: background .25s, transform .25s cubic-bezier(.34,1.56,.64,1);
+    }
+    .ib-back-btn:hover {
+      background: rgba(255,255,255,.28); transform: translateY(-3px);
+      color: #fff;
+    }
+
+    /* ── IB grid ── */
+    .ib-section {
+      max-width: 1100px; margin: 0 auto;
+      padding: 3.5rem 2rem 5rem;
+    }
+    .ib-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.4rem;
+    }
+
+    /* PDF preview */
+    .ib-pdf-wrap {
+      position: relative; height: 240px; flex-shrink: 0;
+      background: #f8f6f4; border-bottom: 1px solid rgba(200,180,180,.15);
+      overflow: hidden;
+    }
+    .ib-card {
+      background: #fff;
+      border-radius: 18px;
+      border: 1px solid rgba(200,180,180,.2);
+      box-shadow: 0 4px 18px rgba(100,70,70,.07);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      position: relative;
+      transition: transform .32s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+    }
+    .ib-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--ca), var(--cb)); z-index: 2;
+    }
+    .ib-card:hover {
+      transform: translateY(-5px) scale(1.01);
+      box-shadow: 0 16px 40px rgba(100,70,70,.12);
+    }
+
+    /* card colours */
+    .ib-card.bio-card  { --ca: #a8c5c0; --cb: #6a9e98; }
+    .ib-card.math-card { --ca: #e8c87a; --cb: #c9a840; }
+    .ib-card.ee-card   { --ca: #c8b8d8; --cb: #a08ab8; }
+    .ib-card.tok-card  { --ca: #e8a598; --cb: #c9a0a8; }
+
+    .ib-pdf {
+      width: 100%; height: 100%; border: none;
+      pointer-events: all; display: block;
+    }
+    .ib-pdf-btn {
+      position: absolute; bottom: 10px; left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      opacity: 0;
+      background: rgba(30,20,20,.82); color: #fff;
+      font-family: 'Times New Roman', serif;
+      font-size: .72rem; font-weight: 600; letter-spacing: .04em;
+      padding: .38rem 1rem; border-radius: 50px;
+      text-decoration: none; white-space: nowrap;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,.2);
+      transition: opacity .22s, transform .22s;
+      pointer-events: none;
+    }
+    .ib-card:hover .ib-pdf-btn {
+      opacity: 1; transform: translateX(-50%) translateY(0);
+      pointer-events: all;
+    }
+
+    /* card body */
+    .ib-card-body {
+      padding: 1.3rem 1.4rem 1.5rem;
+      flex: 1; display: flex; flex-direction: column;
+    }
+    .ib-label {
+      font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
+      font-weight: 700; padding: .15rem .6rem; border-radius: 50px;
+      display: inline-block; margin-bottom: .7rem; align-self: flex-start;
+    }
+    .bio-card  .ib-label { background: rgba(168,197,192,.25); color: #3a7e78; }
+    .math-card .ib-label { background: rgba(232,200,122,.25); color: #8a6810; }
+    .ee-card   .ib-label { background: rgba(200,184,216,.25); color: #6050a0; }
+    .tok-card  .ib-label { background: rgba(232,165,152,.25); color: #8b4c44; }
+
+    .ib-card h3 {
+      font-family: 'Georgia', serif; font-size: 1rem;
+      font-weight: 600; color: #2a1e1e; margin-bottom: .5rem; line-height: 1.35;
+    }
+    .ib-card p {
+      font-size: .84rem; line-height: 1.65; color: #6a5050; flex: 1;
+    }
+
+    /* ── IB footer ── */
+    .ib-footer {
+      background: #674a4a; color: #fff;
+      text-align: center; padding: 1.4rem 2rem;
+      font-size: .8rem;
+    }
+    .ib-footer a { color: #f5d6cb; text-decoration: none; }
+    .ib-footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 700px) {
+      .ib-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <header class="custom-header">
-        <div class="container px-4 text-center">
-            <h1 class="subtitle">🎓 IB Research Portfolio (2023)</h1>
-            <h1 class="subtitle">Selected works from my International Baccalaureate experience in high school(2023).</h1>
-            <a class="btn btn-light" href="index.html">← Back to Home</a>
+
+  <div id="cur"></div>
+  <div id="curR"></div>
+  <div id="ptcls"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Mia Zhou ✦</div>
+    <ul class="nav-links">
+      <li><a href="index.html">← Home</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="ib-hero">
+    <div class="ib-hero-content rev">
+      <h1>🎓 IB Research Portfolio</h1>
+      <p>Selected works from my International Baccalaureate experience in high school (2023).</p>
+      <a href="index.html" class="ib-back-btn">← Back to Home</a>
+    </div>
+  </div>
+
+  <!-- CARDS -->
+  <section class="ib-section">
+    <div style="margin-bottom:2rem;" class="rev">
+      <p class="section-label">✦ high school research</p>
+      <h2 class="section-title">2021 <em>2023</em></h2>
+    </div>
+
+    <div class="ib-grid">
+
+      <!-- Biology IA -->
+      <div class="ib-card bio-card rev" style="transition-delay:.04s;">
+        <div class="ib-pdf-wrap">
+          <iframe class="ib-pdf" src="Highschool/BIO_IA.pdf" loading="lazy" title="Biology IA"></iframe>
+          <a class="ib-pdf-btn" href="Highschool/BIO_IA.pdf" target="_blank">View Full PDF ↗</a>
         </div>
-    </header>
-
-    <main class="container px-4">
-        <div class="project-grid">
-
-            <div class="project-card">
-                <h3> Biology IA</h3>
-                <p>Investigated how different concentrations of urea (2.00–10.00 ppm) affect the chlorophyll-a and chlorophyll-b content in <em>Ceratopteris thalictroides</em> (Water Sprite). Used spectrophotometric measurements after 9 days of exposure to quantify light absorbance and infer photosynthetic impact under nitrate pollution conditions.</p>
-                <iframe src="Highschool/BIO_IA.pdf" width="100%" height="300px" style="border: 1px solid #ccc; border-radius: 8px;"></iframe>
-                <p style="margin-top: 0.5em;"><a class="btn btn-outline-dark" href="BIO_IA.pdf" target="_blank">🔗 View Full Project (PDF)</a></p>
-            </div>
-
-            <div class="project-card">
-                <h3> Math AA HL IA</h3>
-                <p>Investigation into the surface area of a traditional Chinese porcelain, through area of surface of 
-                    revolution and optimization to minimize the packaging material used. (Mathematical modeling, ODE & Multi-variable Calculus )</p>
-                    <iframe src="Highschool/MATH_IA.pdf" width="100%" height="300px" style="border: 1px solid #ccc; border-radius: 8px;"></iframe>
-                    <p style="margin-top: 0.5em;">
-                        <a class="btn btn-outline-dark" href="MATH_IA.pdf" target="_blank"> View Full Project (PDF)</a>
-            </div>
-
-            <div class="project-card">
-                <h3> Extended Essay (EE):The Effect of Environmental Mechanical Forces on Yeast Growth</h3>
-                <p>Investigates how varying agar stiffness alters Saccharomyces cerevisiae colony growth on PDA plates, exploring the biomechanics of walled cells in response to mechanical stress.</p>
-                <iframe src="Highschool/EE.pdf" width="100%" height="300px" style="border: 1px solid #ccc; border-radius: 8px;"></iframe>
-                    <p style="margin-top: 0.5em;">
-                        <a class="btn btn-outline-dark" href="EE.pdf" target="_blank"> View Full Project (PDF)</a>
-            </div>
-
-            <div class="project-card">
-                <h3> Theory of Knowledge Essay</h3>
-                <p>Explored the reliability of memory as a source of knowledge across disciplines, integrating neuroscience, philosophy, and psychology in assessing how truth is shaped by recollection and bias.</p>
-                <iframe src="Highschool/TOK.pdf" width="100%" height="300px" style="border: 1px solid #ccc; border-radius: 8px;"></iframe>
-                    <p style="margin-top: 0.5em;">
-                        <a class="btn btn-outline-dark" href="TOK.pdf" target="_blank"> View Full Project (PDF)</a>
-            </div>
-
+        <div class="ib-card-body">
+          <span class="ib-label">Biology IA</span>
+          <h3>Urea Concentration &amp; Chlorophyll Content in Water Sprite</h3>
+          <p>Investigated how different concentrations of urea (2.00–10.00 ppm) affect the chlorophyll-a and chlorophyll-b content in <em>Ceratopteris thalictroides</em>. Used spectrophotometric measurements after 9 days of exposure to quantify light absorbance and infer photosynthetic impact under nitrate pollution conditions.</p>
         </div>
-    </main>
+      </div>
 
-    <footer>
-        <p>📧 zhoumia@unc.edu | <a href="index.html">Back to MiaZhou.github.io</a></p>
-    </footer>
+      <!-- Math IA -->
+      <div class="ib-card math-card rev" style="transition-delay:.08s;">
+        <div class="ib-pdf-wrap">
+          <iframe class="ib-pdf" src="Highschool/MATH_IA.pdf" loading="lazy" title="Math IA"></iframe>
+          <a class="ib-pdf-btn" href="Highschool/MATH_IA.pdf" target="_blank">View Full PDF ↗</a>
+        </div>
+        <div class="ib-card-body">
+          <span class="ib-label">Math AA HL IA</span>
+          <h3>Surface Area of a Traditional Chinese Porcelain Vase</h3>
+          <p>Investigation into the surface area of a traditional Chinese porcelain through surface of revolution and optimization to minimize packaging material used. Applies mathematical modeling, ODE, and multi-variable calculus.</p>
+        </div>
+      </div>
+
+      <!-- Extended Essay -->
+      <div class="ib-card ee-card rev" style="transition-delay:.12s;">
+        <div class="ib-pdf-wrap">
+          <iframe class="ib-pdf" src="Highschool/EE.pdf" loading="lazy" title="Extended Essay"></iframe>
+          <a class="ib-pdf-btn" href="Highschool/EE.pdf" target="_blank">View Full PDF ↗</a>
+        </div>
+        <div class="ib-card-body">
+          <span class="ib-label">Extended Essay</span>
+          <h3>Environmental Mechanical Forces &amp; Yeast Growth</h3>
+          <p>Investigates how varying agar stiffness alters <em>Saccharomyces cerevisiae</em> colony growth on PDA plates, exploring the biomechanics of walled cells in response to mechanical stress.</p>
+        </div>
+      </div>
+
+      <!-- TOK Essay -->
+      <div class="ib-card tok-card rev" style="transition-delay:.16s;">
+        <div class="ib-pdf-wrap">
+          <iframe class="ib-pdf" src="Highschool/TOK.pdf" loading="lazy" title="TOK Essay"></iframe>
+          <a class="ib-pdf-btn" href="Highschool/TOK.pdf" target="_blank">View Full PDF ↗</a>
+        </div>
+        <div class="ib-card-body">
+          <span class="ib-label">Theory of Knowledge</span>
+          <h3>Memory as a Source of Knowledge</h3>
+          <p>Explored the reliability of memory as a source of knowledge across disciplines, integrating neuroscience, philosophy, and psychology in assessing how truth is shaped by recollection and bias.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="ib-footer">
+    <p>Made with <span style="color:#e8a598;">♥</span> by Mia Zhou &nbsp;·&nbsp;
+      <a href="mailto:zhoumia@unc.edu">zhoumia@unc.edu</a> &nbsp;·&nbsp;
+      <a href="index.html">Back to Portfolio</a>
+    </p>
+  </footer>
+
+  <script>
+    // ── Cursor ──────────────────────────────────────────────────
+    const cur = document.getElementById('cur');
+    const curR = document.getElementById('curR');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+    (function animRing(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(animRing);})();
+    document.querySelectorAll('a,button,.ib-card').forEach(el=>{
+      el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.2)';curR.style.borderColor='#6a9e98';});
+      el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';curR.style.borderColor='#e8a598';});
+    });
+
+    // ── Sparkle trail ───────────────────────────────────────────
+    const sparkColors=['#e8a598','#f0b8a0','#a8c5c0','#c8b8d8','#b8c9a0','#f5d6cb'];
+    document.addEventListener('mousemove',e=>{
+      if(Math.random()>.62)return;
+      const s=document.createElement('div');s.className='sp2';
+      const sz=3+Math.random()*6;
+      s.style.cssText=`left:${e.clientX+(Math.random()*14-7)}px;top:${e.clientY+(Math.random()*14-7)}px;width:${sz}px;height:${sz}px;background:${sparkColors[~~(Math.random()*sparkColors.length)]};`;
+      document.body.appendChild(s);setTimeout(()=>s.remove(),750);
+    });
+
+    // ── Floaties on click ───────────────────────────────────────
+    const emojis=['🌸','✨','💫','🌷','⭐','🍀','🌺','💖','🦋','🌙','🎀','🌿'];
+    function spawnFloaties(x,y,count=1){
+      for(let i=0;i<count;i++) setTimeout(()=>{
+        const f=document.createElement('div');f.className='fl';
+        f.textContent=emojis[~~(Math.random()*emojis.length)];
+        f.style.left=(x+(Math.random()*40-20))+'px';
+        f.style.top=(y+(Math.random()*20-10))+'px';
+        document.body.appendChild(f);setTimeout(()=>f.remove(),1100);
+      },i*75);
+    }
+    document.addEventListener('click',e=>{
+      if(e.target.closest('a,nav,button'))return;
+      spawnFloaties(e.clientX,e.clientY);
+    });
+
+    // ── Particles ───────────────────────────────────────────────
+    const ptcls=document.getElementById('ptcls');
+    ['#f5d6cb','#e8a598','#a8c5c0','#c8b8d8','#b8c9a0','#e8c87a'].forEach(c=>{
+      for(let i=0;i<3;i++){
+        const p=document.createElement('div');p.className='ptcl';
+        const sz=3+Math.random()*8;
+        p.style.cssText=`width:${sz}px;height:${sz}px;background:${c};left:${Math.random()*100}%;animation-duration:${9+Math.random()*14}s;animation-delay:${Math.random()*12}s;`;
+        ptcls.appendChild(p);
+      }
+    });
+
+    // ── Scroll reveal ───────────────────────────────────────────
+    const obs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+    },{threshold:0.08});
+    document.querySelectorAll('.rev').forEach(el=>obs.observe(el));
+
+    // ── 3D tilt on cards ────────────────────────────────────────
+    document.querySelectorAll('.ib-card').forEach(card=>{
+      card.addEventListener('mousemove',e=>{
+        const r=card.getBoundingClientRect();
+        const x=((e.clientX-r.left)/r.width-.5)*8;
+        const y=((e.clientY-r.top)/r.height-.5)*-8;
+        card.style.transform=`perspective(800px) rotateY(${x}deg) rotateX(${y}deg) translateY(-5px) scale(1.01)`;
+      });
+      card.addEventListener('mouseleave',()=>{card.style.transform='';});
+    });
+  </script>
 </body>
 </html>
