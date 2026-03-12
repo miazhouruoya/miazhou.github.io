@@ -7,110 +7,153 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <!-- SVG filter for sketchy/wobbly effect — hidden, referenced by CSS -->
+  <svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+    <defs>
+      <filter id="sketchy" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="2" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
   <style>
-    /* ── Dreamy card redesign ───────────────────────────────── */
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap');
+
+    /* ── Project grid ───────────────────────────────────────────── */
     .project-grid-css {
       grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)) !important;
-      gap: 1.3rem !important;
+      gap: 1.6rem !important;
     }
 
+    /* ── Card shell ─────────────────────────────────────────────── */
     .project-card {
-      border-radius: 22px !important;
-      overflow: hidden;
+      border-radius: 10px !important;
+      overflow: visible !important;
       display: flex;
       flex-direction: column;
-      background: rgba(255,252,249,0.85) !important;
-      backdrop-filter: blur(12px);
-      border: 1.5px solid rgba(232,165,152,0.2) !important;
-      box-shadow: 0 4px 20px rgba(180,130,120,0.09) !important;
-      transition: transform .35s ease, box-shadow .35s ease !important;
+      background: #fffdf9 !important;
+      border: none !important;
+      box-shadow: none !important;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1) !important;
+      position: relative;
     }
     .project-card:hover {
-      box-shadow: 0 12px 40px rgba(180,130,120,0.18) !important;
+      transform: translateY(-5px) rotate(0.5deg) !important;
     }
 
-    /* Illustrated dreamy header */
-    .card-illus {
-      position: relative;
-      height: 125px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-    .card-bio  .card-illus { background: linear-gradient(135deg, #fde8e0 0%, #ecdaf5 55%, #c8e8e4 100%); }
-    .card-fin  .card-illus { background: linear-gradient(135deg, #ddeef8 0%, #d5f0e8 55%, #f0e8d0 100%); }
-    .card-math .card-illus { background: linear-gradient(135deg, #f0ede0 0%, #e5f0d5 55%, #d5e8f0 100%); }
-    .card-app  .card-illus { background: linear-gradient(135deg, #f8dff0 0%, #e5dff8 55%, #ddf0f8 100%); }
-
-    /* Soft blob decorations */
-    .card-illus::before, .card-illus::after {
+    /* Sketchy outline — the main hand-drawn border */
+    .project-card::after {
       content: '';
       position: absolute;
-      border-radius: 50%;
-      opacity: 0.3;
+      inset: -2px;
+      border-radius: 12px;
+      border: 2.2px solid currentColor;
+      opacity: 0.5;
+      filter: url(#sketchy);
       pointer-events: none;
+      z-index: 4;
+      transition: opacity .25s;
     }
-    .card-bio  .card-illus::before { width:100px;height:100px;background:radial-gradient(circle,#e8a598,#c8b8d8);top:-28px;right:-25px; }
-    .card-bio  .card-illus::after  { width:65px;height:65px;background:radial-gradient(circle,#a8c5c0,#f5d6cb);bottom:-18px;left:-12px; }
-    .card-fin  .card-illus::before { width:90px;height:90px;background:radial-gradient(circle,#a8c5c0,#b8d8c8);top:-22px;right:-20px; }
-    .card-fin  .card-illus::after  { width:58px;height:58px;background:radial-gradient(circle,#c8d8e8,#e8d87a);bottom:-14px;left:-8px; }
-    .card-math .card-illus::before { width:88px;height:88px;background:radial-gradient(circle,#b8c9a0,#e8d898);top:-20px;right:-20px; }
-    .card-math .card-illus::after  { width:55px;height:55px;background:radial-gradient(circle,#c8b8d8,#a8c5c0);bottom:-14px;left:-8px; }
-    .card-app  .card-illus::before { width:85px;height:85px;background:radial-gradient(circle,#c8b8d8,#f5d6cb);top:-20px;right:-18px; }
-    .card-app  .card-illus::after  { width:56px;height:56px;background:radial-gradient(circle,#e8a598,#a8c5c0);bottom:-12px;left:-8px; }
+    .project-card:hover::after { opacity: 0.75; }
 
-    /* Scattered pastel dots */
-    .card-dot {
+    /* Offset drop shadow (hand-drawn depth) */
+    .project-card::before {
+      content: '';
       position: absolute;
-      border-radius: 50%;
-      opacity: 0.45;
+      inset: 3px -5px -6px 5px;
+      border-radius: 12px;
+      border: 2px solid currentColor;
+      opacity: 0.12;
+      filter: url(#sketchy);
       pointer-events: none;
+      z-index: -1;
     }
 
-    /* Central emoji */
+    /* Category color as currentColor so ::before/::after inherit */
+    .card-bio  { color: #6ab8b0; }
+    .card-fin  { color: #8878c8; }
+    .card-math { color: #c09838; }
+    .card-app  { color: #72aa52; }
+
+    /* ── Header band — flat pastel, no gradients ────────────────── */
+    .card-illus {
+      height: 88px;
+      display: flex;
+      align-items: center;
+      padding: 0 1.1rem;
+      gap: .75rem;
+      flex-shrink: 0;
+      border-radius: 9px 9px 0 0;
+      border-bottom: 1.8px dashed currentColor;
+      opacity-border: 0.4;
+      position: relative;
+      z-index: 1;
+    }
+    .card-bio  .card-illus { background: #eef8f6; }
+    .card-fin  .card-illus { background: #f2eff9; }
+    .card-math .card-illus { background: #fdf7e4; }
+    .card-app  .card-illus { background: #f0f7e8; }
+
+    /* Big emoji with drop-shadow */
     .card-illus-emoji {
-      font-size: 2.9rem;
+      font-size: 2.3rem;
+      line-height: 1;
+      filter: drop-shadow(0 3px 8px rgba(80,50,40,0.16));
+      transition: transform .32s cubic-bezier(.34,1.56,.64,1);
+      flex-shrink: 0;
       position: relative;
       z-index: 2;
-      filter: drop-shadow(0 3px 10px rgba(180,130,120,0.22));
-      transition: transform .32s cubic-bezier(.34,1.56,.64,1);
     }
     .project-card:hover .card-illus-emoji {
-      transform: scale(1.14) rotate(-5deg);
+      transform: scale(1.16) rotate(-7deg);
     }
 
-    /* Card body */
+    /* Category label in Caveat handwriting font */
+    .card-cat-pill {
+      font-family: 'Caveat', cursive;
+      font-size: 1rem;
+      font-weight: 500;
+      color: currentColor;
+      opacity: 0.78;
+      background: none;
+      border: none;
+      padding: 0;
+      letter-spacing: .01em;
+    }
+
+    /* ── Card body ──────────────────────────────────────────────── */
     .card-body-inner {
-      padding: .95rem 1.1rem 1.05rem !important;
+      padding: .9rem 1.15rem 1.05rem !important;
       display: flex;
       flex-direction: column;
       flex: 1;
+      position: relative;
+      z-index: 1;
     }
     .card-body-inner h3 {
       font-family: 'Lora', Georgia, serif !important;
-      font-size: .86rem !important;
+      font-size: .88rem !important;
       font-weight: 600 !important;
-      color: #5a3e38 !important;
-      margin: 0 0 .5rem !important;
+      color: #2a1e1e !important;
+      margin: 0 0 .45rem !important;
       line-height: 1.35;
     }
-    /* Gradient rule under title */
+    /* Sketchy underline rule */
     .card-body-inner h3::after {
       content: '';
       display: block;
-      width: 30px;
-      height: 2px;
+      width: 36px;
+      height: 2.5px;
       border-radius: 2px;
-      margin-top: .38rem;
-      background: linear-gradient(90deg, #e8a598, #a8c5c0);
-      opacity: .65;
+      margin-top: .3rem;
+      background: currentColor;
+      opacity: .3;
+      filter: url(#sketchy);
     }
     .card-desc {
       font-size: .74rem !important;
-      line-height: 1.56 !important;
-      color: #7a6060 !important;
+      line-height: 1.58 !important;
+      color: #6a5252 !important;
       flex: 1;
       margin: 0 !important;
     }
@@ -121,44 +164,58 @@
       gap: .42rem !important;
       flex-wrap: wrap !important;
     }
+
+    /* Sketchy pill buttons — Caveat font */
     .card-link {
       display: inline-flex !important;
       align-items: center !important;
       gap: .28rem !important;
-      font-size: .63rem !important;
-      font-weight: 700 !important;
-      letter-spacing: .065em !important;
-      text-transform: uppercase !important;
+      font-family: 'Caveat', cursive !important;
+      font-size: .86rem !important;
+      font-weight: 500 !important;
       text-decoration: none !important;
-      padding: .26rem .72rem !important;
+      padding: .15rem .75rem .2rem !important;
       border-radius: 50px !important;
-      border: 1.5px solid currentColor !important;
-      transition: background .18s, color .18s, transform .15s !important;
+      border: 2px solid currentColor !important;
+      transition: background .15s, color .15s, transform .15s !important;
+      filter: url(#sketchy);
+      letter-spacing: .02em;
     }
-    .card-link:hover { transform: translateY(-1px) !important; }
-    .pdf-link  { color: #5a8e88 !important; }
-    .code-link { color: #7060a0 !important; }
-    .pdf-link:hover  { background: #5a8e88 !important; color: #fff !important; }
-    .code-link:hover { background: #7060a0 !important; color: #fff !important; }
+    .card-link:hover { transform: translateY(-2px) rotate(-1.5deg) !important; }
+    .pdf-link    { color: #5a8e88 !important; }
+    .code-link   { color: #7060a0 !important; }
+    .slides-link { color: #b06080 !important; }
+    .pdf-link:hover    { background: #5a8e88 !important; color: #fff !important; }
+    .code-link:hover   { background: #7060a0 !important; color: #fff !important; }
+    .slides-link:hover { background: #b06080 !important; color: #fff !important; }
 
-    /* Coming soon badge */
+    /* Coming soon — handwritten rubber-stamp */
     .coming-banner {
       position: absolute !important;
-      top: .65rem !important;
-      right: .65rem !important;
-      font-size: .57rem !important;
-      letter-spacing: .08em !important;
-      text-transform: uppercase !important;
-      background: rgba(200,184,216,.3) !important;
-      color: #7a5a8a !important;
-      padding: .2rem .52rem !important;
-      border-radius: 50px !important;
-      backdrop-filter: blur(4px) !important;
-      border: 1px solid rgba(200,184,216,.45) !important;
-      z-index: 3;
+      top: .55rem !important; right: .65rem !important;
+      font-family: 'Caveat', cursive !important;
+      font-size: .88rem !important;
+      color: #9070b0 !important;
+      background: none !important;
+      border: 1.8px solid rgba(180,160,210,.6) !important;
+      padding: .1rem .5rem !important;
+      border-radius: 5px !important;
+      filter: url(#sketchy) !important;
+      z-index: 5;
+      transform: rotate(-2deg);
+      letter-spacing: .04em;
     }
 
-    /* Hide old PDF/img wrap */
+    /* ── Dark mode ──────────────────────────────────────────────── */
+    body.dark-mode .project-card         { background: #1c1420 !important; }
+    body.dark-mode .card-body-inner h3   { color: #f0ddd8 !important; }
+    body.dark-mode .card-desc            { color: #a89090 !important; }
+    body.dark-mode .card-bio  .card-illus { background: #182422; }
+    body.dark-mode .card-fin  .card-illus { background: #201828; }
+    body.dark-mode .card-math .card-illus { background: #221e10; }
+    body.dark-mode .card-app  .card-illus { background: #162010; }
+
+    /* ── Hide old wrappers ──────────────────────────────────────── */
     .card-pdf-wrap, .card-img-wrap { display: none !important; }
   </style>
 </head>
@@ -168,8 +225,8 @@
   <div id="curR"></div>
   <div id="ptcls"></div>
   <div id="egg">
-    <div class="rb">✨ Mia is amazing ✨</div>
-    <div style="font-size:.82rem;margin-top:.35rem;color:#9a7878;">secret unlocked 🌸</div>
+    <div class="rb">✨ Nice to meet you✨</div>
+    <div style="font-size:.82rem;margin-top:.35rem;color:#9a7878;">欢迎来到我的网站🌷</div>
   </div>
 
   <!-- ── NAV ── -->
@@ -253,7 +310,7 @@
       <!-- RIGHT: About card -->
       <div class="about-preview">
         <div class="photo-wrap" id="heroPic">
-          <img src="Mia.jpg" alt="Mia Zhou"
+          <img src="life/bj.jpg" alt="Mia Zhou"
               onerror="this.style.background='linear-gradient(135deg,#f5d6cb,#c8b8d8)';this.removeAttribute('src')">
         </div>
         <h2>About Me</h2>
@@ -293,12 +350,8 @@
         <!-- BIO: Spatial -->
         <div class="project-card card-bio rev" data-cat="bio" id="card-spatial" style="transition-delay:.04s;">
           <div class="card-illus">
-            <div class="card-dot" style="width:8px;height:8px;background:#e8a598;top:18%;left:12%;"></div>
-            <div class="card-dot" style="width:5px;height:5px;background:#a8c5c0;top:65%;left:73%;"></div>
-            <div class="card-dot" style="width:6px;height:6px;background:#c8b8d8;top:42%;left:56%;"></div>
-            <div class="card-dot" style="width:4px;height:4px;background:#b8c9a0;top:76%;left:26%;"></div>
-            <div class="card-dot" style="width:5px;height:5px;background:#f5d6cb;top:28%;left:40%;"></div>
             <span class="card-illus-emoji">🔬</span>
+            <span class="card-cat-pill">UNC Biostatistics Li Lab (PI: Prof.Didong Li)</span>
           </div>
           <div class="card-body-inner">
             <h3>Spatial Transcriptomics</h3>
@@ -315,12 +368,8 @@
         <!-- BIO: NIH -->
         <div class="project-card card-bio rev" data-cat="bio" id="card-nih" style="transition-delay:.08s;">
           <div class="card-illus">
-            <div class="card-dot" style="width:7px;height:7px;background:#c8b8d8;top:20%;left:14%;"></div>
-            <div class="card-dot" style="width:5px;height:5px;background:#e8a598;top:62%;left:71%;"></div>
-            <div class="card-dot" style="width:6px;height:6px;background:#a8c5c0;top:36%;left:52%;"></div>
-            <div class="card-dot" style="width:4px;height:4px;background:#f5d6cb;top:78%;left:32%;"></div>
-            <div class="card-dot" style="width:5px;height:5px;background:#b8c9a0;top:50%;left:22%;"></div>
             <span class="card-illus-emoji">🕸️</span>
+            <span class="card-cat-pill">UNC Biostatistics Li Lab (PI: Prof.Didong Li)</span>
           </div>
           <div class="card-body-inner">
             <h3>NIH Network Analysis</h3>
@@ -341,12 +390,8 @@
         <!-- BIO: eNet -->
         <div class="project-card card-bio rev" data-cat="bio" id="card-enet" style="transition-delay:.12s;">
           <div class="card-illus">
-            <div class="card-dot" style="width:9px;height:9px;background:#a8c5c0;top:16%;left:10%;"></div>
-            <div class="card-dot" style="width:5px;height:5px;background:#c8b8d8;top:68%;left:74%;"></div>
-            <div class="card-dot" style="width:6px;height:6px;background:#e8a598;top:44%;left:58%;"></div>
-            <div class="card-dot" style="width:4px;height:4px;background:#b8c9a0;top:80%;left:22%;"></div>
-            <div class="card-dot" style="width:5px;height:5px;background:#f5d6cb;top:30%;left:38%;"></div>
             <span class="card-illus-emoji">🧬</span>
+            <span class="card-cat-pill">Xiamen University Huang Lab(PI: Prof.Jialiang Huang)</span>
           </div>
           <div class="card-body-inner">
             <h3>eNet Enhancer Network</h3>
@@ -363,18 +408,14 @@
         <!-- BIO: Neuromatch -->
         <div class="project-card card-bio rev" data-cat="bio" id="card-neuro" style="transition-delay:.16s;">
           <div class="card-illus">
-            <div class="card-dot" style="width:7px;height:7px;background:#f5d6cb;top:22%;left:13%;"></div>
-            <div class="card-dot" style="width:5px;height:5px;background:#a8c5c0;top:64%;left:70%;"></div>
-            <div class="card-dot" style="width:8px;height:8px;background:#c8b8d8;top:38%;left:54%;"></div>
-            <div class="card-dot" style="width:4px;height:4px;background:#e8a598;top:76%;left:28%;"></div>
-            <div class="card-dot" style="width:5px;height:5px;background:#b8c9a0;top:52%;left:18%;"></div>
             <span class="card-illus-emoji">🧠</span>
+            <span class="card-cat-pill">NeuroMatch Computational Neuroscience Program</span>
           </div>
           <div class="card-body-inner">
             <h3>Neuromatch Neuron Simulation</h3>
             <p class="card-desc">Decoded inter-regional brain communication via Leiden Analysis on the IBL dataset (30k+ neurons), predicting trial-by-trial behavioral decisions at 78% accuracy.</p>
             <div class="card-link-row">
-              <a class="card-link pdf-link" href="Uni/slides.pdf" target="_blank">
+              <a class="card-link slides-link" href="Uni/slides.pdf" target="_blank">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 Slides
               </a>
@@ -385,12 +426,8 @@
         <!-- FIN: AgentSociety -->
         <div class="project-card card-fin rev" data-cat="fin" id="card-agent" style="transition-delay:.04s;">
           <div class="card-illus">
-            <div class="card-dot" style="width:8px;height:8px;background:#a8c5c0;top:20%;left:12%;"></div>
-            <div class="card-dot" style="width:5px;height:5px;background:#e8c87a;top:62%;left:72%;"></div>
-            <div class="card-dot" style="width:6px;height:6px;background:#c8d8e8;top:40%;left:55%;"></div>
-            <div class="card-dot" style="width:4px;height:4px;background:#b8d8c8;top:76%;left:30%;"></div>
-            <div class="card-dot" style="width:5px;height:5px;background:#f0e8d0;top:55%;left:20%;"></div>
             <span class="card-illus-emoji">📈</span>
+            <span class="card-cat-pill">Tsinghua University (PI: Prof.Yong Li)</span>
           </div>
           <div class="card-body-inner">
             <h3>Agent-Based Economic Simulation</h3>
@@ -409,34 +446,28 @@
         </div>
 
         <!-- MATH placeholder -->
-        <div class="project-card card-math rev" data-cat="math" id="card-math" style="transition-delay:.04s;position:relative;">
-          <div class="coming-banner">coming soon</div>
+        <div class="project-card card-math rev" data-cat="math" id="card-math" style="transition-delay:.04s;">
           <div class="card-illus">
-            <div class="card-dot" style="width:7px;height:7px;background:#b8c9a0;top:18%;left:13%;"></div>
-            <div class="card-dot" style="width:5px;height:5px;background:#c8b8d8;top:64%;left:70%;"></div>
-            <div class="card-dot" style="width:6px;height:6px;background:#e8d898;top:40%;left:53%;"></div>
-            <div class="card-dot" style="width:4px;height:4px;background:#a8c5c0;top:78%;left:28%;"></div>
             <span class="card-illus-emoji">📐</span>
+            <span class="card-cat-pill">mathematics</span>
           </div>
           <div class="card-body-inner">
             <h3>Still Exploring…</h3>
             <p class="card-desc">Working at the intersection of ODE/PDE, dynamical systems, and mathematical modeling. Watch this space!</p>
+            <span class="coming-banner">coming soon</span>
           </div>
         </div>
 
         <!-- APP placeholder -->
-        <div class="project-card card-app rev" data-cat="app" id="card-app" style="transition-delay:.04s;position:relative;">
-          <div class="coming-banner">coming soon</div>
+        <div class="project-card card-app rev" data-cat="app" id="card-app" style="transition-delay:.08s;">
           <div class="card-illus">
-            <div class="card-dot" style="width:8px;height:8px;background:#c8b8d8;top:20%;left:11%;"></div>
-            <div class="card-dot" style="width:5px;height:5px;background:#e8a598;top:64%;left:71%;"></div>
-            <div class="card-dot" style="width:6px;height:6px;background:#a8c5c0;top:38%;left:54%;"></div>
-            <div class="card-dot" style="width:4px;height:4px;background:#f5d6cb;top:77%;left:29%;"></div>
             <span class="card-illus-emoji">💻</span>
+            <span class="card-cat-pill">app dev</span>
           </div>
           <div class="card-body-inner">
             <h3>Still Exploring…</h3>
             <p class="card-desc">Building tools that make science and math more accessible. More coming soon!</p>
+            <span class="coming-banner">coming soon</span>
           </div>
         </div>
 
@@ -586,13 +617,13 @@
           url('singapore.jpg') center 60%/cover no-repeat;}
       body.dark-mode footer.bg-dark{background-color:#1a1220!important;}
       body.dark-mode nav{background:rgba(6,4,10,.65);}
-      body.dark-mode .project-card{background:rgba(28,20,30,0.88)!important;border-color:rgba(200,184,216,0.15)!important;}
+      body.dark-mode .project-card{background:rgba(24,18,28,0.92)!important;border-color:rgba(200,184,216,0.1)!important;}
       body.dark-mode .card-body-inner h3{color:#f0d8d0!important;}
-      body.dark-mode .card-desc{color:#b09898!important;}
-      body.dark-mode .card-bio .card-illus{background:linear-gradient(135deg,#3a2030 0%,#2a2038 55%,#1e3030 100%);}
-      body.dark-mode .card-fin .card-illus{background:linear-gradient(135deg,#1e2a38 0%,#1e3028 55%,#2a2018 100%);}
-      body.dark-mode .card-math .card-illus{background:linear-gradient(135deg,#242018 0%,#222818 55%,#182028 100%);}
-      body.dark-mode .card-app .card-illus{background:linear-gradient(135deg,#281828 0%,#201828 55%,#182028 100%);}
+      body.dark-mode .card-desc{color:#a09090!important;}
+      body.dark-mode .card-bio  .card-illus{background:#1a2e2c;}
+      body.dark-mode .card-fin  .card-illus{background:#201c30;}
+      body.dark-mode .card-math .card-illus{background:#28221a;}
+      body.dark-mode .card-app  .card-illus{background:#1a2818;}
       .custom-header::before,#sgBg,.proj-bg-section::before,footer.bg-dark,nav,.project-card,.card-illus{transition:background 0.6s ease,filter 0.6s ease;}
     `;
     document.head.appendChild(darkCSS);
@@ -620,7 +651,7 @@
         const r=card.getBoundingClientRect();
         const x=((e.clientX-r.left)/r.width-.5)*10;
         const y=((e.clientY-r.top)/r.height-.5)*-10;
-        card.style.transform=`perspective(700px) rotateY(${x}deg) rotateX(${y}deg) translateY(-4px) scale(1.01)`;
+        card.style.transform=`perspective(700px) rotateY(${x}deg) rotateX(${y}deg) translateY(-5px) scale(1.01)`;
       });
       card.addEventListener('mouseleave',()=>{card.style.transform='';});
     });
