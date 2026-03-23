@@ -19,10 +19,17 @@ p,li,a,button { font-family:'Times New Roman',serif; font-size:1rem; line-height
 #cur  { position:fixed; width:10px; height:10px; background:#e8a598; border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s; }
 #curR { position:fixed; width:28px; height:28px; border:1.5px solid #e8a598; border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); opacity:.55; transition:border-color .2s; }
 
-/* === Particles === */
+/* === Particles ===
+   CHANGE 1: 颜色只保留粉+紫，密度靠 JS 控制（每色1个）
+   这里只改动画，让粒子更慢更淡，不那么抢眼 */
 #ptcls { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
 .ptcl  { position:absolute; border-radius:50%; animation:floatUp linear infinite; opacity:0; }
-@keyframes floatUp { 0%{transform:translateY(110vh) scale(0);opacity:0} 10%{opacity:.4} 90%{opacity:.2} 100%{transform:translateY(-10vh) scale(1);opacity:0} }
+@keyframes floatUp {
+  0%   { transform:translateY(110vh) scale(0); opacity:0; }
+  10%  { opacity:.18; }   /* 原版 .4，降低到 .18 */
+  90%  { opacity:.08; }   /* 原版 .2，降低到 .08 */
+  100% { transform:translateY(-10vh) scale(1); opacity:0; }
+}
 
 /* === Floaties & Sparkles === */
 .fl  { position:fixed; pointer-events:none; font-size:1rem; z-index:9997; animation:flUp 1.1s ease-out forwards; }
@@ -30,10 +37,16 @@ p,li,a,button { font-family:'Times New Roman',serif; font-size:1rem; line-height
 .sp2 { position:fixed; border-radius:50%; pointer-events:none; z-index:9997; animation:spFade .75s ease-out forwards; }
 @keyframes spFade { 0%{transform:scale(1);opacity:.8} 100%{transform:scale(0);opacity:0} }
 
-/* === Easter Egg === */
+/* === Easter Egg ===
+   CHANGE 2: 彩虹色动画只用粉+紫，去掉绿/蓝/黄 */
 #egg { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:9999; font-family:'Georgia',serif; font-size:1.4rem; font-style:italic; background:#fdf8f2; padding:1.6rem 2.5rem; border-radius:18px; box-shadow:0 20px 60px rgba(0,0,0,.15); text-align:center; pointer-events:none; }
-@keyframes rb { 0%{color:#e8a598}25%{color:#a8c5c0}50%{color:#c8b8d8}75%{color:#b8c9a0}100%{color:#e8a598} }
-.rb { animation:rb 1s linear infinite; }
+@keyframes rb {
+  0%   { color:#e8a598; }
+  33%  { color:#c8b8d8; }
+  66%  { color:#f5d6cb; }
+  100% { color:#e8a598; }
+}
+.rb { animation:rb 1.2s linear infinite; }
 
 /* === Nav === */
 nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify-content:space-between; align-items:center; padding:.9rem 3rem; background:rgba(10,8,6,.35); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,.1); }
@@ -78,7 +91,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify
 }
 .title-text { flex: 1; }
 
-/* === Sun / Moon buttons — stacked vertically beside title === */
+/* === Sun / Moon buttons === */
 .theme-btns {
   display: flex;
   flex-direction: column;
@@ -119,12 +132,13 @@ nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify
   50%      { box-shadow: 0 0 24px rgba(200,184,216,.8), 0 0 48px rgba(200,184,216,.4); }
 }
 
-/* === About Card === */
+/* === About Card ===
+   CHANGE 3: 顶部渐变条只用粉+紫，去掉绿/蓝 */
 .about-preview { flex-shrink:0; width:min(360px,42vw); background:rgba(255,255,255,.97); border-radius:20px; padding:2.2rem 1.8rem; text-align:center; box-shadow:0 24px 64px rgba(0,0,0,.22); animation:cardIn .95s cubic-bezier(.34,1.56,.64,1) .5s both; position:relative; overflow:hidden; }
-.about-preview::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#e8a598,#a8c5c0,#c8b8d8); }
+.about-preview::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#e8a598,#c8b8d8,#f5d6cb); }
 @keyframes cardIn { from{transform:translateY(40px) scale(.95);opacity:0} to{transform:translateY(0) scale(1);opacity:1} }
 .about-preview .photo-wrap { position:relative; width:110px; height:110px; margin:0 auto 1.1rem; }
-.about-preview .photo-wrap::before { content:''; position:absolute; inset:-5px; border-radius:50%; background:conic-gradient(#e8a598,#a8c5c0,#c8b8d8,#f0b8a0,#e8a598); animation:spin 6s linear infinite; z-index:0; }
+.about-preview .photo-wrap::before { content:''; position:absolute; inset:-5px; border-radius:50%; background:conic-gradient(#e8a598,#f5d6cb,#c8b8d8,#f0b8a0,#e8a598); animation:spin 6s linear infinite; z-index:0; }
 .about-preview .photo-wrap::after  { content:''; position:absolute; inset:-2px; border-radius:50%; background:#fff; z-index:1; }
 @keyframes spin { to{transform:rotate(360deg)} }
 .about-preview img { position:relative; z-index:2; width:110px; height:110px; border-radius:50%; object-fit:cover; display:block; transition:transform .3s; }
@@ -204,16 +218,16 @@ nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify
 .cat-tab span { position:relative; z-index:1; }
 .cat-tab.active, .cat-tab:hover { color:white; border-color:transparent; transform:translateY(-2px); box-shadow:0 5px 14px rgba(0,0,0,.1); }
 .cat-tab.active .tab-fill, .cat-tab:hover .tab-fill { transform:scaleX(1); }
-.tab-all  .tab-fill { background:linear-gradient(90deg,#e8a598,#c9a0a8); }
-.tab-bio  .tab-fill { background:linear-gradient(90deg,#a8c5c0,#6a9e98); }
-.tab-fin  .tab-fill { background:linear-gradient(90deg,#c8b8d8,#a08ab8); }
-.tab-math .tab-fill { background:linear-gradient(90deg,#e8c87a,#c9a840); }
-.tab-app  .tab-fill { background:linear-gradient(90deg,#b8c9a0,#7a9a60); }
+.tab-all  .tab-fill { background:linear-gradient(90deg,#e8a598,#c8b8d8); }
+.tab-bio  .tab-fill { background:linear-gradient(90deg,#e8a598,#f5d6cb); }
+.tab-fin  .tab-fill { background:linear-gradient(90deg,#c8b8d8,#e8a598); }
+.tab-math .tab-fill { background:linear-gradient(90deg,#e8c87a,#f5d6cb); }
+.tab-app  .tab-fill { background:linear-gradient(90deg,#f5d6cb,#c8b8d8); }
 
 /* === Project Grid === */
 .project-grid-css { display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:1.2rem; }
 
-/* === Project Card — clean & concise === */
+/* === Project Card === */
 .project-card {
   background: #ffffff;
   border-radius: 14px;
@@ -225,14 +239,14 @@ nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify
   transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
 }
 .project-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--ca),var(--cb)); z-index:2; }
-.card-bio  { --ca:#a8c5c0; --cb:#6a9e98; }
-.card-fin  { --ca:#c8b8d8; --cb:#a08ab8; }
-.card-math { --ca:#e8c87a; --cb:#c9a840; }
-.card-app  { --ca:#b8c9a0; --cb:#7a9a60; }
+.card-bio  { --ca:#e8a598; --cb:#f5d6cb; }
+.card-fin  { --ca:#c8b8d8; --cb:#e8a598; }
+.card-math { --ca:#e8c87a; --cb:#f5d6cb; }
+.card-app  { --ca:#f5d6cb; --cb:#c8b8d8; }
 .project-card:not(.hidden):hover { box-shadow: 0 8px 28px rgba(100,70,70,.13); }
 .project-card.hidden { display:none; }
 
-/* card image — no-pdf variant just shows emoji */
+/* card image */
 .card-img-wrap.no-pdf { overflow:hidden; height:148px; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,rgba(240,230,225,.5),rgba(240,230,225,.2)); }
 .card-img-wrap.no-pdf .card-img-placeholder { height:auto; font-size:3rem; background:none; }
 
@@ -253,7 +267,6 @@ nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify
   transform-origin: top left;
   display: block;
 }
-/* "View Full PDF" button that appears on hover */
 .pdf-overlay-btn {
   position: absolute;
   bottom: 10px; left: 50%;
@@ -292,10 +305,8 @@ nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify
 .project-card h3 { font-family:'Georgia',serif; font-size:.93rem; font-weight:600; color:#2a1e1e; text-align:left; margin-bottom:.35rem; line-height:1.35; }
 .card-desc { font-size:.83rem; line-height:1.62; text-align:left; color:#6a5050; flex:1; }
 
-/* tags — hidden */
 .card-tags { display:none; }
 
-/* card link buttons */
 .card-link-row { margin-top:auto; padding-top:.75rem; display:flex; gap:.5rem; flex-wrap:wrap; }
 .card-link {
   display: inline-flex;
@@ -311,15 +322,16 @@ nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; justify
   border: 1.5px solid currentColor;
   transition: background .2s, color .2s, transform .2s cubic-bezier(.34,1.56,.64,1);
 }
-.pdf-link  { color:#5a8e88; }
-.code-link { color:#7060a0; }
+.pdf-link    { color:#c8b8d8; }
+.code-link   { color:#e8a598; }
+.slides-link { color:#f5d6cb; }
 .card-link:hover { transform:translateY(-2px); }
-.pdf-link:hover  { background:#5a8e88; color:#fff; }
-.code-link:hover { background:#7060a0; color:#fff; }
-.card-link svg { flex-shrink:0; }
+.pdf-link:hover    { background:#c8b8d8; color:#fff; }
+.code-link:hover   { background:#e8a598; color:#fff; }
+.slides-link:hover { background:#e8a598; color:#fff; }
 
 /* coming soon ribbon */
-.coming-banner { position:absolute; top:14px; right:-26px; background:linear-gradient(90deg,#e8a598,#c9a0a8); color:white; font-size:.56rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:.2rem 2.4rem; transform:rotate(45deg); z-index:3; box-shadow:0 2px 6px rgba(0,0,0,.1); }
+.coming-banner { position:absolute; top:14px; right:-26px; background:linear-gradient(90deg,#e8a598,#c8b8d8); color:white; font-size:.56rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:.2rem 2.4rem; transform:rotate(45deg); z-index:3; box-shadow:0 2px 6px rgba(0,0,0,.1); }
 
 /* === Footer === */
 footer.bg-dark { background-color:#674a4a !important; color:white; }
