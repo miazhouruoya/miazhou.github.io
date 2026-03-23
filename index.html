@@ -18,16 +18,16 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap');
 
-    /* ── Project grid — joined tiles, v2 style ── */
+    /* ── Project grid — individual cards ── */
     .project-grid-css {
       display: grid !important;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
-      gap: 1px !important;
-      background: #e6e0d8 !important;
-      border: 1px solid #e6e0d8 !important;
+      grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)) !important;
+      gap: 1.6rem !important;
+      background: none !important;
+      border: none !important;
     }
 
-    /* ── Datathon grid — wider single card ── */
+    /* ── Datathon grid — wide ── */
     .datathon-grid {
       display: grid !important;
       grid-template-columns: 1fr !important;
@@ -37,59 +37,90 @@
       border: 1px solid #e6e0d8 !important;
     }
 
-    /* ── Card shell ── */
+    /* ── Card shell — doc9 sketchy style ── */
     .project-card {
-      background: #faf9f7 !important;
-      border: none !important;
-      border-radius: 0 !important;
-      padding: 1.8rem 1.9rem !important;
+      border-radius: 10px !important;
+      overflow: visible !important;
       display: flex;
       flex-direction: column;
-      transition: background 0.18s ease !important;
+      background: #fffdf9 !important;
+      border: none !important;
       box-shadow: none !important;
-      overflow: hidden !important;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1) !important;
       position: relative;
-      will-change: auto;
+      will-change: transform;
     }
     .project-card:hover {
-      background: #faf0eb !important;
-      transform: none !important;
-      box-shadow: none !important;
+      transform: translateY(-5px) rotate(0.5deg) !important;
+      background: #fffdf9 !important;
     }
     .project-card.hidden { display: none !important; }
-    .project-card::after,
-    .project-card::before { display: none !important; }
 
-    .card-bio, .card-fin, .card-math, .card-app { color: inherit; }
-
-    /* ── Card header ── */
-    .card-illus {
-      display: flex !important;
-      align-items: flex-start !important;
-      padding: 0 !important;
-      gap: .8rem !important;
-      flex-shrink: 0;
-      border-bottom: none !important;
-      background: none !important;
-      border-radius: 0 !important;
-      margin-bottom: .85rem !important;
-      height: auto !important;
-      min-height: unset !important;
+    /* Sketchy outline */
+    .project-card::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 12px;
+      border: 2.2px solid currentColor;
+      opacity: 0.5;
+      filter: url(#sketchy);
+      pointer-events: none;
+      z-index: 4;
+      transition: opacity .25s;
     }
-    .card-bio  .card-illus,
-    .card-fin  .card-illus,
-    .card-math .card-illus,
-    .card-app  .card-illus { background: none !important; }
+    .project-card:hover::after { opacity: 0.75; }
 
-    .card-illus-emoji {
-      font-size: 1.5rem !important;
-      line-height: 1;
+    /* Offset drop shadow */
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 3px -5px -6px 5px;
+      border-radius: 12px;
+      border: 2px solid currentColor;
+      opacity: 0.12;
+      filter: url(#sketchy);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Category colors */
+    .card-bio  { color: #6ab8b0; }
+    .card-fin  { color: #8878c8; }
+    .card-math { color: #c09838; }
+    .card-app  { color: #72aa52; }
+
+    /* ── Card header band ── */
+    .card-illus {
+      height: 88px !important;
+      display: flex !important;
+      align-items: center !important;
+      padding: 0 1.1rem !important;
+      gap: .75rem !important;
       flex-shrink: 0;
-      margin-top: .1rem;
-      transition: transform .28s cubic-bezier(.34,1.56,.64,1);
+      border-radius: 9px 9px 0 0 !important;
+      border-bottom: 1.8px dashed currentColor !important;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 0 !important;
+    }
+    .card-bio  .card-illus { background: #eef8f6; }
+    .card-fin  .card-illus { background: #f2eff9; }
+    .card-math .card-illus { background: #fdf7e4; }
+    .card-app  .card-illus { background: #f0f7e8; }
+
+    /* Big emoji with drop-shadow */
+    .card-illus-emoji {
+      font-size: 2.3rem !important;
+      line-height: 1;
+      filter: drop-shadow(0 3px 8px rgba(80,50,40,0.16));
+      transition: transform .32s cubic-bezier(.34,1.56,.64,1);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
     }
     .project-card:hover .card-illus-emoji {
-      transform: scale(1.18) rotate(-7deg);
+      transform: scale(1.16) rotate(-7deg);
     }
 
     .card-illus-meta {
@@ -97,16 +128,13 @@
       flex-direction: column;
       gap: .06rem;
     }
-
-    /* Lab/PI — Lora italic, warm dark, clearly readable */
     .card-cat-pill {
       font-family: 'Lora', Georgia, serif;
-      font-style: italic;
-      font-size: .78rem;
-      font-weight: 400;
-      color: #3a3028;
-      letter-spacing: .01em;
-      line-height: 1.4;
+      font-size: .75rem;
+      font-weight: 600;
+      color: #1a1410;
+      letter-spacing: -.01em;
+      line-height: 1.35;
       background: none;
       border: none;
       padding: 0;
@@ -114,33 +142,44 @@
     .card-illus-pi {
       font-family: 'Lora', Georgia, serif;
       font-style: italic;
-      font-size: .72rem;
+      font-size: .7rem;
       font-weight: 400;
-      color: #7a6858;
+      color: #b85c38;
       letter-spacing: .01em;
-      line-height: 1.4;
+      line-height: 1.35;
     }
 
-    /* ── Card body ── */
+    /* ── Card body — doc10 fonts ── */
     .card-body-inner {
-      padding: 0 !important;
+      padding: .9rem 1.15rem 1.05rem !important;
       display: flex;
       flex-direction: column;
       flex: 1;
-      position: static !important;
+      position: relative;
+      z-index: 1;
     }
     .card-body-inner h3 {
       font-family: 'Lora', Georgia, serif !important;
       font-size: 1rem !important;
       font-weight: 600 !important;
-      color: #1e1a18 !important;
+      color: #2a1e1e !important;
       margin: 0 0 .3rem !important;
       line-height: 1.35;
       letter-spacing: -.01em;
     }
-    .card-body-inner h3::after { display: none !important; }
+    .card-body-inner h3::after {
+      content: '';
+      display: block;
+      width: 36px;
+      height: 2.5px;
+      border-radius: 2px;
+      margin-top: .25rem;
+      background: currentColor;
+      opacity: .3;
+      filter: url(#sketchy);
+    }
 
-    /* ── Timeline ── */
+    /* Timeline */
     .card-timeline { margin-bottom: .55rem; }
     .tl-dot, .tl-line { display: none !important; }
     .tl-date {
@@ -166,7 +205,7 @@
       flex-wrap: wrap !important;
     }
 
-    /* ── Sketchy pill buttons ── */
+    /* Sketchy pill buttons */
     .card-link {
       display: inline-flex !important;
       align-items: center !important;
@@ -197,37 +236,45 @@
 
     /* Coming soon */
     .coming-banner {
-      display: inline-block !important;
-      position: static !important;
-      transform: none !important;
-      margin-top: auto !important;
+      position: absolute !important;
+      top: .55rem !important; right: .65rem !important;
       font-family: 'Caveat', cursive !important;
       font-size: .88rem !important;
       color: #9070b0 !important;
       background: none !important;
       border: 1.8px solid rgba(180,160,210,.6) !important;
-      padding: .12rem .65rem !important;
+      padding: .1rem .5rem !important;
       border-radius: 5px !important;
       filter: url(#sketchy) !important;
+      z-index: 5;
+      transform: rotate(-2deg);
       letter-spacing: .04em;
     }
 
     .card-pi { display: none !important; }
+    .card-pdf-wrap, .card-img-wrap { display: none !important; }
 
-    /* ── Award block for datathon card ── */
-    .award-block {
-      margin-bottom: .7rem;
+    /* Proj section background */
+    .proj-bg-section { background: #f5f0ea !important; }
+
+    /* Datathon section */
+    .datathon-section {
+      padding: 0 2rem 5.5rem;
+      background: #f5f0ea;
     }
+    .datathon-section > div { max-width: 1180px; margin: 0 auto; }
+
+    /* Award block */
+    .award-block { margin-bottom: .7rem; }
     .award-eyebrow {
       font-family: 'DM Mono', monospace;
       font-size: .62rem;
-      font-weight: 400;
       letter-spacing: .1em;
       text-transform: uppercase;
       color: #a07828;
       margin-bottom: .25rem;
     }
-    .award-eyebrow::before { content: '★  '; }
+    .award-eyebrow::before { content: '\2605  '; }
     .award-name {
       font-family: 'Lora', Georgia, serif;
       font-size: 1.4rem;
@@ -245,7 +292,7 @@
       margin-top: .18rem;
     }
 
-    /* ── Bullet list — datathon card ── */
+    /* Bullet list */
     .card-bullets {
       list-style: none;
       padding: 0;
@@ -263,50 +310,31 @@
       position: relative;
     }
     .card-bullets li::before {
-      content: '→';
+      content: '\2192';
       position: absolute;
       left: 0;
       top: .05rem;
       color: #b89868;
       font-size: .8rem;
     }
-    .card-bullets b {
-      color: #3a2e22;
-      font-weight: 600;
-    }
+    .card-bullets b { color: #3a2e22; font-weight: 600; }
 
-    /* ── Proj section background ── */
-    .proj-bg-section {
-      background: #f5f0ea !important;
-    }
-
-    /* ── Datathon section ── */
-    .datathon-section {
-      padding: 0 2rem 5.5rem;
-      background: #f5f0ea;
-    }
-    .datathon-section > div {
-      max-width: 1180px;
-      margin: 0 auto;
-    }
-
-    /* ── Dark mode ── */
+    /* Dark mode */
     body.dark-mode .project-grid-css,
     body.dark-mode .datathon-grid { background: #2a2420 !important; border-color: #2a2420 !important; }
-    body.dark-mode .project-card { background: #1c1814 !important; }
-    body.dark-mode .project-card:hover { background: #251e18 !important; }
-    body.dark-mode .card-body-inner h3 { color: #f0e8e0 !important; }
-    body.dark-mode .card-desc { color: #a09080 !important; }
-    body.dark-mode .card-cat-pill { color: #d0c0b0 !important; }
-    body.dark-mode .card-illus-pi { color: #907870 !important; }
-    body.dark-mode .tl-date { color: #605848 !important; }
-    body.dark-mode .proj-bg-section,
-    body.dark-mode .datathon-section { background: transparent !important; }
+    body.dark-mode .project-card { background: #1c1420 !important; }
+    body.dark-mode .card-body-inner h3 { color: #f0ddd8 !important; }
+    body.dark-mode .card-desc { color: #a89090 !important; }
+    body.dark-mode .card-bio  .card-illus { background: #182422; }
+    body.dark-mode .card-fin  .card-illus { background: #201828; }
+    body.dark-mode .card-math .card-illus { background: #221e10; }
+    body.dark-mode .card-app  .card-illus { background: #162010; }
+    body.dark-mode .tl-date { color: #887878; }
     body.dark-mode .award-name { color: #f0e0c0 !important; }
     body.dark-mode .card-bullets li { color: #a09080 !important; }
     body.dark-mode .card-bullets b { color: #d0c0a0 !important; }
-
-    .card-pdf-wrap, .card-img-wrap { display: none !important; }
+    body.dark-mode .proj-bg-section,
+    body.dark-mode .datathon-section { background: transparent !important; }
   </style>
 </head>
 <body>
@@ -628,33 +656,44 @@
 
       <div class="datathon-grid rev" style="transition-delay:.1s;">
 
-        <div class="project-card rev" style="transition-delay:.04s;">
-          <div class="card-illus">
-            <span class="card-illus-emoji" style="font-size:2.4rem !important; margin-top:.35rem;">🏆</span>
-            <div class="card-illus-meta">
-              <div class="award-block">
-                <div class="award-name">Best Statistical Analysis Winner - Duke ASA DataFest 2026</div>
-                <div class="award-sub">Mar 2026 &nbsp;·&nbsp; 4-person team &nbsp;·&nbsp; 48-hour competition</div>
-              </div>
+        <div class="project-card rev" style="transition-delay:.04s; border-radius:10px !important;">
+          <div class="card-illus" style="height:auto !important; min-height:88px; padding:1rem 1.2rem !important; background:#fdf7e4 !important; border-bottom:1.8px dashed #c09838 !important; align-items:center !important; border-radius:9px 9px 0 0 !important; gap:.85rem !important;">
+            <!-- Trophy emoji -->
+            <span style="font-size:2.4rem; line-height:1; flex-shrink:0; filter:drop-shadow(0 2px 6px rgba(160,120,0,0.2));">🏆</span>
+            <!-- Title block -->
+            <div style="display:flex; flex-direction:column; gap:.18rem; flex:1;">
+              <div style="font-family:'Lora',Georgia,serif; font-size:1.22rem; font-weight:600; color:#2a1e0e; letter-spacing:-.01em; line-height:1.2;">Best Statistical Analysis Winner – Duke ASA DataFest 2026</div>
+              <div style="font-family:'DM Mono',monospace; font-size:.65rem; color:#9a8878; letter-spacing:.05em; margin-top:.1rem;">Mar 2026 &nbsp;·&nbsp; 5-person team &nbsp;·&nbsp; 48-hour competition</div>
+            </div>
+            <!-- Duke + ASA icons -->
+            <div style="display:flex; flex-direction:column; gap:.3rem; flex-shrink:0; align-items:center;">
+              <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+                <rect width="28" height="28" rx="3" fill="#012169"/>
+                <text x="14" y="21" text-anchor="middle" font-family="Georgia,serif" font-size="16" font-weight="bold" fill="#ffffff">D</text>
+              </svg>
+              <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+                <rect width="28" height="28" rx="3" fill="#c8102e"/>
+                <text x="14" y="19" text-anchor="middle" font-family="Georgia,serif" font-size="10" font-weight="bold" fill="#ffffff">ASA</text>
+              </svg>
             </div>
           </div>
           <div class="card-body-inner">
-            <h3 style="font-size:.72rem !important; font-weight:500 !important; color:#9a8878 !important; letter-spacing:.06em; text-transform:uppercase; margin-bottom:.6rem !important;">What I did</h3>
+            <p style="font-family:'Lora',Georgia,serif; font-style:italic; font-size:.88rem; font-weight:400; color:#6a5040; letter-spacing:.01em; margin-bottom:.7rem;">What I did</p>
             <ul class="card-bullets">
-              <li><b>Led a 4-person team</b> to analyze <b>10k+ diabetic patient records</b> in a <b>48-hour competition</b>. Directed end-to-end analytical pipeline on a <b>diabetes-anchored cohort</b>, engineering longitudinal EHR features including <b>inter-visit gap sequences</b>, <b>cv_gap irregularity metric</b>, and <b>ED utilisation flags</b> with <b>SDOH risk stratification</b> across 8 social determinant domains.</li>
+              <li><b>Led a 5-person team</b> to analyze <b>10k+ diabetic patient records</b> in a <b>48-hour competition</b>. Directed end-to-end analytical pipeline on a <b>diabetes-anchored cohort</b>, engineering longitudinal EHR features including <b>inter-visit gap sequences</b>, <b>cv_gap irregularity metric</b>, and <b>ED utilisation flags</b> with <b>SDOH risk stratification</b> across 8 social determinant domains.</li>
               <li>Surfaced structural health inequality via <b>silhouette-optimised K-Means (k=3)</b> and logistic regression — <b>High-SDOH patients show 2.5× higher ED rates</b> and concentrate <b>5× more in the ED-Dependent archetype</b> (p&lt;0.001). Counterfactual simulation quantified a <b>16.6pp risk reduction</b> if structural barriers were removed.</li>
-              <li>Translated findings into a <b>geospatial mobile clinic intervention</b>: optimised routing circuit covering <b>32,686 patients across 15 stops</b> using weighted census block prioritisation and nearest-neighbour routing. Integrated team's <b>Markov Chain comorbidity network</b> and <b>MLP risk-scoring dashboard</b> into a unified live-pitch presentation.</li>
+              <li>Translated findings into a <b>geospatial mobile clinic intervention</b>: optimised routing circuit covering <b>32,686 patients across 15 stops</b>. Integrated team's <b>Markov Chain comorbidity network</b> and <b>MLP risk-scoring dashboard</b> into a unified live-pitch presentation.</li>
             </ul>
             <div class="card-link-row">
-              <a class="card-link slides-link" href="Uni/Carolina_Correlation_DukeASA26.pdf" target="_blank">
+              <a class="card-link slides-link" href="Carolina_Correlation_DukeASA26.pdf" target="_blank">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 Slides
               </a>
               <a class="card-link code-link" href="https://github.com/miazhouruoya/dukeasafest26" target="_blank">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-                Code <span style="font-family:'DM Mono',monospace;font-size:.55rem;opacity:.5;letter-spacing:.04em;">· public May 2</span>
+                Code <span style="font-family:'DM Mono',monospace;font-size:.55rem;opacity:.5;letter-spacing:.04em;">public May 2</span>
               </a>
-              <a class="card-link report-link" href="Uni/DataFest2026_MiaZhou_Report.pdf" target="_blank">
+              <a class="card-link report-link" href="DataFest2026_MiaZhou_Report.pdf" target="_blank">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 Report
               </a>
