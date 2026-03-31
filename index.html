@@ -5,8 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mia Zhou | Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&family=Lora:ital,wght@0,400;0,600;1,400&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <!-- Lucide icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
   <svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
     <defs>
       <filter id="sketchy" x="-5%" y="-5%" width="110%" height="110%">
@@ -15,8 +19,45 @@
       </filter>
     </defs>
   </svg>
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap');
+    /* ══════════════════════════════════════
+       LUCIDE ICON WRAPPER — card headers
+       ══════════════════════════════════════ */
+    .card-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+      transition: transform .32s cubic-bezier(.34,1.56,.64,1);
+      /* Sketchy border on the icon box */
+      box-shadow: 0 0 0 1.5px currentColor;
+      filter: url(#sketchy);
+    }
+    .project-card:hover .card-icon-wrap {
+      transform: scale(1.12) rotate(-6deg);
+    }
+    .card-icon-wrap svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Per-category icon bg tints */
+    .card-bio  .card-icon-wrap { background: #dcf0ee; color: #4a9e98; }
+    .card-fin  .card-icon-wrap { background: #e8e2f8; color: #6a58b8; }
+    .card-math .card-icon-wrap { background: #faecd8; color: #b08228; }
+    .card-app  .card-icon-wrap { background: #e4f3da; color: #5a9440; }
+    .card-hack .card-icon-wrap { background: #fce4ee; color: #c05888; }
 
     /* ── Project grid — individual cards ── */
     .project-grid-css {
@@ -32,12 +73,12 @@
       display: grid !important;
       grid-template-columns: 1fr !important;
       max-width: 860px !important;
-      gap: 1px !important;
-      background: #e6e0d8 !important;
-      border: 1px solid #e6e0d8 !important;
+      gap: 1.6rem !important;
+      background: none !important;
+      border: none !important;
     }
 
-    /* ── Card shell — doc9 sketchy style ── */
+    /* ── Card shell — unified sketchy parchment style ── */
     .project-card {
       border-radius: 10px !important;
       overflow: visible !important;
@@ -53,6 +94,9 @@
     .project-card:hover {
       transform: translateY(-5px) rotate(0.5deg) !important;
       background: #fffdf9 !important;
+      box-shadow:
+        3px 3px 0 0 rgba(192,152,56,.18),
+        -1px -1px 0 0 rgba(106,184,176,.12) !important;
     }
     .project-card.hidden { display: none !important; }
 
@@ -85,71 +129,68 @@
     }
 
     /* Category colors */
-    .card-bio  { color: #6ab8b0; }
-    .card-fin  { color: #8878c8; }
+    .card-bio  { color: #5aa8a0; }
+    .card-fin  { color: #7868c0; }
     .card-math { color: #c09838; }
-    .card-app  { color: #72aa52; }
+    .card-app  { color: #5a9440; }
+    .card-hack { color: #c05888; }
 
-    /* ── Card header band ── */
+    /* ── Card header band — unified parchment style ── */
     .card-illus {
       height: 88px !important;
       display: flex !important;
       align-items: center !important;
       padding: 0 1.1rem !important;
-      gap: .75rem !important;
+      gap: .85rem !important;
       flex-shrink: 0;
       border-radius: 9px 9px 0 0 !important;
       border-bottom: 1.8px dashed currentColor !important;
       position: relative;
       z-index: 1;
       margin-bottom: 0 !important;
+      /* Subtle grain via repeating radial */
+      background-image: radial-gradient(circle at 1px 1px, rgba(180,140,100,.06) 1px, transparent 0);
+      background-size: 4px 4px;
     }
-    .card-bio  .card-illus { background: #eef8f6; }
-    .card-fin  .card-illus { background: #f2eff9; }
-    .card-math .card-illus { background: #fdf7e4; }
-    .card-app  .card-illus { background: #f0f7e8; }
-
-    /* Big emoji with drop-shadow */
-    .card-illus-emoji {
-      font-size: 2.3rem !important;
-      line-height: 1;
-      filter: drop-shadow(0 3px 8px rgba(80,50,40,0.16));
-      transition: transform .32s cubic-bezier(.34,1.56,.64,1);
-      flex-shrink: 0;
-      position: relative;
-      z-index: 2;
-    }
-    .project-card:hover .card-illus-emoji {
-      transform: scale(1.16) rotate(-7deg);
+    .card-bio  .card-illus { background-color: #eef8f6; }
+    .card-fin  .card-illus { background-color: #f2eff9; }
+    .card-math .card-illus { background-color: #fdf7e4; }
+    .card-app  .card-illus { background-color: #f0f7e8; }
+    /* Re-apply grain over bg color */
+    .card-bio  .card-illus,
+    .card-fin  .card-illus,
+    .card-math .card-illus,
+    .card-app  .card-illus {
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(180,140,100,.06) 1px, transparent 0);
+      background-size: 4px 4px;
     }
 
     .card-illus-meta {
       display: flex;
       flex-direction: column;
-      gap: .06rem;
+      gap: .18rem;
+      flex: 1;
     }
     .card-cat-pill {
       font-family: 'Lora', Georgia, serif;
-      font-size: .75rem;
+      font-size: .76rem;
       font-weight: 600;
-      color: #1a1410;
+      color: #2a1e1e;
       letter-spacing: -.01em;
       line-height: 1.35;
-      background: none;
-      border: none;
-      padding: 0;
     }
     .card-illus-pi {
       font-family: 'Lora', Georgia, serif;
       font-style: italic;
-      font-size: .7rem;
+      font-size: .68rem;
       font-weight: 400;
       color: #b85c38;
       letter-spacing: .01em;
       line-height: 1.35;
     }
 
-    /* ── Card body — doc10 fonts ── */
+    /* ── Card body ── */
     .card-body-inner {
       padding: .9rem 1.15rem 1.05rem !important;
       display: flex;
@@ -163,7 +204,7 @@
       font-size: 1rem !important;
       font-weight: 600 !important;
       color: #2a1e1e !important;
-      margin: 0 0 .3rem !important;
+      margin: 0 0 .28rem !important;
       line-height: 1.35;
       letter-spacing: -.01em;
     }
@@ -171,11 +212,11 @@
       content: '';
       display: block;
       width: 36px;
-      height: 2.5px;
+      height: 2px;
       border-radius: 2px;
-      margin-top: .25rem;
+      margin-top: .22rem;
       background: currentColor;
-      opacity: .3;
+      opacity: .28;
       filter: url(#sketchy);
     }
 
@@ -193,7 +234,7 @@
     .card-desc {
       font-size: .84rem !important;
       line-height: 1.72 !important;
-      color: #6a5c50 !important;
+      color: #1a1410 !important;
       flex: 1;
       margin: 0 0 1.1rem !important;
     }
@@ -222,17 +263,29 @@
       filter: url(#sketchy);
       letter-spacing: .02em;
     }
+    .card-link svg {
+      width: 11px !important;
+      height: 11px !important;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
     .card-link:hover { transform: translateY(-2px) rotate(-1.5deg) !important; }
     .pdf-link    { color: #5a8e88 !important; }
     .code-link   { color: #7060a0 !important; }
     .slides-link { color: #b06080 !important; }
     .map-link    { color: #7a8e5a !important; }
     .report-link { color: #a06848 !important; }
+    .devpost-link { color: #003e54 !important; }
     .pdf-link:hover    { background: #5a8e88 !important; color: #fff !important; }
     .code-link:hover   { background: #7060a0 !important; color: #fff !important; }
     .slides-link:hover { background: #b06080 !important; color: #fff !important; }
     .map-link:hover    { background: #7a8e5a !important; color: #fff !important; }
     .report-link:hover { background: #a06848 !important; color: #fff !important; }
+    .devpost-link:hover { background: #003e54 !important; color: #fff !important; }
 
     /* Coming soon */
     .coming-banner {
@@ -251,18 +304,125 @@
       letter-spacing: .04em;
     }
 
-    .card-pi { display: none !important; }
-    .card-pdf-wrap, .card-img-wrap { display: none !important; }
-
     /* Proj section background */
-    .proj-bg-section { background: #f5f0ea !important; }
+    .proj-bg-section {
+      background: #f7f2ea !important;
+    }
 
-    /* Datathon section */
+    /* Subtle grain on the project section bg */
+    .proj-bg-section {
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(180,140,100,.04) 1px, transparent 0) !important;
+      background-size: 3px 3px !important;
+    }
+
+    /* ── Botanical / grain overlay ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9990;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(180,140,100,.04) 1px, transparent 0);
+      background-size: 3px 3px;
+    }
+
+    /* Section labels */
+    .section-label {
+      position: relative;
+      display: inline-block;
+    }
+    .section-label::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 1.5px;
+      background: linear-gradient(90deg, #c8a878, transparent);
+      margin-top: .3rem;
+      border-radius: 2px;
+      opacity: .6;
+    }
+
+    /* Riso-style category tab active */
+    .cat-tab.active {
+      box-shadow: 2px 2px 0 rgba(192,152,56,.25), -1px -1px 0 rgba(106,184,176,.15) !important;
+    }
+
+    /* ── Datathon section ── */
     .datathon-section {
       padding: 0 2rem 5.5rem;
-      background: #f5f0ea;
+      position: relative;
+      overflow: hidden;
     }
-    .datathon-section > div { max-width: 1180px; margin: 0 auto; }
+    .datathon-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg,rgba(253,248,242,.96) 0%,rgba(253,248,242,.88) 50%,rgba(253,248,242,.97) 100%),
+        url('singapore.jpg') center 60%/cover no-repeat;
+      z-index: 0;
+    }
+    .datathon-section > div {
+      position: relative;
+      z-index: 1;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    /* ── Datathon card header — unified with project cards ── */
+    .duke-card-header {
+      height: auto !important;
+      min-height: 88px;
+      padding: 1rem 1.2rem !important;
+      border-bottom: 1.8px dashed currentColor !important;
+      align-items: center !important;
+      border-radius: 9px 9px 0 0 !important;
+      gap: .85rem !important;
+      display: flex !important;
+      position: relative;
+      z-index: 1;
+      /* Grain texture */
+      background-image: radial-gradient(circle at 1px 1px, rgba(180,140,100,.06) 1px, transparent 0) !important;
+      background-size: 4px 4px !important;
+    }
+    /* Duke ASA — gold */
+    .duke-asa-card { color: #c09838; }
+    .duke-asa-card .duke-card-header { background-color: #fdf7e4 !important; }
+    /* SolHacks — pink */
+    .solhacks-card { color: #c05888; }
+    .solhacks-card .duke-card-header { background-color: #fce8f3 !important; }
+
+    /* Datathon icon wrap — same as project cards */
+    .datathon-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+      transition: transform .32s cubic-bezier(.34,1.56,.64,1);
+      box-shadow: 0 0 0 1.5px currentColor;
+      filter: url(#sketchy);
+    }
+    .project-card:hover .datathon-icon-wrap {
+      transform: scale(1.12) rotate(-6deg);
+    }
+    .datathon-icon-wrap svg {
+      width: 26px;
+      height: 26px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .duke-asa-card .datathon-icon-wrap { background: #faecd8; color: #b08228; }
+    .solhacks-card .datathon-icon-wrap { background: #fce4ee; color: #c05888; }
 
     /* Award block */
     .award-block { margin-bottom: .7rem; }
@@ -277,19 +437,19 @@
     .award-eyebrow::before { content: '\2605  '; }
     .award-name {
       font-family: 'Lora', Georgia, serif;
-      font-size: 1.4rem;
+      font-size: 1.22rem;
       font-weight: 600;
       color: #2a1e0e;
       letter-spacing: -.02em;
-      line-height: 1.15;
+      line-height: 1.2;
       margin-bottom: .2rem;
     }
     .award-sub {
       font-family: 'DM Mono', monospace;
-      font-size: .68rem;
+      font-size: .65rem;
       color: #9a8878;
-      letter-spacing: .04em;
-      margin-top: .18rem;
+      letter-spacing: .05em;
+      margin-top: .1rem;
     }
 
     /* Bullet list */
@@ -305,7 +465,7 @@
     .card-bullets li {
       font-size: .84rem;
       line-height: 1.65;
-      color: #6a5c50;
+      color: #1a1410;
       padding-left: 1.1rem;
       position: relative;
     }
@@ -319,22 +479,123 @@
     }
     .card-bullets b { color: #3a2e22; font-weight: 600; }
 
-    /* Dark mode */
+    /* Org badge row in datathon headers */
+    .org-badge-col {
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+      flex-shrink: 0;
+      align-items: center;
+    }
+
+    /* What-I-did italic label */
+    .what-label {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: .88rem;
+      font-weight: 400;
+      color: #6a5040;
+      letter-spacing: .01em;
+      margin-bottom: .7rem;
+    }
+
+    /* ══ DARK MODE ══ */
     body.dark-mode .project-grid-css,
-    body.dark-mode .datathon-grid { background: #2a2420 !important; border-color: #2a2420 !important; }
+    body.dark-mode .datathon-grid { background: transparent !important; border-color: transparent !important; }
     body.dark-mode .project-card { background: #1c1420 !important; }
     body.dark-mode .card-body-inner h3 { color: #f0ddd8 !important; }
-    body.dark-mode .card-desc { color: #a89090 !important; }
-    body.dark-mode .card-bio  .card-illus { background: #182422; }
-    body.dark-mode .card-fin  .card-illus { background: #201828; }
-    body.dark-mode .card-math .card-illus { background: #221e10; }
-    body.dark-mode .card-app  .card-illus { background: #162010; }
+    body.dark-mode .card-desc { color: #d0c8c0 !important; }
+    body.dark-mode .card-bio  .card-illus { background-color: #182422 !important; }
+    body.dark-mode .card-fin  .card-illus { background-color: #201828 !important; }
+    body.dark-mode .card-math .card-illus { background-color: #221e10 !important; }
+    body.dark-mode .card-app  .card-illus { background-color: #162010 !important; }
     body.dark-mode .tl-date { color: #887878; }
     body.dark-mode .award-name { color: #f0e0c0 !important; }
-    body.dark-mode .card-bullets li { color: #a09080 !important; }
-    body.dark-mode .card-bullets b { color: #d0c0a0 !important; }
-    body.dark-mode .proj-bg-section,
-    body.dark-mode .datathon-section { background: transparent !important; }
+    body.dark-mode .card-bullets li { color: #d0c8c0 !important; }
+    body.dark-mode .card-bullets b { color: #f0e0d0 !important; }
+    body.dark-mode .proj-bg-section { background: transparent !important; }
+    body.dark-mode .datathon-section::before {
+      background:
+        linear-gradient(180deg,rgba(18,14,24,.97) 0%,rgba(18,14,24,.93) 50%,rgba(18,14,24,.97) 100%),
+        url('singapore.jpg') center 60%/cover no-repeat;
+    }
+    body.dark-mode .duke-asa-card .duke-card-header { background-color: #221e10 !important; }
+    body.dark-mode .solhacks-card .duke-card-header { background-color: #28101e !important; }
+    body.dark-mode .card-bio  .card-icon-wrap { background: #1a3230; }
+    body.dark-mode .card-fin  .card-icon-wrap { background: #221838; }
+    body.dark-mode .card-math .card-icon-wrap { background: #2a2010; }
+    body.dark-mode .card-app  .card-icon-wrap { background: #182414; }
+    body.dark-mode .duke-asa-card .datathon-icon-wrap { background: #2a2010; }
+    body.dark-mode .solhacks-card .datathon-icon-wrap { background: #2a1020; }
+    body.dark-mode .what-label { color: #c0a888 !important; }
+
+    /* ══════════════════════════════════════
+       MOBILE RESPONSIVENESS
+       ══════════════════════════════════════ */
+    @media (hover: none) {
+      #cur, #curR { display: none !important; }
+      body { cursor: auto !important; }
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: .7rem 1rem !important; flex-wrap: wrap; gap: .4rem; }
+      .nav-logo { font-size: .95rem !important; }
+      .nav-links { gap: .8rem !important; flex-wrap: wrap; }
+      .nav-links a { font-size: .62rem !important; letter-spacing: .06em !important; }
+    }
+
+    @media (max-width: 768px) {
+      .custom-header .container {
+        flex-direction: column !important;
+        padding: 5.5rem 1.2rem 3rem !important;
+        gap: 2.2rem !important;
+        align-items: flex-start !important;
+      }
+      .split-header .intro-text { width: 100% !important; min-width: unset !important; }
+      .title-row { flex-direction: row; align-items: flex-start; gap: .8rem; }
+      .about-preview { width: 100% !important; min-width: unset !important; max-width: 100% !important; box-sizing: border-box; }
+      .about-text { font-size: .83rem !important; }
+      .skill-bubbles { gap: .35rem !important; }
+      .skill-bubble { font-size: .68rem !important; padding: .22rem .65rem !important; }
+    }
+
+    @media (max-width: 768px) {
+      #projects { padding: 2.5rem 1rem 3.5rem !important; }
+      .project-grid-css { grid-template-columns: 1fr !important; gap: 1.2rem !important; }
+      .project-card { will-change: auto !important; }
+      .project-card:hover { transform: none !important; }
+      .cat-tabs { gap: .3rem !important; margin-bottom: 1.4rem !important; }
+      .cat-tab { font-size: .65rem !important; padding: .3rem .7rem !important; }
+    }
+
+    @media (max-width: 768px) {
+      .datathon-section { padding: 0 1rem 3.5rem !important; }
+      .datathon-grid { max-width: 100% !important; width: 100% !important; box-sizing: border-box; }
+    }
+
+    @media (max-width: 480px) {
+      .duke-card-header { flex-wrap: wrap !important; height: auto !important; padding: .85rem .9rem !important; gap: .6rem !important; }
+      .award-name { font-size: 1rem !important; }
+      .org-badge-col { flex-direction: row !important; align-self: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .card-bullets li { font-size: .82rem !important; line-height: 1.6 !important; }
+      .card-body-inner { padding: .75rem .9rem .9rem !important; }
+      .card-link { font-size: .82rem !important; padding: .12rem .6rem .16rem !important; }
+    }
+
+    @media (max-width: 480px) {
+      .about-preview .photo-wrap { width: 88px !important; height: 88px !important; }
+      .about-preview img { width: 88px !important; height: 88px !important; }
+    }
+
+    html, body { max-width: 100%; overflow-x: hidden; }
+
+    @media (max-width: 480px) {
+      footer.bg-dark { padding: 1rem 1.2rem !important; }
+      footer p { font-size: .75rem !important; }
+    }
   </style>
 </head>
 <body>
@@ -468,7 +729,10 @@
         <!-- BIO: Spatial -->
         <div class="project-card card-bio rev" data-cat="bio" id="card-spatial" style="transition-delay:.04s;">
           <div class="card-illus">
-            <span class="card-illus-emoji">🔬</span>
+            <div class="card-icon-wrap">
+              <!-- Lucide: microscope -->
+              <svg viewBox="0 0 24 24"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h.01"/><path d="M9 3v11"/><path d="m6 5 3-3 3 3"/></svg>
+            </div>
             <div class="card-illus-meta">
               <span class="card-cat-pill">UNC Biostatistics Li Lab</span>
               <span class="card-illus-pi">PI: Prof. Didong Li</span>
@@ -477,14 +741,12 @@
           <div class="card-body-inner">
             <h3>Spatial Transcriptomics</h3>
             <div class="card-timeline">
-              <div class="tl-dot"></div>
-              <div class="tl-line"></div>
               <span class="tl-date">Oct 2024 — Present</span>
             </div>
             <p class="card-desc">Benchmarked 3 graph-building frameworks (Seurat, Squidpy, Niches) on Stimage-1K4M, comparing model outputs and loss matrices for spatial gene expression analysis.</p>
             <div class="card-link-row">
               <a class="card-link code-link" href="https://github.com/parkyunjin/stgraph" target="_blank">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
                 Code
               </a>
             </div>
@@ -494,7 +756,10 @@
         <!-- BIO: NIH -->
         <div class="project-card card-bio rev" data-cat="bio" id="card-nih" style="transition-delay:.08s;">
           <div class="card-illus">
-            <span class="card-illus-emoji">🕸️</span>
+            <div class="card-icon-wrap">
+              <!-- Lucide: network -->
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><circle cx="19" cy="19" r="3"/><circle cx="5" cy="19" r="3"/><path d="M12 8v13M5 19h14"/></svg>
+            </div>
             <div class="card-illus-meta">
               <span class="card-cat-pill">UNC Biostatistics Li Lab</span>
               <span class="card-illus-pi">PI: Prof. Didong Li</span>
@@ -503,18 +768,16 @@
           <div class="card-body-inner">
             <h3>NIH Network Analysis</h3>
             <div class="card-timeline">
-              <div class="tl-dot"></div>
-              <div class="tl-line"></div>
               <span class="tl-date">Oct 2024 — Present</span>
             </div>
             <p class="card-desc">Clustered 30,000+ NIH abstracts with BERTopic and visualized co-PI networks to reveal collaboration dynamics and funding inequality at UNC.</p>
             <div class="card-link-row">
               <a class="card-link pdf-link" href="Uni/NIH_Network.pdf" target="_blank">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 PDF
               </a>
               <a class="card-link code-link" href="https://github.com/CuiranVivianShi/NIH_network" target="_blank">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
                 Code
               </a>
             </div>
@@ -524,7 +787,10 @@
         <!-- BIO: eNet -->
         <div class="project-card card-bio rev" data-cat="bio" id="card-enet" style="transition-delay:.12s;">
           <div class="card-illus">
-            <span class="card-illus-emoji">🧬</span>
+            <div class="card-icon-wrap">
+              <!-- Lucide: dna -->
+              <svg viewBox="0 0 24 24"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/><path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/><path d="m17 6-2.5-2.5"/><path d="m14 8-1-1"/><path d="m7 18 2.5 2.5"/><path d="m3.5 14.5.5.5"/><path d="m20 9 .5.5"/><path d="m6.5 12.5 1 1"/></svg>
+            </div>
             <div class="card-illus-meta">
               <span class="card-cat-pill">Xiamen University Huang Lab</span>
               <span class="card-illus-pi">PI: Prof. Jialiang Huang</span>
@@ -533,14 +799,12 @@
           <div class="card-body-inner">
             <h3>eNet Enhancer Network</h3>
             <div class="card-timeline">
-              <div class="tl-dot"></div>
-              <div class="tl-line"></div>
               <span class="tl-date">Jun 2024 — Present</span>
             </div>
             <p class="card-desc">Constructed enhancer network from single-cell multi-omics (scATAC + scRNA, 18k+ cells), identifying rare modular topologies (8.39%) predictive of MPA Leukemia driver genes.</p>
             <div class="card-link-row">
               <a class="card-link pdf-link" href="Uni/eNet.pdf" target="_blank">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 PDF
               </a>
             </div>
@@ -550,7 +814,10 @@
         <!-- BIO: Neuromatch -->
         <div class="project-card card-bio rev" data-cat="bio" id="card-neuro" style="transition-delay:.16s;">
           <div class="card-illus">
-            <span class="card-illus-emoji">🧠</span>
+            <div class="card-icon-wrap">
+              <!-- Lucide: brain-circuit / activity -->
+              <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
             <div class="card-illus-meta">
               <span class="card-cat-pill">NeuroMatch Program</span>
               <span class="card-illus-pi">Computational Neuroscience</span>
@@ -559,14 +826,12 @@
           <div class="card-body-inner">
             <h3>Neuromatch Neuron Simulation</h3>
             <div class="card-timeline">
-              <div class="tl-dot"></div>
-              <div class="tl-line"></div>
               <span class="tl-date">Jun — Aug 2025</span>
             </div>
             <p class="card-desc">Decoded inter-regional brain communication via Leiden Analysis on the IBL dataset (30k+ neurons), predicting trial-by-trial behavioral decisions at 78% accuracy.</p>
             <div class="card-link-row">
               <a class="card-link slides-link" href="Uni/slides.pdf" target="_blank">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 Slides
               </a>
             </div>
@@ -576,7 +841,10 @@
         <!-- FIN: AgentSociety -->
         <div class="project-card card-fin rev" data-cat="fin" id="card-agent" style="transition-delay:.04s;">
           <div class="card-illus">
-            <span class="card-illus-emoji">📈</span>
+            <div class="card-icon-wrap">
+              <!-- Lucide: trending-up -->
+              <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            </div>
             <div class="card-illus-meta">
               <span class="card-cat-pill">Tsinghua University</span>
               <span class="card-illus-pi">PI: Prof. Yong Li</span>
@@ -585,18 +853,16 @@
           <div class="card-body-inner">
             <h3>Agent-Based Economic Simulation</h3>
             <div class="card-timeline">
-              <div class="tl-dot"></div>
-              <div class="tl-line"></div>
               <span class="tl-date">May — Aug 2025</span>
             </div>
             <p class="card-desc">Behavioral agent-based RCK model with Cobb-Douglas production and Poisson-updated social imitation. LLM-driven agents reproduce polarization and echo-chamber dynamics.</p>
             <div class="card-link-row">
               <a class="card-link pdf-link" href="Uni/ABM.pdf" target="_blank">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 PDF
               </a>
               <a class="card-link code-link" href="https://github.com/miazhouruoya/agent-society-workplace" target="_blank">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
                 Code
               </a>
             </div>
@@ -606,7 +872,10 @@
         <!-- MATH placeholder -->
         <div class="project-card card-math rev" data-cat="math" id="card-math" style="transition-delay:.04s;">
           <div class="card-illus">
-            <span class="card-illus-emoji">📐</span>
+            <div class="card-icon-wrap">
+              <!-- Lucide: sigma -->
+              <svg viewBox="0 0 24 24"><path d="M18 4H6l6 6-6 6h12"/></svg>
+            </div>
             <div class="card-illus-meta">
               <span class="card-cat-pill">mathematics</span>
             </div>
@@ -614,8 +883,6 @@
           <div class="card-body-inner">
             <h3>Still Exploring…</h3>
             <div class="card-timeline">
-              <div class="tl-dot"></div>
-              <div class="tl-line"></div>
               <span class="tl-date">ongoing</span>
             </div>
             <p class="card-desc">Working at the intersection of ODE/PDE, dynamical systems, and mathematical modeling. Watch this space!</p>
@@ -626,7 +893,10 @@
         <!-- APP placeholder -->
         <div class="project-card card-app rev" data-cat="app" id="card-app" style="transition-delay:.08s;">
           <div class="card-illus">
-            <span class="card-illus-emoji">💻</span>
+            <div class="card-icon-wrap">
+              <!-- Lucide: code-2 -->
+              <svg viewBox="0 0 24 24"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            </div>
             <div class="card-illus-meta">
               <span class="card-cat-pill">app dev</span>
             </div>
@@ -634,8 +904,6 @@
           <div class="card-body-inner">
             <h3>Still Exploring…</h3>
             <div class="card-timeline">
-              <div class="tl-dot"></div>
-              <div class="tl-line"></div>
               <span class="tl-date">ongoing</span>
             </div>
             <p class="card-desc">Building tools that make science and math more accessible. More coming soon!</p>
@@ -647,7 +915,7 @@
     </div>
   </section>
 
-  <!-- DATATHON -->
+  <!-- DATATHON & HACKATHON -->
   <section id="datathon" class="datathon-section">
     <div>
       <div class="rev" style="margin-bottom:1.8rem;">
@@ -656,17 +924,19 @@
 
       <div class="datathon-grid rev" style="transition-delay:.1s;">
 
-        <div class="project-card rev" style="transition-delay:.04s; border-radius:10px !important;">
-          <div class="card-illus" style="height:auto !important; min-height:88px; padding:1rem 1.2rem !important; background:#fdf7e4 !important; border-bottom:1.8px dashed #c09838 !important; align-items:center !important; border-radius:9px 9px 0 0 !important; gap:.85rem !important;">
-            <!-- Trophy emoji -->
-            <span style="font-size:2.4rem; line-height:1; flex-shrink:0; filter:drop-shadow(0 2px 6px rgba(160,120,0,0.2));">🏆</span>
-            <!-- Title block -->
-            <div style="display:flex; flex-direction:column; gap:.18rem; flex:1;">
-              <div style="font-family:'Lora',Georgia,serif; font-size:1.22rem; font-weight:600; color:#2a1e0e; letter-spacing:-.01em; line-height:1.2;">Best Statistical Analysis Winner – Duke ASA DataFest 2026</div>
-              <div style="font-family:'DM Mono',monospace; font-size:.65rem; color:#9a8878; letter-spacing:.05em; margin-top:.1rem;">Mar 2026 &nbsp;·&nbsp; 5-person team &nbsp;·&nbsp; 48-hour competition</div>
+        <!-- ══ CARD 1 — Duke ASA DataFest 2026 ══ -->
+        <div class="project-card duke-asa-card rev" style="transition-delay:.04s; border-radius:10px !important;">
+          <div class="duke-card-header">
+            <!-- Unified Lucide icon -->
+            <div class="datathon-icon-wrap">
+              <!-- Lucide: award -->
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
             </div>
-            <!-- Duke + ASA icons -->
-            <div style="display:flex; flex-direction:column; gap:.3rem; flex-shrink:0; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:.18rem; flex:1;">
+              <div class="award-name">Best Statistical Analysis Winner – Duke ASA DataFest 2026</div>
+              <div class="award-sub">Mar 2026 · 5-person team · 48-hour competition</div>
+            </div>
+            <div class="org-badge-col">
               <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
                 <rect width="28" height="28" rx="3" fill="#012169"/>
                 <text x="14" y="21" text-anchor="middle" font-family="Georgia,serif" font-size="16" font-weight="bold" fill="#ffffff">D</text>
@@ -678,7 +948,7 @@
             </div>
           </div>
           <div class="card-body-inner">
-            <p style="font-family:'Lora',Georgia,serif; font-style:italic; font-size:.88rem; font-weight:400; color:#6a5040; letter-spacing:.01em; margin-bottom:.7rem;">What I did</p>
+            <p class="what-label">What I did</p>
             <ul class="card-bullets">
               <li><b>Led a 5-person team</b> to analyze <b>10k+ diabetic patient records</b> in a <b>48-hour competition</b>. Directed end-to-end analytical pipeline on a <b>diabetes-anchored cohort</b>, engineering longitudinal EHR features including <b>inter-visit gap sequences</b>, <b>cv_gap irregularity metric</b>, and <b>ED utilisation flags</b> with <b>SDOH risk stratification</b> across 8 social determinant domains.</li>
               <li>Surfaced structural health inequality via <b>silhouette-optimised K-Means (k=3)</b> and logistic regression — <b>High-SDOH patients show 2.5× higher ED rates</b> and concentrate <b>5× more in the ED-Dependent archetype</b> (p&lt;0.001). Counterfactual simulation quantified a <b>16.6pp risk reduction</b> if structural barriers were removed.</li>
@@ -686,20 +956,73 @@
             </ul>
             <div class="card-link-row">
               <a class="card-link slides-link" href="Uni/Carolina_Correlation_DukeASA26.pdf" target="_blank">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 Slides
               </a>
               <a class="card-link code-link" href="https://github.com/miazhouruoya/dukeasafest26" target="_blank">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
                 Code <span style="font-family:'DM Mono',monospace;font-size:.55rem;opacity:.5;letter-spacing:.04em;">public May 2</span>
               </a>
               <a class="card-link report-link" href="Uni/DataFest2026_MiaZhou_Report.pdf" target="_blank">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 Report
               </a>
               <a class="card-link map-link" href="https://miazhouruoya.github.io/kansasmobile/" target="_blank">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                 Map
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ CARD 2 — SolHacks 2026 ══ -->
+        <div class="project-card solhacks-card rev" style="transition-delay:.08s; border-radius:10px !important;">
+          <div class="duke-card-header">
+            <div class="datathon-icon-wrap">
+              <!-- Lucide: trophy -->
+              <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:.18rem; flex:1;">
+              <div class="award-name" style="color:#2a1e0e;">1st Place Culture Track – SolHacks 2026 (MLH)</div>
+              <div class="award-sub">Mar 2026 · 2-person team · 24-hour hackathon</div>
+            </div>
+            <div class="org-badge-col">
+              <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+                <rect width="28" height="28" rx="3" fill="#430066"/>
+                <text x="14" y="19" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-weight="bold" fill="#ffffff">MLH</text>
+              </svg>
+              <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+                <rect width="28" height="28" rx="3" fill="#ff6b35"/>
+                <circle cx="14" cy="14" r="5" fill="#ffe066"/>
+                <g stroke="#ffe066" stroke-width="1.5" stroke-linecap="round">
+                  <line x1="14" y1="4"  x2="14" y2="7"/>
+                  <line x1="14" y1="21" x2="14" y2="24"/>
+                  <line x1="4"  y1="14" x2="7"  y2="14"/>
+                  <line x1="21" y1="14" x2="24" y2="14"/>
+                  <line x1="7"  y1="7"  x2="9.2" y2="9.2"/>
+                  <line x1="18.8" y1="18.8" x2="21" y2="21"/>
+                  <line x1="21" y1="7"  x2="18.8" y2="9.2"/>
+                  <line x1="9.2" y1="18.8" x2="7"  y2="21"/>
+                </g>
+              </svg>
+              <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+                <rect width="28" height="28" rx="3" fill="#0a2240"/>
+                <text x="14" y="18" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="bold" fill="#e6a817">SHPE</text>
+              </svg>
+            </div>
+          </div>
+
+          <div class="card-body-inner">
+            <p class="what-label">What I built</p>
+            <ul class="card-bullets">
+              <li><b>Built WageGuard</b>, a bilingual AI wage-protection tool for Latino workers — combining <b>voice-based case intake</b> with automated <b>wage violation detection</b> in a single conversational flow.</li>
+              <li>Developed <b>React/Vite frontend</b> and end-to-end agent workflow powered by <b>Gemini 2.5 Flash</b> + <b>ElevenLabs</b> TTS; designed the full conversational UX from scratch in 24 hours.</li>
+              <li>Implemented <b>real-time API integration &amp; testing</b> for reasoning and response generation, enabling live wage-law analysis with <b>multilingual voice output</b>.</li>
+            </ul>
+            <div class="card-link-row">
+              <a class="card-link devpost-link" href="https://devpost.com/software/1234164/joins/1AkeTX76TzloQ5fv4UG5KA" target="_blank">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M6.002 1.61L0 12.004 6.002 22.39h11.996L24 12.004 17.998 1.61zm1.593 4.084h2.137l2.557 4.31 2.557-4.31h2.137l-3.7 6.314 3.8 6.486h-2.18l-2.614-4.46-2.616 4.46h-2.18l3.8-6.486z"/></svg>
+                Devpost
               </a>
             </div>
           </div>
@@ -714,7 +1037,9 @@
     <p style="font-size:.62rem;opacity:.45;margin-top:.25rem;">Triple-click the photo for a secret 🌸</p>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+  <script>
+    /* ── Custom cursor ── */
     const cur = document.getElementById('cur');
     const curR = document.getElementById('curR');
     let mx=0,my=0,rx=0,ry=0;
@@ -725,6 +1050,7 @@
       el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';curR.style.borderColor='#e8a598';});
     });
 
+    /* ── Sparkles ── */
     const sparkColors=['#e8a598','#f0b8a0','#a8c5c0','#c8b8d8','#b8c9a0','#f5d6cb'];
     document.addEventListener('mousemove',e=>{
       if(Math.random()>.62)return;
@@ -734,6 +1060,7 @@
       document.body.appendChild(s);setTimeout(()=>s.remove(),750);
     });
 
+    /* ── Floaties ── */
     const emojis=['🌸','✨','💫','🌷','⭐','🐚','🌺','💖','🦋','🌙','🎀','🩰','🎧','🦢','🪞','🧸','🍓'];
     function spawnFloaties(x,y,count=1){
       for(let i=0;i<count;i++)setTimeout(()=>{
@@ -749,6 +1076,7 @@
       spawnFloaties(e.clientX,e.clientY);
     });
 
+    /* ── Particles ── */
     const ptcls=document.getElementById('ptcls');
     ['#f5d6cb','#e8a598','#c8b8d8','#e8c87a'].forEach(c=>{
       for(let i=0;i<1;i++){
@@ -759,6 +1087,7 @@
       }
     });
 
+    /* ── Name letters ── */
     const nameEl=document.getElementById('nameLetters');
     const nameStr='Mia Zhou';
     const letterColors=['#f5d6cb','#f0b8a0','#e8a598','#a8c5c0','#c8b8d8','#b8c9a0','#e8c87a','#e8a598'];
@@ -776,6 +1105,7 @@
       nameEl.appendChild(s);
     });
 
+    /* ── Typewriter ── */
     const twEl=document.getElementById('typewriterText');
     const twLines=['Scroll to learn','more about my','projects!'];
     let twFull=twLines.join('\n'),twIdx=0;
@@ -787,20 +1117,24 @@
     }
     setTimeout(typeNext,900);
 
+    /* ── Skill bubbles ── */
     document.querySelectorAll('.skill-bubble').forEach(b=>{
       b.addEventListener('click',e=>spawnFloaties(e.clientX,e.clientY,2));
     });
 
+    /* ── Parallax SG bg ── */
     window.addEventListener('scroll',()=>{
       const sg=document.getElementById('sgBg');
       if(sg)sg.style.transform=`translateY(${window.scrollY*.3}px)`;
     });
 
+    /* ── Scroll reveal ── */
     const revObs=new IntersectionObserver(entries=>{
       entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
     },{threshold:0.08});
     document.querySelectorAll('.rev').forEach(el=>revObs.observe(el));
 
+    /* ── Easter egg ── */
     let photoClicks=0,photoTimer;
     document.getElementById('heroPic').addEventListener('click',e=>{
       e.stopPropagation();photoClicks++;
@@ -815,6 +1149,7 @@
       }
     });
 
+    /* ── Category filter ── */
     const grid=document.getElementById('projectGrid');
     const originalOrder=Array.from(grid.querySelectorAll('.project-card'));
     document.getElementById('catTabs').addEventListener('click',e=>{
@@ -830,27 +1165,25 @@
       }
     });
 
+    /* ── Dark mode ── */
     const darkCSS=document.createElement('style');
     darkCSS.textContent=`
       body.dark-mode .custom-header::before{background:rgba(4,3,8,0.72);}
       body.dark-mode #sgBg{filter:brightness(0.45) saturate(0.7);}
-      body.dark-mode .proj-bg-section::before{background:linear-gradient(180deg,rgba(18,14,24,.97) 0%,rgba(18,14,24,.93) 50%,rgba(18,14,24,.97) 100%),url('singapore.jpg') center 60%/cover no-repeat;}
       body.dark-mode footer.bg-dark{background-color:#1a1220!important;}
       body.dark-mode nav{background:rgba(6,4,10,.65);}
       body.dark-mode .project-card{background:rgba(24,18,28,0.92)!important;border-color:rgba(200,184,216,0.1)!important;}
       body.dark-mode .card-body-inner h3{color:#f0d8d0!important;}
-      body.dark-mode .card-desc{color:#a09090!important;}
-      body.dark-mode .card-bio  .card-illus{background:#1a2e2c;}
-      body.dark-mode .card-fin  .card-illus{background:#201c30;}
-      body.dark-mode .card-math .card-illus{background:#28221a;}
-      body.dark-mode .card-app  .card-illus{background:#1a2818;}
-      .custom-header::before,#sgBg,.proj-bg-section::before,footer.bg-dark,nav,.project-card,.card-illus{transition:background 0.6s ease,filter 0.6s ease;}
+      body.dark-mode .card-desc{color:#d0c8c0!important;}
+      body.dark-mode .card-bullets li{color:#d0c8c0!important;}
+      body.dark-mode .card-bullets b{color:#f0e0d0!important;}
+      body.dark-mode .award-name{color:#f0e0c0!important;}
+      .custom-header::before,#sgBg,footer.bg-dark,nav,.project-card,.card-illus,.duke-card-header{transition:background 0.6s ease,filter 0.6s ease;}
     `;
     document.head.appendChild(darkCSS);
 
     const btnSun=document.getElementById('btnSun');
     const btnMoon=document.getElementById('btnMoon');
-    btnSun.classList.add('active-btn');
     btnMoon.addEventListener('click',e=>{
       e.stopPropagation();
       document.body.classList.add('dark-mode');
@@ -864,7 +1197,9 @@
       spawnFloaties(e.clientX,e.clientY,3);
     });
 
+    /* ── 3D tilt (mouse only) ── */
     document.querySelectorAll('.project-card').forEach(card=>{
+      if(!window.matchMedia('(hover: hover)').matches) return;
       card.addEventListener('mousemove',e=>{
         if(card.classList.contains('hidden'))return;
         const r=card.getBoundingClientRect();
@@ -873,6 +1208,23 @@
         card.style.transform=`perspective(800px) rotateY(${x}deg) rotateX(${y}deg) scale(1.015)`;
       });
       card.addEventListener('mouseleave',()=>{card.style.transform='';});
+    });
+
+    /* ── Botanical SVG flourishes on section labels ── */
+    document.querySelectorAll('.section-label').forEach(el=>{
+      const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+      svg.setAttribute('width','60');svg.setAttribute('height','18');
+      svg.setAttribute('viewBox','0 0 60 18');
+      svg.style.cssText='display:block;margin-top:.2rem;opacity:.35;overflow:visible;';
+      svg.innerHTML=`
+        <path d="M2 9 Q10 3 18 9 Q26 15 34 9 Q42 3 50 9 Q56 13 58 9"
+              fill="none" stroke="#8a6a30" stroke-width="1.2" stroke-linecap="round"/>
+        <circle cx="6"  cy="7"  r="2.2" fill="none" stroke="#6ab8b0" stroke-width="1"/>
+        <circle cx="22" cy="11" r="1.8" fill="none" stroke="#c09838" stroke-width="1"/>
+        <circle cx="38" cy="7"  r="2"   fill="none" stroke="#8878c8" stroke-width="1"/>
+        <circle cx="54" cy="10" r="1.5" fill="none" stroke="#72aa52" stroke-width="1"/>
+      `;
+      el.appendChild(svg);
     });
   </script>
 </body>
