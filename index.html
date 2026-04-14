@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&family=Lora:ital,wght@0,400;0,600;1,400&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="icon.png">
 
   <!-- Lucide icons via CDN -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
@@ -21,9 +22,6 @@
   </svg>
 
   <style>
-    /* ══════════════════════════════════════
-       LUCIDE ICON WRAPPER — card headers
-       ══════════════════════════════════════ */
     .card-icon-wrap {
       width: 52px;
       height: 52px;
@@ -35,7 +33,6 @@
       position: relative;
       z-index: 2;
       transition: transform .32s cubic-bezier(.34,1.56,.64,1);
-      /* Sketchy border on the icon box */
       box-shadow: 0 0 0 1.5px currentColor;
       filter: url(#sketchy);
     }
@@ -52,33 +49,31 @@
       stroke-linejoin: round;
     }
 
-    /* Per-category icon bg tints */
     .card-bio  .card-icon-wrap { background: #dcf0ee; color: #4a9e98; }
     .card-fin  .card-icon-wrap { background: #e8e2f8; color: #6a58b8; }
     .card-math .card-icon-wrap { background: #faecd8; color: #b08228; }
     .card-app  .card-icon-wrap { background: #e4f3da; color: #5a9440; }
     .card-hack .card-icon-wrap { background: #fce4ee; color: #c05888; }
+    /* Publication card icon */
+    .card-pub  .card-icon-wrap { background: #fdf0e0; color: #b05820; }
 
-    /* ── Project grid — individual cards ── */
     .project-grid-css {
       display: grid !important;
-      grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)) !important;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
       gap: 1.6rem !important;
       background: none !important;
       border: none !important;
     }
 
-    /* ── Datathon grid — wide ── */
     .datathon-grid {
       display: grid !important;
-      grid-template-columns: 1fr !important;
-      max-width: 860px !important;
+      grid-template-columns: 1fr 1fr !important;
+      max-width: 1180px !important;
       gap: 1.6rem !important;
       background: none !important;
       border: none !important;
     }
 
-    /* ── Card shell — unified sketchy parchment style ── */
     .project-card {
       border-radius: 10px !important;
       overflow: visible !important;
@@ -100,7 +95,6 @@
     }
     .project-card.hidden { display: none !important; }
 
-    /* Sketchy outline */
     .project-card::after {
       content: '';
       position: absolute;
@@ -115,7 +109,6 @@
     }
     .project-card:hover::after { opacity: 0.75; }
 
-    /* Offset drop shadow */
     .project-card::before {
       content: '';
       position: absolute;
@@ -128,14 +121,14 @@
       z-index: -1;
     }
 
-    /* Category colors */
     .card-bio  { color: #5aa8a0; }
     .card-fin  { color: #7868c0; }
     .card-math { color: #c09838; }
     .card-app  { color: #5a9440; }
     .card-hack { color: #c05888; }
+    /* Publication category color — warm amber/gold */
+    .card-pub  { color: #b05820; }
 
-    /* ── Card header band — unified parchment style ── */
     .card-illus {
       height: 88px !important;
       display: flex !important;
@@ -148,7 +141,6 @@
       position: relative;
       z-index: 1;
       margin-bottom: 0 !important;
-      /* Subtle grain via repeating radial */
       background-image: radial-gradient(circle at 1px 1px, rgba(180,140,100,.06) 1px, transparent 0);
       background-size: 4px 4px;
     }
@@ -156,11 +148,12 @@
     .card-fin  .card-illus { background-color: #f2eff9; }
     .card-math .card-illus { background-color: #fdf7e4; }
     .card-app  .card-illus { background-color: #f0f7e8; }
-    /* Re-apply grain over bg color */
+    .card-pub  .card-illus { background-color: #fdf4e8; }
     .card-bio  .card-illus,
     .card-fin  .card-illus,
     .card-math .card-illus,
-    .card-app  .card-illus {
+    .card-app  .card-illus,
+    .card-pub  .card-illus {
       background-image:
         radial-gradient(circle at 1px 1px, rgba(180,140,100,.06) 1px, transparent 0);
       background-size: 4px 4px;
@@ -174,7 +167,7 @@
     }
     .card-cat-pill {
       font-family: 'Lora', Georgia, serif;
-      font-size: .76rem;
+      font-size: .8rem;
       font-weight: 600;
       color: #2a1e1e;
       letter-spacing: -.01em;
@@ -190,7 +183,6 @@
       line-height: 1.35;
     }
 
-    /* ── Card body ── */
     .card-body-inner {
       padding: .9rem 1.15rem 1.05rem !important;
       display: flex;
@@ -201,7 +193,7 @@
     }
     .card-body-inner h3 {
       font-family: 'Lora', Georgia, serif !important;
-      font-size: 1rem !important;
+      font-size: 1.05rem !important;
       font-weight: 600 !important;
       color: #2a1e1e !important;
       margin: 0 0 .28rem !important;
@@ -220,19 +212,18 @@
       filter: url(#sketchy);
     }
 
-    /* Timeline */
     .card-timeline { margin-bottom: .55rem; }
     .tl-dot, .tl-line { display: none !important; }
     .tl-date {
       font-family: 'DM Mono', monospace;
-      font-size: .6rem;
+      font-size: .65rem;
       color: #b0a898;
       letter-spacing: .06em;
       text-transform: uppercase;
     }
 
     .card-desc {
-      font-size: .84rem !important;
+      font-size: .92rem !important;
       line-height: 1.72 !important;
       color: #1a1410 !important;
       flex: 1;
@@ -246,7 +237,6 @@
       flex-wrap: wrap !important;
     }
 
-    /* Sketchy pill buttons */
     .card-link {
       display: inline-flex !important;
       align-items: center !important;
@@ -287,36 +277,192 @@
     .report-link:hover { background: #a06848 !important; color: #fff !important; }
     .devpost-link:hover { background: #003e54 !important; color: #fff !important; }
 
-    /* Coming soon */
+    /* ═══════════════════════════════════════
+       PUBLICATION BANNER — eye-catching stamp
+       ═══════════════════════════════════════ */
+    .pub-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-family: 'DM Mono', monospace;
+      font-size: .62rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #fff;
+      background: linear-gradient(135deg, #c06828 0%, #e09030 100%);
+      border-radius: 5px;
+      padding: .22rem .75rem .25rem;
+      margin-bottom: .65rem;
+      filter: url(#sketchy);
+      box-shadow: 2px 2px 0 rgba(160,80,20,.25);
+      width: fit-content;
+    }
+    .pub-banner::before { content: "\2605 "; }
+
+    /* ── Cite trigger button ── */
+    .cite-trigger-wrap {
+      position: static;
+      margin-bottom: .75rem;
+      display: inline-block;
+    }
+    .cite-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      font-family: 'Caveat', cursive;
+      font-size: .88rem;
+      font-weight: 600;
+      color: #b05820;
+      background: rgba(200,130,60,.08);
+      border: 1.8px solid #c06828;
+      border-radius: 50px;
+      padding: .18rem .75rem .22rem;
+      cursor: pointer;
+      filter: url(#sketchy);
+      transition: background .15s, transform .15s;
+      letter-spacing: .02em;
+    }
+    .cite-trigger:hover {
+      background: rgba(200,130,60,.18);
+      transform: translateY(-2px) rotate(-1deg);
+    }
+    .cite-trigger svg { stroke: #b05820; flex-shrink: 0; }
+
+    /* Popout card — body portal */
+    .cite-popout { display: none !important; }
+    .cite-popout-portal {
+      display: none;
+      position: absolute;
+      width: 320px;
+      z-index: 999999;
+      filter: drop-shadow(4px 6px 0 rgba(160,80,20,.25));
+    }
+    .cite-popout-portal.open { display: block; animation: citeIn .22s cubic-bezier(.34,1.56,.64,1); }
+    @keyframes citeIn {
+      from { opacity: 0; transform: translateY(8px) scale(.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .cite-popout-inner {
+      background: #fffdf9;
+      border-radius: 10px;
+      border: 2px solid #c06828;
+      padding: .85rem 1rem 1rem;
+      position: relative;
+    }
+    /* little arrow */
+    .cite-popout-inner::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 22px;
+      border: 7px solid transparent;
+      border-top-color: #c06828;
+    }
+    .cite-popout-inner::before {
+      content: '';
+      position: absolute;
+      top: calc(100% + 2px);
+      left: 23px;
+      border: 6px solid transparent;
+      border-top-color: #fffdf9;
+      z-index: 1;
+    }
+    .cite-popout-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .58rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #c06828;
+      margin-bottom: .45rem;
+    }
+    .cite-popout-label::before { content: "★  "; }
+    .cite-popout-text {
+      font-family: 'DM Mono', monospace;
+      font-size: .68rem;
+      line-height: 1.7;
+      color: #5a3820;
+    }
+    .cite-popout-text strong { color: #8a3a10; font-weight: 600; }
+    .cite-copy-btn {
+      margin-top: .65rem;
+      font-family: 'Caveat', cursive;
+      font-size: .82rem;
+      font-weight: 600;
+      color: #c06828;
+      background: transparent;
+      border: 1.5px solid #c06828;
+      border-radius: 50px;
+      padding: .1rem .65rem .14rem;
+      cursor: pointer;
+      filter: url(#sketchy);
+      transition: background .12s, color .12s;
+    }
+    .cite-copy-btn:hover { background: #c06828; color: #fff; }
+    .cite-copy-btn.copied { background: #5a9440; border-color: #5a9440; color: #fff; }
+
+    /* Dark mode */
+    body.dark-mode .cite-popout-inner { background: #1c1420; border-color: #c07838; }
+    body.dark-mode .cite-popout-inner::before { border-top-color: #1c1420; }
+    body.dark-mode .cite-popout-text { color: #d0a880; }
+
+    /* ═══════════════════════════════════════
+       SPECIAL PUBLICATION FILTER TAB
+       ═══════════════════════════════════════ */
+    .tab-pub {
+      position: relative;
+      background: linear-gradient(135deg, #c06828 0%, #e09030 100%) !important;
+      color: #fff !important;
+      border: 2px solid #c06828 !important;
+      font-weight: 600 !important;
+      letter-spacing: .04em !important;
+      box-shadow: 3px 3px 0 rgba(160,80,20,.3), 0 0 0 3px rgba(224,144,48,.15) !important;
+      animation: pubPulse 2.5s ease-in-out infinite;
+    }
+    .tab-pub span::before { content: "\2605  "; }
+    .tab-pub .tab-fill { background: rgba(255,255,255,.18) !important; }
+    .tab-pub.active,
+    .tab-pub:hover {
+      background: linear-gradient(135deg, #a05018 0%, #c07828 100%) !important;
+      transform: translateY(-2px) scale(1.04) !important;
+      box-shadow: 4px 4px 0 rgba(130,60,10,.35), 0 0 0 4px rgba(224,144,48,.2) !important;
+    }
+    @keyframes pubPulse {
+      0%, 100% { box-shadow: 3px 3px 0 rgba(160,80,20,.3), 0 0 0 3px rgba(224,144,48,.15); }
+      50%       { box-shadow: 3px 3px 0 rgba(160,80,20,.3), 0 0 0 6px rgba(224,144,48,.25); }
+    }
+
     .coming-banner {
       position: absolute !important;
       top: .55rem !important; right: .65rem !important;
       font-family: 'Caveat', cursive !important;
       font-size: .88rem !important;
       color: #9070b0 !important;
-      background: none !important;
-      border: 1.8px solid rgba(180,160,210,.6) !important;
+      background: #f5f0fa !important;
+      border: 1.8px solid rgba(180,160,210,.8) !important;
       padding: .1rem .5rem !important;
       border-radius: 5px !important;
       filter: url(#sketchy) !important;
       z-index: 5;
       transform: rotate(-2deg);
       letter-spacing: .04em;
+      cursor: pointer;
+      transition: opacity .3s ease, background .3s ease;
+      box-shadow: 1px 1px 0 rgba(160,140,200,.2);
+    }
+    .coming-banner.revealed {
+      opacity: 0 !important;
+      pointer-events: none;
     }
 
-    /* Proj section background */
     .proj-bg-section {
       background: #f7f2ea !important;
     }
-
-    /* Subtle grain on the project section bg */
     .proj-bg-section {
       background-image:
         radial-gradient(circle at 1px 1px, rgba(180,140,100,.04) 1px, transparent 0) !important;
       background-size: 3px 3px !important;
     }
 
-    /* ── Botanical / grain overlay ── */
     body::after {
       content: '';
       position: fixed;
@@ -328,7 +474,6 @@
       background-size: 3px 3px;
     }
 
-    /* Section labels */
     .section-label {
       position: relative;
       display: inline-block;
@@ -344,14 +489,47 @@
       opacity: .6;
     }
 
-    /* Riso-style category tab active */
+    /* ── Big artistic section headings ── */
+    .section-heading-art {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 600;
+      color: #2a1e1e;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      margin-bottom: .3rem;
+      position: relative;
+      display: inline-block;
+    }
+    .section-heading-art em {
+      font-style: italic;
+      color: #c09838;
+    }
+    .section-heading-art .art-underline {
+      display: block;
+      height: 3px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #c09838 0%, #e8a598 50%, transparent 100%);
+      margin-top: .18rem;
+      opacity: .55;
+      filter: url(#sketchy);
+    }
+    .section-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: .6rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #b0a898;
+      margin-bottom: .4rem;
+      display: block;
+    }
+
     .cat-tab.active {
       box-shadow: 2px 2px 0 rgba(192,152,56,.25), -1px -1px 0 rgba(106,184,176,.15) !important;
     }
 
-    /* ── Datathon section ── */
     .datathon-section {
-      padding: 0 2rem 5.5rem;
+      padding: 1.5rem 2rem 2.5rem;
       position: relative;
       overflow: hidden;
     }
@@ -371,7 +549,6 @@
       margin: 0 auto;
     }
 
-    /* ── Datathon card header — unified with project cards ── */
     .duke-card-header {
       height: auto !important;
       min-height: 88px;
@@ -383,18 +560,17 @@
       display: flex !important;
       position: relative;
       z-index: 1;
-      /* Grain texture */
       background-image: radial-gradient(circle at 1px 1px, rgba(180,140,100,.06) 1px, transparent 0) !important;
       background-size: 4px 4px !important;
     }
-    /* Duke ASA — gold */
     .duke-asa-card { color: #c09838; }
     .duke-asa-card .duke-card-header { background-color: #fdf7e4 !important; }
-    /* SolHacks — pink */
-    .solhacks-card { color: #c05888; }
-    .solhacks-card .duke-card-header { background-color: #fce8f3 !important; }
 
-    /* Datathon icon wrap — same as project cards */
+    /* ── SolHacks card — teal/cyan instead of pink ── */
+    .solhacks-card { color: #2a8a8a; }
+    .solhacks-card .duke-card-header { background-color: #e6f7f7 !important; }
+    .solhacks-card .datathon-icon-wrap { background: #d0f0ee; color: #2a8a8a; }
+
     .datathon-icon-wrap {
       width: 52px;
       height: 52px;
@@ -422,9 +598,7 @@
       stroke-linejoin: round;
     }
     .duke-asa-card .datathon-icon-wrap { background: #faecd8; color: #b08228; }
-    .solhacks-card .datathon-icon-wrap { background: #fce4ee; color: #c05888; }
 
-    /* Award block */
     .award-block { margin-bottom: .7rem; }
     .award-eyebrow {
       font-family: 'DM Mono', monospace;
@@ -452,7 +626,6 @@
       margin-top: .1rem;
     }
 
-    /* Bullet list */
     .card-bullets {
       list-style: none;
       padding: 0;
@@ -479,7 +652,6 @@
     }
     .card-bullets b { color: #3a2e22; font-weight: 600; }
 
-    /* Org badge row in datathon headers */
     .org-badge-col {
       display: flex;
       flex-direction: column;
@@ -488,7 +660,6 @@
       align-items: center;
     }
 
-    /* What-I-did italic label */
     .what-label {
       font-family: 'Lora', Georgia, serif;
       font-style: italic;
@@ -509,6 +680,7 @@
     body.dark-mode .card-fin  .card-illus { background-color: #201828 !important; }
     body.dark-mode .card-math .card-illus { background-color: #221e10 !important; }
     body.dark-mode .card-app  .card-illus { background-color: #162010 !important; }
+    body.dark-mode .card-pub  .card-illus { background-color: #221408 !important; }
     body.dark-mode .tl-date { color: #887878; }
     body.dark-mode .award-name { color: #f0e0c0 !important; }
     body.dark-mode .card-bullets li { color: #d0c8c0 !important; }
@@ -520,18 +692,17 @@
         url('singapore.jpg') center 60%/cover no-repeat;
     }
     body.dark-mode .duke-asa-card .duke-card-header { background-color: #221e10 !important; }
-    body.dark-mode .solhacks-card .duke-card-header { background-color: #28101e !important; }
+    body.dark-mode .solhacks-card .duke-card-header { background-color: #0e2020 !important; }
     body.dark-mode .card-bio  .card-icon-wrap { background: #1a3230; }
     body.dark-mode .card-fin  .card-icon-wrap { background: #221838; }
     body.dark-mode .card-math .card-icon-wrap { background: #2a2010; }
     body.dark-mode .card-app  .card-icon-wrap { background: #182414; }
+    body.dark-mode .card-pub  .card-icon-wrap { background: #2a1808; }
     body.dark-mode .duke-asa-card .datathon-icon-wrap { background: #2a2010; }
-    body.dark-mode .solhacks-card .datathon-icon-wrap { background: #2a1020; }
+    body.dark-mode .solhacks-card .datathon-icon-wrap { background: #102222; }
     body.dark-mode .what-label { color: #c0a888 !important; }
 
-    /* ══════════════════════════════════════
-       MOBILE RESPONSIVENESS
-       ══════════════════════════════════════ */
+    /* MOBILE */
     @media (hover: none) {
       #cur, #curR { display: none !important; }
       body { cursor: auto !important; }
@@ -570,7 +741,7 @@
 
     @media (max-width: 768px) {
       .datathon-section { padding: 0 1rem 3.5rem !important; }
-      .datathon-grid { max-width: 100% !important; width: 100% !important; box-sizing: border-box; }
+      .datathon-grid { max-width: 100% !important; width: 100% !important; box-sizing: border-box; grid-template-columns: 1fr !important; }
     }
 
     @media (max-width: 480px) {
@@ -590,11 +761,352 @@
       .about-preview img { width: 88px !important; height: 88px !important; }
     }
 
+    /* ── Publications section ── */
+    .pub-section-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2.5rem 0 1rem;
+    }
+    .pub-section-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: .62rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #c06828;
+      margin-bottom: 1.2rem;
+    }
+    .pub-entry {
+      background: #fffdf9;
+      border-radius: 10px;
+      padding: 1.4rem 1.6rem 1.3rem;
+      position: relative;
+      filter: url(#sketchy);
+      border: 2px solid #c06828;
+      box-shadow: 4px 4px 0 rgba(160,80,20,.12);
+    }
+    .pub-entry-badge {
+      display: inline-flex;
+      align-items: center;
+      font-family: 'DM Mono', monospace;
+      font-size: .6rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #fff;
+      background: linear-gradient(135deg, #c06828, #e09030);
+      border-radius: 4px;
+      padding: .2rem .65rem .22rem;
+      margin-bottom: .85rem;
+    }
+    .pub-entry-badge::before { content: "★  "; }
+    .pub-entry-title {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #2a1e1e;
+      line-height: 1.45;
+      margin-bottom: .4rem;
+    }
+    .pub-entry-authors {
+      font-family: 'DM Mono', monospace;
+      font-size: .72rem;
+      color: #6a5040;
+      line-height: 1.6;
+      margin-bottom: .25rem;
+    }
+    .pub-entry-authors strong { color: #8a3a10; }
+    .pub-entry-journal {
+      font-family: 'DM Mono', monospace;
+      font-size: .68rem;
+      color: #9a8878;
+      margin-bottom: .9rem;
+    }
+    .pub-entry-links { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .pub-copy-all-btn { color: #b05820 !important; border-color: #b05820 !important; cursor: pointer; }
+    .pub-copy-all-btn:hover { background: #b05820 !important; color: #fff !important; }
+    .pub-copy-all-btn.copied { background: #5a9440 !important; border-color: #5a9440 !important; color: #fff !important; }
+    body.dark-mode .pub-entry { background: #1c1420; }
+    body.dark-mode .pub-entry-title { color: #f0ddd8; }
+
     html, body { max-width: 100%; overflow-x: hidden; }
 
     @media (max-width: 480px) {
       footer.bg-dark { padding: 1rem 1.2rem !important; }
       footer p { font-size: .75rem !important; }
+    }
+  
+    /* ══ TWO-COLUMN LAYOUT ══ */
+    .sidebar {
+      width: clamp(230px, 26vw, 340px);
+      height: 100vh; overflow-y: auto; overflow-x: hidden;
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; z-index: 100;
+      background: url('singapore.jpg') center/cover no-repeat;
+      scrollbar-width: thin; scrollbar-color: rgba(232,165,152,.3) transparent;
+    }
+    .sidebar::after {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(20,14,10,.48); z-index: 0; pointer-events: none;
+    }
+    .sidebar > * { position: relative; z-index: 1; }
+    .main-content { margin-left: clamp(230px, 26vw, 340px); min-height: 100vh; }
+    nav:not(.block-nav) { display: none !important; }
+    .custom-header { display: none !important; }
+
+    /* ── BLOCK NAV: compact sketchy tiles clustered left ── */
+    .block-nav {
+      display: flex !important;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 0;
+      background: #f7f2ea;
+      border-bottom: 1.5px solid rgba(192,152,56,.18);
+      position: sticky; top: 0; z-index: 50;
+      padding: 0;
+      overflow: hidden;
+    }
+    .block-nav-item {
+      display: flex;
+      align-items: center;
+      padding: .6rem 1.3rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.05rem; font-weight: 600;
+      letter-spacing: .02em;
+      color: #6a4838;
+      text-decoration: none;
+      background: transparent;
+      border-right: 1.5px solid rgba(192,152,56,.2);
+      position: relative;
+      transition: background .18s, color .18s;
+      white-space: nowrap;
+    }
+    /* sketchy bottom accent line on hover */
+    .block-nav-item::after {
+      content: '';
+      position: absolute; bottom: 0; left: 8%; right: 8%;
+      height: 2.5px;
+      background: #e8a598;
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .22s cubic-bezier(.34,1.56,.64,1);
+      filter: url(#sketchy);
+    }
+    .block-nav-item:hover {
+      background: rgba(232,165,152,.1);
+      color: #3a1e14;
+    }
+    .block-nav-item:hover::after { transform: scaleX(1); }
+    .block-nav-item:last-child { border-right: none; }
+
+    /* Grain texture on nav bar */
+    .block-nav::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 1px 1px, rgba(180,140,100,.05) 1px, transparent 0);
+      background-size: 3px 3px;
+      pointer-events: none; z-index: 0;
+    }
+    .block-nav-item { position: relative; z-index: 1; }
+
+    body.dark-mode .block-nav {
+      background: #0d0818 !important;
+      border-bottom-color: rgba(180,150,220,.1) !important;
+    }
+    body.dark-mode .block-nav-item { color: #b8a098 !important; border-right-color: rgba(180,150,220,.1) !important; }
+    body.dark-mode .block-nav-item:hover { background: rgba(200,160,140,.08) !important; color: #f0d8d0 !important; }
+    body.dark-mode .block-nav-item::after { background: #c8a898 !important; }
+
+    /* ── Sidebar: name in Caveat handwriting ── */
+    .sidebar-hero { padding: 1.2rem 1.2rem .85rem; flex-shrink: 0; }
+    .sidebar-hero #nameLetters {
+      font-family: 'Caveat', cursive !important;
+      font-size: clamp(2rem, 5.5vw, 3.4rem) !important;
+      font-weight: 600 !important; color: #fff !important;
+      line-height: 1.05 !important;
+      text-shadow: 0 2px 20px rgba(0,0,0,.4) !important;
+      display: flex !important; flex-wrap: wrap !important;
+      letter-spacing: .02em !important;
+    }
+    .sidebar-hero #nameLetters .name-letter {
+      font-size: inherit !important; color: #fff !important;
+      text-shadow: 0 2px 20px rgba(0,0,0,.4) !important;
+      font-family: 'Caveat', cursive !important;
+    }
+    /* Typewriter text: also Caveat handwriting */
+    .sidebar-hero #typewriterText {
+      font-family: 'Caveat', cursive !important;
+      font-size: clamp(.95rem, 2.2vw, 1.3rem) !important;
+      color: rgba(255,255,255,.88) !important; line-height: 1.3 !important;
+      margin-top: .2rem; margin-bottom: .7rem;
+      text-shadow: 0 2px 12px rgba(0,0,0,.3) !important;
+      letter-spacing: .01em !important;
+    }
+    .sidebar-hero .skill-bubbles { gap:.3rem !important; margin-top:0 !important; margin-bottom:.7rem; animation:none !important; }
+    .sidebar-hero .skill-bubble { font-size:.6rem !important; padding:.18rem .56rem !important; border:1.5px solid rgba(255,255,255,.32) !important; background:rgba(255,255,255,.13) !important; color:rgba(255,255,255,.92) !important; backdrop-filter:blur(6px) !important; }
+    .sidebar-hero .skill-bubble:hover { background:rgba(255,255,255,.24) !important; }
+    .sidebar-hero .social-icons { gap:.55rem !important; margin-top:.65rem !important; animation:none !important; }
+    .sidebar-hero .social-icon { width:34px !important; height:34px !important; background:rgba(255,255,255,.15) !important; border:1.5px solid rgba(255,255,255,.4) !important; }
+    .sidebar-hero .social-icon svg { fill:white !important; width:16px !important; height:16px !important; }
+    .sidebar-hero .social-icon:hover { background:rgba(255,255,255,.28) !important; }
+    .sidebar-hero .theme-btns { flex-direction:row !important; gap:.4rem !important; padding-top:0 !important; margin-top:.55rem; }
+    .sidebar-hero .theme-btn { width:34px !important; height:34px !important; }
+    .sidebar-hero .sun-svg { width:20px !important; height:20px !important; }
+    .sidebar-hero .moon-svg { width:17px !important; height:17px !important; }
+
+    /* ── About card — beat style.css with max specificity ── */
+    aside.sidebar .sidebar-about { padding:.5rem .85rem .9rem; flex:1; }
+    aside.sidebar .sidebar-about .about-preview,
+    aside.sidebar .about-preview {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: unset !important;
+      box-sizing: border-box !important;
+      background: rgba(255,255,255,.97) !important;
+      border-radius: 16px !important;
+      padding: .85rem .8rem 1rem !important;
+      text-align: center !important;
+      box-shadow: 0 12px 40px rgba(0,0,0,.2) !important;
+      animation: none !important;
+      position: relative !important;
+      overflow: hidden !important;
+      flex-shrink: 0 !important;
+    }
+    aside.sidebar .about-preview::before {
+      content: '' !important;
+      position: absolute !important;
+      top: 0 !important; left: 0 !important; right: 0 !important;
+      height: 3px !important;
+      background: linear-gradient(90deg,#e8a598,#c8b8d8,#f5d6cb) !important;
+    }
+    /* Photo: override style.css 110px with 64px */
+    aside.sidebar .about-preview .photo-wrap,
+    aside.sidebar .photo-wrap {
+      width: 64px !important;
+      height: 64px !important;
+      margin: 0 auto .5rem !important;
+      position: relative !important;
+    }
+    aside.sidebar .about-preview .photo-wrap::before {
+      inset: -3px !important;
+    }
+    aside.sidebar .about-preview .photo-wrap::after {
+      inset: -1px !important;
+    }
+    aside.sidebar .about-preview img,
+    aside.sidebar .photo-wrap img {
+      width: 64px !important;
+      height: 64px !important;
+      position: relative !important;
+      z-index: 2 !important;
+    }
+    aside.sidebar .about-preview h2 {
+      font-size: .85rem !important;
+      margin-bottom: .3rem !important;
+    }
+    aside.sidebar .about-preview .about-text,
+    aside.sidebar .about-text {
+      font-size: .7rem !important;
+      line-height: 1.55 !important;
+      color: #555 !important;
+    }
+    aside.sidebar .about-preview .btn,
+    aside.sidebar .btn {
+      font-size: .67rem !important;
+      padding: .28rem .7rem !important;
+      margin-top: .5rem !important;
+      display: inline-block !important;
+    }
+
+    /* ── Filter tabs: bigger + sketchy ── */
+    .cat-tabs { margin-bottom: 1.1rem !important; gap: .45rem !important; }
+    .cat-tab {
+      font-family: 'Caveat', cursive !important;
+      font-size: .95rem !important;
+      font-weight: 600 !important;
+      padding: .28rem .9rem .32rem !important;
+      letter-spacing: .02em !important;
+      filter: url(#sketchy) !important;
+      border: 2px solid rgba(232,165,152,.35) !important;
+    }
+    .tab-pub {
+      font-size: 1rem !important;
+    }
+
+    /* ── Night mode: dark sidebar bg ── */
+    body.dark-mode .sidebar {
+      background-image: none !important;
+    }
+    body.dark-mode .sidebar::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 30%, rgba(100,60,140,.35) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 70%, rgba(60,80,140,.3) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(20,10,40,.95) 0%, transparent 100%),
+        linear-gradient(160deg, #0d0818 0%, #120e22 40%, #0a0e1a 100%);
+      pointer-events: none;
+    }
+    body.dark-mode .sidebar::after { background: transparent !important; }
+
+    /* Cards */
+    .project-grid-css { grid-template-columns:repeat(auto-fill,minmax(210px,1fr)) !important; gap:1rem !important; }
+    .datathon-grid { grid-template-columns:1fr 1fr !important; gap:1rem !important; max-width:100% !important; }
+    .card-illus { height:72px !important; }
+    .card-icon-wrap { width:42px !important; height:42px !important; border-radius:11px !important; }
+    .card-body-inner { padding:.65rem .9rem .8rem !important; }
+    .card-body-inner h3 { font-size:.9rem !important; }
+    .card-desc { font-size:.8rem !important; margin-bottom:.7rem !important; }
+    .card-link { font-size:.78rem !important; padding:.11rem .56rem .14rem !important; }
+    .card-bullets li { font-size:.78rem !important; }
+    .award-name { font-size:.95rem !important; line-height:1.3 !important; }
+    .section-heading-art { font-size:clamp(1.3rem,2vw,1.8rem) !important; }
+    .proj-bg-section { padding:1.5rem 1.4rem 1.6rem !important; }
+    .datathon-section { padding:.8rem 1.4rem 1.8rem !important; }
+    .datathon-section > div { max-width:100% !important; }
+    footer.bg-dark { padding:.8rem 1.4rem !important; }
+    .pub-section-inner { padding:.6rem 0 1rem; max-width:100%; }
+
+    @media (max-width: 860px) {
+      .sidebar { display:none !important; }
+      .main-content { margin-left:0 !important; }
+      nav:not(.block-nav) { display:flex !important; }
+      .custom-header { display:block !important; }
+      .block-nav { display:none !important; }
+      .project-grid-css { grid-template-columns:repeat(auto-fill,minmax(255px,1fr)) !important; }
+      .datathon-grid { grid-template-columns:1fr !important; }
+    }
+</style>
+  <style id="sidebar-overrides">
+    /* Force override style.css for sidebar about card */
+    aside.sidebar .about-preview {
+      width: 100% !important; max-width: 100% !important;
+      min-width: unset !important; box-sizing: border-box !important;
+      padding: .85rem .8rem 1rem !important;
+      border-radius: 16px !important;
+      animation: none !important;
+    }
+    aside.sidebar .about-preview .photo-wrap {
+      width: 64px !important; height: 64px !important;
+      margin: 0 auto .5rem !important;
+    }
+    aside.sidebar .about-preview .photo-wrap::before {
+      inset: -3px !important;
+    }
+    aside.sidebar .about-preview .photo-wrap::after {
+      inset: -1px !important;
+    }
+    aside.sidebar .about-preview img {
+      width: 64px !important; height: 64px !important;
+    }
+    aside.sidebar .about-preview h2 {
+      font-size: .85rem !important; margin-bottom: .3rem !important;
+    }
+    aside.sidebar .about-text {
+      font-size: .7rem !important; line-height: 1.55 !important;
+    }
+    aside.sidebar .btn {
+      font-size: .67rem !important; padding: .28rem .7rem !important;
+      margin-top: .5rem !important;
     }
   </style>
 </head>
@@ -608,115 +1120,77 @@
     <div style="font-size:.82rem;margin-top:.35rem;color:#9a7878;">欢迎来到我的网站🌷</div>
   </div>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-logo">Mia Zhou ✦</div>
-    <ul class="nav-links">
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#datathon">Datathon</a></li>
-      <li><a href="ib.html" target="_blank">IB Portfolio</a></li>
-      <li><a href="life.html" target="_blank">My Life</a></li>
-    </ul>
-  </nav>
+  <!-- APP SHELL -->
+  <div class="app-shell">
 
-  <!-- HERO -->
-  <header class="custom-header split-header" id="home">
-    <div id="sgBg"></div>
-    <div class="container">
+    <!-- ── LEFT SIDEBAR ── -->
+    <aside class="sidebar">
+      <div class="sidebar-nav" style="display:none;"></div>
 
-      <div class="intro-text" id="introText">
-        <div class="title-row">
-          <div class="title-text">
-            <h1 class="custom-dark-glow letter-h1" id="nameLetters"></h1>
-            <p class="subtitle" id="typewriterText"></p>
-          </div>
-          <div class="theme-btns">
+      <div class="sidebar-hero">
+        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.45rem;">
+          <h1 class="custom-dark-glow letter-h1" id="nameLetters" style="flex:1;font-family:'Lora',Georgia,serif;font-size:1.45rem;font-weight:600;color:#2a1e1e;line-height:1.2;"></h1>
+          <div class="theme-btns" style="flex-shrink:0;">
             <button id="btnSun" class="theme-btn sun-btn active-btn" title="Day mode">
-              <svg class="sun-svg" viewBox="0 0 60 60">
-                <circle cx="30" cy="30" r="12" fill="#FFD166"/>
-                <g class="sun-rays">
-                  <line x1="30" y1="6"  x2="30" y2="14" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
-                  <line x1="30" y1="46" x2="30" y2="54" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
-                  <line x1="6"  y1="30" x2="14" y2="30" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
-                  <line x1="46" y1="30" x2="54" y2="30" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
-                  <line x1="13" y1="13" x2="19" y2="19" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
-                  <line x1="41" y1="41" x2="47" y2="47" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
-                  <line x1="47" y1="13" x2="41" y2="19" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
-                  <line x1="19" y1="41" x2="13" y2="47" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
-                </g>
-              </svg>
+              <svg class="sun-svg" viewBox="0 0 60 60"><circle cx="30" cy="30" r="12" fill="#FFD166"/><g class="sun-rays"><line x1="30" y1="6" x2="30" y2="14" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="46" x2="30" y2="54" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/><line x1="6" y1="30" x2="14" y2="30" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/><line x1="46" y1="30" x2="54" y2="30" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/><line x1="13" y1="13" x2="19" y2="19" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/><line x1="41" y1="41" x2="47" y2="47" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/><line x1="47" y1="13" x2="41" y2="19" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/><line x1="19" y1="41" x2="13" y2="47" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/></g></svg>
             </button>
             <button id="btnMoon" class="theme-btn moon-btn" title="Night mode">
-              <svg class="moon-svg" viewBox="0 0 60 60">
-                <path d="M38 10 Q16 18 16 30 Q16 45 34 52 Q16 52 10 36 Q4 20 18 10 Q28 4 38 10Z" fill="#c8b8d8"/>
-                <circle cx="46" cy="16" r="2"   fill="#e8e0f0"/>
-                <circle cx="50" cy="28" r="1.5" fill="#e8e0f0"/>
-                <circle cx="44" cy="40" r="1.5" fill="#e8e0f0"/>
-              </svg>
+              <svg class="moon-svg" viewBox="0 0 60 60"><path d="M38 10 Q16 18 16 30 Q16 45 34 52 Q16 52 10 36 Q4 20 18 10 Q28 4 38 10Z" fill="#c8b8d8"/><circle cx="46" cy="16" r="2" fill="#e8e0f0"/><circle cx="50" cy="28" r="1.5" fill="#e8e0f0"/><circle cx="44" cy="40" r="1.5" fill="#e8e0f0"/></svg>
             </button>
           </div>
         </div>
-
-        <div class="skill-bubbles">
-          <span class="skill-bubble">Python</span>
-          <span class="skill-bubble">R</span>
-          <span class="skill-bubble">SAS</span>
-          <span class="skill-bubble">MATLAB</span>
-          <span class="skill-bubble">JavaScript</span>
-          <span class="skill-bubble">SQL</span>
-          <span class="skill-bubble">Tableau</span>
-          <span class="skill-bubble">Linux</span>
+        <p class="subtitle" id="typewriterText" style="font-size:.76rem;color:#9a7878;margin-bottom:.6rem;line-height:1.5;font-family:'DM Sans',sans-serif;"></p>
+        <div class="skill-bubbles" style="gap:.28rem;margin-bottom:.6rem;">
+          <span class="skill-bubble" style="font-size:.58rem!important;padding:.15rem .48rem!important;">Python</span>
+          <span class="skill-bubble" style="font-size:.58rem!important;padding:.15rem .48rem!important;">R</span>
+          <span class="skill-bubble" style="font-size:.58rem!important;padding:.15rem .48rem!important;">SAS</span>
+          <span class="skill-bubble" style="font-size:.58rem!important;padding:.15rem .48rem!important;">MATLAB</span>
+          <span class="skill-bubble" style="font-size:.58rem!important;padding:.15rem .48rem!important;">JavaScript</span>
+          <span class="skill-bubble" style="font-size:.58rem!important;padding:.15rem .48rem!important;">SQL</span>
+          <span class="skill-bubble" style="font-size:.58rem!important;padding:.15rem .48rem!important;">Tableau</span>
+          <span class="skill-bubble" style="font-size:.58rem!important;padding:.15rem .48rem!important;">Linux</span>
         </div>
-
-        <div class="social-icons">
-          <a href="https://github.com/miazhouruoya" target="_blank" class="social-icon" aria-label="GitHub">
-            <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-          </a>
-          <a href="https://linkedin.com/in/miaazhoou" target="_blank" class="social-icon" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          </a>
-          <a href="https://instagram.com/miazhou" target="_blank" class="social-icon social-insta" aria-label="Instagram">
-            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-          </a>
-        </div>
-
-        <div class="scroll-hint">
-          <span>scroll down</span>
-          <div class="scroll-dot"></div>
+        <div class="social-icons" style="gap:.5rem;">
+          <a href="https://github.com/miazhouruoya" target="_blank" class="social-icon" aria-label="GitHub"><svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+          <a href="https://linkedin.com/in/miaazhoou" target="_blank" class="social-icon" aria-label="LinkedIn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <a href="https://instagram.com/miazhou" target="_blank" class="social-icon social-insta" aria-label="Instagram"><svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
         </div>
       </div>
 
-      <!-- RIGHT: About card -->
-      <div class="about-preview">
-        <div class="photo-wrap" id="heroPic">
-          <img src="life/bj.jpg" alt="Mia Zhou"
-              onerror="this.style.background='linear-gradient(135deg,#f5d6cb,#c8b8d8)';this.removeAttribute('src')">
+      <div class="sidebar-about">
+        <div class="about-preview" style="text-align:center;padding:1rem;background:#fffdf9;border-radius:10px;filter:url(#sketchy);border:1.5px solid rgba(192,152,56,.2);">
+          <div class="photo-wrap" id="heroPic" style="width:70px;height:70px;margin:0 auto .55rem;">
+            <img src="life/bj.jpg" alt="Mia Zhou" style="width:70px;height:70px;"
+                onerror="this.style.background='linear-gradient(135deg,#f5d6cb,#c8b8d8)';this.removeAttribute('src')">
+          </div>
+          <h2 style="font-family:'Lora',Georgia,serif;font-size:.88rem;font-weight:600;color:#2a1e1e;margin-bottom:.4rem;">About Me</h2>
+          <p class="about-text" style="font-size:.72rem;line-height:1.6;color:#5a3e30;text-align:left;">
+            Growing up in China, high school in Singapore, now pursuing Mathematics &amp; Biostatistics + neuroscience minor at UNC Chapel Hill. Research at the intersection of computational neuroscience, biostatistics, ODE/PDE, and multi-agent systems.
+          </p>
+          <a href="/cdn-cgi/l/email-protection#fc8694938991959dbc89929fd2999889" class="btn" style="margin-top:.6rem;display:inline-block;font-size:.7rem;padding:.3rem .85rem;"><span class="__cf_email__" data-cfemail="611b090e140c080021140f024f040514">[email&#160;protected]</span></a>
         </div>
-        <h2>About Me</h2>
-        <p class="about-text">
-          I grew up in China, completed high school in Singapore, and now am pursuing
-          Mathematics &amp; Biostatistics major, neuroscience minor at the University
-          of North Carolina at Chapel Hill. My academic and research interests lie at
-          the intersection of computational neuroscience, biostatistics, differential
-          equations (ODE/PDE), and multi-agent systems in quantitative finance. I'm
-          passionate about combining AI and biological systems to model complexity,
-          explore dynamics, and uncover hidden structures in real-world data.
-        </p>
-        <a href="/cdn-cgi/l/email-protection#fc8694938991959dbc89929fd2999889" class="btn"><span class="__cf_email__" data-cfemail="611b090e140c080021140f024f040514">[email&#160;protected]</span></a>
       </div>
+    </aside>
 
-    </div>
-  </header>
-
+    <!-- ── RIGHT MAIN CONTENT ── -->
+    <main class="main-content" id="mainContent">
+      <nav class="block-nav">
+        <a href="#projects" class="block-nav-item">Projects</a>
+        <a href="#datathon" class="block-nav-item">Datathon</a>
+        <a href="ib.html" target="_blank" class="block-nav-item">IB Portfolio</a>
+        <a href="life.html" target="_blank" class="block-nav-item">My Life</a>
+      </nav>
   <!-- PROJECTS -->
-  <section id="projects" class="proj-bg-section" style="padding:3.5rem 2rem 5.5rem;">
+  <section id="projects" class="proj-bg-section" style="padding:2rem 2rem 2.5rem;">
     <div style="max-width:1180px;margin:0 auto;">
 
-      <div class="rev" style="margin-bottom:1.8rem;">
-        <p class="section-label">✦ research &amp; projects</p>
+      <div class="rev" style="margin-bottom:1.2rem;">
+        <span class="section-eyebrow">✦ research &amp; projects</span>
+        <h2 class="section-heading-art"><em>Research</em> &amp; Projects<span class="art-underline"></span></h2>
       </div>
 
       <div class="cat-tabs rev" style="transition-delay:.1s;" id="catTabs">
+        <button class="cat-tab tab-pub" data-cat="pub"><div class="tab-fill"></div><span>Publications</span></button>
         <button class="cat-tab tab-all active" data-cat="all"><div class="tab-fill"></div><span>All</span></button>
         <button class="cat-tab tab-bio"  data-cat="bio" ><div class="tab-fill"></div><span>Biostatistics &amp; Neuro</span></button>
         <button class="cat-tab tab-fin"  data-cat="fin" ><div class="tab-fill"></div><span>Finance AI</span></button>
@@ -724,13 +1198,67 @@
         <button class="cat-tab tab-app"  data-cat="app" ><div class="tab-fill"></div><span>App Dev</span></button>
       </div>
 
+      <!-- Publications view — shown only when pub tab active -->
+      <div id="pubSection" style="display:none;">
+        <div class="pub-section-inner">
+          <p class="pub-section-eyebrow">✦ publications</p>
+          <div class="pub-entry">
+            <p class="pub-entry-text">Shi, C., Han, S., Kusumanchi, S., <strong>Zhou, M.</strong>, &amp; Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. <em>Manuscript submitted for publication.</em></p>
+          </div>
+        </div>
+      </div>
+
       <div class="project-grid-css" id="projectGrid">
 
-        <!-- BIO: Spatial -->
-        <div class="project-card card-bio rev" data-cat="bio" id="card-spatial" style="transition-delay:.04s;">
+        <!-- PUB + BIO: NIH — FIRST, has publication badge -->
+        <div class="project-card card-bio rev" data-cat="bio pub" id="card-nih" style="transition-delay:.04s;">
           <div class="card-illus">
             <div class="card-icon-wrap">
-              <!-- Lucide: microscope -->
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><circle cx="19" cy="19" r="3"/><circle cx="5" cy="19" r="3"/><path d="M12 8v13M5 19h14"/></svg>
+            </div>
+            <div class="card-illus-meta">
+              <span class="card-cat-pill">UNC Biostatistics Li Lab</span>
+              <span class="card-illus-pi">PI: Prof. Didong Li</span>
+            </div>
+          </div>
+          <div class="card-body-inner">
+            <div class="pub-banner">Under Review</div>
+            <h3>NIH Network Analysis</h3>
+            <div class="card-timeline">
+              <span class="tl-date">Oct 2024 — Present</span>
+            </div>
+            <p class="card-desc">Clustered 30,000+ NIH abstracts with BERTopic and visualized co-PI networks to reveal collaboration dynamics and funding inequality at UNC.</p>
+            <!-- CV-style citation (placeholder, update when published) -->
+            <div class="cite-trigger-wrap">
+              <button class="cite-trigger" aria-expanded="false" onclick="toggleCite(this)">
+                <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                Cite
+              </button>
+              <div class="cite-popout" role="tooltip">
+                <div class="cite-popout-inner">
+                  <div class="cite-popout-label">Under Review — APA</div>
+                  <div class="cite-popout-text">Shi, C., Han, S., Kusumanchi, S., <strong>Zhou, M.</strong>, &amp; Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. <em>Manuscript submitted for publication</em>.</div>
+                  <button class="cite-copy-btn" onclick="copyCite(this)">Copy</button>
+                </div>
+              </div>
+            </div>
+            <div class="card-link-row">
+              <a class="card-link pdf-link" href="Uni/NIH_Network.pdf" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                PDF
+              </a>
+              <a class="card-link code-link" href="https://github.com/CuiranVivianShi/NIH_network" target="_blank">
+                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                Code
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- BIO: Spatial -->
+        <div class="project-card card-bio rev" data-cat="bio" id="card-spatial" style="transition-delay:.08s;">
+          <div class="card-illus">
+            <div class="card-icon-wrap">
               <svg viewBox="0 0 24 24"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h.01"/><path d="M9 3v11"/><path d="m6 5 3-3 3 3"/></svg>
             </div>
             <div class="card-illus-meta">
@@ -753,42 +1281,10 @@
           </div>
         </div>
 
-        <!-- BIO: NIH -->
-        <div class="project-card card-bio rev" data-cat="bio" id="card-nih" style="transition-delay:.08s;">
-          <div class="card-illus">
-            <div class="card-icon-wrap">
-              <!-- Lucide: network -->
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><circle cx="19" cy="19" r="3"/><circle cx="5" cy="19" r="3"/><path d="M12 8v13M5 19h14"/></svg>
-            </div>
-            <div class="card-illus-meta">
-              <span class="card-cat-pill">UNC Biostatistics Li Lab</span>
-              <span class="card-illus-pi">PI: Prof. Didong Li</span>
-            </div>
-          </div>
-          <div class="card-body-inner">
-            <h3>NIH Network Analysis</h3>
-            <div class="card-timeline">
-              <span class="tl-date">Oct 2024 — Present</span>
-            </div>
-            <p class="card-desc">Clustered 30,000+ NIH abstracts with BERTopic and visualized co-PI networks to reveal collaboration dynamics and funding inequality at UNC.</p>
-            <div class="card-link-row">
-              <a class="card-link pdf-link" href="Uni/NIH_Network.pdf" target="_blank">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                PDF
-              </a>
-              <a class="card-link code-link" href="https://github.com/CuiranVivianShi/NIH_network" target="_blank">
-                <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-                Code
-              </a>
-            </div>
-          </div>
-        </div>
-
         <!-- BIO: eNet -->
         <div class="project-card card-bio rev" data-cat="bio" id="card-enet" style="transition-delay:.12s;">
           <div class="card-illus">
             <div class="card-icon-wrap">
-              <!-- Lucide: dna -->
               <svg viewBox="0 0 24 24"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/><path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/><path d="m17 6-2.5-2.5"/><path d="m14 8-1-1"/><path d="m7 18 2.5 2.5"/><path d="m3.5 14.5.5.5"/><path d="m20 9 .5.5"/><path d="m6.5 12.5 1 1"/></svg>
             </div>
             <div class="card-illus-meta">
@@ -815,7 +1311,6 @@
         <div class="project-card card-bio rev" data-cat="bio" id="card-neuro" style="transition-delay:.16s;">
           <div class="card-illus">
             <div class="card-icon-wrap">
-              <!-- Lucide: brain-circuit / activity -->
               <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
             </div>
             <div class="card-illus-meta">
@@ -842,7 +1337,6 @@
         <div class="project-card card-fin rev" data-cat="fin" id="card-agent" style="transition-delay:.04s;">
           <div class="card-illus">
             <div class="card-icon-wrap">
-              <!-- Lucide: trending-up -->
               <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
             </div>
             <div class="card-illus-meta">
@@ -869,19 +1363,19 @@
           </div>
         </div>
 
-        <!-- MATH placeholder -->
+        <!-- MATH: UNC Mathematics Directed Reading Program -->
         <div class="project-card card-math rev" data-cat="math" id="card-math" style="transition-delay:.04s;">
           <div class="card-illus">
             <div class="card-icon-wrap">
-              <!-- Lucide: sigma -->
               <svg viewBox="0 0 24 24"><path d="M18 4H6l6 6-6 6h12"/></svg>
             </div>
             <div class="card-illus-meta">
-              <span class="card-cat-pill">mathematics</span>
+              <span class="card-cat-pill">UNC Mathematics</span>
+              <span class="card-illus-pi">Directed Reading Program</span>
             </div>
           </div>
           <div class="card-body-inner">
-            <h3>Still Exploring…</h3>
+            <h3>UNC Math Directed Reading Program</h3>
             <div class="card-timeline">
               <span class="tl-date">ongoing</span>
             </div>
@@ -890,23 +1384,23 @@
           </div>
         </div>
 
-        <!-- APP placeholder -->
+        <!-- APP: CHIP741 Healthcare App -->
         <div class="project-card card-app rev" data-cat="app" id="card-app" style="transition-delay:.08s;">
           <div class="card-illus">
             <div class="card-icon-wrap">
-              <!-- Lucide: code-2 -->
               <svg viewBox="0 0 24 24"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
             </div>
             <div class="card-illus-meta">
-              <span class="card-cat-pill">app dev</span>
+              <span class="card-cat-pill">CHIP 741 — Healthcare Informatics</span>
+              <span class="card-illus-pi">UNC Chapel Hill</span>
             </div>
           </div>
           <div class="card-body-inner">
-            <h3>Still Exploring…</h3>
+            <h3>CHIP741 Healthcare App</h3>
             <div class="card-timeline">
               <span class="tl-date">ongoing</span>
             </div>
-            <p class="card-desc">Building tools that make science and math more accessible. More coming soon!</p>
+            <p class="card-desc">Final project: building a healthcare informatics app that makes clinical data more accessible and actionable. More coming soon!</p>
             <span class="coming-banner">coming soon</span>
           </div>
         </div>
@@ -918,8 +1412,9 @@
   <!-- DATATHON & HACKATHON -->
   <section id="datathon" class="datathon-section">
     <div>
-      <div class="rev" style="margin-bottom:1.8rem;">
-        <p class="section-label">✦ datathon &amp; hackathon</p>
+      <div class="rev" style="margin-bottom:1.2rem;">
+        <span class="section-eyebrow">✦ competitions</span>
+        <h2 class="section-heading-art">Datathon &amp; <em>Hackathon</em><span class="art-underline"></span></h2>
       </div>
 
       <div class="datathon-grid rev" style="transition-delay:.1s;">
@@ -927,9 +1422,7 @@
         <!-- ══ CARD 1 — Duke ASA DataFest 2026 ══ -->
         <div class="project-card duke-asa-card rev" style="transition-delay:.04s; border-radius:10px !important;">
           <div class="duke-card-header">
-            <!-- Unified Lucide icon -->
             <div class="datathon-icon-wrap">
-              <!-- Lucide: award -->
               <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
             </div>
             <div style="display:flex; flex-direction:column; gap:.18rem; flex:1;">
@@ -975,11 +1468,10 @@
           </div>
         </div>
 
-        <!-- ══ CARD 2 — SolHacks 2026 ══ -->
+        <!-- ══ CARD 2 — SolHacks 2026 — TEAL theme ══ -->
         <div class="project-card solhacks-card rev" style="transition-delay:.08s; border-radius:10px !important;">
           <div class="duke-card-header">
             <div class="datathon-icon-wrap">
-              <!-- Lucide: trophy -->
               <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
             </div>
             <div style="display:flex; flex-direction:column; gap:.18rem; flex:1;">
@@ -992,9 +1484,9 @@
                 <text x="14" y="19" text-anchor="middle" font-family="Georgia,serif" font-size="9" font-weight="bold" fill="#ffffff">MLH</text>
               </svg>
               <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
-                <rect width="28" height="28" rx="3" fill="#ff6b35"/>
-                <circle cx="14" cy="14" r="5" fill="#ffe066"/>
-                <g stroke="#ffe066" stroke-width="1.5" stroke-linecap="round">
+                <rect width="28" height="28" rx="3" fill="#1a9e9e"/>
+                <circle cx="14" cy="14" r="5" fill="#a0e8e8"/>
+                <g stroke="#a0e8e8" stroke-width="1.5" stroke-linecap="round">
                   <line x1="14" y1="4"  x2="14" y2="7"/>
                   <line x1="14" y1="21" x2="14" y2="24"/>
                   <line x1="4"  y1="14" x2="7"  y2="14"/>
@@ -1031,6 +1523,9 @@
       </div>
     </div>
   </section>
+    </main>
+  </div><!-- end app-shell -->
+
 
   <footer class="bg-dark" style="padding:1.4rem 2rem;">
     <p>Made with <span class="heart">♥</span> by Mia Zhou &nbsp;·&nbsp; © 2025</p>
@@ -1094,7 +1589,7 @@
     nameStr.split('').forEach((ch,i)=>{
       const s=document.createElement('span');
       s.className='name-letter';
-      s.textContent=ch===' '?'\u00A0':ch;
+      s.textContent=ch===' '?' ':ch;
       s.style.animationDelay=(i*.07)+'s';
       s.addEventListener('mouseenter',()=>{
         s.style.color=letterColors[i%letterColors.length];
@@ -1151,33 +1646,151 @@
 
     /* ── Category filter ── */
     const grid=document.getElementById('projectGrid');
+    const pubSection=document.getElementById('pubSection');
+    if(pubSection) pubSection.style.display='block';
     const originalOrder=Array.from(grid.querySelectorAll('.project-card'));
     document.getElementById('catTabs').addEventListener('click',e=>{
       const tab=e.target.closest('.cat-tab');if(!tab)return;
       document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
       tab.classList.add('active');
       const cat=tab.dataset.cat;
-      if(cat==='all'){
+      if(cat==='pub'){
+        // Show ONLY pub CV, hide grid entirely
+        grid.style.display='none';
+        pubSection.style.display='block';
+      } else if(cat==='all'){
+        // Show pub section above grid
+        pubSection.style.display='block';
+        grid.style.display='';
         originalOrder.forEach(c=>{grid.appendChild(c);c.classList.remove('hidden');});
-      }else{
-        originalOrder.filter(c=>c.dataset.cat===cat).forEach(c=>{grid.appendChild(c);c.classList.remove('hidden');});
-        originalOrder.filter(c=>c.dataset.cat!==cat).forEach(c=>{grid.appendChild(c);c.classList.add('hidden');});
+      } else {
+        // Hide pub section for specific category filters
+        pubSection.style.display='none';
+        grid.style.display='';
+        const matching=originalOrder.filter(c=>c.dataset.cat.split(' ').includes(cat));
+        const nonMatching=originalOrder.filter(c=>!c.dataset.cat.split(' ').includes(cat));
+        matching.forEach(c=>{grid.appendChild(c);c.classList.remove('hidden');});
+        nonMatching.forEach(c=>{grid.appendChild(c);c.classList.add('hidden');});
       }
     });
+
+    /* ── Cite popout toggle — fixed positioning to float above everything ── */
+    
+    let _citePortal = null;
+    function toggleCite(btn){
+      if(_citePortal && _citePortal._btn === btn){
+        _citePortal.remove(); _citePortal=null;
+        btn.setAttribute('aria-expanded','false');
+        return;
+      }
+      if(_citePortal){ _citePortal.remove(); _citePortal=null; }
+      document.querySelectorAll('.cite-trigger').forEach(b=>b.setAttribute('aria-expanded','false'));
+      const srcPopout = btn.nextElementSibling;
+      const portal = document.createElement('div');
+      portal.className = 'cite-popout-portal';
+      portal.innerHTML = srcPopout.innerHTML;
+      portal._btn = btn;
+      document.body.appendChild(portal);
+      _citePortal = portal;
+      const rect = btn.getBoundingClientRect();
+      const left = Math.min(rect.left, window.innerWidth - 334);
+      portal.style.left = left + 'px';
+      portal.style.top = (rect.top + window.scrollY - 10) + 'px';
+      portal.style.transform = 'translateY(-100%)';
+      requestAnimationFrame(()=>portal.classList.add('open'));
+      btn.setAttribute('aria-expanded','true');
+      const copyBtn = portal.querySelector('.cite-copy-btn');
+      if(copyBtn) copyBtn.onclick = ()=>{
+        const text = portal.querySelector('.cite-popout-text').innerText;
+        navigator.clipboard.writeText(text).then(()=>{
+          copyBtn.textContent='Copied!'; copyBtn.classList.add('copied');
+          setTimeout(()=>{copyBtn.textContent='Copy';copyBtn.classList.remove('copied');},2000);
+        });
+      };
+      setTimeout(()=>{
+        function outsideClick(e){
+          if(!e.target.closest('.cite-trigger-wrap') && !e.target.closest('.cite-popout-portal')){
+            if(_citePortal){_citePortal.remove();_citePortal=null;}
+            btn.setAttribute('aria-expanded','false');
+            document.removeEventListener('click',outsideClick);
+          }
+        }
+        document.addEventListener('click',outsideClick);
+      },10);
+    }
+    function copyCite(copyBtn){
+      const text=copyBtn.closest('.cite-popout-inner').querySelector('.cite-popout-text').innerText;
+      navigator.clipboard.writeText(text).then(()=>{
+        copyBtn.textContent='Copied!';
+        copyBtn.classList.add('copied');
+        setTimeout(()=>{copyBtn.textContent='Copy';copyBtn.classList.remove('copied');},2000);
+      });
+    }
+    function copyFullCite(){
+      const btn=event.currentTarget;
+      const text='Shi, C., Han, S., Kusumanchi, S., Zhou, M., & Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. Manuscript submitted for publication.';
+      navigator.clipboard.writeText(text).then(()=>{
+        btn.textContent='Copied!';
+        btn.classList.add('copied');
+        setTimeout(()=>{btn.innerHTML='<svg viewBox="0 0 24 24" width="11" height="11" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Citation';btn.classList.remove('copied');},2000);
+      });
+    }
 
     /* ── Dark mode ── */
     const darkCSS=document.createElement('style');
     darkCSS.textContent=`
       body.dark-mode .custom-header::before{background:rgba(4,3,8,0.72);}
       body.dark-mode #sgBg{filter:brightness(0.45) saturate(0.7);}
-      body.dark-mode footer.bg-dark{background-color:#1a1220!important;}
+      body.dark-mode footer.bg-dark{background-color:#0d0818!important;}
       body.dark-mode nav{background:rgba(6,4,10,.65);}
-      body.dark-mode .project-card{background:rgba(24,18,28,0.92)!important;border-color:rgba(200,184,216,0.1)!important;}
+
+      /* ── Dark cards — very dark ── */
+      body.dark-mode .project-card{background:#0e0b14!important;border-color:rgba(180,150,220,0.12)!important;}
+      body.dark-mode .project-card::after{border-color:rgba(180,150,220,0.2)!important;}
+      body.dark-mode .card-bio .card-illus{background-color:#0a1e1c!important;}
+      body.dark-mode .card-fin .card-illus{background-color:#120e22!important;}
+      body.dark-mode .card-math .card-illus{background-color:#1a1408!important;}
+      body.dark-mode .card-app .card-illus{background-color:#0a1808!important;}
+      body.dark-mode .duke-asa-card .duke-card-header{background-color:#1a1408!important;}
+      body.dark-mode .solhacks-card .duke-card-header{background-color:#081818!important;}
       body.dark-mode .card-body-inner h3{color:#f0d8d0!important;}
-      body.dark-mode .card-desc{color:#d0c8c0!important;}
-      body.dark-mode .card-bullets li{color:#d0c8c0!important;}
+      body.dark-mode .section-heading-art{color:#f0ddd8!important;}
+      body.dark-mode .card-desc{color:#c8beb8!important;}
+      body.dark-mode .card-cat-pill{color:#e8d8d0!important;}
+      body.dark-mode .tl-date{color:#786868!important;}
+      body.dark-mode .card-bullets li{color:#c8beb8!important;}
       body.dark-mode .card-bullets b{color:#f0e0d0!important;}
       body.dark-mode .award-name{color:#f0e0c0!important;}
+      body.dark-mode .award-sub{color:#907878!important;}
+      body.dark-mode .what-label{color:#b09080!important;}
+
+      /* ── Dark pub section — visible text ── */
+      body.dark-mode .pub-section-inner{background:transparent!important;}
+      body.dark-mode .pub-entry{background:#0e0b14!important;border-color:#c06828!important;}
+      body.dark-mode .pub-entry-text{color:#e0c8a8!important;}
+      body.dark-mode .pub-entry-text strong{color:#f0d090!important;}
+      body.dark-mode .pub-entry-text em{color:#c8a888!important;}
+      body.dark-mode .pub-section-eyebrow{color:#c06828!important;}
+
+      /* ── Dark proj section bg ── */
+      body.dark-mode .proj-bg-section{background:#080510!important;}
+      body.dark-mode .proj-bg-section::before{background:linear-gradient(180deg,rgba(8,5,16,.98) 0%,rgba(8,5,16,.95) 100%)!important;}
+      body.dark-mode .datathon-section::before{background:linear-gradient(180deg,rgba(8,5,16,.98) 0%,rgba(8,5,16,.95) 100%),url('singapore.jpg') center 60%/cover no-repeat!important;}
+
+      /* ── Dark filter tabs ── */
+      body.dark-mode .cat-tab{background:#0e0b14!important;color:#c8a898!important;border-color:rgba(180,140,120,.2)!important;}
+      body.dark-mode .cat-tab.active{color:#fff!important;}
+
+      /* ── Dark block nav ── */
+      body.dark-mode .block-nav{background:#080510!important;border-bottom-color:rgba(180,150,220,.1)!important;}
+      body.dark-mode .block-nav-item{color:#c8b0a8!important;}
+      body.dark-mode .block-nav-item:hover{background:rgba(180,150,220,.08)!important;color:#f0d8d0!important;}
+
+      /* ── Section label/eyebrow ── */
+      body.dark-mode .section-eyebrow{color:#806858!important;}
+      body.dark-mode .section-heading-art{color:#f0ddd8!important;}
+      body.dark-mode .section-heading-art .art-underline{opacity:.35!important;}
+
       .custom-header::before,#sgBg,footer.bg-dark,nav,.project-card,.card-illus,.duke-card-header{transition:background 0.6s ease,filter 0.6s ease;}
     `;
     document.head.appendChild(darkCSS);

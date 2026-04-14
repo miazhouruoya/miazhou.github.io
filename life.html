@@ -4,82 +4,150 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Life | Mia Zhou</title>
+  <link rel="icon" type="image/png" href="icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&family=Lora:ital,wght@0,400;0,600;1,400&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+    <defs>
+      <filter id="sketchy" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="2" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --rose: #e8a598; --teal: #a8c5c0; --lav: #c8b8d8;
-      --sage: #b8c9a0; --cream: #fdf8f4;
-    }
+
     body {
       font-family: 'DM Sans', sans-serif;
-      background: var(--cream);
-      color: #5a3e38;
+      background: #f7f2ea;
+      color: #2a1e1e;
       min-height: 100vh;
       cursor: none;
+      /* grain overlay */
+      background-image: radial-gradient(circle at 1px 1px, rgba(180,140,100,.04) 1px, transparent 0);
+      background-size: 3px 3px;
     }
 
-    #cur  { position:fixed;width:8px;height:8px;border-radius:50%;background:var(--rose);transform:translate(-50%,-50%);pointer-events:none;z-index:9999; }
-    #curR { position:fixed;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--rose);transform:translate(-50%,-50%);pointer-events:none;z-index:9998; }
+    /* ── Grain fixed overlay ── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 9990;
+      background-image: radial-gradient(circle at 1px 1px, rgba(180,140,100,.04) 1px, transparent 0);
+      background-size: 3px 3px;
+    }
 
-    .sp2 { position:fixed;border-radius:50%;pointer-events:none;z-index:9990;animation:sparkFade .75s ease-out forwards; }
+    /* ── Cursor ── */
+    #cur  { position:fixed;width:8px;height:8px;border-radius:50%;background:#e8a598;transform:translate(-50%,-50%);pointer-events:none;z-index:9999; }
+    #curR { position:fixed;width:28px;height:28px;border-radius:50%;border:1.5px solid #e8a598;transform:translate(-50%,-50%);pointer-events:none;z-index:9998;transition:border-color .2s; }
+
+    .sp2 { position:fixed;border-radius:50%;pointer-events:none;z-index:9991;animation:sparkFade .75s ease-out forwards; }
     @keyframes sparkFade { 0%{opacity:.9;transform:scale(1) translateY(0)} 100%{opacity:0;transform:scale(0) translateY(-18px)} }
 
     .fl { position:fixed;font-size:1.3rem;pointer-events:none;z-index:9991;animation:floatUp 1.1s ease-out forwards; }
     @keyframes floatUp { 0%{opacity:1;transform:translateY(0) scale(1)} 100%{opacity:0;transform:translateY(-70px) scale(.7)} }
 
-    /* NAV */
+    /* ── NAV — identical to index ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
       padding: .85rem 2.2rem;
-      background: rgba(253,248,244,.72);
+      background: rgba(247,242,234,.82);
       backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(232,165,152,.15);
+      border-bottom: 1px solid rgba(192,152,56,.12);
     }
-    .nav-logo { font-family: 'Lora', serif; font-size: 1.05rem; color: #5a3e38; font-weight: 600; }
+    .nav-logo {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 1.05rem; color: #2a1e1e; font-weight: 600;
+      text-decoration: none;
+    }
     .nav-links { list-style: none; display: flex; gap: 1.8rem; }
-    .nav-links a { text-decoration: none; font-size: .82rem; font-weight: 500; letter-spacing: .04em; color: #7a6060; text-transform: uppercase; transition: color .2s; }
-    .nav-links a:hover { color: var(--rose); }
-
-    /* HERO */
-    .hero {
-      display: flex; flex-direction: column;
-      align-items: center; text-align: center;
-      padding: 7rem 2rem 1.5rem;
-      position: relative; overflow: hidden;
+    .nav-links a {
+      text-decoration: none; font-size: .72rem; font-weight: 500;
+      letter-spacing: .08em; color: #7a6060; text-transform: uppercase;
+      transition: color .2s;
     }
-    .blob { position:absolute;border-radius:50%;opacity:.18;filter:blur(60px);pointer-events:none; }
-    .blob-1 { width:420px;height:420px;background:var(--rose);top:-80px;left:-100px; }
-    .blob-2 { width:380px;height:380px;background:var(--teal);bottom:-60px;right:-80px; }
-    .blob-3 { width:300px;height:300px;background:var(--lav);top:40%;left:60%; }
+    .nav-links a:hover { color: #e8a598; }
 
-    .hero-emoji { font-size:3.5rem;margin-bottom:1rem;animation:bob 3s ease-in-out infinite; }
-    @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    /* ── HERO ── */
+    .hero {
+      padding: 7.5rem 2rem 3rem;
+      max-width: 900px; margin: 0 auto;
+      display: flex; flex-direction: column; align-items: flex-start;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+      color: #b0a898; margin-bottom: .8rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block; width: 28px; height: 1px;
+      background: #c8a878; margin-right: .5rem; vertical-align: middle; opacity: .6;
+    }
+    .hero h1 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 600; color: #2a1e1e; line-height: 1.2;
+      margin-bottom: .6rem;
+    }
+    .hero h1 em { color: #e8a598; font-style: italic; }
+    .hero-sub {
+      font-size: .9rem; color: #7a6858; max-width: 480px;
+      line-height: 1.75; margin-bottom: 1.4rem;
+    }
+    /* Botanical flourish */
+    .hero-flourish {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem; color: #c8a878; opacity: .55;
+      margin-top: -.3rem; margin-bottom: 1rem;
+      letter-spacing: .04em;
+    }
 
-    h1 { font-family:'Lora',serif;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:600;color:#5a3e38;line-height:1.2;margin-bottom:.5rem; }
-    h1 em { color:var(--rose);font-style:italic; }
-    .hero-sub { font-size:1rem;color:#9a7878;max-width:420px;line-height:1.6; }
+    /* ── SECTION LABEL — same as index ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
+      color: #b0a898; margin-bottom: 1.6rem;
+      display: inline-block; position: relative;
+    }
+    .section-label::after {
+      content: '';
+      display: block; width: 48px; height: 1.5px;
+      background: linear-gradient(90deg, #c8a878, transparent);
+      margin-top: .3rem; border-radius: 2px; opacity: .6;
+    }
 
-    /* JOURNEY */
+    /* ── JOURNEY SECTION ── */
     .journey-section {
-      padding: 1.5rem 1.5rem 0;
+      padding: 1rem 2rem 0;
       max-width: 980px; margin: 0 auto;
     }
-    .sec-head { font-family:'Lora',serif;font-size:1.6rem;font-weight:600;text-align:center;margin-bottom:.3rem;color:#5a3e38; }
-    .sec-head em { color:var(--rose);font-style:italic; }
-    .sec-sub { text-align:center;font-size:.8rem;color:#a08888;margin-bottom:1.4rem;letter-spacing:.03em; }
+    .sec-head {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 1.5rem; font-weight: 600;
+      color: #2a1e1e; margin-bottom: .2rem;
+    }
+    .sec-head em { color: #e8a598; font-style: italic; }
+    .sec-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: .6rem; letter-spacing: .08em;
+      color: #b0a898; margin-bottom: 1.6rem; text-transform: uppercase;
+    }
 
-    /* PATH + NODES */
+    /* ── PATH ── */
     .path-wrap {
       position: relative; width: 100%; height: 160px;
       margin-bottom: 2rem;
     }
-    .path-svg {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none;
-    }
+    .path-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
     .path-node {
       position: absolute; transform: translate(-50%,-50%);
       display: flex; flex-direction: column; align-items: center;
@@ -88,111 +156,149 @@
     .path-node.vis { opacity: 1; }
     .ndot {
       width: 12px; height: 12px; border-radius: 50%;
-      background: var(--cream); border: 2.5px solid var(--rose);
+      background: #fffdf9; border: 2.5px solid #e8a598;
       box-shadow: 0 0 0 4px rgba(232,165,152,.14);
-      transition: transform .25s;
+      transition: transform .25s; filter: url(#sketchy);
     }
     .path-node:hover .ndot { transform: scale(1.6); }
     .nlabel {
-      font-family:'Lora',serif;font-size:.68rem;font-weight:600;color:#5a3e38;
-      margin-top:.28rem;white-space:nowrap;
-      background:rgba(253,248,244,.92);padding:.12rem .4rem;
-      border-radius:5px;backdrop-filter:blur(4px);
+      font-family: 'Lora', Georgia, serif;
+      font-size: .68rem; font-weight: 600; color: #2a1e1e;
+      margin-top: .28rem; white-space: nowrap;
+      background: rgba(255,253,249,.92); padding: .12rem .4rem;
+      border-radius: 5px; backdrop-filter: blur(4px);
+      filter: url(#sketchy);
     }
-    .nyear { font-size:.55rem;color:var(--rose);white-space:nowrap; }
+    .nyear {
+      font-family: 'DM Mono', monospace;
+      font-size: .55rem; color: #e8a598; white-space: nowrap;
+      letter-spacing: .04em;
+    }
 
-    /* COUNTRY PILLS */
+    /* ── COUNTRY PILLS — sketchy style ── */
     .countries-row {
-      display: flex; flex-wrap: wrap; justify-content: center;
-      gap: .55rem; margin-bottom: 2.8rem;
+      display: flex; flex-wrap: wrap; gap: .55rem;
+      margin-bottom: 2.8rem;
     }
     .cpill {
       display: inline-flex; align-items: center; gap: .35rem;
-      padding: .38rem .95rem .38rem .55rem;
+      padding: .3rem .85rem .34rem .5rem;
       border-radius: 50px;
-      font-size: .72rem; font-weight: 500;
-      letter-spacing: .02em;
-      border: 1.5px solid transparent;
-      backdrop-filter: blur(8px);
+      font-family: 'Caveat', cursive;
+      font-size: .92rem; font-weight: 500; letter-spacing: .02em;
+      border: 2px solid transparent;
+      background: #fffdf9;
+      color: #5a3e30;
+      filter: url(#sketchy);
       opacity: 0; transform: translateY(8px);
-      transition: opacity .5s, transform .5s, box-shadow .3s, background .2s, border-color .2s;
+      transition: opacity .5s, transform .5s, box-shadow .3s;
       cursor: pointer;
     }
     .cpill.vis { opacity: 1; transform: none; }
-    .cpill:hover { box-shadow: 0 6px 20px rgba(0,0,0,.1); transform: translateY(-2px) !important; }
-
-    /* active state — rose highlight */
+    .cpill:hover { transform: translateY(-2px) rotate(-1deg) !important; box-shadow: 2px 2px 0 rgba(192,152,56,.2); }
     .cpill.active {
-      background: var(--rose) !important;
-      border-color: var(--rose) !important;
+      background: #e8a598 !important; border-color: #e8a598 !important;
       color: #fff !important;
-      box-shadow: 0 4px 16px rgba(232,165,152,.4);
+      box-shadow: 3px 3px 0 rgba(192,100,60,.2);
     }
+    .cpill.dimmed { opacity: .3 !important; }
+    .cpill-flag { font-size: 1.05rem; line-height: 1; }
 
-    .cpill-flag { font-size: 1.1rem; line-height: 1; }
-    .cpill-name { line-height: 1; }
+    /* Individual pill tints */
+    .pill-us       { border-color: rgba(232,130,110,.4); }
+    .pill-china    { border-color: rgba(230,155,50,.4); }
+    .pill-japan    { border-color: rgba(230,110,140,.4); }
+    .pill-sg       { border-color: rgba(100,180,172,.4); }
+    .pill-korea    { border-color: rgba(140,120,200,.4); }
+    .pill-ireland  { border-color: rgba(100,180,100,.4); }
+    .pill-italy    { border-color: rgba(230,168,50,.4); }
+    .pill-spain    { border-color: rgba(220,128,60,.4); }
+    .pill-portugal { border-color: rgba(160,110,215,.4); }
+    .pill-uk       { border-color: rgba(70,120,195,.4); }
 
-    .pill-us       { background: rgba(232,165,152,.18); border-color: rgba(232,130,110,.35); color: #8a3028; }
-    .pill-china    { background: rgba(240,176,80,.18);  border-color: rgba(230,155,50,.35);  color: #6a3808; }
-    .pill-japan    { background: rgba(240,160,180,.18); border-color: rgba(230,110,140,.35); color: #701828; }
-    .pill-sg       { background: rgba(160,200,192,.22); border-color: rgba(100,180,172,.35); color: #1a5048; }
-    .pill-korea    { background: rgba(180,168,216,.2);  border-color: rgba(140,120,200,.35); color: #301860; }
-    .pill-ireland  { background: rgba(168,210,168,.2);  border-color: rgba(100,180,100,.35); color: #144820; }
-    .pill-italy    { background: rgba(248,200,100,.2);  border-color: rgba(230,168,50,.35);  color: #583800; }
-    .pill-spain    { background: rgba(248,168,90,.2);   border-color: rgba(220,128,60,.35);  color: #501808; }
-    .pill-portugal { background: rgba(192,160,232,.2);  border-color: rgba(160,110,215,.35); color: #381068; }
-    .pill-uk       { background: rgba(112,160,208,.2);  border-color: rgba(70,120,195,.35);  color: #082060; }
-
-    /* dimmed non-active pills */
-    .cpill.dimmed { opacity: .35 !important; }
-
-    /* GALLERY */
+    /* ── GALLERY ── */
     .gallery-section {
       padding: 0 2rem 5rem;
-      max-width: 960px; margin: 0 auto;
+      max-width: 980px; margin: 0 auto;
     }
     .photo-grid {
-      columns: 3; column-gap: 10px;
+      columns: 3; column-gap: 12px;
     }
-    @media(max-width:640px){ .photo-grid { columns: 2; } }
+    @media(max-width: 640px) { .photo-grid { columns: 2; } }
 
+    /* Sketchy photo card — matches project card vibe */
     .photo-item {
-      break-inside: avoid; margin-bottom: 10px;
-      border-radius: 12px; overflow: hidden;
+      break-inside: avoid; margin-bottom: 12px;
+      border-radius: 10px; overflow: hidden;
       display: block; cursor: pointer;
       opacity: 0; transform: translateY(14px);
       transition: opacity .5s, transform .5s;
+      position: relative;
+      background: #fffdf9;
+      /* Sketchy outline */
+      box-shadow:
+        0 0 0 1.8px rgba(192,152,56,.22),
+        2px 3px 0 rgba(192,152,56,.1);
+      filter: url(#sketchy);
     }
     .photo-item.vis   { opacity: 1; transform: none; }
     .photo-item.hidden { display: none; }
     .photo-item img {
       width: 100%; display: block;
+      border-radius: 8px;
       transition: transform .55s cubic-bezier(.25,.46,.45,.94), filter .55s;
-      filter: saturate(.9) brightness(.97);
+      filter: saturate(.92) brightness(.97);
     }
+    .photo-item:hover { transform: translateY(-4px) rotate(0.4deg) !important; }
     .photo-item:hover img { transform: scale(1.05); filter: saturate(1.06) brightness(1.02); }
 
-    /* LIGHTBOX */
+    /* ── LIGHTBOX ── */
     .lb {
       position: fixed; inset: 0;
-      background: rgba(30,18,14,.88); z-index: 500;
+      background: rgba(18,12,8,.88); z-index: 500;
       display: flex; align-items: center; justify-content: center;
       opacity: 0; pointer-events: none; transition: opacity .3s;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
     }
     .lb.open { opacity: 1; pointer-events: all; }
-    .lb img { max-width: 88vw; max-height: 88vh; border-radius: 10px; box-shadow: 0 24px 80px rgba(0,0,0,.5); }
+    .lb img {
+      max-width: 88vw; max-height: 88vh;
+      border-radius: 10px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.5);
+      filter: url(#sketchy);
+    }
     .lb-close {
       position: absolute; top: 1.4rem; right: 1.8rem;
-      font-size: 1.6rem; color: rgba(255,255,255,.7);
+      font-family: 'Caveat', cursive;
+      font-size: 1.8rem; color: rgba(255,255,255,.65);
       cursor: none; background: none; border: none; transition: color .2s;
     }
     .lb-close:hover { color: #fff; }
 
-    footer {
-      text-align:center;padding:1.2rem 2rem;font-size:.7rem;color:#b09898;
-      background:rgba(253,248,244,.9);border-top:1px solid rgba(232,165,152,.12);
+    /* ── SCROLL REVEAL ── */
+    .rev { opacity: 0; transform: translateY(16px); transition: opacity .55s, transform .55s; }
+    .rev.vis { opacity: 1; transform: none; }
+
+    /* ── MOBILE ── */
+    @media (hover: none) {
+      #cur, #curR { display: none !important; }
+      body { cursor: auto !important; }
     }
+    @media (max-width: 640px) {
+      nav { padding: .7rem 1rem; }
+      .hero { padding: 6rem 1.2rem 2rem; }
+      .journey-section, .gallery-section { padding-left: 1rem; padding-right: 1rem; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 1.2rem 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: .65rem; color: #b0a898; letter-spacing: .06em;
+      border-top: 1px solid rgba(192,152,56,.1);
+      background: rgba(247,242,234,.9);
+    }
+    footer .heart { color: #e8a598; }
   </style>
 </head>
 <body>
@@ -200,8 +306,9 @@
 <div id="cur"></div>
 <div id="curR"></div>
 
+<!-- NAV -->
 <nav>
-  <div class="nav-logo">Mia Zhou ✦</div>
+  <a href="index.html" class="nav-logo">Mia Zhou ✦</a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="index.html#projects">Projects</a></li>
@@ -211,20 +318,19 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <div class="hero-emoji">🐚🪞🩰🎧</div>
-  <h1>My <em>Life</em> & World</h1>
-  <p class="hero-sub">Beyond research — travels, hobbies, music, food, and the little things that make life beautiful.</p>
+  <p class="hero-eyebrow">✦ my life &amp; world</p>
+  <h1>Beyond <em>Research</em></h1>
+  <p class="hero-flourish">travels · hobbies · music · food · little things 🌸</p>
+  <p class="hero-sub">Places I've lived, countries I've wandered, moments that made me who I am.</p>
 </section>
 
 <!-- JOURNEY -->
 <section class="journey-section">
-  <h2 class="sec-head">My <em>growing up</em> journey</h2>
-  <p class="sec-sub">from New York to the world ✦</p>
+  <div class="rev">
+    <p class="section-label">✦ growing up journey</p>
+  </div>
 
-  <div class="path-wrap" id="pathWrap">
+  <div class="path-wrap rev" id="pathWrap" style="transition-delay:.1s;">
     <svg class="path-svg" viewBox="0 0 960 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -237,7 +343,7 @@
       <path id="lp"
         d="M 48,80 C 100,50 130,110 200,80 C 270,50 300,110 400,80 C 490,50 510,110 580,80 C 650,50 680,105 760,75 C 820,52 860,100 912,80"
         fill="none" stroke="url(#pg)" stroke-width="2" stroke-dasharray="5,4" opacity=".7"/>
-      <circle r="4.5" fill="var(--rose)" opacity=".85">
+      <circle r="4.5" fill="#e8a598" opacity=".85">
         <animateMotion dur="9s" repeatCount="indefinite"><mpath href="#lp"/></animateMotion>
       </circle>
     </svg>
@@ -274,8 +380,8 @@
     </div>
   </div>
 
-  <!-- country pills — now clickable for filtering -->
-  <div class="countries-row" id="pillsRow">
+  <!-- Country pills -->
+  <div class="countries-row rev" id="pillsRow" style="transition-delay:.15s;">
     <span class="cpill pill-us"       data-country="us">       <span class="cpill-flag">🇺🇸</span><span class="cpill-name">USA</span></span>
     <span class="cpill pill-china"    data-country="china">    <span class="cpill-flag">🇨🇳</span><span class="cpill-name">China</span></span>
     <span class="cpill pill-japan"    data-country="japan">    <span class="cpill-flag">🇯🇵</span><span class="cpill-name">Japan</span></span>
@@ -291,71 +397,85 @@
 
 <!-- GALLERY -->
 <section class="gallery-section">
-  <h2 class="sec-head">Places I've <em>been</em></h2>
-  <p class="sec-sub" style="margin-bottom:1.6rem;">click a country above · click any photo to zoom ✦</p>
+  <div class="rev" style="margin-bottom:1.4rem;">
+    <p class="section-label">✦ places i've been</p>
+    <p style="font-family:'DM Mono',monospace;font-size:.6rem;color:#b0a898;letter-spacing:.06em;margin-top:.2rem;">click a country above · click any photo to zoom</p>
+  </div>
 
-  <div class="photo-grid" id="photoGrid">
-    <div class="photo-item" data-country="us"><img src="life/alas.jpg"  alt="Alaska"/></div>
-    <div class="photo-item" data-country="us"><img src="life/bos.jpg"   alt="Boston"/></div>
-    <div class="photo-item" data-country="us"><img src="life/blu.jpg"   alt="USA"/></div>
-    <div class="photo-item" data-country="us"><img src="life/nc.jpg"    alt="Chapel Hill"/></div>
-    <div class="photo-item" data-country="us"><img src="life/la.jpg"    alt="LA"/></div>
-    <div class="photo-item" data-country="japan"><img src="life/we.jpg"    alt="West USA"/></div>
-    <div class="photo-item" data-country="china"><img src="life/bj.jpg"    alt="Beijing"/></div>
-    <div class="photo-item" data-country="china"><img src="life/cq.jpg"    alt="Chongqing"/></div>
-    <div class="photo-item" data-country="japan"><img src="life/fuj.jpg"   alt="Fuji"/></div>
-    <div class="photo-item" data-country="japan"><img src="life/jp.jpg"    alt="Japan"/></div>
+  <div class="photo-grid rev" id="photoGrid" style="transition-delay:.1s;">
+    <div class="photo-item" data-country="us">       <img src="life/alas.jpg"  alt="Alaska"/></div>
+    <div class="photo-item" data-country="us">       <img src="life/bos.jpg"   alt="Boston"/></div>
+    <div class="photo-item" data-country="us">       <img src="life/blu.jpg"   alt="USA"/></div>
+    <div class="photo-item" data-country="us">       <img src="life/nc.jpg"    alt="Chapel Hill"/></div>
+    <div class="photo-item" data-country="us">       <img src="life/la.jpg"    alt="LA"/></div>
+    <div class="photo-item" data-country="japan">    <img src="life/we.jpg"    alt="Japan"/></div>
+    <div class="photo-item" data-country="china">    <img src="life/bj.jpg"    alt="Beijing"/></div>
+    <div class="photo-item" data-country="china">    <img src="life/cq.jpg"    alt="Chongqing"/></div>
+    <div class="photo-item" data-country="japan">    <img src="life/fuj.jpg"   alt="Fuji"/></div>
+    <div class="photo-item" data-country="japan">    <img src="life/jp.jpg"    alt="Japan"/></div>
     <div class="photo-item" data-country="singapore"><img src="life/grad1.jpg" alt="Singapore grad"/></div>
     <div class="photo-item" data-country="singapore"><img src="life/grad2.jpg" alt="Singapore grad 2"/></div>
-    <div class="photo-item" data-country="singapore"><img src="life/crys.jpg"  alt="Singapore crystal"/></div>
-    <div class="photo-item" data-country="us"><img src="life/ha.jpg"    alt="Singapore"/></div>
-    <div class="photo-item" data-country="korea"><img src="life/kor.jpg"   alt="Korea"/></div>
-    <div class="photo-item" data-country="ireland"><img src="life/ir.jpg"    alt="Ireland cliffs"/></div>
-    <div class="photo-item" data-country="ireland"><img src="life/ie.jpg"    alt="Ireland"/></div>
-    <div class="photo-item" data-country="italy"><img src="life/it.jpg"    alt="Italy"/></div>
-    <div class="photo-item" data-country="portugal"><img src="life/por.jpg"   alt="Portugal"/></div>
-    <div class="photo-item" data-country="uk"><img src="life/not.jpg"   alt="UK"/></div>
+    <div class="photo-item" data-country="singapore"><img src="life/crys.jpg"  alt="Singapore"/></div>
+    <div class="photo-item" data-country="us">       <img src="life/ha.jpg"    alt="USA"/></div>
+    <div class="photo-item" data-country="korea">    <img src="life/kor.jpg"   alt="Korea"/></div>
+    <div class="photo-item" data-country="ireland">  <img src="life/ir.jpg"    alt="Ireland cliffs"/></div>
+    <div class="photo-item" data-country="ireland">  <img src="life/ie.jpg"    alt="Ireland"/></div>
+    <div class="photo-item" data-country="italy">    <img src="life/it.jpg"    alt="Italy"/></div>
+    <div class="photo-item" data-country="portugal"> <img src="life/por.jpg"   alt="Portugal"/></div>
+    <div class="photo-item" data-country="uk">       <img src="life/not.jpg"   alt="UK"/></div>
   </div>
 </section>
 
+<!-- LIGHTBOX -->
 <div class="lb" id="lb">
   <button class="lb-close" id="lbClose">✕</button>
   <img id="lbImg" src="" alt=""/>
 </div>
 
-<footer>Made with ♥ by Mia Zhou · © 2025</footer>
+<footer>Made with <span class="heart">♥</span> by Mia Zhou &nbsp;·&nbsp; © 2025</footer>
 
 <script>
-  // cursor
-  const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+  /* ── Custom cursor ── */
+  const cur=document.getElementById('cur');
+  const curR=document.getElementById('curR');
   let mx=0,my=0,rx=0,ry=0;
   document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-  (function loop(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop);})();
+  (function animRing(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(animRing);})();
+  document.querySelectorAll('a,button,.photo-item,.cpill').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.2)';curR.style.borderColor='#6a9e98';});
+    el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';curR.style.borderColor='#e8a598';});
+  });
 
-  // sparkles
-  const sc=['#e8a598','#f0b8a0','#a8c5c0','#c8b8d8','#b8c9a0'];
+  /* ── Sparkles ── */
+  const sparkColors=['#e8a598','#f0b8a0','#a8c5c0','#c8b8d8','#b8c9a0','#f5d6cb'];
   document.addEventListener('mousemove',e=>{
     if(Math.random()>.68)return;
     const s=document.createElement('div');s.className='sp2';
-    const z=3+Math.random()*5;
-    s.style.cssText=`left:${e.clientX+(Math.random()*12-6)}px;top:${e.clientY+(Math.random()*12-6)}px;width:${z}px;height:${z}px;background:${sc[~~(Math.random()*sc.length)]};`;
+    const sz=3+Math.random()*5;
+    s.style.cssText=`left:${e.clientX+(Math.random()*12-6)}px;top:${e.clientY+(Math.random()*12-6)}px;width:${sz}px;height:${sz}px;background:${sparkColors[~~(Math.random()*sparkColors.length)]};`;
     document.body.appendChild(s);setTimeout(()=>s.remove(),750);
   });
 
-  // click floats
-  const emj=['🌸','✨','💫','🌷','⭐','🐚','🌺','💖','🦋','🌙','🎀','🩰','🎧','🦢','🪞','🧸','🍓'];
+  /* ── Floaties ── */
+  const emojis=['🌸','✨','💫','🌷','⭐','🐚','🌺','💖','🦋','🌙','🎀','🩰','🎧','🦢','🪞','🧸','🍓'];
   document.addEventListener('click',e=>{
     if(e.target.closest('a,nav,.lb,.lb-close'))return;
     for(let i=0;i<2;i++)setTimeout(()=>{
       const f=document.createElement('div');f.className='fl';
-      f.textContent=emj[~~(Math.random()*emj.length)];
+      f.textContent=emojis[~~(Math.random()*emojis.length)];
       f.style.left=(e.clientX+(Math.random()*30-15))+'px';
       f.style.top=(e.clientY+(Math.random()*15-7))+'px';
       document.body.appendChild(f);setTimeout(()=>f.remove(),1100);
     },i*80);
   });
 
-  // reveal path nodes
+  /* ── Scroll reveal ── */
+  const revObs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+  },{threshold:0.08});
+  document.querySelectorAll('.rev').forEach(el=>revObs.observe(el));
+
+  /* ── Reveal path nodes on scroll ── */
   const pathObs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(!e.isIntersecting)return;
@@ -365,7 +485,7 @@
   },{threshold:.2});
   pathObs.observe(document.getElementById('pathWrap'));
 
-  // reveal pills
+  /* ── Reveal pills ── */
   const pillObs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(!e.isIntersecting)return;
@@ -375,7 +495,7 @@
   },{threshold:.2});
   pillObs.observe(document.getElementById('pillsRow'));
 
-  // reveal photos
+  /* ── Reveal photos ── */
   const gridObs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
       if(!e.isIntersecting)return;
@@ -385,53 +505,55 @@
   },{threshold:.05});
   gridObs.observe(document.getElementById('photoGrid'));
 
-  // ── FILTER ──
-  const pills  = document.querySelectorAll('.cpill');
-  const photos = document.querySelectorAll('.photo-item');
-  let active = null; // null = all shown
+  /* ── Country filter ── */
+  const pills=document.querySelectorAll('.cpill');
+  const photos=document.querySelectorAll('.photo-item');
+  let active=null;
 
-  function applyFilter(country) {
-    // toggle: clicking active pill resets to all
-    active = (active === country) ? null : country;
-
-    // pill states
-    pills.forEach(p => {
-      if (active === null) {
-        p.classList.remove('active', 'dimmed');
-      } else if (p.dataset.country === active) {
-        p.classList.add('active');
-        p.classList.remove('dimmed');
-      } else {
-        p.classList.remove('active');
-        p.classList.add('dimmed');
-      }
+  function applyFilter(country){
+    active=(active===country)?null:country;
+    pills.forEach(p=>{
+      if(active===null){ p.classList.remove('active','dimmed'); }
+      else if(p.dataset.country===active){ p.classList.add('active');p.classList.remove('dimmed'); }
+      else { p.classList.remove('active');p.classList.add('dimmed'); }
     });
-
-    // photo states
-    photos.forEach(p => {
-      const show = active === null || p.dataset.country === active;
-      if (show) {
-        p.classList.remove('hidden');
-        // small delay so display:block kicks in before opacity
-        requestAnimationFrame(() => p.classList.add('vis'));
-      } else {
-        p.classList.remove('vis');
-        p.classList.add('hidden');
-      }
+    photos.forEach(p=>{
+      const show=active===null||p.dataset.country===active;
+      if(show){ p.classList.remove('hidden');requestAnimationFrame(()=>p.classList.add('vis')); }
+      else { p.classList.remove('vis');p.classList.add('hidden'); }
     });
   }
 
-  pills.forEach(pill => {
-    pill.addEventListener('click', () => {
+  pills.forEach(pill=>{
+    pill.addEventListener('click',()=>{
       applyFilter(pill.dataset.country);
-      document.querySelector('.gallery-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelector('.gallery-section').scrollIntoView({behavior:'smooth',block:'start'});
     });
   });
 
-  // lightbox
-  const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg');
+  /* ── Botanical SVG flourishes ── */
+  document.querySelectorAll('.section-label').forEach(el=>{
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('width','60');svg.setAttribute('height','18');
+    svg.setAttribute('viewBox','0 0 60 18');
+    svg.style.cssText='display:block;margin-top:.2rem;opacity:.35;overflow:visible;';
+    svg.innerHTML=`
+      <path d="M2 9 Q10 3 18 9 Q26 15 34 9 Q42 3 50 9 Q56 13 58 9"
+            fill="none" stroke="#8a6a30" stroke-width="1.2" stroke-linecap="round"/>
+      <circle cx="6"  cy="7"  r="2.2" fill="none" stroke="#6ab8b0" stroke-width="1"/>
+      <circle cx="22" cy="11" r="1.8" fill="none" stroke="#c09838" stroke-width="1"/>
+      <circle cx="38" cy="7"  r="2"   fill="none" stroke="#8878c8" stroke-width="1"/>
+      <circle cx="54" cy="10" r="1.5" fill="none" stroke="#72aa52" stroke-width="1"/>
+    `;
+    el.appendChild(svg);
+  });
+
+  /* ── Lightbox ── */
+  const lb=document.getElementById('lb');
+  const lbImg=document.getElementById('lbImg');
   document.querySelectorAll('.photo-item').forEach(p=>p.addEventListener('click',()=>{
-    lbImg.src=p.querySelector('img').src; lb.classList.add('open');
+    lbImg.src=p.querySelector('img').src;
+    lb.classList.add('open');
   }));
   document.getElementById('lbClose').addEventListener('click',()=>lb.classList.remove('open'));
   lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('open');});
