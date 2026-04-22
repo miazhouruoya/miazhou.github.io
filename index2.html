@@ -16,7 +16,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
-body{background:#1a1714;cursor:none}
+body{background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wall3) 100%);cursor:none}
 #cur{position:fixed;width:16px;height:16px;pointer-events:none;z-index:99999;top:0;left:0}
 #cur svg{display:block}
 @media(hover:none){#cur{display:none}body{cursor:auto}}
@@ -24,13 +24,8 @@ body{background:#1a1714;cursor:none}
 @keyframes spF{0%{opacity:.9}100%{opacity:0;transform:scale(0)}}
 .fl{position:fixed;pointer-events:none;z-index:99998;animation:flU .95s ease-out forwards;font-weight:700;line-height:1}
 @keyframes flU{0%{opacity:1;transform:translate(-50%,-50%) scale(.7)}100%{opacity:0;transform:translate(-50%,calc(-50% - 46px)) scale(1)}}
-.star{position:absolute;pointer-events:none;animation:twk 3s ease-in-out infinite;color:rgba(255,220,255,.55);font-size:.65rem;z-index:3}
+.star{position:absolute;pointer-events:none;animation:twk 3s ease-in-out infinite;color:rgba(120,80,180,.2);font-size:.6rem}
 @keyframes twk{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:.7;transform:scale(1.3)}}
-
-
-/* ── SVG WALLPAPER ── */
-/* dot pattern on top of wallpaper */
-#desk::before{z-index:2}
 
 /* ── MENUBAR ── */
 #mb{position:fixed;top:0;left:0;right:0;height:24px;z-index:9000;background:linear-gradient(180deg,var(--ct) 0%,var(--cm) 100%);border-bottom:1px solid var(--cbr);display:flex;align-items:center;justify-content:space-between;padding:0 10px}
@@ -43,31 +38,31 @@ body{background:#1a1714;cursor:none}
 .mb-r{font-size:.62rem;font-weight:700;color:var(--ink);font-family:'Courier New',monospace}
 
 /* ── DESKTOP ── */
-#desk{position:fixed;top:24px;left:0;right:0;bottom:72px;z-index:2}
+#desk{position:fixed;top:24px;left:0;right:72px;bottom:0}
 #desk::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(circle,rgba(255,255,255,.25) 1px,transparent 1px);background-size:20px 20px}
 
 /* ── DOCK ── */
-#dock{position:fixed;left:0;right:0;bottom:0;height:72px;z-index:8000;background:linear-gradient(180deg,rgba(240,237,234,.95) 0%,rgba(208,204,198,.95) 100%);border-top:1px solid var(--cbr);backdrop-filter:blur(10px);display:flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;padding:0 16px}
-.dk{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
-.dk-img{width:48px;height:48px;transition:transform .14s;position:relative}
-.dk-img svg{width:48px;height:48px;display:block}
-.dk:hover .dk-img{transform:translateY(-8px) scale(1.15)}
+#dock{position:fixed;top:24px;right:0;bottom:0;width:72px;z-index:8000;background:linear-gradient(180deg,rgba(240,237,234,.95) 0%,rgba(208,204,198,.95) 100%);border-left:1px solid var(--cbr);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 0 8px}
+.dk{width:52px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
+.dk-img{width:44px;height:44px;transition:transform .14s;position:relative}
+.dk-img svg{width:44px;height:44px;display:block}
+.dk:hover .dk-img{transform:translateY(-5px) scale(1.1)}
 .dk:active .dk-img{transform:scale(.9)}
-.dk-lbl{font-size:.42rem;font-weight:700;color:var(--ink2);text-align:center;line-height:1.1;white-space:nowrap}
-.dk-sep{width:1px;height:36px;background:var(--cbr);margin:0 2px;align-self:center}
+.dk-lbl{font-size:.4rem;font-weight:700;color:var(--ink2);text-align:center;line-height:1.1}
+.dk-sep{width:28px;height:1px;background:var(--cbr);margin:2px 0}
 @keyframes dkB{0%{transform:translateY(0)}35%{transform:translateY(-16px)}65%{transform:translateY(-7px)}100%{transform:translateY(0)}}
 .dk-img.bounce{animation:dkB .4s ease-out}
 
 /* ── DESKTOP FOLDER ICONS ── */
-.di{position:absolute;width:88px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px;border:2px solid transparent}
+.di{position:absolute;width:74px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:3px;border:2px solid transparent}
 .di:hover{background:rgba(76,110,245,.08);border-color:rgba(76,110,245,.22)}
 .di.sel{background:rgba(76,110,245,.15);border-color:rgba(76,110,245,.5)}
-.di-fold{width:68px;height:60px;transition:transform .12s}
+.di-fold{width:58px;height:50px;transition:transform .12s}
 .di:hover .di-fold{transform:translateY(-2px)}
 .di:active .di-fold{transform:scale(.92)}
-.di-fold svg{width:68px;height:60px;display:block}
-.di-lbl{font-size:.6rem;font-weight:700;color:#fff;text-align:center;line-height:1.2;max-width:84px;text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 8px rgba(0,0,0,.6)}
-.di.sel .di-lbl{background:rgba(76,110,245,.85);color:#fff;padding:0 2px;text-shadow:none}
+.di-fold svg{width:58px;height:50px;display:block}
+.di-lbl{font-size:.56rem;font-weight:700;color:var(--ink);text-align:center;line-height:1.2;max-width:70px;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.di.sel .di-lbl{background:rgba(76,110,245,.72);color:#fff;padding:0 2px;text-shadow:none}
 
 /* ── FINDER WINDOWS ── */
 .fw{position:absolute;display:flex;flex-direction:column;background:var(--wbg);border:2px solid var(--cbr);box-shadow:4px 4px 0 rgba(0,0,0,.2),7px 7px 0 rgba(0,0,0,.07);z-index:100;overflow:hidden;min-width:280px}
@@ -102,7 +97,7 @@ body{background:#1a1714;cursor:none}
 
 /* sidebar */
 .wsb{width:130px;flex-shrink:0;background:linear-gradient(180deg,#e6e2de 0%,#d8d4cf 100%);border-right:1px solid var(--cbr);padding:.3rem 0;display:flex;flex-direction:column;overflow-y:auto}
-.wsb-h{font-size:.48rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);padding:.35rem .6rem .12rem;margin-top:.25rem}
+.wsb-h{font-size:.48rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);padding:.35rem .6rem .12rem;margin-top:.25rem}
 .wsb-h:first-child{margin-top:0}
 .wsb-r{display:flex;align-items:center;gap:.35rem;padding:.23rem .6rem;font-size:.65rem;font-weight:600;color:var(--ink2);cursor:pointer}
 .wsb-r:hover{background:rgba(0,0,0,.06)}
@@ -114,14 +109,13 @@ body{background:#1a1714;cursor:none}
 .wscroll{flex:1;overflow-y:auto;padding:.8rem;background:var(--wc);display:flex;flex-direction:column;gap:.7rem}
 
 /* ── CONTENT CARDS (shared by research, projects, hackathon) ── */
-.cc{border-left:3px solid var(--ink4);padding:.75rem .85rem .75rem .95rem;background:var(--wc);transition:background .12s}
-.cc[data-id]:hover{background:#f5f0ff;border-left-color:#a78bfa}
+.cc{border-left:3px solid var(--ink4);padding:.75rem .85rem .75rem .95rem;background:var(--wc)}
 .cc-head{display:flex;align-items:flex-start;gap:.65rem;margin-bottom:.5rem}
 .cc-ico{width:30px;height:30px;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .cc-ico svg{width:15px;height:15px;stroke:var(--ink);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .cc-title-block{flex:1}
 .cc-title{font-size:.82rem;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:.1rem}
-.cc-meta{font-size:.58rem;color:var(--ink2);font-family:'Courier New',monospace;letter-spacing:.03em;font-weight:600}
+.cc-meta{font-size:.56rem;color:var(--ink3);font-family:'Courier New',monospace;letter-spacing:.03em}
 .cc-badges{display:flex;gap:.22rem;flex-shrink:0}
 .cc-badge-pill{display:inline-block;font-size:.46rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.06rem .32rem;background:var(--ink);color:#fff}
 .cc-badge-pub{background:#c8683a}
@@ -134,76 +128,13 @@ body{background:#1a1714;cursor:none}
 
 /* statusbar */
 .wstat{height:18px;background:var(--cm);border-top:1px solid var(--cbr);display:flex;align-items:center;padding:0 7px;gap:6px;flex-shrink:0}
-.wstat span{font-size:.51rem;font-weight:700;color:var(--ink2);font-family:'Courier New',monospace}
+.wstat span{font-size:.51rem;font-weight:700;color:var(--ink3);font-family:'Courier New',monospace}
 
 /* ── PIXEL BUTTON ── */
 .pxb{font-size:.58rem;font-weight:700;font-family:Arial,Helvetica,sans-serif;background:#fff;color:var(--ink);border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);padding:.16rem .5rem;cursor:pointer;display:inline-flex;align-items:center;gap:.24rem;transition:transform .07s,box-shadow .07s;text-decoration:none}
 .pxb:hover{background:var(--ink);color:#fff}
 .pxb:active{transform:translate(2px,2px);box-shadow:none}
 .pxb svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-
-
-/* ── PIXEL AVATAR (center of desktop) ── */
-#avWrap{
-  position:fixed;
-  left:50%;bottom:80px;
-  transform:translateX(-50%);
-  z-index:7000;
-  display:flex;flex-direction:column;align-items:center;
-  cursor:pointer;user-select:none;
-}
-#pixelAvatar{
-  width:96px;height:auto;
-  filter:drop-shadow(2px 4px 0 rgba(0,0,0,.45));
-  transition:transform .15s;
-  position:relative;
-}
-#avWrap:hover #pixelAvatar{transform:scale(1.08) translateY(-5px)}
-#avWrap:active #pixelAvatar{transform:scale(.93)}
-/* two image layers for crossfade */
-#pixelAvatar .av-layer{
-  position:absolute;top:0;left:0;width:96px;
-  image-rendering:pixelated;display:block;
-  transition:opacity .3s ease-in-out;
-}
-#pixelAvatar .av-layer:first-child{position:relative}
-#pixelAvatar .av-layer.av-hide{opacity:0}
-#pixelAvatar .av-layer.av-show{opacity:1}
-/* bounce on pose change */
-@keyframes avBounce{0%{transform:translateY(0)}28%{transform:translateY(-18px) scale(1.06)}52%{transform:translateY(3px)}72%{transform:translateY(-6px)}100%{transform:translateY(0)}}
-#avWrap.av-bounce #pixelAvatar{animation:avBounce .45s cubic-bezier(.34,1.56,.64,1) forwards}
-/* speech bubble */
-#avBubble{
-  position:absolute;
-  bottom:calc(100% + 4px);
-  left:50%;transform:translateX(-50%) scale(0);
-  transform-origin:bottom center;
-  background:#fff;
-  border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);
-  padding:.32rem .65rem;
-  white-space:nowrap;
-  font-size:.62rem;font-weight:700;color:var(--ink);
-  font-family:Arial,Helvetica,sans-serif;
-  transition:transform .2s cubic-bezier(.34,1.56,.64,1);
-  pointer-events:none;
-}
-#avBubble.show{transform:translateX(-50%) scale(1);pointer-events:all}
-/* pixel bubble tail */
-#avBubble::after{
-  content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);
-  border-left:5px solid transparent;border-right:5px solid transparent;
-  border-top:6px solid var(--ink);
-}
-#avBubble::before{
-  content:'';position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);
-  border-left:4px solid transparent;border-right:4px solid transparent;
-  border-top:5px solid #fff;z-index:1;
-}
-#avBubble a{color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.3rem}
-#avBubble a:hover{text-decoration:underline}
-/* idle float animation */
-@keyframes avFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-#avWrap.idle #pixelAvatar{animation:avFloat 2.8s ease-in-out infinite}
 
 /* ── ABOUT WINDOW ── */
 .aw{padding:.95rem;background:var(--wc);display:flex;flex-direction:column;gap:.6rem;overflow-y:auto;flex:1}
@@ -239,12 +170,12 @@ body{background:#1a1714;cursor:none}
 .cite-txt strong{color:var(--ink)}
 
 /* ── DETAIL OVERLAY ── */
-
-
-
-
-
-
+.dov{position:fixed;inset:0;z-index:5000;background:rgba(0,0,0,.3);display:none;align-items:center;justify-content:center;padding:1.5rem}
+.dov.open{display:flex}
+.d-win{width:min(580px,94vw);max-height:82vh;background:var(--wc);border:2px solid var(--cbr);box-shadow:5px 5px 0 rgba(0,0,0,.25),9px 9px 0 rgba(0,0,0,.08);display:flex;flex-direction:column;overflow:hidden}
+.d-body{flex:1;overflow-y:auto;padding:1.3rem 1.5rem 1.7rem;scrollbar-width:thin;scrollbar-color:var(--ink4) transparent}
+.d-body::-webkit-scrollbar{width:4px}
+.d-body::-webkit-scrollbar-thumb{background:var(--ink4)}
 /* detail text — pure typography, no decorative boxes */
 .d-cat{font-size:.5rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.28rem}
 .d-h1{font-size:1.38rem;font-weight:700;color:var(--ink);line-height:1.12;margin-bottom:.25rem;letter-spacing:-.02em}
@@ -262,12 +193,10 @@ body{background:#1a1714;cursor:none}
 .d-lnk svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 
 /* responsive */
-@media(max-width:620px){#dock{display:none}#desk{bottom:0;right:0}.fw{min-width:260px!important}#fw-about{width:270px;left:8px}}
+@media(max-width:620px){#dock{display:none}#desk{right:0}.fw{min-width:260px!important}#fw-about{width:270px;left:8px}}
 </style>
 </head>
 <body>
-
-<img id="wallpaper" src="wallpaper.svg" alt="" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;object-fit:cover;pointer-events:none">
 
 <div id="cur"><svg width="16" height="16" viewBox="0 0 16 16"><polygon points="2,2 2,14 5,10 7,15 9,14 7,9.5 11,9.5" fill="#1a1714" stroke="#fff" stroke-width=".8" stroke-linejoin="round"/></svg></div>
 
@@ -309,7 +238,7 @@ body{background:#1a1714;cursor:none}
         </div>
       </div>
       <hr class="aw-hr">
-      <p class="aw-desc">Grew up in China, high school in Singapore. Research at the intersection of computational neuroscience, biostatistics, ODE/PDE, and multi-agent systems in quantitative finance.</p>
+      <p class="aw-desc">Grew up in China, high school in Singapore. Research at the intersection of computational neuroscience, biostatistics, ODE/PDE, and multi-agent systems in quantitative finance. Dean's List all semesters.</p>
       <div>
         <div class="aw-section">Skills</div>
         <div class="aw-pills">
@@ -330,8 +259,8 @@ body{background:#1a1714;cursor:none}
         <a class="aw-btn" href="https://github.com/miazhouruoya" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a>
         <a class="aw-btn" href="https://linkedin.com/in/miaazhoou" target="_blank"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
         <a class="aw-btn" href="mailto:zhoumia@ad.unc.edu"><svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email</a>
-        <a class="aw-btn" href="landing.html?dest=ib.html&title=ib+portfolio"><svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>IB</a>
-        <a class="aw-btn" href="landing.html?dest=life.html&title=my+life"><svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Life</a>
+        <a class="aw-btn" href="ib.html" target="_blank"><svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>IB</a>
+        <a class="aw-btn" href="life.html" target="_blank"><svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Life</a>
       </div>
     </div>
   </div>
@@ -370,7 +299,7 @@ body{background:#1a1714;cursor:none}
     <div class="wtb2" id="resTool">
       <button class="wtab on" data-c="all">All (4)</button>
       <button class="wtab" data-c="bio">Biostatistics</button>
-      <button class="wtab" data-c="fin">Finance AI</button>
+      <button class="wtab" data-c="neuro">Neuroscience</button>
     </div>
     <div class="wbody">
       <div class="wsb" id="resSb">
@@ -378,12 +307,12 @@ body{background:#1a1714;cursor:none}
         <div class="wsb-r on" data-c="all"><div class="sdot" style="background:#9a9590"></div>All (4)</div>
         <span class="wsb-h">Field</span>
         <div class="wsb-r" data-c="bio"><div class="sdot" style="background:#2a8a7a"></div>Biostatistics</div>
-        <div class="wsb-r" data-c="fin"><div class="sdot" style="background:#4c6ef5"></div>Finance AI</div>
+        <div class="wsb-r" data-c="neuro"><div class="sdot" style="background:#7dd3fc"></div>Neuroscience</div>
       </div>
       <div class="wscroll" id="resCards">
 
         <!-- NIH Network -->
-        <div class="cc" data-c="bio" id="cc-nih" data-id="nih" onclick="od(this.dataset.id)" style="cursor:pointer">
+        <div class="cc" data-c="bio" id="cc-nih">
           <div class="cc-head">
             <div class="cc-ico" style="background:var(--c1)"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><circle cx="19" cy="19" r="3"/><circle cx="5" cy="19" r="3"/><path d="M12 8v13M5 19h14"/></svg></div>
             <div class="cc-title-block">
@@ -400,7 +329,7 @@ body{background:#1a1714;cursor:none}
         </div>
 
         <!-- Spatial Transcriptomics -->
-        <div class="cc" data-c="bio" id="cc-spatial" data-id="spatial" onclick="od(this.dataset.id)" style="cursor:pointer">
+        <div class="cc" data-c="bio" id="cc-spatial">
           <div class="cc-head">
             <div class="cc-ico" style="background:var(--c2)"><svg viewBox="0 0 24 24"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 3v11"/><path d="m6 5 3-3 3 3"/></svg></div>
             <div class="cc-title-block">
@@ -415,7 +344,7 @@ body{background:#1a1714;cursor:none}
         </div>
 
         <!-- eNet -->
-        <div class="cc" data-c="bio" id="cc-enet" data-id="enet" onclick="od(this.dataset.id)" style="cursor:pointer">
+        <div class="cc" data-c="bio" id="cc-enet">
           <div class="cc-head">
             <div class="cc-ico" style="background:var(--c3)"><svg viewBox="0 0 24 24"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/><path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/></svg></div>
             <div class="cc-title-block">
@@ -429,8 +358,51 @@ body{background:#1a1714;cursor:none}
           </div>
         </div>
 
-        <!-- Agent Econ Sim (Finance AI research) -->
-        <div class="cc" data-c="fin" data-id="agent" onclick="od(this.dataset.id)" style="cursor:pointer">
+        <!-- Neuromatch -->
+        <div class="cc" data-c="neuro" id="cc-neuro">
+          <div class="cc-head">
+            <div class="cc-ico" style="background:var(--c4)"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <div class="cc-title-block">
+              <div class="cc-title">Neuromatch Neuron Simulation</div>
+              <div class="cc-meta">NeuroMatch Program · Computational Neuroscience · Jun — Aug 2025</div>
+            </div>
+          </div>
+          <p class="cc-desc">Decoded inter-regional brain communication via Leiden Analysis on the IBL dataset (30k+ neurons), predicting trial-by-trial behavioural decisions at 78% accuracy.</p>
+          <div class="cc-links">
+            <a class="pxb" href="Uni/slides.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="wstat"><span id="resStat">4 items</span><span style="margin-left:auto">scroll to read</span></div>
+  </div>
+
+  <!-- ═══════════════ PROJECTS WINDOW ═══════════════ -->
+  <div class="fw gone" id="fw-proj" style="top:60px;left:200px;width:540px">
+    <div class="wtb" data-wid="fw-proj">
+      <div class="tls"><div class="tl tl-r" onclick="cw('fw-proj')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-proj')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
+      <span class="wt-title">Projects</span>
+    </div>
+    <div class="wtb2" id="projTool">
+      <button class="wtab on" data-c2="all">All (4)</button>
+      <button class="wtab" data-c2="fin">Finance AI</button>
+      <button class="wtab" data-c2="health">Health</button>
+      <button class="wtab" data-c2="math">Math</button>
+    </div>
+    <div class="wbody">
+      <div class="wsb" id="projSb">
+        <span class="wsb-h">Items</span>
+        <div class="wsb-r on" data-c2="all"><div class="sdot" style="background:#9a9590"></div>All (4)</div>
+        <span class="wsb-h">Category</span>
+        <div class="wsb-r" data-c2="fin"><div class="sdot" style="background:#4c6ef5"></div>Finance AI</div>
+        <div class="wsb-r" data-c2="health"><div class="sdot" style="background:#2a8a7a"></div>Health</div>
+        <div class="wsb-r" data-c2="math"><div class="sdot" style="background:#c9922a"></div>Math</div>
+      </div>
+      <div class="wscroll" id="projCards">
+
+        <!-- Agent Econ Sim -->
+        <div class="cc" data-c2="fin">
           <div class="cc-head">
             <div class="cc-ico" style="background:var(--c5)"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
             <div class="cc-title-block">
@@ -449,36 +421,8 @@ body{background:#1a1714;cursor:none}
           </div>
         </div>
 
-      </div>
-    </div>
-    <div class="wstat"><span id="resStat">4 items</span><span style="margin-left:auto">click card to expand</span></div>
-  </div>
-
-  <!-- ═══════════════ PROJECTS WINDOW ═══════════════ -->
-  <div class="fw gone" id="fw-proj" style="top:60px;left:200px;width:540px">
-    <div class="wtb" data-wid="fw-proj">
-      <div class="tls"><div class="tl tl-r" onclick="cw('fw-proj')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-proj')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
-      <span class="wt-title">Projects</span>
-    </div>
-    <div class="wtb2" id="projTool">
-      <button class="wtab on" data-c2="all">All (5)</button>
-      <button class="wtab" data-c2="health">Health</button>
-      <button class="wtab" data-c2="neuro">Neuro</button>
-      <button class="wtab" data-c2="math">Math</button>
-    </div>
-    <div class="wbody">
-      <div class="wsb" id="projSb">
-        <span class="wsb-h">Items</span>
-        <div class="wsb-r on" data-c2="all"><div class="sdot" style="background:#9a9590"></div>All (5)</div>
-        <span class="wsb-h">Category</span>
-        <div class="wsb-r" data-c2="health"><div class="sdot" style="background:#2a8a7a"></div>Health</div>
-        <div class="wsb-r" data-c2="neuro"><div class="sdot" style="background:#7dd3fc"></div>Neuroscience</div>
-        <div class="wsb-r" data-c2="math"><div class="sdot" style="background:#c9922a"></div>Math</div>
-      </div>
-      <div class="wscroll" id="projCards">
-
         <!-- Clinical Doppelganger -->
-        <div class="cc" data-c2="health" data-id="app741" onclick="od(this.dataset.id)" style="cursor:pointer">
+        <div class="cc" data-c2="health">
           <div class="cc-head">
             <div class="cc-ico" style="background:var(--c1)"><svg viewBox="0 0 24 24"><path d="M22 12h-3l-3 9L9 3l-3 9H3"/></svg></div>
             <div class="cc-title-block">
@@ -494,7 +438,7 @@ body{background:#1a1714;cursor:none}
         </div>
 
         <!-- WageGuard -->
-        <div class="cc" data-c2="health" data-id="wageguard" onclick="od(this.dataset.id)" style="cursor:pointer">
+        <div class="cc" data-c2="health">
           <div class="cc-head">
             <div class="cc-ico" style="background:var(--c6)"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
             <div class="cc-title-block">
@@ -513,23 +457,8 @@ body{background:#1a1714;cursor:none}
           </div>
         </div>
 
-        <!-- Neuromatch Neuron Simulation -->
-        <div class="cc" data-c2="neuro" data-id="neuro" onclick="od(this.dataset.id)" style="cursor:pointer">
-          <div class="cc-head">
-            <div class="cc-ico" style="background:var(--c4)"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-            <div class="cc-title-block">
-              <div class="cc-title">Neuromatch Neuron Simulation</div>
-              <div class="cc-meta">NeuroMatch Program · Computational Neuroscience · Jun — Aug 2025</div>
-            </div>
-          </div>
-          <p class="cc-desc">Decoded inter-regional brain communication via Leiden Analysis on the IBL dataset (30k+ neurons), predicting trial-by-trial behavioural decisions at 78% accuracy.</p>
-          <div class="cc-links">
-            <a class="pxb" href="Uni/slides.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
-          </div>
-        </div>
-
         <!-- UNC Math DRP -->
-        <div class="cc" data-c2="math" data-id="math" onclick="od(this.dataset.id)" style="cursor:pointer">
+        <div class="cc" data-c2="math">
           <div class="cc-head">
             <div class="cc-ico" style="background:var(--c4)"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M14 14h7v7h-7z"/><path d="M3 14h7v7H3z"/></svg></div>
             <div class="cc-title-block">
@@ -545,7 +474,7 @@ body{background:#1a1714;cursor:none}
 
       </div>
     </div>
-    <div class="wstat"><span id="projStat">5 items</span><span style="margin-left:auto">click card to expand</span></div>
+    <div class="wstat"><span id="projStat">5 items</span><span style="margin-left:auto">scroll to read</span></div>
   </div>
 
   <!-- ═══════════════ HACKATHON WINDOW ═══════════════ -->
@@ -556,7 +485,7 @@ body{background:#1a1714;cursor:none}
     </div>
     <div class="wscroll">
 
-      <div class="cc" data-id="datafest" onclick="od(this.dataset.id)" style="cursor:pointer">
+      <div class="cc">
         <div class="cc-head">
           <div class="cc-ico" style="background:var(--c4)"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
           <div class="cc-title-block">
@@ -581,7 +510,7 @@ body{background:#1a1714;cursor:none}
         </div>
       </div>
 
-      <div class="cc" data-id="wageguard" onclick="od(this.dataset.id)" style="cursor:pointer">
+      <div class="cc">
         <div class="cc-head">
           <div class="cc-ico" style="background:var(--c3)"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></div>
           <div class="cc-title-block">
@@ -609,60 +538,41 @@ body{background:#1a1714;cursor:none}
   <!-- ═══════════════ DESKTOP FOLDER ICONS ═══════════════ -->
 
   <!-- Publications — amber -->
-  <div class="di" style="top:28px;left:10px" ondblclick="ow('fw-pub')" onclick="sd(this)">
+  <div class="di" style="top:34px;left:10px" ondblclick="ow('fw-pub')" onclick="sd(this)">
     <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#ffd6f0" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#ff9de2" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><rect x="17" y="10" width="3" height="2" fill="#faecd8" stroke="var(--ink)" stroke-width="1" rx="1"/><text x="29" y="33" text-anchor="middle" font-family="Arial" font-size="6.5" font-weight="800" fill="#7a4010">PUBL.</text><text x="46" y="22" font-size="6.5" fill="#c8683a" font-family="Arial">✦</text></svg></div>
     <div class="di-lbl">Publications</div>
   </div>
 
   <!-- Research — teal -->
-  <div class="di" style="top:110px;left:10px" ondblclick="ow('fw-res')" onclick="sd(this)">
+  <div class="di" style="top:128px;left:10px" ondblclick="ow('fw-res')" onclick="sd(this)">
     <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#c0eeff" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#5bc8f5" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><text x="29" y="33" text-anchor="middle" font-family="Arial" font-size="6.5" font-weight="800" fill="#1a4a60">RESEARCH</text><text x="46" y="22" font-size="6.5" fill="#5ab8c8" font-family="Arial">✦</text></svg></div>
     <div class="di-lbl">Research</div>
   </div>
 
   <!-- Projects — lavender -->
-  <div class="di" style="top:192px;left:10px" ondblclick="ow('fw-proj')" onclick="sd(this)">
+  <div class="di" style="top:222px;left:10px" ondblclick="ow('fw-proj')" onclick="sd(this)">
     <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#ddd0ff" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#b09ef8" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><text x="29" y="33" text-anchor="middle" font-family="Arial" font-size="6.5" font-weight="800" fill="#3a1a6a">PROJECTS</text><text x="46" y="22" font-size="6.5" fill="#8878c8" font-family="Arial">✦</text></svg></div>
     <div class="di-lbl">Projects</div>
   </div>
 
   <!-- Hackathon — rose -->
-  <div class="di" style="top:274px;left:10px" ondblclick="ow('fw-hack')" onclick="sd(this)">
+  <div class="di" style="top:316px;left:10px" ondblclick="ow('fw-hack')" onclick="sd(this)">
     <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#ffb8d8" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#ff7eb3" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><text x="29" y="31" text-anchor="middle" font-family="Arial" font-size="6" font-weight="800" fill="#601030">HACK-</text><text x="29" y="39" text-anchor="middle" font-family="Arial" font-size="6" font-weight="800" fill="#601030">ATHON</text><text x="46" y="22" font-size="6.5" fill="#d88898" font-family="Arial">✦</text></svg></div>
     <div class="di-lbl">Hackathon</div>
   </div>
 
   <!-- IB Portfolio — mint -->
-  <div class="di" style="top:356px;left:10px" ondblclick="window.location='landing.html?dest=ib.html&title=ib+portfolio'" onclick="sd(this)">
+  <div class="di" style="top:410px;left:10px" ondblclick="window.open('ib.html','_blank')" onclick="sd(this)">
     <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#aaffd8" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#3de8a0" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><text x="29" y="31" text-anchor="middle" font-family="Arial" font-size="6.5" font-weight="800" fill="#1a5030">IB</text><text x="29" y="39" text-anchor="middle" font-family="Arial" font-size="6" font-weight="800" fill="#1a5030">PORTFOLIO</text><text x="46" y="22" font-size="6.5" fill="#5ab898" font-family="Arial">✦</text></svg></div>
     <div class="di-lbl">IB Portfolio</div>
   </div>
 
   <!-- My Life — peach -->
-  <div class="di" style="top:438px;left:10px" ondblclick="window.location='landing.html?dest=life.html&title=my+life'" onclick="sd(this)">
+  <div class="di" style="top:504px;left:10px" ondblclick="window.open('life.html','_blank')" onclick="sd(this)">
     <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#ffe8a0" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#ffcc44" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><text x="29" y="33" text-anchor="middle" font-family="Arial" font-size="6.5" font-weight="800" fill="#603010">MY LIFE</text><text x="46" y="22" font-size="6.5" fill="#c89858" font-family="Arial">✦</text></svg></div>
     <div class="di-lbl">My Life</div>
   </div>
 
-
-  <!-- ═══════════════ PIXEL AVATAR (center) ═══════════════ -->
-  <div id="avWrap" onclick="cycleAvatar()">
-    <!-- speech bubble (shows on hover, links to resume) -->
-    <div id="avBubble">
-      <a href="landing.html?dest=resume.html&title=resume">
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        View Resume ✦
-      </a>
-    </div>
-    <div id="pixelAvatar" style="position:relative;width:96px;height:220px">
-      <img class="av-layer av-show" id="avA" src="sprite_1.png" alt="Mia">
-      <img class="av-layer av-hide" id="avB" src="sprite_2.png" alt="Mia">
-    </div>
-  </div>
-
-
-  <!-- ═══════════════ DETAIL OVERLAY ═══════════════ -->
-  
 </div><!-- /desk -->
 
 <!-- DOCK -->
@@ -688,11 +598,11 @@ body{background:#1a1714;cursor:none}
     <div class="dk-lbl">Hackathon</div>
   </div>
   <div class="dk-sep"></div>
-  <div class="dk" onclick="window.location='landing.html?dest=ib.html&title=ib+portfolio';bd(this)">
+  <div class="dk" onclick="window.open('ib.html','_blank');bd(this)">
     <div class="dk-img"><svg viewBox="0 0 44 44"><rect x="1" y="1" width="42" height="42" rx="9" fill="var(--c3)" stroke="var(--ink)" stroke-width="1.5"/><rect x="12" y="8" width="20" height="27" fill="#7adfaf" stroke="var(--ink)" stroke-width="1.2"/><path d="M26 8L26 14L32 14" fill="none" stroke="var(--ink)" stroke-width="1.2"/><line x1="16" y1="18" x2="28" y2="18" stroke="var(--ink)" stroke-width="1" opacity=".5"/><line x1="16" y1="22" x2="28" y2="22" stroke="var(--ink)" stroke-width="1" opacity=".5"/><line x1="16" y1="26" x2="23" y2="26" stroke="var(--ink)" stroke-width="1" opacity=".5"/></svg></div>
     <div class="dk-lbl">IB Portfolio</div>
   </div>
-  <div class="dk" onclick="window.location='landing.html?dest=life.html&title=my+life';bd(this)">
+  <div class="dk" onclick="window.open('life.html','_blank');bd(this)">
     <div class="dk-img"><svg viewBox="0 0 44 44"><rect x="1" y="1" width="42" height="42" rx="9" fill="var(--c4)" stroke="var(--ink)" stroke-width="1.5"/><path d="M22 36C22 36 8 26 8 16C8 11 12 8 16 10C19 11 22 14 22 14C22 14 25 11 28 10C32 8 36 11 36 16C36 26 22 36 22 36Z" fill="#d88888" stroke="var(--ink)" stroke-width="1.2"/></svg></div>
     <div class="dk-lbl">My Life</div>
   </div>
@@ -737,27 +647,27 @@ function setF(c){
   const v=document.querySelectorAll('#resCards .cc:not([style*="none"])').length;
   document.getElementById('resStat').textContent=`${v} items`;
 }
-document.getElementById('resTool')?.addEventListener('click',e=>{const t=e.target.closest('.wtab');if(t)setF(t.dataset.c)});
-document.getElementById('resSb')?.addEventListener('click',e=>{const s=e.target.closest('.wsb-r');if(s)setF(s.dataset.c)});
+document.getElementById('resTool').addEventListener('click',e=>{const t=e.target.closest('.wtab');if(t)setF(t.dataset.c)});
+document.getElementById('resSb').addEventListener('click',e=>{const s=e.target.closest('.wsb-r');if(s)setF(s.dataset.c)});
 
 /* ── PROJECTS FILTER ── */
 function setFP(c){
   document.querySelectorAll('#projTool .wtab').forEach(t=>t.classList.toggle('on',t.dataset.c2===c));
   document.querySelectorAll('#projSb .wsb-r').forEach(s=>s.classList.toggle('on',s.dataset.c2===c));
   document.querySelectorAll('#projCards .cc').forEach(i=>i.style.display=(c==='all'||i.dataset.c2===c)?'':'none');
-  const v=[...document.querySelectorAll('#projCards .cc')].filter(i=>i.style.display!=='none').length;
+  const v=document.querySelectorAll('#projCards .cc:not([style*="none"])').length;
   document.getElementById('projStat').textContent=`${v} items`;
 }
-document.getElementById('projTool')?.addEventListener('click',e=>{const t=e.target.closest('.wtab');if(t)setFP(t.dataset.c2)});
-document.getElementById('projSb')?.addEventListener('click',e=>{const s=e.target.closest('.wsb-r');if(s)setFP(s.dataset.c2)});
+document.getElementById('projTool').addEventListener('click',e=>{const t=e.target.closest('.wtab');if(t)setFP(t.dataset.c2)});
+document.getElementById('projSb').addEventListener('click',e=>{const s=e.target.closest('.wsb-r');if(s)setFP(s.dataset.c2)});
 
 /* ── PUB CITE ── */
-const _ct=document.getElementById('citeTog');if(_ct)_ct.addEventListener('click',function(){const x=document.getElementById('citeXp');x.classList.toggle('show');this.childNodes[this.childNodes.length-1].nodeValue=x.classList.contains('show')?' Hide':' Cite'});
-const _cp=document.getElementById('citeCp');if(_cp)_cp.addEventListener('click',function(){navigator.clipboard.writeText('Shi, C., Han, S., Kusumanchi, S., Zhou, M., & Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. Manuscript submitted for publication.').then(()=>{this.textContent='Copied!';setTimeout(()=>{this.textContent='Copy'},1800)})});
+document.getElementById('citeTog').addEventListener('click',function(){const x=document.getElementById('citeXp');x.classList.toggle('show');this.childNodes[this.childNodes.length-1].nodeValue=x.classList.contains('show')?' Hide':' Cite'});
+document.getElementById('citeCp').addEventListener('click',function(){navigator.clipboard.writeText('Shi, C., Han, S., Kusumanchi, S., Zhou, M., & Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. Manuscript submitted for publication.').then(()=>{this.textContent='Copied!';setTimeout(()=>{this.textContent='Copy'},1800)})});
 
 /* ── DESKTOP SELECT ── */
 function sd(el){document.querySelectorAll('.di').forEach(d=>d.classList.remove('sel'));el.classList.add('sel')}
-document.getElementById('desk')?.addEventListener('click',e=>{if(!e.target.closest('.di')&&!e.target.closest('.fw'))document.querySelectorAll('.di').forEach(d=>d.classList.remove('sel'))});
+document.getElementById('desk').addEventListener('click',e=>{if(!e.target.closest('.di')&&!e.target.closest('.fw'))document.querySelectorAll('.di').forEach(d=>d.classList.remove('sel'))});
 
 /* ── DOCK BOUNCE ── */
 function bd(el){const img=el.querySelector('.dk-img');img.classList.remove('bounce');void img.offsetWidth;img.classList.add('bounce');setTimeout(()=>img.classList.remove('bounce'),420)}
@@ -783,170 +693,9 @@ function sf(x,y,n=1){for(let i=0;i<n;i++)setTimeout(()=>{
 },i*65)}
 document.addEventListener('click',e=>{if(e.target.closest('.tl')||e.target.closest('.wtab')||e.target.closest('.wsb-r'))return;sf(e.clientX,e.clientY,1)});
 
-
-/* ── PIXEL AVATAR ── */
-const avPoses=['sprite_1.png','sprite_2.png','sprite_3.png','sprite_4.png'];
-let avIdx=0,avFront=true,bubbleTimer=null;
-avPoses.forEach(s=>{const i=new Image();i.src=s});
-
-function cycleAvatar(e){
-  if(e)e.stopPropagation();
-  const next=(avIdx+1)%avPoses.length;
-  const fa=document.getElementById('avA'),fb=document.getElementById('avB');
-  const wrap=document.getElementById('avWrap');
-  if(avFront){fb.src=avPoses[next];fb.classList.replace('av-hide','av-show');fa.classList.replace('av-show','av-hide')}
-  else{fa.src=avPoses[next];fa.classList.replace('av-hide','av-show');fb.classList.replace('av-show','av-hide')}
-  avFront=!avFront; avIdx=next;
-  /* bounce */
-  wrap.classList.remove('av-bounce','idle');
-  void wrap.offsetWidth;
-  wrap.classList.add('av-bounce');
-  setTimeout(()=>{wrap.classList.remove('av-bounce');wrap.classList.add('idle')},460);
-  /* sparkles */
-  const r=wrap.getBoundingClientRect();
-  sf(r.left+r.width/2,r.top+r.height/3,3);
-  /* show speech bubble */
-  showBubble();
-}
-
-function showBubble(){
-  const b=document.getElementById('avBubble');
-  b.classList.add('show');
-  clearTimeout(bubbleTimer);
-  bubbleTimer=setTimeout(()=>b.classList.remove('show'),2800);
-}
-
-/* hover shows bubble too */
-const _aw=document.getElementById('avWrap');if(_aw){_aw.addEventListener('mouseenter',()=>{clearTimeout(bubbleTimer);const b=document.getElementById('avBubble');if(b)b.classList.add('show');});_aw.addEventListener('mouseleave',()=>{bubbleTimer=setTimeout(()=>{const b=document.getElementById('avBubble');if(b)b.classList.remove('show')},600);});}
-
-/* start idle float */
-setTimeout(()=>document.getElementById('avWrap').classList.add('idle'),800);
-
-/* ── PROJECT DETAIL POPUP ── */
-const PD={
-  nih:{title:'NIH Network Analysis',cat:'UNC Biostatistics — Li Lab',pi:'PI: Prof. Didong Li',date:'Oct 2024 — Present',
-    desc:'Processed 30,000+ NIH grant abstracts to identify funding trends by engineering an NLP pipeline using BERTopic and BioSentVec embeddings. Visualised co-PI networks to reveal collaboration dynamics and funding inequality at UNC.',
-    cite:'Shi, C., Han, S., Kusumanchi, S., <strong>Zhou, M.</strong>, & Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. <em>Manuscript submitted for publication.</em>',
-    links:[{h:'Uni/NIH_Network.pdf',l:'PDF'},{h:'https://github.com/CuiranVivianShi/NIH_network',l:'Code'}]},
-  spatial:{title:'Spatial Transcriptomics',cat:'UNC Biostatistics — Li Lab',pi:'PI: Prof. Didong Li',date:'Oct 2024 — Present',
-    desc:'Benchmarked 3 graph-building frameworks (Seurat, Squidpy, Niches) on Stimage-1K4M dataset, comparing model outputs and loss matrices for spatial gene expression analysis.',
-    links:[{h:'https://github.com/parkyunjin/stgraph',l:'Code'}]},
-  enet:{title:'eNet Enhancer Network',cat:'Xiamen University — Huang Lab',pi:'PI: Prof. Jialiang Huang',date:'Jun 2024 — Present',
-    desc:'Constructed enhancer network from single-cell multi-omics (scATAC + scRNA, 18k+ cells), identifying rare modular topologies (8.39%) predictive of MPA Leukemia driver genes. Achieved high-confidence disease gene prioritisation (WT1, PADI3) with p < 1e−5.',
-    links:[{h:'Uni/eNet.pdf',l:'PDF'}]},
-  neuro:{title:'Neuromatch Neuron Simulation',cat:'NeuroMatch Program',pi:'Computational Neuroscience',date:'Jun — Aug 2025',
-    desc:'Decoded inter-regional brain communication via Leiden Analysis on the IBL dataset (30k+ neurons), predicting trial-by-trial behavioural decisions at 78% accuracy.',
-    links:[{h:'Uni/slides.pdf',l:'Slides'}]},
-  agent:{title:'Agent-Based Economic Simulation',cat:'Tsinghua University — Financial AI Intern',pi:'PI: Prof. Yong Li',date:'May — Aug 2025',
-    desc:'Implemented a behavioural agent-based RCK model using Cobb-Douglas production with Poisson-updated social imitation. Analysed networked dynamics identifying critical interaction threshold, bimodal wealth distribution, and endogenous oscillatory regime. Integrated LLM-driven decision making to reproduce polarisation and echo-chamber dynamics.',
-    links:[{h:'Uni/ABM.pdf',l:'PDF'},{h:'https://github.com/miazhouruoya/agent-society-workplace',l:'Code'}]},
-  math:{title:'Tumour–Immune Dynamics: ODE, PDE & Control',cat:'UNC Mathematics — Directed Reading Program',pi:'Nonlinear Dynamics',date:'Apr 2026',
-    desc:'Analysed a Kuznetsov-type nonlinear ODE system modelling CTL–tumour dynamics. Extended to reaction-diffusion PDEs with chemotaxis, stochastic Langevin formulation, delay DEs, and optimal control. Identified three codimension-1 bifurcations (transcritical, saddle-node, Hopf); mapped results to cancer dormancy and checkpoint inhibitor resistance.',
-    links:[{h:'Uni/tumour_report_v4.pdf',l:'Report'}]},
-  app741:{title:'Clinical Doppelgänger — EHR Decision Support',cat:'Full Stack Developer — CHIP 741',pi:'UNC Chapel Hill',date:'Jan — May 2026',
-    desc:'Built full-stack EHR web app with SMART on FHIR + OAuth 2.0 authentication, querying 5 FHIR R4 resources via parallel jQuery API calls. Engineered client-side statistical pipeline (cosine similarity, Propensity Score Matching, bootstrap 95% CI, Kaplan-Meier) visualised in 4 interactive Highcharts dashboards. Designed interpretable clinical AI using case-based reasoning with Markov state transitions.',
-    links:[]},
-  wageguard:{title:'WageGuard — Bilingual AI Wage Protection',cat:'SolHacks 2026 (MLH)',pi:'Product Manager + Full Stack Developer',date:'Mar 2026',
-    desc:'Built bilingual AI wage-protection tool for Latino workers — voice-based case intake with automated wage violation detection. Developed React/Vite frontend and end-to-end agent workflow powered by Gemini 2.5 Flash + ElevenLabs TTS. Won 1st Place Culture Track out of 40+ teams.',
-    links:[{h:'Uni/WageGuard_SolHacks26.pdf',l:'Slides'},{h:'https://github.com/miazhouruoya/wageguard',l:'Code'}]},
-  datafest:{title:'Duke ASA DataFest 2026',cat:'Duke University — American Statistical Association',pi:'Best Statistical Analysis',date:'Mar 2026',
-    desc:'Led 5-person team analysing 10k+ diabetic patient records in 48 hours. Engineered longitudinal EHR features — inter-visit gap sequences, cv_gap irregularity metric, SDOH risk stratification across 8 social domains. Surfaced structural health inequality via K-Means (k=3) — High-SDOH patients show 2.5× higher ED rates. Counterfactual simulation quantified a 16.6pp risk reduction. Built geospatial mobile clinic routing covering 32,686 patients across 15 stops with Markov Chain comorbidity network.',
-    links:[{h:'Uni/Carolina_Correlation_DukeASA26.pdf',l:'Slides'},{h:'https://github.com/miazhouruoya/dukeasafest26',l:'Code'},{h:'Uni/DataFest2026_MiaZhou_Report.pdf',l:'Report'},{h:'https://miazhouruoya.github.io/kansasmobile/',l:'Map'}]}
-};
-
-const lnkSVG=`<svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`;
-const codeSVG=`<svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>`;
-
-function icoFor(l){return l==='Code'?codeSVG:lnkSVG}
-
-function od(id){
-  pc();
-  const p=PD[id];if(!p)return;
-  document.getElementById('dTitle').textContent=p.title;
-  const pxbStyle='font-size:.6rem;font-weight:700;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#1a1714;border:2px solid #1a1714;box-shadow:2px 2px 0 #1a1714;padding:.18rem .5rem;cursor:pointer;display:inline-flex;align-items:center;gap:.24rem;text-decoration:none;margin-right:.3rem;margin-top:.3rem';
-  let html=`<p style="font-size:.5rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9a9590;margin-bottom:.28rem;font-family:Arial,Helvetica,sans-serif">${p.cat}</p>
-<h2 style="font-size:1.38rem;font-weight:700;color:#1a1714;line-height:1.12;margin-bottom:.25rem;letter-spacing:-.02em;font-family:Arial,Helvetica,sans-serif">${p.title}</h2>
-<p style="font-size:.64rem;font-family:'Courier New',monospace;color:#9a9590;margin-bottom:.85rem;padding-bottom:.7rem;border-bottom:2px solid #1a1714"><strong style="color:#5a5650">${p.pi}</strong> &nbsp;·&nbsp; ${p.date}</p>
-<p style="font-size:.86rem;line-height:1.82;color:#5a5650;margin-bottom:1rem;font-family:Arial,Helvetica,sans-serif">${p.desc}</p>`;
-  if(p.cite){
-    html+=`<p style="font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9a9590;margin-bottom:.35rem;font-family:Arial,Helvetica,sans-serif">Citation (APA)</p>
-<p style="font-family:'Courier New',monospace;font-size:.66rem;line-height:1.72;color:#5a5650;margin-bottom:.65rem;padding:.65rem .75rem;background:#f8f5f0;border-left:2px solid #c8c4be">${p.cite}</p>
-<button onclick="navigator.clipboard.writeText(this.previousElementSibling.innerText).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Citation',1800)})" style="${pxbStyle}">Copy Citation</button>`;
-  }
-  if(p.links&&p.links.length){
-    html+=`<p style="font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9a9590;margin:.9rem 0 .4rem;font-family:Arial,Helvetica,sans-serif">Links</p><div>`;
-    p.links.forEach(l=>{html+=`<a href="${l.h}" target="_blank" style="${pxbStyle}">${icoFor(l.l)} ${l.l}</a>`});
-    html+='</div>';
-  }
-  const body=document.getElementById('dBody');
-  body.innerHTML=html;
-  body.scrollTop=0;
-  document.getElementById('dov').style.display='block';
-  sf(window.innerWidth/2,window.innerHeight/2,2);
-  // show scroll hint if content overflows
-  setTimeout(()=>{
-    if(body.scrollHeight>body.clientHeight){
-      let hint=document.getElementById('scrollHint');
-      if(!hint){
-        hint=document.createElement('div');
-        hint.id='scrollHint';
-        hint.textContent='▼ scroll for more';
-        hint.style.cssText='position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:.5rem;font-weight:700;letter-spacing:.1em;color:#9a9590;background:linear-gradient(transparent,#fff 40%);padding:1rem .5rem .4rem;pointer-events:none;font-family:Arial,sans-serif';
-        body.parentElement.style.position='relative';
-        body.parentElement.appendChild(hint);
-      }
-      hint.style.display='block';
-      body.addEventListener('scroll',()=>{
-        if(body.scrollTop+body.clientHeight>=body.scrollHeight-20)hint.style.display='none';
-        else hint.style.display='block';
-      },{passive:true,once:false});
-    }
-  },50);
-}
-function cd(){pc();document.getElementById('dov').style.display='none'}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')cd()});
-document.addEventListener('click',e=>{if(e.target&&e.target.id==='dov')cd()});
-
-/* cc cards wired via onclick="od(this.dataset.id)" */
-
-
-/* ── FORCE SCROLL ON dBody ── */
-document.addEventListener('DOMContentLoaded',()=>{
-  const db=document.getElementById('dBody');
-  if(!db)return;
-  // wheel events
-  db.addEventListener('wheel',function(e){
-    e.stopPropagation();
-    this.scrollTop+=e.deltaY;
-    e.preventDefault();
-  },{passive:false});
-  // touch scroll
-  let ty=0;
-  db.addEventListener('touchstart',function(e){ty=e.touches[0].clientY;},{passive:true});
-  db.addEventListener('touchmove',function(e){
-    const dy=ty-e.touches[0].clientY;
-    ty=e.touches[0].clientY;
-    this.scrollTop+=dy;
-    e.stopPropagation();
-  },{passive:true});
-});
-
 /* ── CLOCK ── */
 function uc(){const d=new Date();document.getElementById('clock').textContent=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')}
 uc();setInterval(uc,12000);
-
-/* ── POSITION ABOUT WINDOW TOP-RIGHT ── */
-function posAboutRight(){
-  const w=document.getElementById('fw-about');
-  const desk=document.getElementById('desk');
-  if(!w||!desk)return;
-  const dw=desk.offsetWidth;
-  const ww=w.offsetWidth||305;
-  w.style.left=(dw-ww-18)+'px';
-  w.style.top='48px';
-}
-try{posAboutRight();}catch(e){}
-window.addEventListener('resize',()=>{try{posAboutRight();}catch(e){}});
 
 /* ── KEYBOARD ── */
 document.addEventListener('keydown',e=>{
@@ -957,20 +706,5 @@ document.addEventListener('keydown',e=>{
   if((e.metaKey||e.ctrlKey)&&e.key==='5'){e.preventDefault();tw('fw-hack')}
 });
 </script>
-<div id="dov" onclick="if(event.target===this)cd()" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:9500;background:rgba(0,0,0,.5);display:none">
-  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:560px;max-width:92vw">
-    <div style="background:#fff;border:2px solid #b0aca6;box-shadow:5px 5px 0 rgba(0,0,0,.3)">
-      <div style="height:27px;background:linear-gradient(180deg,#f0edea,#d8d4cf);border-bottom:1px solid #b0aca6;display:flex;align-items:center;padding:0 8px;gap:6px;position:relative;user-select:none;flex-shrink:0">
-        <div style="display:flex;gap:5px;align-items:center">
-          <div onclick="cd()" style="width:11px;height:11px;border-radius:50%;background:#ff5f56;border:1px solid rgba(0,0,0,.2);cursor:pointer"></div>
-          <div style="width:11px;height:11px;border-radius:50%;background:#febc2e;border:1px solid rgba(0,0,0,.2)"></div>
-          <div style="width:11px;height:11px;border-radius:50%;background:#28c840;border:1px solid rgba(0,0,0,.2)"></div>
-        </div>
-        <span id="dTitle" style="position:absolute;left:50%;transform:translateX(-50%);font-size:.64rem;font-weight:700;color:#5a5650;pointer-events:none;white-space:nowrap;font-family:Arial,sans-serif"></span>
-      </div>
-      <div id="dBody" style="height:500px;overflow-y:scroll;padding:22px 26px 32px;font-family:Arial,sans-serif"></div>
-    </div>
-  </div>
-</div>
 </body>
 </html>

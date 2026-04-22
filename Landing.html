@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Loading... ✦</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Courier New',Courier,monospace}
+body{
+  background:#1a0a2e;
+  cursor:none;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* pixel cursor */
+#cur{position:fixed;width:16px;height:16px;pointer-events:none;z-index:99999;top:0;left:0}
+#cur svg{display:block}
+@media(hover:none){#cur{display:none}body{cursor:auto}}
+
+/* ── STARFIELD ── */
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.star{position:absolute;background:#fff;image-rendering:pixelated}
+@keyframes twk{0%,100%{opacity:.2}50%{opacity:1}}
+
+/* ── SCANLINES ── */
+#scanlines{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.12) 2px,rgba(0,0,0,.12) 4px);
+}
+
+/* ── SCENE CONTAINER ── */
+#scene{
+  position:relative;z-index:2;
+  width:min(740px,96vw);
+  display:flex;flex-direction:column;align-items:center;
+  gap:0;
+}
+
+/* ── Y2K COMPUTER SVG ── */
+#computer{
+  position:relative;
+  width:340px;
+  flex-shrink:0;
+}
+#computer svg{width:100%;display:block}
+
+/* screen glow */
+@keyframes screenPulse{0%,100%{opacity:.85}50%{opacity:1}}
+#screenGlow{animation:screenPulse 2s ease-in-out infinite}
+
+/* ── WALKING AVATARS on desk ── */
+#walkScene{
+  position:absolute;
+  /* positioned relative to computer SVG */
+  bottom:24px;left:60px;right:60px;height:80px;
+  overflow:hidden;
+}
+.walker{
+  position:absolute;
+  bottom:0;
+  image-rendering:pixelated;
+  width:38px;
+}
+.walker img{width:38px;display:block;image-rendering:pixelated}
+
+/* ── BOTTOM PANEL (below computer) ── */
+#panel{
+  width:100%;
+  background:#0d0820;
+  border:3px solid #ff69b4;
+  box-shadow:0 0 0 1px #ff69b4,4px 4px 0 #ff69b4;
+  padding:0;
+  position:relative;
+}
+/* Y2K window chrome bar */
+#panel-bar{
+  background:linear-gradient(90deg,#ff69b4,#c94fc9,#7b4fff,#4f9fff);
+  height:22px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 8px;
+}
+#panel-bar-title{
+  font-size:.6rem;font-weight:700;color:#fff;
+  letter-spacing:.08em;text-transform:uppercase;
+  display:flex;align-items:center;gap:.3rem;
+}
+#panel-bar-btns{display:flex;gap:4px}
+.pbar-btn{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(255,255,255,.5);cursor:pointer}
+.pbar-btn-r{background:#ff5f56}
+.pbar-btn-y{background:#febc2e}
+.pbar-btn-g{background:#28c840}
+#panel-body{padding:.8rem 1.1rem 1rem}
+
+/* status text */
+#statusLine{
+  font-size:.62rem;color:#ff9de2;letter-spacing:.06em;
+  margin-bottom:.55rem;min-height:1.1em;
+  display:flex;align-items:center;gap:.5rem;
+}
+#statusLine::before{content:'>';color:#7b4fff;font-weight:700}
+#statusCursor{display:inline-block;width:7px;height:.75em;background:#ff69b4;animation:blink .7s step-end infinite;vertical-align:middle;margin-left:2px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* progress bar */
+#progWrap{
+  width:100%;height:14px;
+  border:2px solid #7b4fff;
+  background:#0d0820;
+  position:relative;overflow:hidden;
+  margin-bottom:.6rem;
+}
+#progFill{
+  height:100%;width:0%;
+  background:repeating-linear-gradient(
+    90deg,
+    #ff69b4 0,#ff69b4 8px,
+    #c94fc9 8px,#c94fc9 16px,
+    #7b4fff 16px,#7b4fff 24px,
+    #4f9fff 24px,#4f9fff 32px
+  );
+  background-size:32px 100%;
+  transition:width .15s step-start;
+  animation:barSlide 1s linear infinite;
+}
+@keyframes barSlide{from{background-position:0 0}to{background-position:32px 0}}
+#progPct{
+  position:absolute;right:5px;top:50%;transform:translateY(-50%);
+  font-size:.5rem;font-weight:700;color:#fff;
+  font-family:'Courier New',monospace;
+  mix-blend-mode:difference;
+}
+
+/* pixel dots row */
+#dotRow{display:flex;gap:4px;margin-bottom:.7rem}
+.pd{width:8px;height:8px;background:#1a0a2e;border:1.5px solid #3a1a5a;transition:background .1s,border-color .1s}
+.pd.on{background:#ff69b4;border-color:#ff9de2;box-shadow:0 0 4px #ff69b4}
+
+/* enter button */
+#enterBtn{
+  display:none;
+  width:100%;
+  padding:.5rem;
+  font-family:'Courier New',monospace;
+  font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  background:linear-gradient(90deg,#ff69b4,#7b4fff);
+  border:2px solid #fff;
+  color:#fff;cursor:pointer;
+  text-align:center;
+  animation:btnPulse 1.2s ease-in-out infinite;
+}
+@keyframes btnPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,105,180,.4)}50%{box-shadow:0 0 0 6px rgba(255,105,180,0)}}
+#enterBtn:hover{background:linear-gradient(90deg,#7b4fff,#ff69b4)}
+#enterBtn.show{display:block}
+
+/* Y2K decorative elements */
+.y2k-star{position:fixed;pointer-events:none;z-index:3;font-size:.7rem;animation:y2kSpin linear infinite}
+@keyframes y2kSpin{from{transform:rotate(0deg) scale(1)}to{transform:rotate(360deg) scale(1)}}
+@keyframes y2kFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* ── SKIP ── */
+#skip{
+  position:fixed;bottom:18px;right:20px;z-index:10;
+  font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,105,180,.4);cursor:pointer;
+  font-family:'Courier New',monospace;
+}
+#skip:hover{color:rgba(255,105,180,.9)}
+
+/* sparkles */
+.sp{position:fixed;pointer-events:none;z-index:99;animation:spF .5s ease-out forwards}
+@keyframes spF{0%{opacity:.9}100%{opacity:0;transform:scale(0) translateY(-6px)}}
+</style>
+</head>
+<body>
+
+<div id="cur"><svg width="16" height="16" viewBox="0 0 16 16"><polygon points="2,2 2,14 5,10 7,15 9,14 7,9.5 11,9.5" fill="#ff69b4" stroke="#fff" stroke-width=".6" stroke-linejoin="round"/></svg></div>
+
+<div id="stars"></div>
+<div id="scanlines"></div>
+
+<!-- Y2K sparkle decorations -->
+<div class="y2k-star" style="top:8%;left:6%;color:#ff69b4;animation-duration:4s;font-size:.9rem">✦</div>
+<div class="y2k-star" style="top:14%;right:8%;color:#7b4fff;animation-duration:5s;font-size:.65rem">✧</div>
+<div class="y2k-star" style="top:72%;left:4%;color:#4f9fff;animation-duration:3.5s;font-size:.8rem">✦</div>
+<div class="y2k-star" style="top:80%;right:6%;color:#ff9de2;animation-duration:6s;font-size:.55rem">✧</div>
+<div class="y2k-star" style="top:35%;right:3%;color:#fcd34d;animation-duration:4.5s;font-size:.7rem">+</div>
+<div class="y2k-star" style="top:55%;left:3%;color:#6ee7b7;animation-duration:5.5s;font-size:.6rem">×</div>
+
+<div id="scene">
+
+  <!-- Y2K COMPUTER -->
+  <div id="computer">
+    <svg viewBox="0 0 340 260" xmlns="http://www.w3.org/2000/svg">
+      <!-- monitor body -->
+      <rect x="30" y="20" width="280" height="195" rx="14" fill="#e8d8f8" stroke="#b090d0" stroke-width="3"/>
+      <!-- inner bezel -->
+      <rect x="42" y="30" width="256" height="170" rx="8" fill="#c8b0e8" stroke="#9070c0" stroke-width="2"/>
+      <!-- screen area -->
+      <rect x="52" y="38" width="236" height="154" rx="4" fill="#0d0820" id="screenGlow"/>
+      <!-- screen content: pixel grid pattern -->
+      <rect x="52" y="38" width="236" height="154" rx="4" fill="url(#screenGrad)" opacity=".7"/>
+      <defs>
+        <linearGradient id="screenGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#2a0a4e"/>
+          <stop offset="100%" stop-color="#0a0820"/>
+        </linearGradient>
+      </defs>
+      <!-- screen shine -->
+      <ellipse cx="120" cy="65" rx="45" ry="18" fill="rgba(255,255,255,.06)"/>
+      <!-- screen pixel decoration: mini loading scene -->
+      <text x="170" y="88" text-anchor="middle" font-family="'Courier New',monospace" font-size="8" fill="#ff69b4" font-weight="bold">✦ mia zhou ✦</text>
+      <text x="170" y="102" text-anchor="middle" font-family="'Courier New',monospace" font-size="6" fill="#c084fc">loading portfolio...</text>
+      <!-- mini pixel ground on screen -->
+      <rect x="52" y="168" width="236" height="8" rx="0" fill="#1e3a1e"/>
+      <rect x="52" y="162" width="236" height="6" rx="0" fill="#2a5028"/>
+      <!-- speaker dots left -->
+      <circle cx="58" cy="145" r="2.5" fill="#9070c0"/>
+      <circle cx="58" cy="153" r="2.5" fill="#9070c0"/>
+      <circle cx="58" cy="161" r="2.5" fill="#9070c0"/>
+      <!-- speaker dots right -->
+      <circle cx="282" cy="145" r="2.5" fill="#9070c0"/>
+      <circle cx="282" cy="153" r="2.5" fill="#9070c0"/>
+      <circle cx="282" cy="161" r="2.5" fill="#9070c0"/>
+      <!-- power light -->
+      <circle cx="170" cy="205" r="4" fill="#ff69b4" opacity=".9"/>
+      <circle cx="170" cy="205" r="2" fill="#ffb8d8"/>
+      <!-- brand text on bezel -->
+      <text x="230" y="208" font-family="'Courier New',monospace" font-size="7" fill="#9070c0" font-weight="bold">y2k·pc</text>
+      <!-- monitor neck -->
+      <rect x="148" y="215" width="44" height="14" rx="4" fill="#c8b0e8" stroke="#9070c0" stroke-width="2"/>
+      <!-- base -->
+      <rect x="108" y="229" width="124" height="12" rx="6" fill="#c8b0e8" stroke="#9070c0" stroke-width="2"/>
+      <!-- base shadow -->
+      <ellipse cx="170" cy="244" rx="62" ry="5" fill="rgba(100,0,150,.2)"/>
+      <!-- CD drive slot -->
+      <rect x="220" y="170" width="38" height="5" rx="2" fill="#9070c0"/>
+      <!-- floppy slot -->
+      <rect x="220" y="180" width="28" height="4" rx="1" fill="#9070c0"/>
+      <!-- Y2K sticker -->
+      <rect x="66" y="168" width="22" height="10" rx="2" fill="#ff69b4"/>
+      <text x="77" y="176" text-anchor="middle" font-family="'Courier New',monospace" font-size="5" fill="#fff" font-weight="bold">Y2K!</text>
+      <!-- keyboard -->
+      <rect x="60" y="248" width="220" height="32" rx="5" fill="#d8c8f0" stroke="#9070c0" stroke-width="2"/>
+      <!-- keyboard keys -->
+      <rect x="68" y="254" width="8" height="5" rx="1" fill="#b090d0"/>
+      <rect x="79" y="254" width="8" height="5" rx="1" fill="#b090d0"/>
+      <rect x="90" y="254" width="8" height="5" rx="1" fill="#b090d0"/>
+      <rect x="101" y="254" width="8" height="5" rx="1" fill="#b090d0"/>
+      <rect x="112" y="254" width="8" height="5" rx="1" fill="#b090d0"/>
+      <rect x="123" y="254" width="8" height="5" rx="1" fill="#b090d0"/>
+      <rect x="68" y="263" width="60" height="5" rx="1" fill="#ff9de2" opacity=".7"/>
+      <rect x="132" y="263" width="36" height="5" rx="1" fill="#b090d0"/>
+      <rect x="172" y="263" width="8" height="5" rx="1" fill="#b090d0"/>
+      <rect x="183" y="263" width="8" height="5" rx="1" fill="#b090d0"/>
+      <rect x="194" y="263" width="28" height="5" rx="1" fill="#b090d0"/>
+      <text x="134" y="257" font-family="'Courier New',monospace" font-size="4" fill="#7b4fff" font-weight="bold">SPACE</text>
+    </svg>
+
+    <!-- walking avatars on the desk surface (absolute inside #computer) -->
+    <div id="walkScene">
+      <div class="walker" id="w1" style="left:-40px;bottom:2px"><img id="w1img" src="sprite_1.png" alt=""></div>
+      <div class="walker" id="w2" style="left:-40px;bottom:2px"><img id="w2img" src="sprite_2.png" alt=""></div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM PANEL -->
+  <div id="panel">
+    <div id="panel-bar">
+      <div id="panel-bar-title">
+        <span>✦</span>
+        <span id="panelTitle">loading portfolio.exe</span>
+      </div>
+      <div id="panel-bar-btns">
+        <div class="pbar-btn pbar-btn-r" onclick="skipLoad()"></div>
+        <div class="pbar-btn pbar-btn-y"></div>
+        <div class="pbar-btn pbar-btn-g"></div>
+      </div>
+    </div>
+    <div id="panel-body">
+      <div id="statusLine"><span id="statusTxt">initializing</span><span id="statusCursor"></span></div>
+      <div id="progWrap">
+        <div id="progFill"></div>
+        <div id="progPct">0%</div>
+      </div>
+      <div id="dotRow"></div>
+      <button id="enterBtn" onclick="goNow()">[ enter ] ✦ click to continue</button>
+    </div>
+  </div>
+
+</div>
+
+<div id="skip" onclick="skipLoad()">skip ›</div>
+
+<script>
+/* ── CONFIG ── */
+// Get destination from ?dest= param, default to resume.html
+const params=new URLSearchParams(location.search);
+const DEST=params.get('dest')||'resume.html';
+const TITLE=params.get('title')||'loading...';
+document.getElementById('panelTitle').textContent=TITLE+'.exe';
+
+/* ── CURSOR ── */
+const cur=document.getElementById('cur');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+
+/* ── STARS ── */
+const starsEl=document.getElementById('stars');
+for(let i=0;i<90;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const sz=Math.random()>.7?3:Math.random()>.4?2:1;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${.2+Math.random()*.8};animation:twk ${1.5+Math.random()*3}s ease-in-out ${Math.random()*4}s infinite`;
+  starsEl.appendChild(s);
+}
+
+/* ── DOT ROW ── */
+const DOT_COUNT=28;
+const dotRow=document.getElementById('dotRow');
+for(let i=0;i<DOT_COUNT;i++){
+  const d=document.createElement('div');d.className='pd';dotRow.appendChild(d);
+}
+
+/* ── LOAD MESSAGES ── */
+const msgs=[
+  'initializing system',
+  'loading modules',
+  'connecting to mainframe',
+  'decrypting assets',
+  'rendering pixels',
+  'calibrating vibes',
+  'almost there',
+  'done ✦',
+];
+
+/* ── WALKING AVATARS ── */
+const w1=document.getElementById('w1');
+const w2=document.getElementById('w2');
+const w1img=document.getElementById('w1img');
+const w2img=document.getElementById('w2img');
+const walkDesk=document.getElementById('walkScene');
+const POSES=['sprite_1.png','sprite_2.png','sprite_3.png','sprite_4.png'];
+// Preload
+POSES.forEach(s=>{const i=new Image();i.src=s});
+
+// Two walkers — one leads, one follows 60px behind
+let wx1=-40, wx2=-100;
+let wPose1=0, wPose2=2;
+const WALK_SPEED=1.2; // px per frame
+const DESK_W=()=>walkDesk.offsetWidth+80;
+const FRAME_MS=160; // ms per pose frame
+
+let lastPoseT=0;
+function walkStep(ts){
+  if(!walking)return;
+  // move both
+  wx1+=WALK_SPEED;
+  wx2+=WALK_SPEED;
+  // wrap
+  if(wx1>DESK_W()){wx1=-40}
+  if(wx2>DESK_W()){wx2=-40}
+  w1.style.left=wx1+'px';
+  w2.style.left=wx2+'px';
+  // cycle poses
+  if(ts-lastPoseT>FRAME_MS){
+    wPose1=(wPose1+1)%4;
+    wPose2=(wPose2+1)%4;
+    w1img.src=POSES[wPose1];
+    w2img.src=POSES[wPose2];
+    lastPoseT=ts;
+  }
+  requestAnimationFrame(walkStep);
+}
+let walking=true;
+requestAnimationFrame(walkStep);
+
+/* ── PROGRESS ── */
+let prog=0,done=false;
+const fill=document.getElementById('progFill');
+const pct=document.getElementById('progPct');
+const statusTxt=document.getElementById('statusTxt');
+const dots=document.querySelectorAll('.pd');
+
+const loadInt=setInterval(()=>{
+  if(done)return;
+  const inc=Math.random()*5+1.5;
+  prog=Math.min(100,prog+inc);
+  fill.style.width=prog+'%';
+  pct.textContent=Math.floor(prog)+'%';
+  // light up dots
+  const lit=Math.floor(prog/100*DOT_COUNT);
+  dots.forEach((d,i)=>d.classList.toggle('on',i<lit));
+  // status messages
+  statusTxt.textContent=msgs[Math.floor(prog/100*(msgs.length-1))];
+  if(prog>=100){
+    clearInterval(loadInt);
+    setTimeout(finish,300);
+  }
+},110);
+
+function finish(){
+  if(done)return;done=true;
+  clearInterval(loadInt);
+  fill.style.width='100%';
+  pct.textContent='100%';
+  dots.forEach(d=>d.classList.add('on'));
+  statusTxt.textContent='done ✦';
+  document.getElementById('enterBtn').classList.add('show');
+  walking=false;
+  // stop both walkers mid-stride
+  w1img.src=POSES[0];
+  w2img.src=POSES[2];
+}
+
+function goNow(){window.location.href=DEST}
+function skipLoad(){done=true;clearInterval(loadInt);goNow()}
+
+/* sparkles on click */
+const SC=['#ff69b4','#7b4fff','#4f9fff','#fcd34d','#ff9de2'];
+document.addEventListener('click',e=>{
+  if(e.target.closest('#enterBtn,#skip,.pbar-btn'))return;
+  const s=document.createElement('div');s.className='sp';
+  const sz=3+Math.random()*4;
+  s.style.cssText=`left:${e.clientX+(Math.random()*10-5)}px;top:${e.clientY+(Math.random()*10-5)}px;width:${sz}px;height:${sz}px;background:${SC[~~(Math.random()*SC.length)]};border-radius:0`;
+  document.body.appendChild(s);setTimeout(()=>s.remove(),500);
+});
+</script>
+</body>
+</html>

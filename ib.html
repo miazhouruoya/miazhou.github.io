@@ -1,322 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>IB Portfolio | Mia Zhou</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* ── IB-page extras ── */
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IB Portfolio — Mia Zhou</title>
+<style>
+/* ── TOKENS (same as desktop) ── */
+:root{
+  --ct:#f0edea;--cm:#d8d4cf;--cbr:#b0aca6;
+  --wbg:#f5f3f0;--wc:#ffffff;
+  --ink:#1a1714;--ink2:#5a5650;--ink3:#9a9590;--ink4:#c8c4be;
+  --wall1:#f0e4f8;--wall2:#e4eef8;--wall3:#f8eee4;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wall3) 100%);min-height:100vh;-webkit-font-smoothing:antialiased;cursor:none}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit}
 
-    .ib-hero {
-      min-height: 38vh;
-      position: relative;
-      display: flex; align-items: center; justify-content: center;
-      background-image: url('singapore.jpg');
-      background-size: cover; background-position: center;
-      overflow: hidden;
-    }
-    .ib-hero::before {
-      content: ''; position: absolute; inset: 0;
-      background: rgba(20,14,10,.52); z-index: 1;
-    }
-    .ib-hero-content {
-      position: relative; z-index: 2; text-align: center;
-      padding: 5rem 2rem 3rem;
-      animation: slideUp .9s cubic-bezier(.16,1,.3,1) .2s both;
-    }
-    .ib-hero-content h1 {
-      font-family: 'Georgia', serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 700; color: #fff;
-      text-shadow: 0 2px 20px rgba(0,0,0,.4);
-      margin-bottom: .5rem;
-    }
-    .ib-hero-content p {
-      font-family: 'Georgia', serif;
-      font-size: clamp(.95rem, 2vw, 1.15rem);
-      color: rgba(255,255,255,.82);
-      max-width: 540px; margin: 0 auto 1.6rem;
-      line-height: 1.6;
-    }
-    .ib-back-btn {
-      display: inline-flex; align-items: center; gap: .45rem;
-      padding: .5rem 1.2rem; border-radius: 50px;
-      background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.4);
-      color: #fff; text-decoration: none; font-size: .8rem; font-weight: 600;
-      letter-spacing: .05em; backdrop-filter: blur(6px);
-      transition: background .25s, transform .25s cubic-bezier(.34,1.56,.64,1);
-    }
-    .ib-back-btn:hover {
-      background: rgba(255,255,255,.28); transform: translateY(-3px);
-      color: #fff;
-    }
+/* cursor */
+#cur{position:fixed;width:16px;height:16px;pointer-events:none;z-index:99999;top:0;left:0}
+#cur svg{display:block}
+@media(hover:none){#cur{display:none}body{cursor:auto}}
 
-    /* ── IB grid ── */
-    .ib-section {
-      max-width: 1100px; margin: 0 auto;
-      padding: 3.5rem 2rem 5rem;
-    }
-    .ib-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.4rem;
-    }
+/* sparkles */
+.sp{position:fixed;pointer-events:none;z-index:99997;animation:spF .5s ease-out forwards;border-radius:0}
+@keyframes spF{0%{opacity:.9}100%{opacity:0;transform:scale(0)}}
+.fl{position:fixed;pointer-events:none;z-index:99998;animation:flU .95s ease-out forwards;font-weight:700;line-height:1}
+@keyframes flU{0%{opacity:1;transform:translate(-50%,-50%) scale(.7)}100%{opacity:0;transform:translate(-50%,calc(-50% - 44px)) scale(1)}}
 
-    /* PDF preview */
-    .ib-pdf-wrap {
-      position: relative; height: 240px; flex-shrink: 0;
-      background: #f8f6f4; border-bottom: 1px solid rgba(200,180,180,.15);
-      overflow: hidden;
-    }
-    .ib-card {
-      background: #fff;
-      border-radius: 18px;
-      border: 1px solid rgba(200,180,180,.2);
-      box-shadow: 0 4px 18px rgba(100,70,70,.07);
-      overflow: hidden;
-      display: flex; flex-direction: column;
-      position: relative;
-      transition: transform .32s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
-    }
-    .ib-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      background: linear-gradient(90deg, var(--ca), var(--cb)); z-index: 2;
-    }
-    .ib-card:hover {
-      transform: translateY(-5px) scale(1.01);
-      box-shadow: 0 16px 40px rgba(100,70,70,.12);
-    }
+/* ── TOPBAR — same macOS chrome ── */
+#topbar{
+  position:sticky;top:0;z-index:200;height:34px;
+  background:linear-gradient(180deg,var(--ct) 0%,var(--cm) 100%);
+  border-bottom:1px solid var(--cbr);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 14px;
+}
+.tb-l{display:flex;align-items:center;gap:6px}
+/* traffic lights as back nav */
+.tls{display:flex;gap:5px;align-items:center}
+.tl{width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.18);position:relative;flex-shrink:0;cursor:pointer}
+.tl::after{content:'';position:absolute;inset:0;border-radius:50%;opacity:0;transition:opacity .1s;background-size:7px 7px;background-position:center;background-repeat:no-repeat}
+.tls:hover .tl::after{opacity:1}
+.tl-r{background:#ff5f56}.tl-r::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Cpath d='M1 1l5 5M6 1L1 6' stroke='%23820005' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.tl-y{background:#febc2e}.tl-y::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Cpath d='M1.5 3.5h4' stroke='%23985700' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.tl-g{background:#28c840}.tl-g::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Cpath d='M1.5 3.5h4M3.5 1.5v4' stroke='%23006500' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.tb-title{font-size:.66rem;font-weight:700;color:var(--ink2);margin-left:8px}
+.tb-r{display:flex;align-items:center;gap:8px}
+.tb-back{
+  font-size:.58rem;font-weight:700;
+  border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);
+  background:#fff;color:var(--ink);
+  padding:.14rem .5rem;cursor:pointer;display:inline-flex;align-items:center;gap:.22rem;
+  text-decoration:none;transition:transform .07s,box-shadow .07s;
+}
+.tb-back:hover{background:var(--ink);color:#fff}
+.tb-back:active{transform:translate(2px,2px);box-shadow:none}
+.tb-back svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}
+.tb-clock{font-size:.58rem;font-weight:700;color:var(--ink2);font-family:'Courier New',monospace}
 
-    /* card colours */
-    .ib-card.bio-card  { --ca: #a8c5c0; --cb: #6a9e98; }
-    .ib-card.math-card { --ca: #e8c87a; --cb: #c9a840; }
-    .ib-card.ee-card   { --ca: #c8b8d8; --cb: #a08ab8; }
-    .ib-card.tok-card  { --ca: #e8a598; --cb: #c9a0a8; }
+/* ── HERO — macOS "window" style header ── */
+.hero-win{
+  max-width:880px;margin:2.5rem auto 0;
+  border:2px solid var(--cbr);
+  box-shadow:5px 5px 0 rgba(0,0,0,.2),9px 9px 0 rgba(0,0,0,.07);
+  background:var(--wbg);overflow:hidden;
+}
+.hero-win-bar{
+  height:27px;background:linear-gradient(180deg,var(--ct) 0%,var(--cm) 100%);
+  border-bottom:1px solid var(--cbr);
+  display:flex;align-items:center;padding:0 8px;gap:6px;user-select:none;position:relative;
+}
+.hero-win-title{position:absolute;left:50%;transform:translateX(-50%);font-size:.64rem;font-weight:700;color:var(--ink2);pointer-events:none;white-space:nowrap}
+.hero-content{
+  position:relative;overflow:hidden;
+  background-image:url('singapore.jpg');background-size:cover;background-position:center 40%;
+  min-height:180px;display:flex;align-items:center;justify-content:center;
+}
+.hero-content::before{content:'';position:absolute;inset:0;background:rgba(18,12,8,.52);z-index:1}
+.hero-inner{position:relative;z-index:2;text-align:center;padding:2.5rem 2rem 2rem}
+.hero-eyebrow{font-size:.52rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);font-family:'Courier New',monospace;margin-bottom:.5rem}
+.hero-h1{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;color:#fff;line-height:1.1;margin-bottom:.35rem;letter-spacing:-.02em}
+.hero-sub{font-size:.8rem;color:rgba(255,255,255,.7);line-height:1.6;max-width:420px;margin:0 auto}
 
-    .ib-pdf {
-      width: 100%; height: 100%; border: none;
-      pointer-events: all; display: block;
-    }
-    .ib-pdf-btn {
-      position: absolute; bottom: 10px; left: 50%;
-      transform: translateX(-50%) translateY(6px);
-      opacity: 0;
-      background: rgba(30,20,20,.82); color: #fff;
-      font-family: 'Times New Roman', serif;
-      font-size: .72rem; font-weight: 600; letter-spacing: .04em;
-      padding: .38rem 1rem; border-radius: 50px;
-      text-decoration: none; white-space: nowrap;
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,.2);
-      transition: opacity .22s, transform .22s;
-      pointer-events: none;
-    }
-    .ib-card:hover .ib-pdf-btn {
-      opacity: 1; transform: translateX(-50%) translateY(0);
-      pointer-events: all;
-    }
+/* ── PAGE BODY ── */
+.page-body{max-width:880px;margin:1.8rem auto 4rem;padding:0 1rem}
 
-    /* card body */
-    .ib-card-body {
-      padding: 1.3rem 1.4rem 1.5rem;
-      flex: 1; display: flex; flex-direction: column;
-    }
-    .ib-label {
-      font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
-      font-weight: 700; padding: .15rem .6rem; border-radius: 50px;
-      display: inline-block; margin-bottom: .7rem; align-self: flex-start;
-    }
-    .bio-card  .ib-label { background: rgba(168,197,192,.25); color: #3a7e78; }
-    .math-card .ib-label { background: rgba(232,200,122,.25); color: #8a6810; }
-    .ee-card   .ib-label { background: rgba(200,184,216,.25); color: #6050a0; }
-    .tok-card  .ib-label { background: rgba(232,165,152,.25); color: #8b4c44; }
+/* section heading */
+.sec-head{margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:2px solid var(--ink)}
+.sec-eyebrow{font-size:.48rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-family:'Courier New',monospace;margin-bottom:.2rem}
+.sec-title{font-size:1.1rem;font-weight:700;color:var(--ink);line-height:1.1;letter-spacing:-.01em}
+.sec-title em{font-style:italic;color:var(--ink3)}
 
-    .ib-card h3 {
-      font-family: 'Georgia', serif; font-size: 1rem;
-      font-weight: 600; color: #2a1e1e; margin-bottom: .5rem; line-height: 1.35;
-    }
-    .ib-card p {
-      font-size: .84rem; line-height: 1.65; color: #6a5050; flex: 1;
-    }
+/* ── IB CARD GRID ── */
+.ib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:1.2rem}
 
-    /* ── IB footer ── */
-    .ib-footer {
-      background: #674a4a; color: #fff;
-      text-align: center; padding: 1.4rem 2rem;
-      font-size: .8rem;
-    }
-    .ib-footer a { color: #f5d6cb; text-decoration: none; }
-    .ib-footer a:hover { text-decoration: underline; }
+/* each IB card — Finder window style */
+.ib-card{
+  border:2px solid var(--cbr);
+  box-shadow:3px 3px 0 rgba(0,0,0,.18),6px 6px 0 rgba(0,0,0,.06);
+  background:var(--wbg);overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .12s,box-shadow .12s;
+}
+.ib-card:hover{transform:translateY(-3px);box-shadow:4px 4px 0 rgba(0,0,0,.22),8px 8px 0 rgba(0,0,0,.08)}
 
-    @media (max-width: 700px) {
-      .ib-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+/* card titlebar with colored traffic light accent */
+.ib-card-bar{
+  height:26px;border-bottom:1px solid var(--cbr);
+  display:flex;align-items:center;padding:0 8px;gap:6px;
+  user-select:none;position:relative;
+}
+.ib-card-bar-title{position:absolute;left:50%;transform:translateX(-50%);font-size:.6rem;font-weight:700;color:var(--ink2);pointer-events:none;white-space:nowrap}
+
+/* Y2K pastel bar colors per category */
+.ib-bio  .ib-card-bar{background:linear-gradient(180deg,#d0f8f0 0%,#b8f0e4 100%)}
+.ib-math .ib-card-bar{background:linear-gradient(180deg,#fff8c0 0%,#ffe880 100%)}
+.ib-ee   .ib-card-bar{background:linear-gradient(180deg,#ead8ff 0%,#d0b8f8 100%)}
+.ib-tok  .ib-card-bar{background:linear-gradient(180deg,#ffd8e8 0%,#ffb8d0 100%)}
+
+/* PDF preview area */
+.ib-pdf-wrap{height:200px;background:#f0ece8;border-bottom:1px solid var(--cbr);position:relative;overflow:hidden}
+.ib-pdf{width:100%;height:100%;border:none;display:block;pointer-events:all}
+.ib-pdf-overlay{
+  position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;
+  padding-bottom:10px;
+  background:linear-gradient(transparent 60%,rgba(20,14,8,.45));
+  opacity:0;transition:opacity .2s;
+  pointer-events:none;
+}
+.ib-card:hover .ib-pdf-overlay{opacity:1;pointer-events:all}
+.ib-pdf-btn{
+  font-size:.58rem;font-weight:700;
+  border:2px solid #fff;background:rgba(20,14,8,.75);color:#fff;
+  padding:.16rem .6rem;cursor:pointer;
+  display:inline-flex;align-items:center;gap:.22rem;text-decoration:none;
+  backdrop-filter:blur(4px);
+}
+.ib-pdf-btn:hover{background:rgba(20,14,8,.92)}
+.ib-pdf-btn svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}
+
+/* card body */
+.ib-card-body{padding:.85rem 1rem 1rem;flex:1;display:flex;flex-direction:column;background:var(--wc)}
+.ib-cat-pill{
+  display:inline-block;font-size:.46rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;padding:.07rem .38rem;
+  border:2px solid var(--ink);margin-bottom:.45rem;
+}
+.ib-bio  .ib-cat-pill{background:#aaffd8;color:#0a5030}
+.ib-math .ib-cat-pill{background:#ffe880;color:#604000}
+.ib-ee   .ib-cat-pill{background:#ddd0ff;color:#3a1a6a}
+.ib-tok  .ib-cat-pill{background:#ffb8d0;color:#601030}
+.ib-card h3{font-size:.84rem;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:.4rem}
+.ib-card p{font-size:.74rem;line-height:1.68;color:var(--ink2);flex:1}
+
+/* ── FOOTER ── */
+footer{
+  border-top:2px solid var(--ink);
+  background:linear-gradient(180deg,var(--ct) 0%,var(--cm) 100%);
+  padding:.8rem 1rem;text-align:center;margin-top:0;
+  box-shadow:0 -2px 0 rgba(0,0,0,.08);
+}
+footer p{font-size:.58rem;font-weight:700;color:var(--ink2);font-family:'Courier New',monospace;letter-spacing:.05em}
+footer a{color:var(--ink);text-decoration:underline}
+
+/* ── PIXEL BUTTON ── */
+.pxb{font-size:.56rem;font-weight:700;font-family:Arial,Helvetica,sans-serif;background:#fff;color:var(--ink);border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);padding:.14rem .46rem;cursor:pointer;display:inline-flex;align-items:center;gap:.22rem;transition:transform .07s,box-shadow .07s;text-decoration:none}
+.pxb:hover{background:var(--ink);color:#fff}
+.pxb:active{transform:translate(2px,2px);box-shadow:none}
+
+/* wallpaper dot pattern */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(circle,rgba(255,255,255,.22) 1px,transparent 1px);background-size:20px 20px}
+.page-body,.hero-win{position:relative;z-index:1}
+
+@media(max-width:700px){.ib-grid{grid-template-columns:1fr}.hero-win{margin:1rem .5rem 0}.page-body{padding:0 .5rem}}
+</style>
 </head>
 <body>
 
-  <div id="cur"></div>
-  <div id="curR"></div>
-  <div id="ptcls"></div>
+<div id="cur"><svg width="16" height="16" viewBox="0 0 16 16"><polygon points="2,2 2,14 5,10 7,15 9,14 7,9.5 11,9.5" fill="#1a1714" stroke="#fff" stroke-width=".8" stroke-linejoin="round"/></svg></div>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-logo">Mia Zhou ✦</div>
-    <ul class="nav-links">
-      <li><a href="index.html">← Home</a></li>
-      <li><a href="index.html#projects">Projects</a></li>
-    </ul>
-  </nav>
+<!-- TOPBAR -->
+<div id="topbar">
+  <div class="tb-l">
+    <div class="tls">
+      <div class="tl tl-r" onclick="window.location='index.html'" title="Back to Desktop"></div>
+      <div class="tl tl-y"></div>
+      <div class="tl tl-g"></div>
+    </div>
+    <span class="tb-title">IB Portfolio — Mia Zhou</span>
+  </div>
+  <div class="tb-r">
+    <a class="tb-back" href="index.html">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Desktop
+    </a>
+    <span class="tb-clock" id="clock">00:00</span>
+  </div>
+</div>
 
-  <!-- HERO -->
-  <div class="ib-hero">
-    <div class="ib-hero-content rev">
-      <h1>🎓 IB Research Portfolio</h1>
-      <p>Selected works from my International Baccalaureate experience in high school (2023).</p>
-      <a href="index.html" class="ib-back-btn">← Back to Home</a>
+<!-- HERO WINDOW -->
+<div class="hero-win">
+  <div class="hero-win-bar">
+    <div class="tls">
+      <div class="tl tl-r" onclick="window.location='index.html'" style="cursor:pointer"></div>
+      <div class="tl tl-y"></div>
+      <div class="tl tl-g"></div>
+    </div>
+    <span class="hero-win-title">IB Research Portfolio · Singapore · 2021 – 2023</span>
+  </div>
+  <div class="hero-content">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">International Baccalaureate · High School Research</p>
+      <h1 class="hero-h1">IB Research Portfolio</h1>
+      <p class="hero-sub">Selected works from my International Baccalaureate years in Singapore (2021 – 2023).</p>
     </div>
   </div>
+</div>
 
-  <!-- CARDS -->
-  <section class="ib-section">
-    <div style="margin-bottom:2rem;" class="rev">
-      <p class="section-label">✦ high school research</p>
-      <h2 class="section-title">2021 <em>2023</em></h2>
+<!-- PAGE BODY -->
+<div class="page-body">
+
+  <div class="sec-head" style="margin-top:1.6rem">
+    <div class="sec-eyebrow">✦ high school research · 2021 – 2023</div>
+    <div class="sec-title">Four Papers, <em>One Curiosity</em></div>
+  </div>
+
+  <div class="ib-grid">
+
+    <!-- Biology IA -->
+    <div class="ib-card ib-bio">
+      <div class="ib-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="ib-card-bar-title">Biology IA.pdf</span>
+      </div>
+      <div class="ib-pdf-wrap">
+        <iframe class="ib-pdf" src="Highschool/BIO_IA.pdf" loading="lazy" title="Biology IA"></iframe>
+        <div class="ib-pdf-overlay">
+          <a class="ib-pdf-btn" href="Highschool/BIO_IA.pdf" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open PDF
+          </a>
+        </div>
+      </div>
+      <div class="ib-card-body">
+        <span class="ib-cat-pill">Biology IA</span>
+        <h3>Urea Concentration &amp; Chlorophyll Content in Water Sprite</h3>
+        <p>Investigated how different concentrations of urea (2.00–10.00 ppm) affect the chlorophyll-a and chlorophyll-b content in <em>Ceratopteris thalictroides</em>. Used spectrophotometric measurements after 9 days of exposure to quantify light absorbance and infer photosynthetic impact under nitrate pollution conditions.</p>
+      </div>
     </div>
 
-    <div class="ib-grid">
-
-      <!-- Biology IA -->
-      <div class="ib-card bio-card rev" style="transition-delay:.04s;">
-        <div class="ib-pdf-wrap">
-          <iframe class="ib-pdf" src="Highschool/BIO_IA.pdf" loading="lazy" title="Biology IA"></iframe>
-          <a class="ib-pdf-btn" href="Highschool/BIO_IA.pdf" target="_blank">View Full PDF ↗</a>
-        </div>
-        <div class="ib-card-body">
-          <span class="ib-label">Biology IA</span>
-          <h3>Urea Concentration &amp; Chlorophyll Content in Water Sprite</h3>
-          <p>Investigated how different concentrations of urea (2.00–10.00 ppm) affect the chlorophyll-a and chlorophyll-b content in <em>Ceratopteris thalictroides</em>. Used spectrophotometric measurements after 9 days of exposure to quantify light absorbance and infer photosynthetic impact under nitrate pollution conditions.</p>
+    <!-- Math IA -->
+    <div class="ib-card ib-math">
+      <div class="ib-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="ib-card-bar-title">Math IA.pdf</span>
+      </div>
+      <div class="ib-pdf-wrap">
+        <iframe class="ib-pdf" src="Highschool/MATH_IA.pdf" loading="lazy" title="Math IA"></iframe>
+        <div class="ib-pdf-overlay">
+          <a class="ib-pdf-btn" href="Highschool/MATH_IA.pdf" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open PDF
+          </a>
         </div>
       </div>
-
-      <!-- Math IA -->
-      <div class="ib-card math-card rev" style="transition-delay:.08s;">
-        <div class="ib-pdf-wrap">
-          <iframe class="ib-pdf" src="Highschool/MATH_IA.pdf" loading="lazy" title="Math IA"></iframe>
-          <a class="ib-pdf-btn" href="Highschool/MATH_IA.pdf" target="_blank">View Full PDF ↗</a>
-        </div>
-        <div class="ib-card-body">
-          <span class="ib-label">Math AA HL IA</span>
-          <h3>Surface Area of a Traditional Chinese Porcelain Vase</h3>
-          <p>Investigation into the surface area of a traditional Chinese porcelain through surface of revolution and optimization to minimize packaging material used. Applies mathematical modeling, ODE, and multi-variable calculus.</p>
-        </div>
+      <div class="ib-card-body">
+        <span class="ib-cat-pill">Math AA HL IA</span>
+        <h3>Surface Area of a Traditional Chinese Porcelain Vase</h3>
+        <p>Investigation into the surface area of a traditional Chinese porcelain vase through surface of revolution and optimization to minimize packaging material. Applies mathematical modelling, ODE, and multi-variable calculus.</p>
       </div>
-
-      <!-- Extended Essay -->
-      <div class="ib-card ee-card rev" style="transition-delay:.12s;">
-        <div class="ib-pdf-wrap">
-          <iframe class="ib-pdf" src="Highschool/EE.pdf" loading="lazy" title="Extended Essay"></iframe>
-          <a class="ib-pdf-btn" href="Highschool/EE.pdf" target="_blank">View Full PDF ↗</a>
-        </div>
-        <div class="ib-card-body">
-          <span class="ib-label">Extended Essay</span>
-          <h3>Environmental Mechanical Forces &amp; Yeast Growth</h3>
-          <p>Investigates how varying agar stiffness alters <em>Saccharomyces cerevisiae</em> colony growth on PDA plates, exploring the biomechanics of walled cells in response to mechanical stress.</p>
-        </div>
-      </div>
-
-      <!-- TOK Essay -->
-      <div class="ib-card tok-card rev" style="transition-delay:.16s;">
-        <div class="ib-pdf-wrap">
-          <iframe class="ib-pdf" src="Highschool/TOK.pdf" loading="lazy" title="TOK Essay"></iframe>
-          <a class="ib-pdf-btn" href="Highschool/TOK.pdf" target="_blank">View Full PDF ↗</a>
-        </div>
-        <div class="ib-card-body">
-          <span class="ib-label">Theory of Knowledge</span>
-          <h3>Memory as a Source of Knowledge</h3>
-          <p>Explored the reliability of memory as a source of knowledge across disciplines, integrating neuroscience, philosophy, and psychology in assessing how truth is shaped by recollection and bias.</p>
-        </div>
-      </div>
-
     </div>
-  </section>
 
-  <!-- FOOTER -->
-  <footer class="ib-footer">
-    <p>Made with <span style="color:#e8a598;">♥</span> by Mia Zhou &nbsp;·&nbsp;
-      <a href="mailto:zhoumia@unc.edu">zhoumia@unc.edu</a> &nbsp;·&nbsp;
-      <a href="index.html">Back to Portfolio</a>
-    </p>
-  </footer>
+    <!-- Extended Essay -->
+    <div class="ib-card ib-ee">
+      <div class="ib-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="ib-card-bar-title">Extended Essay.pdf</span>
+      </div>
+      <div class="ib-pdf-wrap">
+        <iframe class="ib-pdf" src="Highschool/EE.pdf" loading="lazy" title="Extended Essay"></iframe>
+        <div class="ib-pdf-overlay">
+          <a class="ib-pdf-btn" href="Highschool/EE.pdf" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open PDF
+          </a>
+        </div>
+      </div>
+      <div class="ib-card-body">
+        <span class="ib-cat-pill">Extended Essay</span>
+        <h3>Environmental Mechanical Forces &amp; Yeast Growth</h3>
+        <p>Investigates how varying agar stiffness alters <em>Saccharomyces cerevisiae</em> colony growth on PDA plates, exploring the biomechanics of walled cells in response to mechanical stress.</p>
+      </div>
+    </div>
 
-  <script>
-    // ── Cursor ──────────────────────────────────────────────────
-    const cur = document.getElementById('cur');
-    const curR = document.getElementById('curR');
-    let mx=0,my=0,rx=0,ry=0;
-    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-    (function animRing(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(animRing);})();
-    document.querySelectorAll('a,button,.ib-card').forEach(el=>{
-      el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.2)';curR.style.borderColor='#6a9e98';});
-      el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';curR.style.borderColor='#e8a598';});
-    });
+    <!-- TOK Essay -->
+    <div class="ib-card ib-tok">
+      <div class="ib-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="ib-card-bar-title">Theory of Knowledge.pdf</span>
+      </div>
+      <div class="ib-pdf-wrap">
+        <iframe class="ib-pdf" src="Highschool/TOK.pdf" loading="lazy" title="TOK Essay"></iframe>
+        <div class="ib-pdf-overlay">
+          <a class="ib-pdf-btn" href="Highschool/TOK.pdf" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open PDF
+          </a>
+        </div>
+      </div>
+      <div class="ib-card-body">
+        <span class="ib-cat-pill">Theory of Knowledge</span>
+        <h3>Memory as a Source of Knowledge</h3>
+        <p>Explored the reliability of memory as a source of knowledge across disciplines, integrating neuroscience, philosophy, and psychology in assessing how truth is shaped by recollection and bias.</p>
+      </div>
+    </div>
 
-    // ── Sparkle trail ───────────────────────────────────────────
-    const sparkColors=['#e8a598','#f0b8a0','#a8c5c0','#c8b8d8','#b8c9a0','#f5d6cb'];
-    document.addEventListener('mousemove',e=>{
-      if(Math.random()>.62)return;
-      const s=document.createElement('div');s.className='sp2';
-      const sz=3+Math.random()*6;
-      s.style.cssText=`left:${e.clientX+(Math.random()*14-7)}px;top:${e.clientY+(Math.random()*14-7)}px;width:${sz}px;height:${sz}px;background:${sparkColors[~~(Math.random()*sparkColors.length)]};`;
-      document.body.appendChild(s);setTimeout(()=>s.remove(),750);
-    });
+  </div>
+</div>
 
-    // ── Floaties on click ───────────────────────────────────────
-    const emojis=['🌸','✨','💫','🌷','⭐','🍀','🌺','💖','🦋','🌙','🎀','🌿'];
-    function spawnFloaties(x,y,count=1){
-      for(let i=0;i<count;i++) setTimeout(()=>{
-        const f=document.createElement('div');f.className='fl';
-        f.textContent=emojis[~~(Math.random()*emojis.length)];
-        f.style.left=(x+(Math.random()*40-20))+'px';
-        f.style.top=(y+(Math.random()*20-10))+'px';
-        document.body.appendChild(f);setTimeout(()=>f.remove(),1100);
-      },i*75);
-    }
-    document.addEventListener('click',e=>{
-      if(e.target.closest('a,nav,button'))return;
-      spawnFloaties(e.clientX,e.clientY);
-    });
+<!-- FOOTER -->
+<footer>
+  <p>Made with ♥ by Mia Zhou &nbsp;·&nbsp; <a href="mailto:zhoumia@ad.unc.edu">zhoumia@ad.unc.edu</a> &nbsp;·&nbsp; <a href="index.html">Back to Desktop</a></p>
+</footer>
 
-    // ── Particles ───────────────────────────────────────────────
-    const ptcls=document.getElementById('ptcls');
-    ['#f5d6cb','#e8a598','#a8c5c0','#c8b8d8','#b8c9a0','#e8c87a'].forEach(c=>{
-      for(let i=0;i<3;i++){
-        const p=document.createElement('div');p.className='ptcl';
-        const sz=3+Math.random()*8;
-        p.style.cssText=`width:${sz}px;height:${sz}px;background:${c};left:${Math.random()*100}%;animation-duration:${9+Math.random()*14}s;animation-delay:${Math.random()*12}s;`;
-        ptcls.appendChild(p);
-      }
-    });
+<script>
+/* cursor */
+const cur=document.getElementById('cur');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
 
-    // ── Scroll reveal ───────────────────────────────────────────
-    const obs=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
-    },{threshold:0.08});
-    document.querySelectorAll('.rev').forEach(el=>obs.observe(el));
+/* sparkles */
+const SC=['#7ec8c8','#a78bfa','#f9a8d4','#fcd34d','#6ee7b7','#7dd3fc'];
+document.addEventListener('mousemove',e=>{
+  if(Math.random()>.88)return;
+  const s=document.createElement('div');s.className='sp';const sz=2+Math.random()*3;
+  s.style.cssText=`left:${e.clientX+(Math.random()*7-3.5)}px;top:${e.clientY+(Math.random()*7-3.5)}px;width:${sz}px;height:${sz}px;background:${SC[~~(Math.random()*SC.length)]}`;
+  document.body.appendChild(s);setTimeout(()=>s.remove(),520);
+});
+const FS=['✦','✧','+','×','·'];
+document.addEventListener('click',e=>{
+  if(e.target.closest('a,button'))return;
+  for(let i=0;i<1;i++){
+    const f=document.createElement('div');f.className='fl';
+    f.textContent=FS[~~(Math.random()*FS.length)];
+    f.style.cssText=`left:${e.clientX+(Math.random()*32-16)}px;top:${e.clientY+(Math.random()*16-8)}px;color:${SC[~~(Math.random()*SC.length)]};font-size:${.55+Math.random()*.5}rem`;
+    document.body.appendChild(f);setTimeout(()=>f.remove(),950);
+  }
+});
 
-    // ── 3D tilt on cards ────────────────────────────────────────
-    document.querySelectorAll('.ib-card').forEach(card=>{
-      card.addEventListener('mousemove',e=>{
-        const r=card.getBoundingClientRect();
-        const x=((e.clientX-r.left)/r.width-.5)*8;
-        const y=((e.clientY-r.top)/r.height-.5)*-8;
-        card.style.transform=`perspective(800px) rotateY(${x}deg) rotateX(${y}deg) translateY(-5px) scale(1.01)`;
-      });
-      card.addEventListener('mouseleave',()=>{card.style.transform='';});
-    });
-  </script>
+/* clock */
+function uc(){const d=new Date();document.getElementById('clock').textContent=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')}
+uc();setInterval(uc,12000);
+</script>
 </body>
 </html>

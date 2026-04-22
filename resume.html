@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Résumé — Mia Zhou</title>
+<style>
+:root{
+  --ct:#f0edea;--cm:#d8d4cf;--cbr:#b0aca6;
+  --wc:#ffffff;--wbg:#f7f5f2;
+  --ink:#1a1714;--ink2:#5a5650;--ink3:#9a9590;--ink4:#c8c4be;
+  --wall1:#f0e4f8;--wall2:#e4eef8;--wall3:#f8eee4;
+  --amber:#c8683a;
+  --sb:180px; /* sidebar width */
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wall3) 100%);min-height:100vh;-webkit-font-smoothing:antialiased;cursor:none}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(circle,rgba(255,255,255,.2) 1px,transparent 1px);background-size:20px 20px}
+a{color:inherit;text-decoration:none}
+
+/* cursor */
+#cur{position:fixed;width:16px;height:16px;pointer-events:none;z-index:99999;top:0;left:0}
+#cur svg{display:block}
+@media(hover:none){#cur{display:none}body{cursor:auto}}
+
+/* sparkles */
+.sp{position:fixed;pointer-events:none;z-index:99997;animation:spF .5s ease-out forwards;border-radius:0}
+@keyframes spF{0%{opacity:.9}100%{opacity:0;transform:scale(0)}}
+.fl{position:fixed;pointer-events:none;z-index:99998;animation:flU .9s ease-out forwards;font-weight:700}
+@keyframes flU{0%{opacity:1;transform:translate(-50%,-50%) scale(.7)}100%{opacity:0;transform:translate(-50%,calc(-50% - 40px)) scale(1)}}
+
+/* ── TOPBAR ── */
+#topbar{position:sticky;top:0;z-index:200;height:32px;background:linear-gradient(180deg,var(--ct) 0%,var(--cm) 100%);border-bottom:1px solid var(--cbr);display:flex;align-items:center;justify-content:space-between;padding:0 14px}
+.tb-l{display:flex;align-items:center;gap:6px}
+.tls{display:flex;gap:5px;align-items:center}
+.tl{width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.18);position:relative;flex-shrink:0;cursor:pointer}
+.tl::after{content:'';position:absolute;inset:0;border-radius:50%;opacity:0;transition:opacity .1s;background-size:7px 7px;background-position:center;background-repeat:no-repeat}
+.tls:hover .tl::after{opacity:1}
+.tl-r{background:#ff5f56}.tl-r::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Cpath d='M1 1l5 5M6 1L1 6' stroke='%23820005' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.tl-y{background:#febc2e}.tl-y::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Cpath d='M1.5 3.5h4' stroke='%23985700' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.tl-g{background:#28c840}.tl-g::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Cpath d='M1.5 3.5h4M3.5 1.5v4' stroke='%23006500' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.tb-title{font-size:.64rem;font-weight:700;color:var(--ink2);margin-left:6px}
+.tb-r{display:flex;align-items:center;gap:8px}
+.tb-back{font-size:.56rem;font-weight:700;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);background:#fff;color:var(--ink);padding:.12rem .46rem;cursor:pointer;display:inline-flex;align-items:center;gap:.2rem;text-decoration:none;transition:transform .07s,box-shadow .07s}
+.tb-back:hover{background:var(--ink);color:#fff}
+.tb-back:active{transform:translate(2px,2px);box-shadow:none}
+.tb-back svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}
+.tb-clock{font-size:.58rem;font-weight:700;color:var(--ink2);font-family:'Courier New',monospace}
+
+/* ── LAYOUT: sidebar + main ── */
+.layout{position:relative;z-index:1;display:flex;gap:0;max-width:1060px;margin:0 auto;padding:1.5rem 1rem 5rem;align-items:flex-start}
+
+/* ── LEFT SIDEBAR ── */
+.sidebar{
+  width:var(--sb);flex-shrink:0;
+  position:sticky;top:42px;
+  display:flex;flex-direction:column;
+  gap:0;
+  background:linear-gradient(180deg,var(--ct) 0%,var(--cm) 100%);
+  border:2px solid var(--cbr);
+  box-shadow:3px 3px 0 rgba(0,0,0,.15);
+  overflow:hidden;
+  margin-right:1.2rem;
+}
+.sb-bar{
+  height:25px;background:linear-gradient(180deg,var(--ct) 0%,var(--cm) 100%);
+  border-bottom:1px solid var(--cbr);
+  display:flex;align-items:center;padding:0 7px;
+  font-size:.58rem;font-weight:700;color:var(--ink2);user-select:none;
+}
+.sb-nav{padding:.3rem 0}
+.sb-item{
+  display:flex;align-items:center;gap:.38rem;
+  padding:.28rem .65rem;font-size:.66rem;font-weight:600;color:var(--ink2);
+  cursor:pointer;user-select:none;
+  border-left:2px solid transparent;
+  transition:background .1s;
+}
+.sb-item:hover{background:rgba(0,0,0,.06)}
+.sb-item.on{background:rgba(76,110,245,.1);border-left-color:#4c6ef5;color:var(--ink);font-weight:700}
+.sb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sb-sep{height:1px;background:var(--cbr);margin:.25rem .5rem}
+
+/* print button in sidebar */
+.sb-print{
+  margin:.5rem .6rem .6rem;
+  font-size:.56rem;font-weight:700;
+  border:2px solid var(--ink);box-shadow:1.5px 1.5px 0 var(--ink);
+  background:#fff;color:var(--ink);padding:.18rem .4rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:.22rem;
+  transition:transform .07s,box-shadow .07s;
+}
+.sb-print:hover{background:var(--ink);color:#fff}
+.sb-print:active{transform:translate(1.5px,1.5px);box-shadow:none}
+.sb-print svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+
+/* ── MAIN CONTENT ── */
+.main{flex:1;min-width:0;display:flex;flex-direction:column;gap:1.1rem}
+
+/* ── SECTION CARD (each section = a window-style card) ── */
+.r-card{
+  background:var(--wc);
+  border:2px solid var(--cbr);
+  box-shadow:3px 3px 0 rgba(0,0,0,.15),6px 6px 0 rgba(0,0,0,.05);
+  overflow:hidden;
+  scroll-margin-top:48px;
+}
+.r-card-bar{
+  height:26px;
+  background:linear-gradient(180deg,var(--ct) 0%,var(--cm) 100%);
+  border-bottom:1px solid var(--cbr);
+  display:flex;align-items:center;padding:0 8px;gap:6px;
+  user-select:none;position:relative;
+}
+.r-card-title{
+  position:absolute;left:50%;transform:translateX(-50%);
+  font-size:.62rem;font-weight:700;color:var(--ink2);
+  pointer-events:none;white-space:nowrap;
+}
+.r-card-body{padding:1.3rem 1.5rem 1.5rem}
+
+/* ── HEADER CARD ── */
+.r-header-inner{display:flex;align-items:flex-start;gap:1rem}
+.r-avatar-col{flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+
+.r-header-text{flex:1}
+.r-name{font-size:1.8rem;font-weight:700;color:var(--ink);letter-spacing:-.03em;line-height:1;margin-bottom:.18rem}
+.r-sub{font-size:.76rem;color:var(--ink2);line-height:1.5;margin-bottom:.7rem}
+.r-contact-row{display:flex;flex-wrap:wrap;gap:.3rem .9rem}
+.r-contact-row a{font-size:.62rem;color:var(--ink2);display:flex;align-items:center;gap:.25rem;font-family:'Courier New',monospace}
+.r-contact-row a:hover{color:var(--ink);text-decoration:underline}
+.r-contact-row svg{width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+
+/* ── SECTION HEADING inside card ── */
+.r-sec{
+  font-size:.5rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:.7rem;
+  display:flex;align-items:center;gap:.45rem;
+}
+.r-sec::after{content:'';flex:1;height:1px;background:var(--ink4)}
+
+/* ── EDUCATION ── */
+.r-edu-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.3rem}
+.r-org{font-size:.88rem;font-weight:700;color:var(--ink)}
+.r-deg{font-size:.74rem;color:var(--ink2);margin-top:.07rem}
+.r-date{font-size:.62rem;font-family:'Courier New',monospace;color:var(--ink3);font-weight:600;flex-shrink:0}
+.r-pills{display:flex;flex-wrap:wrap;gap:.22rem;margin-top:.6rem}
+.r-pill{font-size:.5rem;font-weight:700;border:1.5px solid var(--ink);padding:.05rem .3rem;background:#fff;color:var(--ink)}
+.r-awards-list{margin-top:.65rem;display:flex;flex-direction:column;gap:.22rem}
+.r-award{font-size:.71rem;color:var(--ink2);display:flex;align-items:baseline;gap:.3rem;line-height:1.4}
+.r-award::before{content:'★';color:var(--amber);font-size:.58rem;flex-shrink:0}
+
+/* ── ENTRY (research / project / competition) ── */
+.r-entry{padding:1rem 0;border-top:1px dashed var(--ink4)}
+.r-entry:first-child{border-top:none;padding-top:0}
+.r-entry-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.7rem;margin-bottom:.22rem}
+.r-role{font-size:.84rem;font-weight:700;color:var(--ink);line-height:1.2}
+.r-org-line{font-size:.69rem;color:var(--ink2);margin-top:.04rem}
+.r-org-line em{font-style:normal;color:var(--ink3)}
+.r-tag{display:inline-block;font-size:.44rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:.05rem .28rem;border:1.5px solid var(--ink);background:var(--ink);color:#fff;margin-left:.25rem;vertical-align:middle}
+.r-tag-amber{background:var(--amber);border-color:#a05020}
+.r-tag-out{background:#fff;color:var(--ink)}
+.r-bullets{list-style:none;margin-top:.35rem;display:flex;flex-direction:column;gap:.3rem}
+.r-bullets li{font-size:.75rem;line-height:1.65;color:var(--ink2);padding-left:1rem;position:relative}
+.r-bullets li::before{content:'–';position:absolute;left:0;top:.03rem;color:var(--ink3);font-weight:700}
+.r-links{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.5rem}
+.r-lnk{font-size:.57rem;font-weight:700;border:2px solid var(--ink);box-shadow:1.5px 1.5px 0 var(--ink);background:#fff;color:var(--ink);padding:.1rem .38rem;display:inline-flex;align-items:center;gap:.2rem;text-decoration:none;transition:transform .07s,box-shadow .07s}
+.r-lnk:hover{background:var(--ink);color:#fff}
+.r-lnk:active{transform:translate(1.5px,1.5px);box-shadow:none}
+.r-lnk svg{width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}
+
+/* pub */
+.r-pub{font-size:.76rem;line-height:1.72;color:var(--ink2);padding-left:1.1rem;position:relative;margin-bottom:.3rem}
+.r-pub::before{content:'[1]';position:absolute;left:0;top:.04rem;font-size:.58rem;font-family:'Courier New',monospace;color:var(--amber);font-weight:700}
+.r-pub strong{color:var(--ink);font-weight:700}
+.r-pub-status{display:inline-block;font-size:.44rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--amber);color:#fff;padding:.04rem .26rem;vertical-align:middle;margin-left:.25rem}
+
+/* ── PRINT ── */
+@media print{
+  body{background:#fff;cursor:auto}
+  body::before,#topbar,.fl,.sp,.sidebar{display:none!important}
+  .layout{padding:0;max-width:100%}
+  .main{gap:.6rem}
+  .r-card{border:1px solid #ccc;box-shadow:none;break-inside:avoid}
+  .r-card-bar{display:none}
+  .r-card-body{padding:.8rem 1rem}
+  .r-name{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"><svg width="16" height="16" viewBox="0 0 16 16"><polygon points="2,2 2,14 5,10 7,15 9,14 7,9.5 11,9.5" fill="#1a1714" stroke="#fff" stroke-width=".8" stroke-linejoin="round"/></svg></div>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div class="tb-l">
+    <div class="tls">
+      <div class="tl tl-r" onclick="window.location='index.html'" style="cursor:pointer"></div>
+      <div class="tl tl-y"></div>
+      <div class="tl tl-g"></div>
+    </div>
+    <span class="tb-title">Résumé — Mia Zhou</span>
+  </div>
+  <div class="tb-r">
+    <a class="tb-back" href="index.html">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Desktop
+    </a>
+    <span class="tb-clock" id="clock">00:00</span>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ══ SIDEBAR ══ -->
+  <div class="sidebar">
+    <div class="sb-bar">Navigation</div>
+    <nav class="sb-nav">
+      <div class="sb-item on" data-sec="sec-header" onclick="navTo(this,'sec-header')">
+        <div class="sb-dot" style="background:#9a9590"></div>Profile
+      </div>
+      <div class="sb-item" data-sec="sec-edu" onclick="navTo(this,'sec-edu')">
+        <div class="sb-dot" style="background:#4c6ef5"></div>Education
+      </div>
+      <div class="sb-sep"></div>
+      <div class="sb-item" data-sec="sec-pub" onclick="navTo(this,'sec-pub')">
+        <div class="sb-dot" style="background:var(--amber)"></div>Publications
+      </div>
+      <div class="sb-item" data-sec="sec-res" onclick="navTo(this,'sec-res')">
+        <div class="sb-dot" style="background:#2a8a7a"></div>Research
+      </div>
+      <div class="sb-sep"></div>
+      <div class="sb-item" data-sec="sec-proj" onclick="navTo(this,'sec-proj')">
+        <div class="sb-dot" style="background:#a78bfa"></div>Projects
+      </div>
+      <div class="sb-item" data-sec="sec-hack" onclick="navTo(this,'sec-hack')">
+        <div class="sb-dot" style="background:#f9a8d4"></div>Competitions
+      </div>
+    </nav>
+    <div class="sb-sep"></div>
+    <button class="sb-print" onclick="window.print()">
+      <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Print / PDF
+    </button>
+  </div>
+
+  <!-- ══ MAIN CONTENT ══ -->
+  <div class="main">
+
+    <!-- ── PROFILE ── -->
+    <div class="r-card" id="sec-header">
+      <div class="r-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="r-card-title">profile</span>
+      </div>
+      <div class="r-card-body">
+        <div class="r-header-inner">
+          <!-- pixel avatar beside name — click to change pose, no animation -->
+          <div class="r-avatar-col">
+            <div id="rAvatar" onclick="cycleRAvatar()" title="Click to change pose" style="cursor:pointer;width:76px;flex-shrink:0">
+              <img id="rAvImg" src="sprite_1.png" alt="Mia" style="width:76px;image-rendering:pixelated;display:block">
+            </div>
+          </div>
+          <div class="r-header-text">
+            <div class="r-name">Mia Zhou</div>
+            <div class="r-sub">Mathematics (B.S.) &amp; Biostatistics (B.S.P.H) · Minor in Neuroscience<br>University of North Carolina at Chapel Hill · Expected May 2027</div>
+            <div class="r-contact-row">
+              <a href="mailto:zhoumia@ad.unc.edu"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>zhoumia@ad.unc.edu</a>
+              <a href="tel:9193372313"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.95-.85a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>919-337-2313</a>
+              <a href="https://linkedin.com/in/miaazhoou" target="_blank"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V9h4v1.5a6 6 0 0 1 2-1.5z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>linkedin.com/in/miaazhoou</a>
+              <a href="https://github.com/miazhouruoya" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>github.com/miazhouruoya</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── EDUCATION ── -->
+    <div class="r-card" id="sec-edu">
+      <div class="r-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="r-card-title">education</span>
+      </div>
+      <div class="r-card-body">
+        <div class="r-edu-head">
+          <div>
+            <div class="r-org">University of North Carolina at Chapel Hill</div>
+            <div class="r-deg">B.S. Applied Mathematics &amp; B.S.P.H. Biostatistics · Minor in Neuroscience</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div class="r-date">Expected May 2027</div>
+          </div>
+        </div>
+        <div style="font-size:.6rem;font-weight:700;color:var(--ink3);margin:.75rem 0 .35rem;letter-spacing:.06em;text-transform:uppercase">Teaching</div>
+        <div style="font-size:.74rem;color:var(--ink2)">Undergraduate Learning Assistant — MATH 523 Complex Analysis</div>
+        <div style="font-size:.6rem;font-weight:700;color:var(--ink3);margin:.75rem 0 .35rem;letter-spacing:.06em;text-transform:uppercase">Programming &amp; Tools</div>
+        <div class="r-pills">
+          <span class="r-pill">Python</span><span class="r-pill">R</span><span class="r-pill">SAS</span><span class="r-pill">MATLAB</span>
+          <span class="r-pill">JavaScript</span><span class="r-pill">SQL</span><span class="r-pill">Tableau</span>
+          <span class="r-pill">Linux / Unix</span><span class="r-pill">Azure</span><span class="r-pill">GitHub</span>
+        </div>
+        <div style="font-size:.6rem;font-weight:700;color:var(--ink3);margin:.75rem 0 .35rem;letter-spacing:.06em;text-transform:uppercase">Awards &amp; Honours</div>
+        <div class="r-awards-list">
+          <div class="r-award">Best Statistical Analysis — Duke ASA DataFest 2026</div>
+          <div class="r-award">1st Place Culture Track — SolHacks 2026 (MLH)</div>
+          <div class="r-award">Best Statistical Analysis — Duke Data Mini 3</div>
+          <div class="r-award">Dean's List — all semesters</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PUBLICATIONS ── -->
+    <div class="r-card" id="sec-pub">
+      <div class="r-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="r-card-title">publications</span>
+      </div>
+      <div class="r-card-body">
+        <div class="r-pub">
+          Shi, C., Han, S., Kusumanchi, S., <strong>Zhou, M.</strong>, &amp; Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. <em>Manuscript submitted for publication.</em>
+          <span class="r-pub-status">Under Review</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RESEARCH ── -->
+    <div class="r-card" id="sec-res">
+      <div class="r-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="r-card-title">research experience</span>
+      </div>
+      <div class="r-card-body">
+
+        <div class="r-entry">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Project Assistant<span class="r-tag r-tag-out">Biostatistics</span></div>
+              <div class="r-org-line">UNC Biostatistics — Li Lab &nbsp;·&nbsp; <em>PI: Prof. Didong Li</em></div>
+            </div>
+            <div class="r-date">Oct 2024 — Present</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Processed 30,000+ NIH grant abstracts to identify funding trends by engineering an NLP pipeline using BERTopic and BioSentVec embeddings. <em>(Paper under review)</em></li>
+            <li>Optimised spatial transcriptomics analysis by benchmarking 3 graph-building frameworks (Seurat, Squidpy, Niches) on Stimage-1K4M dataset, comparing model outputs and loss matrices.</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/NIH_Network.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>NIH Paper</a>
+            <a class="r-lnk" href="https://github.com/CuiranVivianShi/NIH_network" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
+          </div>
+        </div>
+
+        <div class="r-entry">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Research Intern<span class="r-tag r-tag-out">Biostatistics</span></div>
+              <div class="r-org-line">Xiamen University — Huang Lab &nbsp;·&nbsp; <em>PI: Prof. Jialiang Huang</em></div>
+            </div>
+            <div class="r-date">Jun 2024 — Present</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Constructed enhancer network from single-cell multi-omics (scATAC + scRNA, 18k+ cells) using eNet algorithms, identifying rare modular topologies (8.39%) strongly predictive of MPA Leukemia driver genes.</li>
+            <li>Modelled co-accessibility and spatial constraints to quantify regulatory signal propagation, achieving high-confidence disease gene prioritisation (WT1, PADI3) with p &lt; 1e−5.</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/eNet.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Report</a>
+          </div>
+        </div>
+
+        <div class="r-entry">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Financial AI Intern<span class="r-tag r-tag-out">Finance AI</span></div>
+              <div class="r-org-line">Tsinghua University &nbsp;·&nbsp; <em>PI: Prof. Yong Li</em></div>
+            </div>
+            <div class="r-date">May — Aug 2025</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Implemented a behavioural agent-based RCK model using Cobb-Douglas production with Poisson-updated social imitation of savings and stochastic exploration noise.</li>
+            <li>Analysed networked dynamics and parameter sensitivity, identifying critical interaction threshold, bimodal wealth distribution, and endogenous oscillatory regime.</li>
+            <li>Integrated LLM-driven decision making into Agent Society to reproduce polarisation and echo-chamber dynamics.</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/ABM.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>PDF</a>
+            <a class="r-lnk" href="https://github.com/miazhouruoya/agent-society-workplace" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── PROJECTS ── -->
+    <div class="r-card" id="sec-proj">
+      <div class="r-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="r-card-title">projects</span>
+      </div>
+      <div class="r-card-body">
+
+        <div class="r-entry">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Clinical Doppelgänger — EHR Clinical Decision Support<span class="r-tag r-tag-out">Health</span></div>
+              <div class="r-org-line">Full Stack Developer · CHIP 741</div>
+            </div>
+            <div class="r-date">Jan — May 2026</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Built full-stack EHR web app with SMART on FHIR + OAuth 2.0 authentication, querying 5 FHIR R4 resources via parallel jQuery API calls, deployed as self-contained offline build on GitHub Pages.</li>
+            <li>Engineered client-side statistical pipeline (cosine similarity, Propensity Score Matching, bootstrap 95% CI, Kaplan-Meier) visualised in 4 interactive Highcharts dashboards.</li>
+            <li>Designed interpretable clinical AI system using case-based reasoning with explainability panels and Markov state transitions.</li>
+          </ul>
+        </div>
+
+        <div class="r-entry">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Neuromatch Neuron Simulation<span class="r-tag r-tag-out">Neuroscience</span></div>
+              <div class="r-org-line">NeuroMatch Computational Neuroscience Program</div>
+            </div>
+            <div class="r-date">Jun — Aug 2025</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Decoded inter-regional brain communication via Leiden Analysis on the IBL dataset (30k+ neurons), predicting trial-by-trial behavioural decisions at 78% accuracy.</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/slides.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
+          </div>
+        </div>
+
+        <div class="r-entry">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Tumour–Immune Dynamics: ODE, PDE &amp; Control<span class="r-tag r-tag-out">Math</span></div>
+              <div class="r-org-line">UNC Mathematics · Directed Reading Program · Nonlinear Dynamics</div>
+            </div>
+            <div class="r-date">Apr 2026</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Analysed a Kuznetsov-type nonlinear ODE system modelling CTL–tumour dynamics; extended to reaction-diffusion PDEs with chemotaxis, stochastic Langevin formulation, delay DEs, and optimal control.</li>
+            <li>Identified three codimension-1 bifurcations (transcritical, saddle-node, Hopf); mapped results to cancer dormancy and checkpoint inhibitor resistance.</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/tumour_report_v4.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Report</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── COMPETITIONS ── -->
+    <div class="r-card" id="sec-hack">
+      <div class="r-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="r-card-title">competitions &amp; hackathons</span>
+      </div>
+      <div class="r-card-body">
+
+        <div class="r-entry">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Duke ASA DataFest 2026<span class="r-tag r-tag-amber">Best Statistical Analysis</span></div>
+              <div class="r-org-line">Duke University · American Statistical Association · 5-person team</div>
+            </div>
+            <div class="r-date">Mar 2026</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Led 5-person team to analyse 10k+ diabetic patient records in 48 hours. Engineered longitudinal EHR features — inter-visit gap sequences, cv_gap irregularity metric, SDOH risk stratification across 8 social domains.</li>
+            <li>Surfaced structural health inequality via K-Means (k=3) — High-SDOH patients show 2.5× higher ED rates. Counterfactual simulation quantified a 16.6pp risk reduction if structural barriers removed.</li>
+            <li>Built geospatial mobile clinic routing covering 32,686 patients across 15 stops with Markov Chain comorbidity network and MLP risk-scoring dashboard.</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/Carolina_Correlation_DukeASA26.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
+            <a class="r-lnk" href="https://github.com/miazhouruoya/dukeasafest26" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
+            <a class="r-lnk" href="Uni/DataFest2026_MiaZhou_Report.pdf" target="_blank"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Report</a>
+            <a class="r-lnk" href="https://miazhouruoya.github.io/kansasmobile/" target="_blank"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>Map</a>
+          </div>
+        </div>
+
+        <div class="r-entry">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">WageGuard — SolHacks 2026 (MLH)<span class="r-tag r-tag-amber">1st Place Culture Track</span></div>
+              <div class="r-org-line">Product Manager + Full Stack Developer · 2-person team · 24 hours</div>
+            </div>
+            <div class="r-date">Mar 2026</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Built WageGuard, a bilingual AI wage-protection tool for Latino workers — voice-based case intake with automated wage violation detection.</li>
+            <li>Developed React/Vite frontend and end-to-end agent workflow powered by Gemini 2.5 Flash + ElevenLabs TTS; won 1st Place Culture Track out of 40+ teams.</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/WageGuard_SolHacks26.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
+            <a class="r-lnk" href="https://github.com/miazhouruoya/wageguard" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+/* cursor */
+const cur=document.getElementById('cur');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+
+/* clock */
+function uc(){const d=new Date();document.getElementById('clock').textContent=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')}
+uc();setInterval(uc,12000);
+
+/* ── SIDEBAR NAVIGATION ── */
+function navTo(el,id){
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('on'));
+  el.classList.add('on');
+  const sec=document.getElementById(id);
+  if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'});
+}
+/* highlight active section on scroll */
+const sections=['sec-header','sec-edu','sec-pub','sec-res','sec-proj','sec-hack'];
+window.addEventListener('scroll',()=>{
+  let cur2='sec-header';
+  sections.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&el.getBoundingClientRect().top<80)cur2=id;
+  });
+  document.querySelectorAll('.sb-item').forEach(i=>{
+    i.classList.toggle('on',i.dataset.sec===cur2);
+  });
+},{passive:true});
+
+/* ── PIXEL AVATAR — direct src swap, zero effects ── */
+const avPoses=['sprite_1.png','sprite_2.png','sprite_3.png','sprite_4.png'];
+let avIdx=0;
+avPoses.forEach(s=>{const i=new Image();i.src=s});
+function cycleRAvatar(){
+  avIdx=(avIdx+1)%avPoses.length;
+  document.getElementById('rAvImg').src=avPoses[avIdx];
+}
+
+/* subtle sparkles on mousemove only */
+const SC=['#7ec8c8','#a78bfa','#f9a8d4','#fcd34d','#6ee7b7'];
+const FS=['✦','✧','+','×'];
+document.addEventListener('mousemove',e=>{
+  if(Math.random()>.95)return;
+  const s=document.createElement('div');s.className='sp';const sz=2+Math.random()*2;
+  s.style.cssText=`left:${e.clientX+(Math.random()*5-2.5)}px;top:${e.clientY+(Math.random()*5-2.5)}px;width:${sz}px;height:${sz}px;background:${SC[~~(Math.random()*SC.length)]}`;
+  document.body.appendChild(s);setTimeout(()=>s.remove(),480);
+});
+document.addEventListener('click',e=>{
+  if(e.target.closest('a,button,#rAvatar'))return;
+  const f=document.createElement('div');f.className='fl';
+  f.textContent=FS[~~(Math.random()*FS.length)];
+  f.style.cssText=`left:${e.clientX+(Math.random()*28-14)}px;top:${e.clientY+(Math.random()*14-7)}px;color:${SC[~~(Math.random()*SC.length)]};font-size:.5rem`;
+  document.body.appendChild(f);setTimeout(()=>f.remove(),900);
+});
+</script>
+</body>
+</html>
