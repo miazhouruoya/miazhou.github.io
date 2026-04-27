@@ -276,6 +276,8 @@ footer a{color:var(--ink);text-decoration:underline}
         <span class="cp" data-c="uk">UK</span>
       </div>
       <div class="photo-grid" id="photoGrid">
+        <div class="photo-item" data-c="us"><img src="life/bostonchild.jpg" alt="Boston childhood"/><div class="pcap">Boston · Childhood</div></div>
+        <div class="photo-item" data-c="us"><img src="life/sea.jpg" alt="Seattle"/><div class="pcap">Seattle / Sea</div></div>
         <div class="photo-item" data-c="us"><img src="life/alas.jpg" alt="Alaska"/><div class="pcap">Alaska, US</div></div>
         <div class="photo-item" data-c="us"><img src="life/bos.jpg" alt="Boston"/><div class="pcap">Boston, MA</div></div>
         <div class="photo-item" data-c="us"><img src="life/blu.jpg" alt="USA"/><div class="pcap">USA</div></div>
@@ -302,6 +304,8 @@ footer a{color:var(--ink);text-decoration:underline}
     <!-- ── PAGE: PHOTOS (same grid, no filter, all photos) ── -->
     <div class="album-page" id="page-photos">
       <div class="photo-grid">
+        <div class="photo-item" onclick="openLb(this)"><img src="life/bostonchild.jpg" alt="Boston childhood"/><div class="pcap">Boston · Childhood</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/sea.jpg" alt="Seattle"/><div class="pcap">Seattle / Sea</div></div>
         <div class="photo-item" onclick="openLb(this)"><img src="life/alas.jpg" alt="Alaska"/><div class="pcap">Alaska, US</div></div>
         <div class="photo-item" onclick="openLb(this)"><img src="life/bj.jpg" alt="Beijing"/><div class="pcap">Beijing</div></div>
         <div class="photo-item" onclick="openLb(this)"><img src="life/grad1.jpg" alt="Grad"/><div class="pcap">Singapore · Graduation</div></div>
@@ -422,6 +426,8 @@ document.getElementById('albumTabs').addEventListener('click',e=>{
 
 /* ── country filter ── */
 let activeC='all';
+const photoGrid=document.getElementById('photoGrid');
+const originalPhotoOrder=[...photoGrid.querySelectorAll('.photo-item')];
 document.getElementById('cpills').addEventListener('click',e=>{
   const p=e.target.closest('.cp');if(!p)return;
   activeC=p.dataset.c;
@@ -429,9 +435,17 @@ document.getElementById('cpills').addEventListener('click',e=>{
     x.classList.toggle('on',x.dataset.c===activeC);
     x.classList.toggle('dim',x.dataset.c!==activeC&&activeC!=='all');
   });
+  const items=activeC==='all'
+    ? originalPhotoOrder
+    : [
+      ...originalPhotoOrder.filter(item=>item.dataset.c===activeC),
+      ...originalPhotoOrder.filter(item=>item.dataset.c!==activeC)
+    ];
+  items.forEach(item=>photoGrid.appendChild(item));
   document.querySelectorAll('#photoGrid .photo-item').forEach(item=>{
     item.classList.toggle('dim',activeC!=='all'&&item.dataset.c!==activeC);
   });
+  photoGrid.scrollIntoView({behavior:'smooth',block:'start'});
 });
 
 /* ── lightbox ── */

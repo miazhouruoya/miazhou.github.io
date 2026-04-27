@@ -154,6 +154,8 @@ a{color:inherit;text-decoration:none}
 /* ── ENTRY (research / project / competition) ── */
 .r-entry{padding:1rem 0;border-top:1px dashed var(--ink4)}
 .r-entry:first-child{border-top:none;padding-top:0}
+.r-entry[data-detail],.r-subproject[data-detail]{cursor:pointer;transition:background .12s,box-shadow .12s}
+.r-entry[data-detail]:hover,.r-subproject[data-detail]:hover{background:#fbf7ff;box-shadow:inset 3px 0 0 #a78bfa}
 .r-entry-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.7rem;margin-bottom:.22rem}
 .r-role{font-size:.84rem;font-weight:700;color:var(--ink);line-height:1.2}
 .r-org-line{font-size:.69rem;color:var(--ink2);margin-top:.04rem}
@@ -164,6 +166,25 @@ a{color:inherit;text-decoration:none}
 .r-bullets{list-style:none;margin-top:.35rem;display:flex;flex-direction:column;gap:.3rem}
 .r-bullets li{font-size:.75rem;line-height:1.65;color:var(--ink2);padding-left:1rem;position:relative}
 .r-bullets li::before{content:'–';position:absolute;left:0;top:.03rem;color:var(--ink3);font-weight:700}
+.r-subproject{padding:.55rem 0;border-top:1px solid #eee8df}
+.r-subproject:first-of-type{border-top:none;padding-top:.2rem}
+.r-subproject-title{font-size:.67rem;font-weight:700;color:var(--ink);margin:.1rem 0 .2rem}
+.r-subproject-title span{font-size:.5rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-left:.35rem}
+
+/* detail modal */
+#dov{position:fixed;inset:0;z-index:9500;background:rgba(0,0,0,.5);display:none}
+#dovBox{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:620px;max-width:92vw;background:#fff;border:2px solid var(--cbr);box-shadow:5px 5px 0 rgba(0,0,0,.3)}
+#dovBar{height:27px;background:linear-gradient(180deg,var(--ct),var(--cm));border-bottom:1px solid var(--cbr);display:flex;align-items:center;padding:0 8px;gap:6px;position:relative;user-select:none}
+#dTitle{position:absolute;left:50%;transform:translateX(-50%);font-size:.64rem;font-weight:700;color:var(--ink2);pointer-events:none;white-space:nowrap}
+#dBody{height:520px;overflow-y:auto;padding:22px 26px 32px}
+.detail-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem;margin:1rem 0 1.1rem}
+.detail-card{border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);padding:.65rem;background:#f8f5f0}
+.detail-card:nth-child(2){background:#f5f0ff}.detail-card:nth-child(3){background:#eefbf4}
+.detail-k{font-size:.46rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.25rem}
+.detail-v{font-size:.68rem;line-height:1.55;color:var(--ink2)}
+.pdf-embed{margin-top:1rem;border-top:1px solid #eee8df;padding-top:.9rem}
+.pdf-frame{width:100%;height:66vh;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);background:#f8f5f0}
+@media(max-width:700px){.detail-grid{grid-template-columns:1fr}#dBody{height:70vh}}
 .r-links{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.5rem}
 .r-lnk{font-size:.57rem;font-weight:700;border:2px solid var(--ink);box-shadow:1.5px 1.5px 0 var(--ink);background:#fff;color:var(--ink);padding:.1rem .38rem;display:inline-flex;align-items:center;gap:.2rem;text-decoration:none;transition:transform .07s,box-shadow .07s}
 .r-lnk:hover{background:var(--ink);color:#fff}
@@ -238,6 +259,9 @@ a{color:inherit;text-decoration:none}
       <div class="sb-item" data-sec="sec-hack" onclick="navTo(this,'sec-hack')">
         <div class="sb-dot" style="background:#f9a8d4"></div>Competitions
       </div>
+      <div class="sb-item" data-sec="sec-lead" onclick="navTo(this,'sec-lead')">
+        <div class="sb-dot" style="background:#34d399"></div>Leadership
+      </div>
     </nav>
     <div class="sb-sep"></div>
     <button class="sb-print" onclick="window.print()">
@@ -305,7 +329,7 @@ a{color:inherit;text-decoration:none}
         <div class="r-awards-list">
           <div class="r-award">Best Statistical Analysis — Duke ASA DataFest 2026</div>
           <div class="r-award">1st Place Culture Track — SolHacks 2026 (MLH)</div>
-          <div class="r-award">Best Statistical Analysis — Duke Data Mini 3</div>
+          <div class="r-award">Best Statistical Analysis — Duke Data Mini #3</div>
           <div class="r-award">Dean's List — all semesters</div>
         </div>
       </div>
@@ -341,17 +365,27 @@ a{color:inherit;text-decoration:none}
             </div>
             <div class="r-date">Oct 2024 — Present</div>
           </div>
-          <ul class="r-bullets">
-            <li>Processed 30,000+ NIH grant abstracts to identify funding trends by engineering an NLP pipeline using BERTopic and BioSentVec embeddings. <em>(Paper under review)</em></li>
-            <li>Optimised spatial transcriptomics analysis by benchmarking 3 graph-building frameworks (Seurat, Squidpy, Niches) on Stimage-1K4M dataset, comparing model outputs and loss matrices.</li>
-          </ul>
-          <div class="r-links">
-            <a class="r-lnk" href="Uni/NIH_Network.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>NIH Paper</a>
-            <a class="r-lnk" href="https://github.com/CuiranVivianShi/NIH_network" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
+          <div class="r-subproject" data-detail="nih" onclick="od('nih')">
+            <div class="r-subproject-title">Project 1 — NIH Network Analysis<span>completed / under review</span></div>
+            <ul class="r-bullets">
+              <li>Processed 30,000+ NIH grant abstracts to identify funding trends by engineering an NLP pipeline using BERTopic and BioSentVec embeddings.</li>
+              <li>Built co-PI collaboration networks to reveal team-science structure, collaboration dynamics, and funding inequality at UNC. <em>(Paper under review)</em></li>
+            </ul>
+            <div class="r-links">
+              <a class="r-lnk" href="Uni/NIH_Network.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>NIH Paper</a>
+              <a class="r-lnk" href="https://github.com/CuiranVivianShi/NIH_network" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
+            </div>
+          </div>
+          <div class="r-subproject" data-detail="spatial" onclick="od('spatial')">
+            <div class="r-subproject-title">Project 2 — Spatial Transcriptomics<span>current work</span></div>
+            <ul class="r-bullets">
+              <li>Benchmarking Seurat, Squidpy, and Niches graph-building frameworks on Stimage-1K4M to compare spatial neighborhood construction choices.</li>
+              <li>Comparing model outputs and loss matrices to identify stable graph representations for downstream spatial gene-expression analysis.</li>
+            </ul>
           </div>
         </div>
 
-        <div class="r-entry">
+        <div class="r-entry" data-detail="enet" onclick="od('enet')">
           <div class="r-entry-head">
             <div>
               <div class="r-role">Research Intern<span class="r-tag r-tag-out">Biostatistics</span></div>
@@ -368,7 +402,7 @@ a{color:inherit;text-decoration:none}
           </div>
         </div>
 
-        <div class="r-entry">
+        <div class="r-entry" data-detail="agent" onclick="od('agent')">
           <div class="r-entry-head">
             <div>
               <div class="r-role">Financial AI Intern<span class="r-tag r-tag-out">Finance AI</span></div>
@@ -398,7 +432,7 @@ a{color:inherit;text-decoration:none}
       </div>
       <div class="r-card-body">
 
-        <div class="r-entry">
+        <div class="r-entry" data-detail="app741" onclick="od('app741')">
           <div class="r-entry-head">
             <div>
               <div class="r-role">Clinical Doppelgänger — EHR Clinical Decision Support<span class="r-tag r-tag-out">Health</span></div>
@@ -413,23 +447,7 @@ a{color:inherit;text-decoration:none}
           </ul>
         </div>
 
-        <div class="r-entry">
-          <div class="r-entry-head">
-            <div>
-              <div class="r-role">Neuromatch Neuron Simulation<span class="r-tag r-tag-out">Neuroscience</span></div>
-              <div class="r-org-line">NeuroMatch Computational Neuroscience Program</div>
-            </div>
-            <div class="r-date">Jun — Aug 2025</div>
-          </div>
-          <ul class="r-bullets">
-            <li>Decoded inter-regional brain communication via Leiden Analysis on the IBL dataset (30k+ neurons), predicting trial-by-trial behavioural decisions at 78% accuracy.</li>
-          </ul>
-          <div class="r-links">
-            <a class="r-lnk" href="Uni/slides.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
-          </div>
-        </div>
-
-        <div class="r-entry">
+        <div class="r-entry" data-detail="math" onclick="od('math')">
           <div class="r-entry-head">
             <div>
               <div class="r-role">Tumour–Immune Dynamics: ODE, PDE &amp; Control<span class="r-tag r-tag-out">Math</span></div>
@@ -446,6 +464,22 @@ a{color:inherit;text-decoration:none}
           </div>
         </div>
 
+        <div class="r-entry" data-detail="neuro" onclick="od('neuro')">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Neuromatch Neuron Simulation<span class="r-tag r-tag-out">Neuroscience</span></div>
+              <div class="r-org-line">NeuroMatch Computational Neuroscience Program</div>
+            </div>
+            <div class="r-date">Jun — Aug 2025</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Decoded inter-regional brain communication via Leiden Analysis on the IBL dataset (30k+ neurons), predicting trial-by-trial behavioural decisions at 78% accuracy.</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/slides.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -457,7 +491,7 @@ a{color:inherit;text-decoration:none}
       </div>
       <div class="r-card-body">
 
-        <div class="r-entry">
+        <div class="r-entry" data-detail="datafest" onclick="od('datafest')">
           <div class="r-entry-head">
             <div>
               <div class="r-role">Duke ASA DataFest 2026<span class="r-tag r-tag-amber">Best Statistical Analysis</span></div>
@@ -478,7 +512,7 @@ a{color:inherit;text-decoration:none}
           </div>
         </div>
 
-        <div class="r-entry">
+        <div class="r-entry" data-detail="wageguard" onclick="od('wageguard')">
           <div class="r-entry-head">
             <div>
               <div class="r-role">WageGuard — SolHacks 2026 (MLH)<span class="r-tag r-tag-amber">1st Place Culture Track</span></div>
@@ -496,20 +530,119 @@ a{color:inherit;text-decoration:none}
           </div>
         </div>
 
+        <div class="r-entry" data-detail="datamini3" onclick="od('datamini3')">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Duke Data Mini #3<span class="r-tag r-tag-amber">Best Statistical Analysis</span></div>
+              <div class="r-org-line">Duke University · Railroad fatality modeling datathon</div>
+            </div>
+            <div class="r-date">Apr 2026</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Analyzed U.S. railroad incident data to explain who is dying on America’s railroads; found trespassers account for 86.2% of fatalities and have a 48.4% non-survival probability once injured.</li>
+            <li>Built fatal-vs-nonfatal models using person type, state, age, time of day, and substance-test results; logistic regression reached 92.4% classification accuracy / AUC 0.924.</li>
+            <li>Explained key risk drivers and prevention targets: trespasser status had 33.85× fatality odds, positive drug tests had 9.53× odds, and fatal trespassers clustered into four archetypes led by track-walkers struck by trains (59%).</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/Duke%20Mini%233.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── LEADERSHIP ── -->
+    <div class="r-card" id="sec-lead">
+      <div class="r-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="r-card-title">leadership experience</span>
+      </div>
+      <div class="r-card-body">
+        <div class="r-entry" data-detail="wids" onclick="od('wids')">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Founder &amp; President — UNC Women in Data Science<span class="r-tag r-tag-out">Leadership</span></div>
+              <div class="r-org-line">Women in Data Science Ambassador · Worldwide WiDS Community</div>
+            </div>
+            <div class="r-date">2026 — Present</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Founded and lead the UNC-Chapel Hill WiDS chapter while serving as a Women in Data Science Ambassador in the worldwide WiDS community.</li>
+            <li>Building an AI + data space for the next generation of students through workshops, speaker series, hackathon programming, and interdisciplinary data-science events.</li>
+            <li>Planning UNC-hosted workshops, hackathon programming, and speaker series connecting statistics, AI, health, and social impact.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
   </div><!-- /main -->
 </div><!-- /layout -->
 
+<div id="dov" onclick="if(event.target===this)cd()">
+  <div id="dovBox">
+    <div id="dovBar">
+      <div class="tls">
+        <div class="tl tl-r" onclick="cd()"></div>
+        <div class="tl tl-y"></div>
+        <div class="tl tl-g"></div>
+      </div>
+      <span id="dTitle"></span>
+    </div>
+    <div id="dBody"></div>
+  </div>
+</div>
+
 <script>
 /* cursor */
 const cur=document.getElementById('cur');
 document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
 
+let _ac=null;
+function pc(){try{if(!_ac)_ac=new(window.AudioContext||window.webkitAudioContext)();const t=_ac.currentTime,o=_ac.createOscillator(),g=_ac.createGain(),f=_ac.createBiquadFilter();o.type='square';o.frequency.setValueAtTime(1760,t);o.frequency.exponentialRampToValueAtTime(2960,t+.018);f.type='highpass';f.frequency.value=900;o.connect(f);f.connect(g);g.connect(_ac.destination);g.gain.setValueAtTime(.09,t);g.gain.exponentialRampToValueAtTime(.001,t+.055);o.start(t);o.stop(t+.06)}catch(e){}}
+
 /* clock */
 function uc(){const d=new Date();document.getElementById('clock').textContent=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')}
 uc();setInterval(uc,12000);
+
+const DETAIL={
+  nih:{title:'NIH Network Analysis',cat:'UNC Biostatistics — Li Lab',pi:'PI: Prof. Didong Li',date:'Oct 2024 — Present',desc:'Processed 30,000+ NIH grant abstracts with BERTopic and BioSentVec embeddings, then converted grant metadata into a multi-PI collaboration network for mapping team-science structure and funding inequality.',bullets:['Used biomedical sentence embeddings so grant-topic similarity preserves scientific language instead of flattening abstracts into generic keywords.','Built weighted co-PI networks to separate investigator collaboration patterns from institutional funding concentration.','Generated manuscript-ready network statistics and visual summaries for an under-review NIH-MPINet dataset paper.'],ux:{goal:'Create a machine-readable map of NIH team science that exposes collaboration structure and funding inequality.',methods:'BERTopic, BioSentVec, metadata cleaning, PI disambiguation, weighted co-PI network construction.',visual:'Topic-by-funding maps, investigator collaboration graphs, centrality summaries, and manuscript tables.'},links:[{h:'Uni/NIH_Network.pdf',l:'PDF'},{h:'https://github.com/CuiranVivianShi/NIH_network',l:'Code'}]},
+  spatial:{title:'Spatial Transcriptomics',cat:'UNC Biostatistics — Li Lab',pi:'PI: Prof. Didong Li',date:'Oct 2024 — Present',desc:'Benchmarked Seurat, Squidpy, and Niches graph-building frameworks on Stimage-1K4M to test how neighborhood definitions change spatial gene-expression model outputs.',bullets:['Treats graph construction as the experimental variable before downstream biological claims are made.','Compares adjacency rules, spatial neighborhoods, output matrices, and loss behavior across frameworks.','Current work focuses on a reproducible benchmark table explaining when each framework is stable, sensitive, or interpretable.'],ux:{goal:'Test whether spatial transcriptomics conclusions change because of the graph constructor itself.',methods:'Seurat, Squidpy, Niches, Stimage-1K4M, graph topology comparison, loss-matrix analysis.',visual:'Framework comparison matrix showing topology, loss stability, and biological interpretability.'},links:[{h:'https://github.com/parkyunjin/stgraph',l:'Code'}]},
+  enet:{title:'eNet Enhancer Network',cat:'Xiamen University — Huang Lab',pi:'PI: Prof. Jialiang Huang',date:'Jun 2024 — Present',desc:'Constructed enhancer networks from scATAC + scRNA multi-omics data across 18k+ cells to identify rare regulatory topologies predictive of leukemia driver genes.',bullets:['Integrated chromatin accessibility and expression evidence so enhancer modules are modeled as regulatory neighborhoods.','Found rare modular topologies at 8.39% frequency and tested enrichment for disease-gene signal.','Prioritized WT1 and PADI3 with high-confidence enrichment evidence, including p < 1e-5 in strongest tests.'],ux:{goal:'Identify leukemia-relevant regulatory signals hidden across separate scATAC/scRNA views.',methods:'Single-cell multi-omics integration, enhancer-gene edge construction, topology detection, driver-gene enrichment.',visual:'Enhancer-gene network diagrams, topology summaries, and prioritized disease-gene tables.'},links:[{h:'Uni/eNet.pdf',l:'PDF'}]},
+  agent:{title:'Agent-Based Economic Simulation',cat:'Tsinghua University — Financial AI Intern',pi:'PI: Prof. Yong Li',date:'May — Aug 2025',desc:'Extended an RCK economic simulation with network imitation, stochastic exploration, and LLM-driven decisions to study emergent inequality and polarization.',bullets:['Embedded Cobb-Douglas production inside a behavioral agent model where savings updates through social exposure.','Parameter sweeps identified a critical interaction threshold leading to bimodal wealth distribution and oscillatory regimes.','LLM decision layers were used to test narrative preference formation and echo-chamber amplification.'],ux:{goal:'Study how local imitation and narrative-driven choices generate macro-level inequality and polarization.',methods:'RCK core, Cobb-Douglas production, Poisson imitation, stochastic exploration, network sweeps, LLM agents.',visual:'Wealth distributions, threshold heatmaps, oscillation plots, and echo-chamber network snapshots.'},links:[{h:'Uni/ABM.pdf',l:'PDF'},{h:'https://github.com/miazhouruoya/agent-society-workplace',l:'Code'}]},
+  app741:{title:'Clinical Doppelgänger — EHR Decision Support',cat:'Full Stack Developer — CHIP 741',pi:'UNC Chapel Hill',date:'Jan — May 2026',desc:'Built a SMART on FHIR clinical decision-support app that finds similar patients, explains match quality, and visualizes outcome trajectories through statistical dashboards.',bullets:['Queried Patient, Condition, MedicationRequest, Observation, and Encounter resources through OAuth-backed FHIR R4 calls.','Combined cosine similarity, propensity-score matching, bootstrap CIs, Kaplan-Meier curves, and Markov state transitions.','Added robust handling for empty bundles, missing labs, OAuth/API failures, and inconsistent patient records.'],ux:{goal:'Let clinicians inspect why a patient is similar, what happened next, and how reliable the match is.',methods:'SMART on FHIR, parallel API calls, matching, bootstrap inference, survival analysis, Markov transitions.',visual:'Match explainability, cohort balance, survival/risk trajectories, and state-transition dashboards.'},links:[]},
+  math:{title:'Tumour–Immune Dynamics: ODE, PDE & Control',cat:'UNC Mathematics — Directed Reading Program',pi:'Nonlinear Dynamics',date:'Apr 2026',desc:'Analyzed tumour-immune nonlinear dynamics from ODE stability through PDE, stochastic, delayed, and optimal-control extensions.',bullets:['Tracked equilibria and stability changes as immune recruitment and tumour-growth parameters vary.','Compared spatial spread, chemotaxis, noise, immune lag, and treatment pressure across model families.','Interpreted transcritical, saddle-node, and Hopf bifurcations as signatures of dormancy, escape, oscillation, and resistance.'],ux:{goal:'Connect nonlinear tumour-immune mathematics to clinically meaningful regimes.',methods:'Stability analysis, bifurcation tracking, PDEs, chemotaxis, Langevin noise, delays, optimal control.',visual:'Phase portraits, bifurcation diagrams, spatial sketches, and treatment-control trajectories.'},links:[{h:'Uni/tumour_report_v4.pdf',l:'Report'}]},
+  neuro:{title:'Neuromatch Neuron Simulation',cat:'NeuroMatch Program',pi:'Computational Neuroscience',date:'Jun — Aug 2025',desc:'Decoded trial-by-trial behavior from IBL neural recordings by modeling population communities across 30k+ neurons.',bullets:['Used Leiden clustering to detect coordinated cross-region activity blocks rather than treating neurons independently.','Mapped communities back to brain regions so predictions remain circuit-interpretable.','Reached 78% behavioral-decision prediction accuracy with visual explanation of region/community drivers.'],ux:{goal:'Infer decision-related neural communication patterns from large-scale recordings.',methods:'IBL preprocessing, Leiden community detection, region-community mapping, trial-level decoding.',visual:'Community diagrams, region-level signal maps, and prediction-performance panels.'},links:[{h:'Uni/slides.pdf',l:'Slides'}]},
+  wids:{title:'Founder & President — UNC Women in Data Science',cat:'Leadership — WiDS Worldwide + UNC-Chapel Hill',pi:'Women in Data Science Ambassador',date:'2026 — Present',desc:'Founded and lead the UNC-Chapel Hill WiDS chapter while serving as a Women in Data Science Ambassador in the worldwide community.',bullets:['Founder and president of the UNC-Chapel Hill WiDS chapter, connected to the global Women in Data Science network.','Planning workshops, speaker series, and hackathon/community-build programming across statistics, AI, health, and social impact.','The chapter vision is an AI + data space where students can build technical confidence and portfolio-ready work.'],links:[]},
+  datafest:{title:'Duke ASA DataFest 2026',cat:'Duke University — American Statistical Association',pi:'Best Statistical Analysis',date:'Mar 2026',desc:'Led a 5-person team analyzing 10k+ diabetic patient records in 48 hours, linking irregular care access and social barriers to avoidable emergency utilization.',bullets:['Engineered visit-gap sequences and cv_gap to quantify irregular care continuity from longitudinal EHR records.','Clustered SDOH risk across 8 domains and simulated a 16.6pp risk reduction under structural-barrier removal.','Built a geospatial mobile-clinic route covering 32,686 patients across 15 stops.'],ux:{goal:'Show how irregular care access and social barriers create avoidable ED risk.',methods:'Feature engineering, K-Means, counterfactual simulation, Markov comorbidity network, MLP scoring, routing.',visual:'Mobile-clinic map, SDOH clusters, comorbidity network, and risk-reduction dashboard.'},links:[{h:'Uni/Carolina_Correlation_DukeASA26.pdf',l:'Slides'},{h:'https://github.com/miazhouruoya/dukeasafest26',l:'Code'},{h:'Uni/DataFest2026_MiaZhou_Report.pdf',l:'Report'},{h:'https://miazhouruoya.github.io/kansasmobile/',l:'Map'}]},
+  wageguard:{title:'WageGuard — Bilingual AI Wage Protection',cat:'SolHacks 2026 (MLH)',pi:'1st Place Culture Track',date:'Mar 2026',desc:'Built a bilingual voice-first wage-protection tool for Latino workers, converting wage-theft stories into structured case summaries and next steps.',bullets:['Designed for voice-first intake because target users may not want to type legal complaints in English.','Extracted hours, pay rate, unpaid overtime, employer details, and evidence needs from bilingual narratives.','Delivered React/Vite UI, Gemini workflow, ElevenLabs TTS, and worker-facing summaries in 24 hours.'],ux:{goal:'Turn a stressful wage-theft story into a structured bilingual case file.',methods:'React/Vite, Gemini extraction, ElevenLabs TTS, bilingual intake, wage-violation rules.',visual:'Voice intake, violation summary card, evidence checklist, and next-step interface.'},links:[{h:'Uni/WageGuard_SolHacks26.pdf',l:'Slides'},{h:'https://github.com/miazhouruoya/wageguard',l:'Code'}]},
+  datamini3:{title:'Duke Data Mini #3',cat:'Duke University — Datathon',pi:'Best Statistical Analysis',date:'Apr 2026',desc:'Analyzed U.S. railroad incident data to explain fatality risk and translate models into targeted prevention archetypes.',bullets:['Combined logistic regression and XGBoost so the final story included both interpretable odds ratios and nonlinear feature importance.','Found trespasser status carried 33.85x fatality odds and positive drug tests carried 9.53x odds.','Profiled fatal trespassers into intervention-ready archetypes led by track-walkers struck by trains and grade-crossing drivers.'],ux:{goal:'Identify preventable railroad fatalities and turn model outputs into intervention archetypes.',methods:'Logistic regression, XGBoost, odds ratios, fatal-vs-nonfatal classification, archetype profiling.',visual:'Odds-ratio panels, AUC diagnostics, risk-driver charts, and archetype cards.'},links:[{h:'Uni/Duke%20Mini%233.pdf',l:'Slides'}]}
+};
+
+function isDoc(h){return /\.pdf($|\?)/i.test(h)}
+function od(id){
+  pc();
+  const p=DETAIL[id];if(!p)return;
+  document.getElementById('dTitle').textContent=p.title;
+  let html=`<p style="font-size:.5rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.28rem">${p.cat}</p>
+  <h2 style="font-size:1.38rem;font-weight:700;color:var(--ink);line-height:1.12;margin-bottom:.25rem;letter-spacing:-.02em">${p.title}</h2>
+  <p style="font-size:.64rem;font-family:'Courier New',monospace;color:var(--ink3);margin-bottom:.85rem;padding-bottom:.7rem;border-bottom:2px solid var(--ink)"><strong style="color:var(--ink2)">${p.pi}</strong> &nbsp;·&nbsp; ${p.date}</p>
+  <p style="font-size:.86rem;line-height:1.82;color:var(--ink2);margin-bottom:1rem">${p.desc}</p>`;
+  if(p.bullets){html+=`<p style="font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin:.35rem 0 .42rem">Technical Notes</p><ul style="list-style:none;display:flex;flex-direction:column;gap:.42rem;margin:0 0 1rem;padding:0">`;p.bullets.forEach(b=>html+=`<li style="font-size:.72rem;line-height:1.62;color:var(--ink2);padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:var(--ink3);font-weight:800">→</span>${b}</li>`);html+='</ul>'}
+  if(p.ux){html+=`<div class="detail-grid"><div class="detail-card"><p class="detail-k">Goal</p><p class="detail-v">${p.ux.goal}</p></div><div class="detail-card"><p class="detail-k">Methods</p><p class="detail-v">${p.ux.methods}</p></div><div class="detail-card"><p class="detail-k">Results</p><p class="detail-v">${p.ux.visual}</p></div></div>`}
+  const docs=(p.links||[]).filter(l=>isDoc(l.h)),actions=(p.links||[]).filter(l=>!isDoc(l.h));
+  if(actions.length){html+='<p style="font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin:.9rem 0 .4rem">Links</p><div>';actions.forEach(l=>html+=`<a class="r-lnk" href="${l.h}" target="_blank">${l.l}</a>`);html+='</div>'}
+  docs.forEach(l=>{html+=`<div class="pdf-embed"><p style="font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.4rem">${l.l} Preview</p><iframe class="pdf-frame" src="${l.h}" title="${p.title} ${l.l}"></iframe></div>`});
+  const body=document.getElementById('dBody');body.innerHTML=html;body.scrollTop=0;document.getElementById('dov').style.display='block';
+}
+function cd(){document.getElementById('dov').style.display='none'}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cd()});
+document.querySelectorAll('.r-entry a[href],.r-subproject a[href]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const wrap=a.closest('[data-detail]');
+    if(wrap&&isDoc(a.getAttribute('href'))){e.preventDefault();e.stopPropagation();od(wrap.dataset.detail)}
+    else e.stopPropagation();
+  });
+});
 
 /* ── SIDEBAR NAVIGATION ── */
 function navTo(el,id){
@@ -519,7 +652,7 @@ function navTo(el,id){
   if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'});
 }
 /* highlight active section on scroll */
-const sections=['sec-header','sec-edu','sec-pub','sec-res','sec-proj','sec-hack'];
+const sections=['sec-header','sec-edu','sec-pub','sec-res','sec-proj','sec-hack','sec-lead'];
 window.addEventListener('scroll',()=>{
   let cur2='sec-header';
   sections.forEach(id=>{
