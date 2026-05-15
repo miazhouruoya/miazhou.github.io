@@ -1394,6 +1394,22 @@ body::before{
   box-shadow:none;
   transform:none;
 }
+.r-entry{
+  padding-top:1.25rem!important;
+  padding-bottom:1.25rem!important;
+}
+.r-entry:first-child{
+  padding-top:.15rem!important;
+}
+.r-entry + .r-entry{
+  margin-top:1.15rem;
+}
+.r-entry[data-detail]::before,
+.r-subproject[data-detail]::before,
+.r-img-box{
+  transform:scale(.92);
+  transform-origin:top left;
+}
 .skill-pills .r-pill{
   border:1px solid rgba(120,128,145,.22)!important;
   border-radius:999px!important;
