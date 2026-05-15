@@ -918,7 +918,7 @@ body::before{
 .r-entry[data-detail="agent"]:nth-of-type(n)::before{background-image:url("folderpic/thumbs/Agent-Society.jpg");background-size:cover;background-position:center;color:transparent}
 .r-entry[data-detail="neuro"]:nth-of-type(n)::before{background-image:url("folderpic/thumbs/Neuromatch.jpg");background-size:cover;background-position:center;color:transparent}
 .r-entry[data-detail="datafest"]:nth-of-type(n)::before{background-image:url("folderpic/thumbs/ASA.jpg");background-size:cover;background-position:center;color:transparent}
-.r-entry[data-detail="wageguard"]:nth-of-type(n)::before{background-image:url("folderpic/thumbs/wageguard.jpg");background-size:cover;background-position:center;color:transparent}
+.r-entry[data-detail="wageguard"]:nth-of-type(n)::before{background-image:url("folderpic/thumbs/Solhacks.jpg");background-size:cover;background-position:center;color:transparent}
 .r-entry[data-detail="datamini3"]:nth-of-type(n)::before{background-image:url("folderpic/thumbs/DataMini.jpg");background-size:cover;background-position:center;color:transparent}
 .r-entry[data-detail="wids"]:nth-of-type(n)::before{background-image:url("folderpic/thumbs/WiDS.jpg");background-size:cover;background-position:center;color:transparent}
 .r-entry[data-detail="cvd"]:nth-of-type(n)::before{background-image:url("folderpic/thumbs/BUSI.jpg");background-size:cover;background-position:center;color:transparent}
@@ -1264,44 +1264,35 @@ body::before{
   padding:.12rem .42rem!important;
   margin:.08rem .1rem!important;
 }
-.r-tag-amber{
-  background:#fff7c7!important;
-  color:#6f3d00!important;
-  border:1.5px solid #c8683a!important;
-  box-shadow:1.5px 1.5px 0 rgba(26,23,20,.22)!important;
-  font-size:.54rem!important;
-  padding:.13rem .42rem!important;
-}
+.r-tag-amber,
 .r-award-badge{
   display:inline-flex!important;
   flex-direction:row!important;
   align-items:center!important;
   justify-content:center!important;
-  gap:.22rem!important;
-  margin-left:.44rem!important;
-  padding:.18rem .52rem!important;
-  background:linear-gradient(135deg,#fefaf0 0%,#f5edcb 100%)!important;
-  color:#3a2c10!important;
-  border:1px solid rgba(158,118,40,.38)!important;
+  gap:.3rem!important;
+  margin-left:.5rem!important;
+  padding:.28rem .62rem!important;
+  background:rgba(255,255,255,.72)!important;
+  color:#7a4a14!important;
+  border:1px solid rgba(180,120,36,.26)!important;
   border-radius:999px!important;
-  box-shadow:0 2px 8px rgba(140,100,24,.09),inset 0 1px 0 rgba(255,255,255,.96)!important;
-  font-size:.53rem!important;
-  letter-spacing:.05em!important;
+  box-shadow:0 8px 18px rgba(180,120,36,.08)!important;
+  font-size:.56rem!important;
+  letter-spacing:.04em!important;
   line-height:1!important;
-  font-weight:700!important;
+  font-weight:800!important;
+  text-transform:uppercase!important;
+  vertical-align:middle!important;
 }
+.r-tag-amber::before,
 .r-award-badge::before{
-  content:'★';
-  color:#b08824;
-  font-size:.44rem;
-  line-height:1;
-  width:auto;
-  height:auto;
-  border-radius:0;
-  background:none;
-  border:none;
-  box-shadow:none;
-  margin-right:0;
+  content:'';
+  width:.44rem;
+  height:.44rem;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ffd36f,#f08f58);
+  box-shadow:0 0 0 3px rgba(255,211,111,.2);
   flex-shrink:0;
 }
 .r-contact-row a,
@@ -1316,6 +1307,65 @@ body::before{
   background:var(--ink)!important;
   color:#fff!important;
 }
+.r-links .r-lnk{
+  border:1px solid rgba(120,128,145,.22)!important;
+  border-radius:999px!important;
+  box-shadow:none!important;
+  background:rgba(255,255,255,.72)!important;
+  color:#344054!important;
+  padding:.34rem .72rem!important;
+  font-size:.76rem!important;
+  line-height:1!important;
+  font-family:Arial,Helvetica,sans-serif!important;
+  font-weight:700!important;
+  letter-spacing:0!important;
+  text-decoration:none!important;
+  min-height:0!important;
+}
+.r-links .r-lnk:hover{
+  background:#fff!important;
+  color:#344054!important;
+  box-shadow:none!important;
+}
+.r-links .r-lnk:active{
+  transform:none!important;
+  box-shadow:none!important;
+}
+.r-links .r-lnk svg{
+  display:none!important;
+}
+.r-links .r-lnk::after{
+  content:none;
+}
+.project-action,
+.project-page-pdf-open,
+.project-inline-link{
+  border:1px solid rgba(120,128,145,.24)!important;
+  border-radius:999px!important;
+  box-shadow:none!important;
+  background:rgba(255,255,255,.74)!important;
+  color:#344054!important;
+  padding:.42rem .78rem!important;
+  font-size:.82rem!important;
+  line-height:1!important;
+  font-family:Arial,Helvetica,sans-serif!important;
+  font-weight:700!important;
+  letter-spacing:0!important;
+  text-decoration:none!important;
+}
+.project-action:hover,
+.project-page-pdf-open:hover,
+.project-inline-link:hover{
+  background:#fff!important;
+  color:#344054!important;
+  box-shadow:none!important;
+  transform:none!important;
+}
+.project-action::after,
+.project-page-pdf-open::after,
+.project-inline-link::after{
+  content:none!important;
+}
 
 /* ── TEXT SIZE + DARKNESS ── */
 .r-org-line{font-size:.84rem!important;color:#2a2520!important}
@@ -1324,6 +1374,702 @@ body::before{
 .detail-k{font-size:.6rem!important}
 .detail-v{font-size:.86rem!important;color:#2a2520!important}
 #dBody strong,.r-bullets li strong{font-weight:800!important;color:var(--ink)!important}
+
+/* ── FINAL CONTENT TUNING: MODALS + MOBILE ONLY ── */
+.compact-tech{
+  margin-top:.5rem;
+  font-size:.86rem;
+  line-height:1.55;
+  color:#2a2520;
+}
+.compact-tech strong{
+  color:var(--ink);
+  font-weight:800;
+}
+.r-entry.is-static{
+  cursor:default;
+}
+.r-entry.is-static:hover{
+  background:transparent;
+  box-shadow:none;
+  transform:none;
+}
+.skill-pills .r-pill{
+  border:1px solid rgba(120,128,145,.22)!important;
+  border-radius:999px!important;
+  box-shadow:none!important;
+  background:rgba(255,255,255,.72)!important;
+  color:#344054!important;
+  font-family:Arial,Helvetica,sans-serif!important;
+  font-weight:700!important;
+}
+#dovBox{
+  width:min(860px,94vw)!important;
+}
+.pdf-embed{
+  max-width:700px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.pdf-frame{
+  height:50vh!important;
+  max-height:480px;
+}
+.asa-map-embed{
+  width:100%;
+  height:50vh;
+  max-height:480px;
+  border:1px solid var(--ios-line);
+  border-radius:18px;
+  background:#fff;
+}
+.detail-log-shell{
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(220px,.75fr);
+  gap:1rem;
+  align-items:start;
+  margin-top:1rem;
+}
+.detail-log{
+  display:flex;
+  flex-direction:column;
+  gap:.72rem;
+}
+.detail-log-step{
+  border:2px solid var(--ink);
+  box-shadow:2px 2px 0 var(--ink);
+  background:#fff;
+  overflow:hidden;
+  animation:detailLineIn .32s ease both;
+}
+.detail-log-step summary{
+  list-style:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:.65rem;
+  padding:.72rem .82rem;
+}
+.detail-log-step summary::-webkit-details-marker{display:none}
+.detail-log-num{
+  width:28px;
+  height:28px;
+  flex:0 0 28px;
+  display:grid;
+  place-items:center;
+  border:2px solid var(--ink);
+  box-shadow:1.5px 1.5px 0 var(--ink);
+  background:linear-gradient(135deg,var(--cute-blue),var(--cute-lav));
+  font-size:.68rem;
+  font-weight:900;
+}
+.detail-log-title{
+  font-size:.84rem;
+  line-height:1.35;
+  font-weight:800;
+  color:var(--ink);
+}
+.detail-log-step p{
+  border-top:1px dashed var(--ink4);
+  padding:.72rem .9rem .85rem 3.2rem;
+  font-size:.82rem;
+  line-height:1.65;
+  color:#2a2520;
+}
+.detail-guide{
+  border:2px solid var(--ink);
+  box-shadow:2px 2px 0 var(--ink);
+  background:linear-gradient(160deg,#f8d8f0 0%,#e4eef8 52%,#b8f0d8 100%);
+  padding:.85rem;
+  position:sticky;
+  top:0;
+}
+.detail-guide-k{
+  font-size:.48rem;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink3);
+  margin-bottom:.42rem;
+}
+.detail-guide-title{
+  font-size:1.05rem;
+  line-height:1.18;
+  font-weight:900;
+  color:var(--ink);
+  margin-bottom:.62rem;
+}
+.detail-guide-row{
+  background:rgba(255,255,255,.75);
+  border:1.5px solid var(--ink);
+  padding:.55rem .62rem;
+  margin-top:.52rem;
+}
+.detail-guide-row span{
+  display:block;
+  font-size:.48rem;
+  font-weight:900;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink3);
+  margin-bottom:.18rem;
+}
+.detail-guide-row p{
+  font-size:.75rem;
+  line-height:1.55;
+  color:#2a2520;
+}
+.site-frame{
+  width:100%;
+  height:58vh;
+  min-height:480px;
+  border:1px solid var(--ios-line);
+  border-radius:18px;
+  background:#fff;
+  display:block;
+}
+.detail-simple{
+  border:2px solid var(--ink);
+  box-shadow:2px 2px 0 var(--ink);
+  background:#fff;
+  padding:1rem;
+  margin-top:1rem;
+}
+.detail-simple p{
+  font-size:.88rem;
+  line-height:1.7;
+  color:#2a2520;
+  margin-bottom:.8rem;
+}
+.detail-simple ul{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:.55rem;
+  padding:0;
+  margin:0;
+}
+.detail-simple li{
+  font-size:.84rem;
+  line-height:1.62;
+  color:#2a2520;
+  padding-left:1.1rem;
+  position:relative;
+}
+.detail-simple li::before{
+  content:'→';
+  position:absolute;
+  left:0;
+  color:var(--ink3);
+  font-weight:800;
+}
+#dBody.detail-animated > *{
+  animation:detailFadeIn .28s ease both;
+}
+#dBody.detail-animated > *:nth-child(2){animation-delay:.03s}
+#dBody.detail-animated > *:nth-child(3){animation-delay:.06s}
+#dBody.detail-animated > *:nth-child(n+4){animation-delay:.09s}
+@keyframes detailFadeIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes detailLineIn{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@media(prefers-reduced-motion:reduce){
+  #dBody.detail-animated > *,
+  .detail-log-step{
+    animation:none!important;
+  }
+}
+.project-page{
+  max-width:1080px;
+  margin:0 auto;
+  color:var(--ink);
+}
+.project-page-kicker{
+  font-size:.62rem;
+  font-weight:800;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:#6f6862;
+  margin-bottom:.65rem;
+}
+.project-page-title{
+  max-width:720px;
+  font-size:2.45rem;
+  line-height:1.08;
+  letter-spacing:0;
+  font-weight:900;
+  color:var(--ink);
+  margin-bottom:.85rem;
+}
+.project-page-sub{
+  max-width:720px;
+  font-size:.96rem;
+  line-height:1.78;
+  color:#3d3731;
+  margin-bottom:1rem;
+}
+.project-page-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem 1.35rem;
+  padding:0;
+  border:0;
+  margin-bottom:2rem;
+}
+.project-page-meta span{
+  font-size:.64rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--ink3);
+}
+.project-page-meta strong{
+  display:inline;
+  margin-top:.18rem;
+  margin-left:.45rem;
+  font-size:.76rem;
+  line-height:1.4;
+  letter-spacing:0;
+  text-transform:none;
+  color:var(--ink);
+}
+.project-page-layout{
+  display:grid;
+  grid-template-columns:140px minmax(0,1fr);
+  gap:2.6rem;
+  align-items:start;
+}
+.project-page-nav{
+  position:sticky;
+  top:.5rem;
+  display:flex;
+  flex-direction:column;
+  gap:.45rem;
+  padding-top:.1rem;
+}
+.project-page-nav a{
+  font-size:.62rem;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink3);
+  padding:.28rem 0;
+  border-bottom:1px solid transparent;
+}
+.project-page-nav a:hover{
+  color:var(--ink);
+  border-bottom-color:var(--ink4);
+}
+.project-page-main{
+  min-width:0;
+}
+.project-page-section{
+  padding:0 0 2.8rem;
+  margin-bottom:2.8rem;
+  border-bottom:1px solid rgba(26,23,20,.12);
+  scroll-margin-top:1rem;
+}
+.project-page-section:last-child{
+  border-bottom:0;
+}
+.project-page-section h3{
+  font-size:.72rem;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#6f6862;
+  margin-bottom:.8rem;
+}
+.project-page-section p,
+.project-page-section li{
+  font-size:.94rem;
+  line-height:1.82;
+  color:#2a2520;
+}
+.project-page-section p + p{
+  margin-top:.9rem;
+}
+.project-page-section ul{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:.65rem;
+  padding:0;
+  margin:0;
+}
+.project-page-section li{
+  padding-left:1.15rem;
+  position:relative;
+}
+.project-page-section li::before{
+  content:'';
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:var(--ink3);
+  position:absolute;
+  left:0;
+  top:.82rem;
+}
+.project-page-stack{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1rem 1.6rem;
+}
+.project-page-stack dt{
+  font-size:.62rem;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ink3);
+  margin-bottom:.24rem;
+}
+.project-page-stack dd{
+  font-size:.9rem;
+  line-height:1.65;
+  color:#2a2520;
+  margin:0 0 .75rem;
+}
+.project-page-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem;
+  margin:1rem 0 1.6rem;
+}
+.project-action,
+.project-page-pdf-open,
+.project-inline-link{
+  border:1px solid rgba(26,23,20,.18)!important;
+  box-shadow:none!important;
+  background:#f7f4ef!important;
+  border-radius:6px;
+  padding:.44rem .62rem!important;
+  color:var(--ink)!important;
+  font-size:.72rem!important;
+  font-weight:800!important;
+  line-height:1;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:.32rem;
+  transition:background .18s ease,color .18s ease,transform .18s ease;
+}
+.project-action::after,
+.project-page-pdf-open::after,
+.project-inline-link::after{
+  content:'↗';
+  font-size:.72rem;
+  line-height:1;
+}
+.project-action:hover,
+.project-page-pdf-open:hover,
+.project-inline-link:hover{
+  background:#fff!important;
+  color:var(--ink)!important;
+  border-color:rgba(26,23,20,.34)!important;
+  transform:none;
+}
+.project-page .pdf-embed{
+  max-width:100%;
+}
+.project-page .pdf-frame,
+.project-page .site-frame,
+.project-page .asa-map-embed{
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  background:transparent!important;
+}
+.project-page .site-frame{
+  min-height:560px;
+}
+.project-window-image{
+  width:100%;
+  height:340px;
+  max-height:42vh;
+  object-fit:cover;
+  object-position:center 5%;
+  display:block;
+  margin:1rem 0 1.8rem;
+  border-radius:18px;
+}
+.project-page-pdf-open{
+  margin-top:.75rem;
+}
+.working-page{
+  min-height:380px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding-bottom:56px;
+}
+.working-avatar{
+  width:126px;
+  height:126px;
+  margin:0 auto 1.05rem;
+  display:grid;
+  place-items:center;
+}
+.working-avatar img{
+  width:110px;
+  display:block;
+  image-rendering:pixelated;
+  filter:drop-shadow(0 14px 24px rgba(91,141,239,.22));
+}
+.working-text{
+  font-size:1.05rem;
+  font-weight:900;
+  color:var(--ink);
+  letter-spacing:.02em;
+}
+@media(max-width:760px){
+  .project-page-title{
+    font-size:1.72rem;
+    line-height:1.14;
+  }
+  .project-page-layout{
+    display:block;
+  }
+  .project-page-nav{
+    position:relative;
+    top:0;
+    flex-direction:row;
+    overflow-x:auto;
+    gap:.9rem;
+    margin-bottom:1.25rem;
+    padding-bottom:.35rem;
+    scrollbar-width:none;
+  }
+  .project-page-nav::-webkit-scrollbar{display:none}
+  .project-page-nav a{
+    flex:0 0 auto;
+  }
+  .project-page-section{
+    padding-bottom:1.45rem;
+    margin-bottom:1.45rem;
+  }
+  .project-page-section p,
+  .project-page-section li{
+    font-size:.86rem;
+    line-height:1.72;
+  }
+  .project-page-stack{
+    grid-template-columns:1fr;
+  }
+  .project-page-pdf .pdf-frame{
+    display:none!important;
+  }
+  .working-avatar{
+    width:112px;
+    height:112px;
+  }
+  .working-avatar img{
+    width:96px;
+  }
+}
+
+#dBody{
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+}
+@media(max-width:760px){
+  .project-page-meta{
+    display:block;
+  }
+  .project-page-meta span{
+    display:block;
+    margin-bottom:.45rem;
+  }
+  .project-page-meta strong{
+    display:block;
+    margin:.16rem 0 0;
+  }
+}
+.workbench{
+  min-height:430px;
+  padding:.2rem 0 1rem;
+}
+.workbench-card{
+  width:min(640px,100%);
+  margin:0 auto;
+  border:2px solid var(--ink);
+  border-radius:0;
+  background:#fff;
+  box-shadow:3px 3px 0 var(--ink);
+  padding:1rem;
+  overflow:hidden;
+}
+.workbench-track{
+  position:relative;
+  min-height:270px;
+  border:2px solid var(--ink);
+  box-shadow:3px 3px 0 var(--ink);
+  background:linear-gradient(160deg,#f8d8f0 0%,#e4eef8 42%,#b8f0d8 100%);
+  overflow:hidden;
+}
+.workbench-track::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.52) 1px,transparent 1px);
+  background-size:18px 18px;
+  opacity:.85;
+}
+.workbench-copy{
+  position:absolute;
+  left:26px;
+  top:28px;
+  right:118px;
+  z-index:2;
+}
+.workbench-title{
+  font-size:1.48rem;
+  line-height:1.05;
+  color:var(--ink);
+  font-weight:800;
+  letter-spacing:-.03em;
+  margin:.32rem 0 .42rem;
+}
+.workbench-sub{
+  font-size:.76rem;
+  line-height:1.65;
+  color:var(--ink2);
+  max-width:24rem;
+}
+.workbench-kicker{
+  font-size:.5rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink3);
+}
+.workbench-folder{
+  position:absolute;
+  right:30px;
+  bottom:44px;
+  width:78px;
+  z-index:2;
+  filter:drop-shadow(3px 3px 0 rgba(0,0,0,.2));
+  animation:folderBob 1.7s ease-in-out infinite;
+}
+.workbench-runner{
+  position:absolute;
+  left:-96px;
+  bottom:22px;
+  width:86px;
+  z-index:3;
+  image-rendering:pixelated;
+  filter:drop-shadow(2px 4px 0 rgba(0,0,0,.35));
+  animation:workbenchRun 1.45s linear infinite;
+}
+.workbench-runner img{
+  width:86px;
+  display:block;
+  image-rendering:pixelated;
+}
+.workbench-ground{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:32px;
+  background:repeating-linear-gradient(90deg,#1a1714 0,#1a1714 16px,#5a5650 16px,#5a5650 32px);
+  z-index:1;
+}
+.workbench-bar{
+  margin-top:1rem;
+  height:14px;
+  border:2px solid var(--ink);
+  background:#f7f3ee;
+  overflow:hidden;
+}
+.workbench-bar span{
+  display:block;
+  width:38%;
+  height:100%;
+  background:repeating-linear-gradient(90deg,var(--cute-blue) 0,var(--cute-blue) 18px,var(--cute-lav) 18px,var(--cute-lav) 36px,var(--cute-mint) 36px,var(--cute-mint) 54px,var(--cute-pink) 54px,var(--cute-pink) 72px);
+  animation:workbenchLoad 1.25s linear infinite;
+}
+@keyframes workbenchRun{from{transform:translateX(0)}to{transform:translateX(740px)}}
+@keyframes folderBob{50%{transform:translateY(-5px) rotate(2deg)}}
+@keyframes workbenchLoad{
+  from{transform:translateX(-110%)}
+  to{transform:translateX(270%)}
+}
+@media(max-width:760px){
+  html,body{max-width:100%;overflow-x:hidden}
+  .layout,.main,.r-card,.r-card-body{min-width:0}
+  .r-entry,.r-subproject,.project-card,#dBody{
+    overflow-wrap:anywhere;
+  }
+  .r-award-badge{
+    display:flex!important;
+    width:max-content;
+    max-width:100%;
+    margin:.35rem 0 0!important;
+  }
+  #dBody div[style*="display:grid"]{
+    grid-template-columns:1fr!important;
+  }
+  .detail-log-shell{
+    display:block;
+  }
+  .detail-guide{
+    position:relative;
+    margin-top:1rem;
+  }
+  .detail-log{
+    gap:.55rem;
+  }
+  .detail-log-step{
+    border-width:1.5px;
+    box-shadow:none;
+  }
+  .detail-log-step summary{
+    padding:.62rem .68rem;
+    gap:.5rem;
+  }
+  .detail-log-num{
+    width:24px;
+    height:24px;
+    flex-basis:24px;
+    font-size:.6rem;
+    box-shadow:none;
+  }
+  .detail-log-title{
+    font-size:.78rem;
+  }
+  .detail-log-step p{
+    padding:.65rem .72rem;
+    font-size:.78rem;
+  }
+  .detail-guide{
+    border-width:1.5px;
+    box-shadow:none;
+  }
+  #dovBox{
+    width:96vw!important;
+    max-width:96vw!important;
+    height:90vh!important;
+  }
+  .pdf-embed{max-width:100%}
+  .pdf-frame,.asa-map-embed,.site-frame{
+    height:62vh!important;
+    max-height:none;
+  }
+  .workbench{min-height:62vh}
+  .workbench-card{padding:.75rem}
+  .workbench-track{min-height:250px}
+  .workbench-copy{left:18px;right:88px;top:22px}
+  .workbench-title{font-size:1.22rem}
+  .workbench-folder{right:15px;width:64px}
+  .workbench-runner,.workbench-runner img{width:76px}
+}
 
 </style>
 </head>
@@ -1357,7 +2103,7 @@ body::before{
     <div class="sb-bar">Navigation</div>
     <div class="sb-profile">
       <div class="sb-name">Mia Zhou</div>
-      <div style="display:flex;flex-wrap:wrap;gap:.2rem;margin-top:.55rem">
+      <div class="skill-pills" style="display:flex;flex-wrap:wrap;gap:.2rem;margin-top:.55rem">
         <span class="r-pill">Python</span><span class="r-pill">R</span><span class="r-pill">SAS</span><span class="r-pill">MATLAB</span><span class="r-pill">JavaScript</span><span class="r-pill">SQL</span><span class="r-pill">Tableau</span><span class="r-pill">Linux&nbsp;/&nbsp;Unix</span><span class="r-pill">Azure</span><span class="r-pill">GitHub</span>
       </div>
     </div>
@@ -1516,7 +2262,7 @@ body::before{
           </ul>
         </div>
 
-        <div class="r-entry" data-detail="enet" onclick="od('enet')">
+        <div class="r-entry" data-detail="enet" onclick="window.open('Uni/eNet.pdf','_blank')">
           <div class="r-entry-head">
             <div>
               <div class="r-role">Research Intern</div>
@@ -1581,7 +2327,8 @@ body::before{
               <li>Designed interpretable clinical AI system using case-based reasoning with explainability panels and <strong>Markov state transitions</strong>.</li>
             </ul>
             <div class="r-links">
-              <a class="r-lnk" href="https://miazhouruoya.github.io/clinical-doppelganger/" target="_blank"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>Clinical Dashboard</a>
+              <a class="r-lnk" href="https://miazhouruoya.github.io/doppelganger/" target="_blank"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>Clinical Dashboard</a>
+              <a class="r-lnk" href="https://github.com/miazhouruoya/doppelganger" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
               <a class="r-lnk" href="Uni/Chip741.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
             </div>
           </div>
@@ -1599,10 +2346,7 @@ body::before{
             <div class="r-img-box r-img-math"></div>
           </div>
           <div class="r-content-col">
-            <ul class="r-bullets">
-              <li>Analysed a Kuznetsov-type ODE system modelling CTL–tumour dynamics; extended to reaction-diffusion PDEs with chemotaxis, stochastic Langevin formulation, delay DEs, and optimal control.</li>
-              <li>Identified three codimension-1 bifurcations (transcritical, saddle-node, Hopf); mapped results to cancer dormancy and checkpoint inhibitor resistance.</li>
-            </ul>
+            <div class="compact-tech"><strong>Model/Tech:</strong> Kuznetsov-type ODEs, reaction-diffusion PDEs, chemotaxis, stochastic Langevin formulation, delay DEs, optimal control, bifurcation analysis.</div>
             <div class="r-links">
               <a class="r-lnk" href="Uni/tumour_immune.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Report</a>
               <a class="r-lnk" href="#" onclick="event.preventDefault();event.stopPropagation()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Link Coming Soon</a>
@@ -1618,12 +2362,7 @@ body::before{
             </div>
             <div class="r-date">Jun — Aug 2025</div>
           </div>
-          <ul class="r-bullets">
-            <li>Analyzed large-scale IBL neural recording datasets to investigate thalamocortical communication flow and decision-making dynamics during visually guided behavioral tasks.</li>
-            <li>Built <strong>machine learning</strong> pipelines using pre-stimulus neural activity to decode internal bias and choice behavior, with strongest decoding performance under zero-contrast conditions where decisions relied on prior expectations.</li>
-            <li>Applied <strong>cross-correlation</strong>, <strong>PSTH analysis</strong>, <strong>PCA</strong>, and ensemble classifiers (<strong>Random Forest</strong>, <strong>XGBoost</strong>, <strong>SVM</strong>) to identify temporal hierarchy and region-specific neural representations across cortical and thalamic visual areas.</li>
-            <li>Interpreted population dynamics through biologically grounded statistical inference, contributing evidence for directional information flow between LGd and VISa regions under uncertainty.</li>
-          </ul>
+          <div class="compact-tech"><strong>Model/Tech:</strong> IBL neural recordings, cross-correlation, PSTH, latency analysis, PCA, Random Forest, XGBoost, SVM, pre-stimulus population decoding.</div>
           <div class="r-links">
             <a class="r-lnk" href="Uni/slides.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
           </div>
@@ -1664,7 +2403,7 @@ body::before{
         <div class="r-entry" data-detail="wageguard" onclick="od('wageguard')">
           <div class="r-entry-head">
             <div>
-              <div class="r-role">WageGuard — SolHacks 2026 (MLH)<span class="r-tag r-tag-amber">1st Place Culture Track</span></div>
+              <div class="r-role">WageGuard — SolHacks 2026 (MLH)<span class="r-tag r-tag-amber r-award-badge">1st Place Culture Track</span></div>
               <div class="r-org-line">Product Manager + Full Stack Developer · 2-person team · 24 hours</div>
             </div>
             <div class="r-date">Mar 2026</div>
@@ -1786,39 +2525,143 @@ const DETAIL={
   spatial:{title:'Spatial Transcriptomics',cat:'UNC Biostatistics — Li Lab',pi:'PI: Prof. Didong Li',date:'Oct 2024 — Present',desc:`Spatial transcriptomics is a technology that tells you not just which genes are expressed in which cells, but where those cells sit in physical tissue. My contribution here is on the representation side: how should you build a graph over tissue to best capture the relationships between cells?<br><br>I've been constructing and comparing graph structures using k-nearest neighbor approaches and spatial adjacency methods, evaluating each design choice using clustering performance metrics like Adjusted Rand Index. The technical work is done in Python using Scanpy and Squidpy. I've been benchmarking Seurat, Squidpy, and Niches graph-building frameworks on Stimage-1K4M to test how neighborhood definitions change spatial gene-expression model outputs. The deeper question is biological: how much does the structure you impose on the data shape the biological conclusions you draw from it?`,bullets:['Treats graph construction as the experimental variable before downstream biological claims are made.','Compares adjacency rules, spatial neighborhoods, output matrices, and loss behavior across frameworks.','Current work focuses on a reproducible benchmark table explaining when each framework is stable, sensitive, or interpretable.'],ux:{goal:'Test whether spatial transcriptomics conclusions change because of the graph constructor itself.',methods:'Seurat, Squidpy, Niches, Stimage-1K4M, graph topology comparison, loss-matrix analysis.',visual:'Framework comparison matrix showing topology, loss stability, and biological interpretability.'},links:[{h:'https://github.com/parkyunjin/stgraph',l:'Code'}],img:'folderpic/thumbs/project2.jpg'},
   enet:{title:'eNet Enhancer Network',cat:'Xiamen University — Huang Lab',pi:'PI: Prof. Jialiang Huang',date:'Jun 2024 — Present',desc:`Leukemia is, at its core, a disease of gene regulation gone wrong. Cells that should stop dividing don't, and the reason often lies not in the genes themselves but in the regulatory machinery that controls when and how strongly those genes are expressed. Enhancers — stretches of DNA that boost gene activity — are central to that machinery, and understanding how they're organized in leukemia cells was the focus of my work in the Huang Lab at Xiamen University.<br><br>The challenge was that you can't understand enhancer regulation from a single data type. Gene expression tells you what's being produced; chromatin accessibility tells you which regulatory regions are physically open and potentially active. I used the eNet algorithm to jointly analyze scRNA-seq and scATAC-seq data — integrating these two modalities at the single-cell level to reconstruct enhancer interaction networks. Once those networks were built, I applied graph-theoretic methods to identify modular structure: which enhancers cluster together, which ones act as hubs, and which driver genes sit at the receiving end of the most regulatory input.<br><br>The finding that stuck with me was the concentration of regulatory influence. A relatively small subset of enhancer modules was responsible for controlling a disproportionately large share of key oncogene activity. It's the kind of result that suggests a biological principle — regulatory control in cancer isn't diffuse, it's concentrated — and also points toward a potential therapeutic logic: if you can identify and disrupt those hub modules, you might be able to shut down driver gene activity more efficiently than broad intervention would allow.<br><br>To ground the computational findings in experimental reality, I also contributed to wet lab validation work, performing RNA isolation and qPCR to confirm expression patterns identified in the single-cell data. That back-and-forth between computation and experiment is what made the work feel real.`,bullets:['Integrated chromatin accessibility and expression evidence so enhancer modules are modeled as regulatory neighborhoods.','Found rare modular topologies at 8.39% frequency and tested enrichment for disease-gene signal.','Prioritized WT1 and PADI3 with high-confidence enrichment evidence, including p < 1e-5 in strongest tests.'],ux:{goal:'Identify leukemia-relevant regulatory signals hidden across separate scATAC/scRNA views.',methods:'Single-cell multi-omics integration, enhancer-gene edge construction, topology detection, driver-gene enrichment.',visual:'Enhancer-gene network diagrams, topology summaries, and prioritized disease-gene tables.'},links:[{h:'Uni/eNet.pdf',l:'PDF'}],img:'folderpic/thumbs/eNet.jpg'},
   agent:{title:'Agent-Based Economic Simulation',cat:'Tsinghua University — Financial AI Intern',pi:'PI: Prof. Yong Li',date:'May — Aug 2025',desc:`Traditional economic models often assume agents behave rationally, independently, and with complete information. Real human behavior rarely satisfies any of those assumptions. People imitate their peers, react emotionally to narratives, adapt under uncertainty, and make decisions using incomplete local information. This project explored whether large language model–driven agents could produce macroeconomic and social dynamics that differ meaningfully from classical rule-based simulations, and whether those differences reveal limitations in standard economic modeling assumptions.<br><br>Using the AgentSociety simulation platform, I constructed heterogeneous populations of interacting agents with varying behavioral parameters, network connectivity, and initial economic conditions. The system combined classical agent-based modeling with LLM-driven cognition layers, allowing certain agents to reason contextually about their environment, update beliefs dynamically, and modify decisions based on surrounding social narratives. Other agents followed deterministic or bounded-rational update rules, enabling controlled comparisons between traditional economic assumptions and adaptive language-model-based behavior.<br><br>At the core of the simulation framework was a behavioral RCK-style macroeconomic model integrating Cobb-Douglas production, Poisson-driven social imitation, and stochastic exploration dynamics. Savings behavior evolved through local network exposure, where agents probabilistically imitated high-consumption neighbors while balancing individual utility optimization against social influence. I implemented large-scale parameter sweeps to study how interaction frequency, network topology, and narrative sensitivity altered aggregate system behavior across time.<br><br>The resulting dynamics showed clear divergence between classical and LLM-driven populations. Simulations with LLM cognition layers produced more heterogeneous consumption trajectories, faster opinion polarization, stronger echo-chamber formation, and higher volatility in emergent macroeconomic patterns. Parameter sensitivity analysis revealed critical interaction thresholds where wealth distributions transitioned into bimodal regimes accompanied by persistent oscillatory dynamics. These findings suggest that incorporating adaptive narrative-driven reasoning into agent populations may fundamentally alter the large-scale behaviors predicted by traditional economic models.<br><br>To support reproducibility and large-scale experimentation, I integrated MLflow-based experiment tracking pipelines and analyzed simulation outputs using time-series analysis, frequency-domain decomposition, and network-level behavioral metrics. The broader implication of the project is methodological: if LLM-driven agents more closely approximate real human cognition under uncertainty and social influence, then many economic forecasting systems may be systematically misestimating collective behavior in environments shaped by narratives, imitation, and information cascades.`,bullets:['Built heterogeneous multi-agent economic simulations combining classical rule-based agents with LLM-driven adaptive cognition layers.','Embedded Cobb-Douglas production and behavioral savings updates into an RCK-style macroeconomic framework driven by Poisson social imitation dynamics.','Conducted large-scale parameter sweeps identifying critical interaction thresholds associated with bimodal wealth distributions and persistent oscillatory regimes.','Modeled narrative-driven preference formation and echo-chamber amplification through socially connected LLM-agent populations.','Integrated MLflow experiment tracking and reproducibility infrastructure for large-scale simulation benchmarking and behavioral comparison analysis.'],ux:{goal:'Study how local imitation, adaptive reasoning, and narrative-driven decision-making generate emergent inequality, polarization, and macroeconomic instability in multi-agent systems.',methods:'Agent-based modeling, AgentSociety platform, RCK dynamics, Cobb-Douglas production, Poisson imitation processes, stochastic exploration, LLM agents, network simulations, MLflow tracking, time-series analysis, frequency-domain decomposition.',visual:'Bimodal wealth distributions, interaction-threshold phase transitions, oscillatory macroeconomic regimes, heterogeneous consumption dynamics, and emergent echo-chamber polarization patterns across LLM-driven agent populations.'},links:[{h:'Uni/ABM.pdf',l:'PDF'},{h:'https://github.com/miazhouruoya/agent-society-workplace',l:'Code'}],img:'folderpic/thumbs/Agent-Society.jpg'},
-  app741:{title:'Clinical Doppelgänger — EHR Decision Support',cat:'Full Stack Developer — CHIP 741',pi:'UNC Chapel Hill',date:'Jan — May 2026',desc:`Clinical Doppelgänger was inspired by something physicians already do intuitively: when they encounter a difficult patient case, they mentally search for similar patients they've seen before and remember what happened to them. Most clinical AI systems skip that reasoning process entirely and output a risk score without context. We wanted to build something different — a system that could retrieve a patient's clinical near-twins, show what trajectories those similar patients followed, and expose the reasoning behind every recommendation instead of hiding it behind a black box.<br><br>The data plumbing came first. I implemented OAuth 2.0 authentication and integrated with SMART on FHIR APIs to pull structured clinical data — diagnoses, medications, lab values, procedures — across multiple resources in parallel. Once the data was in hand, the matching pipeline used cosine similarity over clinical feature vectors combined with propensity score matching to find patients who were genuinely comparable, controlling for the confounders that make naive similarity misleading.<br><br>Outputs aren't single-point predictions. I added bootstrap confidence estimation so every result comes with uncertainty bounds, because in clinical settings, knowing how confident the system is matters as much as what it says. Outcomes for matched patients are visualized through Kaplan-Meier survival curves rendered in interactive dashboards. I also implemented a Markov state transition framework to model how patients move between clinical states — stable, deteriorating, hospitalized, recovered — and to project probable trajectories forward. The design principle throughout was interpretability: every output traces back to the patients it's grounded in, every recommendation comes with its reasoning visible.`,sections:[{title:'What It Does',items:['<strong>FHIR-powered patient retrieval</strong> — queries structured EHR data across Patient, Condition, MedicationRequest, Observation, and Encounter resources through SMART on FHIR APIs','<strong>Parallel clinical ingestion pipeline</strong> — retrieves diagnoses, medications, labs, and encounters simultaneously to reduce dashboard latency','<strong>Similarity-learning engine</strong> — combines cosine similarity with propensity-score matching to identify clinically comparable patient cohorts rather than superficially similar records','<strong>Bootstrap confidence estimation</strong> — every cohort-level prediction includes uncertainty intervals instead of single-point outputs','<strong>Kaplan-Meier survival dashboards</strong> — visualizes how matched patients progressed longitudinally over time through interactive survival curves','<strong>Markov state-transition modeling</strong> — models patient movement across latent clinical states such as stable, deteriorating, hospitalized, and recovered','<strong>Clinical trajectory projection</strong> — estimates likely future progression paths based on historical trajectories of matched cohorts','<strong>Explainability-first interface</strong> — every prediction traces back to real matched patients, observable trajectories, and interpretable cohort evidence','<strong>Robust EHR handling</strong> — gracefully handles missing labs, incomplete bundles, malformed records, and OAuth/API failures without breaking workflows','<strong>Interactive dashboard system</strong> — clinicians inspect cohort balance, survival outcomes, uncertainty bounds, and progression reasoning directly inside the UI']},{title:'Tech Stack',stack:[{layer:'Frontend',tech:'HTML + JavaScript + Interactive Dashboards'},{layer:'Backend',tech:'Python + Clinical Similarity Pipeline'},{layer:'Clinical APIs',tech:'SMART on FHIR + OAuth 2.0 + FHIR R4'},{layer:'Matching Engine',tech:'Cosine Similarity + Propensity Score Matching'},{layer:'Statistical Inference',tech:'Bootstrap Confidence Intervals + Kaplan-Meier Survival Analysis'},{layer:'Trajectory Modeling',tech:'Markov State Transition Systems'},{layer:'Data Storage',tech:'JSON Cohort Simulation + Structured Clinical Features'}]},{title:'Challenges',items:['Clinical similarity is misleading without adjustment — naive nearest-neighbor retrieval matched patients with fundamentally different underlying risk profiles, so propensity-score balancing was added to control confounding','Healthcare data is incomplete by default — many patient records had missing observations, inconsistent encounters, or empty FHIR bundles requiring defensive parsing and fallback handling','Uncertainty matters as much as prediction — added bootstrap confidence estimation because clinicians need to understand reliability, not just outcomes','Trajectory modeling is temporal, not static — Markov transition systems were introduced because patient progression cannot be represented as a single binary prediction','Interpretability in healthcare is mandatory — every output had to remain inspectable, cohort-grounded, and clinically explainable rather than functioning as a black-box classifier']},{title:'Proud Of',items:['Built an end-to-end clinical retrieval pipeline connecting SMART on FHIR APIs directly to interpretable cohort-level outcome modeling','Combined similarity learning, survival analysis, uncertainty estimation, and trajectory modeling inside a single clinician-facing workflow','Created interactive Kaplan-Meier and state-transition dashboards allowing users to inspect longitudinal patient behavior visually','Designed a decision-support system where every recommendation remains traceable to observable matched-patient evidence','Engineered the system to remain stable under incomplete EHR records, missing labs, and intermittent API failures']},{title:'What We Learned',items:['Similarity in healthcare is fundamentally causal — patients can appear similar superficially while differing substantially in latent risk structure','Interpretability determines adoption — clinicians are significantly less likely to trust systems that cannot expose the reasoning behind predictions','Uncertainty communication is critical in clinical environments — confidence intervals often matter more than the raw estimate itself','Healthcare infrastructure engineering is messy — real-world EHR systems contain missing values, inconsistent schemas, and unreliable endpoints by default','Temporal disease progression requires state-based reasoning rather than static prediction frameworks']},{title:'What\'s Next',items:['Integrate real longitudinal hospital datasets instead of simulated cohort JSON structures','Add multimodal ingestion pipelines for imaging, physician notes, and laboratory trend sequences','Expand trajectory modeling using hidden Markov models and sequential deep-learning architectures','Build clinician feedback loops allowing physicians to validate or reject matched cohorts interactively','Add retrieval-augmented clinical summarization so matched-patient evidence can be translated into physician-readable explanations automatically']}],links:[{h:'https://miazhouruoya.github.io/clinical-doppelganger/',l:'Clinical Dashboard'},{h:'Uni/Chip741.pdf',l:'Slides'}],img:'folderpic/thumbs/Doople.jpg'},
+  app741:{title:'Clinical Doppelgänger — EHR Decision Support',cat:'Full Stack Developer — CHIP 741',pi:'UNC Chapel Hill',date:'Jan — May 2026',desc:`Clinical Doppelgänger was inspired by something physicians already do intuitively: when they encounter a difficult patient case, they mentally search for similar patients they've seen before and remember what happened to them. Most clinical AI systems skip that reasoning process entirely and output a risk score without context. We wanted to build something different — a system that could retrieve a patient's clinical near-twins, show what trajectories those similar patients followed, and expose the reasoning behind every recommendation instead of hiding it behind a black box.<br><br>The data plumbing came first. I implemented OAuth 2.0 authentication and integrated with SMART on FHIR APIs to pull structured clinical data — diagnoses, medications, lab values, procedures — across multiple resources in parallel. Once the data was in hand, the matching pipeline used cosine similarity over clinical feature vectors combined with propensity score matching to find patients who were genuinely comparable, controlling for the confounders that make naive similarity misleading.<br><br>Outputs aren't single-point predictions. I added bootstrap confidence estimation so every result comes with uncertainty bounds, because in clinical settings, knowing how confident the system is matters as much as what it says. Outcomes for matched patients are visualized through Kaplan-Meier survival curves rendered in interactive dashboards. I also implemented a Markov state transition framework to model how patients move between clinical states — stable, deteriorating, hospitalized, recovered — and to project probable trajectories forward. The design principle throughout was interpretability: every output traces back to the patients it's grounded in, every recommendation comes with its reasoning visible.`,sections:[{title:'What It Does',items:['<strong>FHIR-powered patient retrieval</strong> — queries structured EHR data across Patient, Condition, MedicationRequest, Observation, and Encounter resources through SMART on FHIR APIs','<strong>Parallel clinical ingestion pipeline</strong> — retrieves diagnoses, medications, labs, and encounters simultaneously to reduce dashboard latency','<strong>Similarity-learning engine</strong> — combines cosine similarity with propensity-score matching to identify clinically comparable patient cohorts rather than superficially similar records','<strong>Bootstrap confidence estimation</strong> — every cohort-level prediction includes uncertainty intervals instead of single-point outputs','<strong>Kaplan-Meier survival dashboards</strong> — visualizes how matched patients progressed longitudinally over time through interactive survival curves','<strong>Markov state-transition modeling</strong> — models patient movement across latent clinical states such as stable, deteriorating, hospitalized, and recovered','<strong>Clinical trajectory projection</strong> — estimates likely future progression paths based on historical trajectories of matched cohorts','<strong>Explainability-first interface</strong> — every prediction traces back to real matched patients, observable trajectories, and interpretable cohort evidence','<strong>Robust EHR handling</strong> — gracefully handles missing labs, incomplete bundles, malformed records, and OAuth/API failures without breaking workflows','<strong>Interactive dashboard system</strong> — clinicians inspect cohort balance, survival outcomes, uncertainty bounds, and progression reasoning directly inside the UI']},{title:'Tech Stack',stack:[{layer:'Frontend',tech:'HTML + JavaScript + Interactive Dashboards'},{layer:'Backend',tech:'Python + Clinical Similarity Pipeline'},{layer:'Clinical APIs',tech:'SMART on FHIR + OAuth 2.0 + FHIR R4'},{layer:'Matching Engine',tech:'Cosine Similarity + Propensity Score Matching'},{layer:'Statistical Inference',tech:'Bootstrap Confidence Intervals + Kaplan-Meier Survival Analysis'},{layer:'Trajectory Modeling',tech:'Markov State Transition Systems'},{layer:'Data Storage',tech:'JSON Cohort Simulation + Structured Clinical Features'}]},{title:'Challenges',items:['Clinical similarity is misleading without adjustment — naive nearest-neighbor retrieval matched patients with fundamentally different underlying risk profiles, so propensity-score balancing was added to control confounding','Healthcare data is incomplete by default — many patient records had missing observations, inconsistent encounters, or empty FHIR bundles requiring defensive parsing and fallback handling','Uncertainty matters as much as prediction — added bootstrap confidence estimation because clinicians need to understand reliability, not just outcomes','Trajectory modeling is temporal, not static — Markov transition systems were introduced because patient progression cannot be represented as a single binary prediction','Interpretability in healthcare is mandatory — every output had to remain inspectable, cohort-grounded, and clinically explainable rather than functioning as a black-box classifier']},{title:'Proud Of',items:['Built an end-to-end clinical retrieval pipeline connecting SMART on FHIR APIs directly to interpretable cohort-level outcome modeling','Combined similarity learning, survival analysis, uncertainty estimation, and trajectory modeling inside a single clinician-facing workflow','Created interactive Kaplan-Meier and state-transition dashboards allowing users to inspect longitudinal patient behavior visually','Designed a decision-support system where every recommendation remains traceable to observable matched-patient evidence','Engineered the system to remain stable under incomplete EHR records, missing labs, and intermittent API failures']},{title:'What We Learned',items:['Similarity in healthcare is fundamentally causal — patients can appear similar superficially while differing substantially in latent risk structure','Interpretability determines adoption — clinicians are significantly less likely to trust systems that cannot expose the reasoning behind predictions','Uncertainty communication is critical in clinical environments — confidence intervals often matter more than the raw estimate itself','Healthcare infrastructure engineering is messy — real-world EHR systems contain missing values, inconsistent schemas, and unreliable endpoints by default','Temporal disease progression requires state-based reasoning rather than static prediction frameworks']},{title:'What\'s Next',items:['Integrate real longitudinal hospital datasets instead of simulated cohort JSON structures','Add multimodal ingestion pipelines for imaging, physician notes, and laboratory trend sequences','Expand trajectory modeling using hidden Markov models and sequential deep-learning architectures','Build clinician feedback loops allowing physicians to validate or reject matched cohorts interactively','Add retrieval-augmented clinical summarization so matched-patient evidence can be translated into physician-readable explanations automatically']}],links:[{h:'https://miazhouruoya.github.io/doppelganger/',l:'Clinical Dashboard',embed:true},{h:'https://github.com/miazhouruoya/doppelganger',l:'GitHub'},{h:'Uni/Chip741.pdf',l:'Slides'}],img:'folderpic/thumbs/Doople.jpg'},
   math:{title:'Tumour–Immune Dynamics: ODE, PDE & Control',cat:'UNC Mathematics — Directed Reading Program',pi:'Nonlinear Dynamics',date:'Apr 2026',desc:`There's something almost philosophical about the way differential equations describe biological systems. A tumor doesn't "know" the immune system is attacking it; immune cells don't "decide" to mobilize. And yet the interaction between them follows dynamics that mathematics can describe precisely — equilibria, oscillations, tipping points, collapse. This project was about learning to read those dynamics fluently.<br><br>I implemented coupled nonlinear ODE systems that jointly describe tumor cell proliferation and immune response activation. The math is straightforward to write down but rich to analyze. I began with equilibrium analysis: what are the fixed points of the system, and what do they represent biologically? A stable equilibrium where tumor burden is low corresponds to a functioning immune response; an equilibrium where tumor burden is high represents failure. The Jacobian matrix at each fixed point, and the signs of its eigenvalues, tell you which regime you're in and how robust it is to perturbation.<br><br>Phase plane analysis revealed the system's geometry — the trajectories traced by different initial conditions, the separatrices that divide basins of attraction, and in some parameter regimes, limit cycles indicating sustained oscillations where neither tumor nor immune response wins definitively. Sensitivity analysis mapped how outcomes shift as biological parameters vary: what happens to the system's behavior if immune activation rate increases by 10%? If tumor growth rate is slower? These aren't just mathematical questions — they correspond to real biological variation and potential therapeutic intervention points.<br><br>The bifurcation analysis was where it got most interesting: identifying the parameter values at which the qualitative behavior of the system changes entirely, from immune containment to immune escape. Those transitions are the mathematical analog of a patient's prognosis flipping from manageable to critical.`,bullets:['Tracked equilibria and stability changes as immune recruitment and tumour-growth parameters vary.','Compared spatial spread, chemotaxis, noise, immune lag, and treatment pressure across model families.','Interpreted transcritical, saddle-node, and Hopf bifurcations as signatures of dormancy, escape, oscillation, and resistance.'],ux:{goal:'Connect nonlinear tumour-immune mathematics to clinically meaningful regimes.',methods:'Stability analysis, bifurcation tracking, PDEs, chemotaxis, Langevin noise, delays, optimal control.',visual:'Phase portraits, bifurcation diagrams, spatial sketches, and treatment-control trajectories.'},links:[{h:'Uni/tumour_immune.pdf',l:'Report'},{h:'#',l:'Link Coming Soon'}],img:'folderpic/thumbs/tumor.jpg'},
   neuro:{title:'Neuromatch Neuron Simulation',cat:'NeuroMatch Program',pi:'Computational Neuroscience',date:'Jun — Aug 2025',desc:`The brain generates data at a scale and complexity that makes most other biological systems look simple. A recording from even a small population of neurons produces high-dimensional time-series data that's noisy, non-stationary, and structured in ways that aren't immediately visible. Learning to work with that kind of data — rigorously, without over-claiming — was the core skill this project developed.<br><br>I implemented a set of computational models in Python designed to extract interpretable structure from neural population activity recordings. The methods I applied — dimensionality reduction to find the latent subspace in which neural dynamics actually live, latent variable models to infer hidden states driving observed activity, decoding analyses to ask how much information about behavior or stimulus is encoded in population patterns — are standard in systems neuroscience, but applying them well requires constant vigilance about what you're actually measuring versus what you're imposing on the data.<br><br>I evaluated multiple modeling approaches against each other, using held-out prediction accuracy as one benchmark and biological interpretability as another. Those two criteria don't always agree, and navigating that tension carefully is something the project pushed me to develop. A model that predicts well but whose latent variables correspond to nothing biologically meaningful is less useful, in this context, than one that's slightly noisier but legible.<br><br>What I came away with, beyond the technical fluency, was an instinct for high-dimensional noisy data more broadly — for the kinds of artifacts that emerge when you reduce dimensionality aggressively, for the difference between structure that's in the data and structure that's in the method. That instinct has transferred directly into every other project I've done since that involves biological data at scale.`,bullets:['Analyzed large-scale IBL neural recording datasets to investigate thalamocortical communication flow and decision-making dynamics during visually guided behavioral tasks using neural decoding and latency analysis.','Built machine learning pipelines using pre-stimulus neural activity to decode internal bias and choice behavior, showing higher decoding accuracy under zero-contrast conditions where decisions relied on prior expectations.','Applied cross-correlation, PSTH analysis, PCA, and ensemble classifiers (Random Forest, XGBoost, SVM) to identify temporal hierarchy and region-specific neural representations across cortical and thalamic visual areas.','Interpreted neural population dynamics through biologically grounded modeling and statistical inference, contributing evidence for directional information flow between LGd and VISa regions under uncertainty.'],ux:{goal:'Characterize how thalamocortical circuits encode prior expectations and directional information flow under perceptual uncertainty during visually guided decision-making.',methods:'IBL dataset analysis, cross-correlation, PSTH, latency analysis, PCA, ensemble classifiers (Random Forest, XGBoost, SVM), pre-stimulus population decoding.',visual:'Temporal hierarchy diagrams, region-specific decoding accuracy panels, zero-contrast vs. low-contrast comparisons, and LGd-VISa directional flow evidence.'},links:[{h:'Uni/slides.pdf',l:'Slides'}],img:'folderpic/thumbs/Neuromatch.jpg'},
   wids:{title:'Founder & President — UNC Women in Data Science',cat:'Leadership — WiDS Worldwide + UNC-Chapel Hill',pi:'Women in Data Science Ambassador',date:'2026 — Present',desc:'Founded and lead the UNC-Chapel Hill WiDS chapter while serving as a Women in Data Science Ambassador in the worldwide community.',bullets:['Founder and president of the UNC-Chapel Hill WiDS chapter, connected to the global Women in Data Science network.','Planning workshops, speaker series, and hackathon/community-build programming across statistics, AI, health, and social impact.','The chapter vision is an AI + data space where students can build technical confidence and portfolio-ready work.'],links:[],img:'folderpic/thumbs/WiDS.jpg'},
   datafest:{title:'Duke ASA DataFest 2026',cat:'Duke University — American Statistical Association · DataFest 2026',pi:'Best Statistical Analysis',date:'Mar 2026',desc:`It started with a question that felt almost too big to answer in 48 hours: why do some patients repeatedly show up in emergency rooms while others, just as sick, never do? At Duke's ASA DataFest, my team of four was handed a sprawling dataset of roughly 10,000 patients drawn from electronic health records and social determinants of health surveys — messy, multi-source, and full of signal waiting to be pulled out.<br><br>I designed the analytical pipeline from the ground up. Before touching any model, I spent time thinking about what "care irregularity" actually means longitudinally — not just whether someone missed an appointment, but the pattern of gaps, the clustering of crises, the absence of consistent touch points over time. I engineered those features by hand, building metrics that captured how erratic or consistent each patient's care history had been. From there, I used K-means clustering to segment the patient population into behaviorally and socially distinct groups, then fit logistic regression models to quantify ED overuse risk across those segments.<br><br>What emerged was striking. The correlation between social risk factors and healthcare utilization came out at approximately r = 0.82 — not a whisper of a relationship, but a structural one. Poverty, transportation barriers, unstable housing: these weren't background noise. They were the story. I then ran intervention simulations — counterfactual analyses asking what happens to predicted risk if you systematically remove financial barriers, or solve the transportation problem. The numbers shifted meaningfully.<br><br>The final piece was translating all of this into something actionable. I built a geospatial mobile clinic routing plan, mapping where concentrated need intersected with access gaps, producing coverage recommendations for over 30,000 patients. The judges awarded us Best Statistical Analysis — not just for the rigor of the methods, but for the coherence of the argument: from raw data, to insight, to a plan someone could actually use.`,bullets:['Engineered visit-gap sequences and cv_gap to quantify irregular care continuity from longitudinal EHR records.','Clustered SDOH risk across 8 domains and simulated a 16.6pp risk reduction under structural-barrier removal.','Built a geospatial mobile-clinic route covering 32,686 patients across 15 stops.'],ux:{goal:'Show how irregular care access and social barriers create avoidable ED risk.',methods:'Feature engineering, K-Means, counterfactual simulation, Markov comorbidity network, MLP scoring, routing.',visual:'Mobile-clinic map, SDOH clusters, comorbidity network, and risk-reduction dashboard.'},links:[{h:'Uni/Carolina_Correlation_DukeASA26.pdf',l:'Slides'},{h:'https://github.com/miazhouruoya/dukeasafest26',l:'Code'},{h:'https://miazhouruoya.github.io/kansasmobile/',l:'Map'}],img:'folderpic/thumbs/ASA.jpg'},
-  wageguard:{title:'WageGuard — Bilingual AI Wage Protection',cat:'SolHacks 2026 (MLH)',pi:'1st Place Culture Track',date:'Mar 2026',desc:`Many Latino workers in the US are underpaid, overworked, and unaware that what's happening to them is illegal. Wage theft is the most common form of theft in America — over $50 billion stolen annually — yet the workers most affected are the least equipped to navigate the systems designed to protect them. Language barriers, fear of retaliation, and lack of legal knowledge keep most cases unreported. We wanted to build something that removes every one of those barriers.`,sections:[{title:'What It Does',items:['<strong>Voice-first AI intake</strong> — workers describe their situation out loud; Gemini agent extracts a full structured wage claim automatically','<strong>Smart follow-up agent</strong> — identifies the single most important missing piece and asks one targeted question at a time','<strong>Deterministic wage analysis</strong> — compares pay against actual state labor law (all 50 states) and calculates the exact dollar gap','<strong>Plain-language explanation</strong> — translates legal output into simple English or Spanish: what happened, what it means, what to do next','<strong>Downloadable record card</strong> — formatted PDF the worker can take to a lawyer or agency','<strong>Complaint generation</strong> — drafts a complete complaint email and links directly to the official DOL filing page','<strong>Retaliation detector</strong> — workers check off what changed since they complained; system assesses risk and provides direct reporting lines','<strong>Evidence organizer</strong> — drag-and-drop uploads auto-sorted into hours proof, pay proof, employer messages, and timeline evidence','<strong>Full account system</strong> — magic-link auth via Supabase; every conversation and wage record stored and accessible','<strong>Night mode</strong> — because many workers are doing this after a long shift']},{title:'Tech Stack',stack:[{layer:'Frontend',tech:'React + Vite'},{layer:'Backend',tech:'Express + TypeScript'},{layer:'Database & Auth',tech:'Supabase (magic link, row-level security)'},{layer:'AI Agents',tech:'Google Gemini 2.5 Flash'},{layer:'Voice',tech:'ElevenLabs Scribe'},{layer:'Wage Logic',tech:'Deterministic engine — hard-coded state labor law'}]},{title:'Challenges',items:['Keeping AI honest on math — separated the calculation layer entirely: Gemini handles language, a deterministic engine handles every dollar amount','Structured output from free speech — careful prompt engineering with XML output tags and multi-turn accumulation','Bilingual consistency — agent always responds in the user\'s language, preserves tone across English and Spanish','Rate limits on the free tier — built a throttle queue, response cache, and local regex fallback for graceful degradation','Retaliation sensitivity — every message framed to feel supportive, not alarming, while remaining legally accurate']},{title:'Proud Of',items:['Three coordinated AI agents handing off seamlessly — intake, follow-up, and explanation — within a single conversation flow','Voice-to-claim pipeline end to end: speak naturally, form fills, analysis runs, explanation appears — under 30 seconds','Fully bilingual product where every component, every agent response, every UI element works in both languages','Built the entire frontend design system from scratch in 24 hours, matching the SolHacks visual identity','The app works even without an API key — local regex and fallback explanations mean the core flow never breaks']},{title:'What We Learned',items:['Prompt engineering for structured parseable output is a discipline of its own — small prompt changes have large effects on reliability','Separation between AI and deterministic logic is critical when accuracy matters','Designing for users with high anxiety and low institutional trust requires different UX decisions — every word, error message, and button label matters','Supabase row-level security makes building secure multi-user apps significantly faster than rolling auth from scratch']},{title:'What\'s Next',items:['Connect the evidence organizer to Supabase storage for persistent legal file management','Add a document reader — upload a pay stub photo and extract hours, rate, and deductions automatically','Expand the wage engine to cover tip credit rules, piece-rate work, and agricultural exemptions','Partner with worker centers and legal aid clinics to route high-risk cases directly to human advocates','Add push notifications reminding workers to log hours weekly before memories fade']}],links:[{h:'https://devpost.com/software/jornadajusta',l:'Devpost',embed:true}],img:'folderpic/thumbs/wageguard.jpg'},
+  wageguard:{title:'WageGuard — Bilingual AI Wage Protection',cat:'SolHacks 2026 (MLH)',pi:'1st Place Culture Track',date:'Mar 2026',desc:`Many Latino workers in the US are underpaid, overworked, and unaware that what's happening to them is illegal. Wage theft is the most common form of theft in America — over $50 billion stolen annually — yet the workers most affected are the least equipped to navigate the systems designed to protect them. Language barriers, fear of retaliation, and lack of legal knowledge keep most cases unreported. We wanted to build something that removes every one of those barriers.`,sections:[{title:'What It Does',items:['<strong>Voice-first AI intake</strong> — workers describe their situation out loud; Gemini agent extracts a full structured wage claim automatically','<strong>Smart follow-up agent</strong> — identifies the single most important missing piece and asks one targeted question at a time','<strong>Deterministic wage analysis</strong> — compares pay against actual state labor law (all 50 states) and calculates the exact dollar gap','<strong>Plain-language explanation</strong> — translates legal output into simple English or Spanish: what happened, what it means, what to do next','<strong>Downloadable record card</strong> — formatted PDF the worker can take to a lawyer or agency','<strong>Complaint generation</strong> — drafts a complete complaint email and links directly to the official DOL filing page','<strong>Retaliation detector</strong> — workers check off what changed since they complained; system assesses risk and provides direct reporting lines','<strong>Evidence organizer</strong> — drag-and-drop uploads auto-sorted into hours proof, pay proof, employer messages, and timeline evidence','<strong>Full account system</strong> — magic-link auth via Supabase; every conversation and wage record stored and accessible','<strong>Night mode</strong> — because many workers are doing this after a long shift']},{title:'Tech Stack',stack:[{layer:'Frontend',tech:'React + Vite'},{layer:'Backend',tech:'Express + TypeScript'},{layer:'Database & Auth',tech:'Supabase (magic link, row-level security)'},{layer:'AI Agents',tech:'Google Gemini 2.5 Flash'},{layer:'Voice',tech:'ElevenLabs Scribe'},{layer:'Wage Logic',tech:'Deterministic engine — hard-coded state labor law'}]},{title:'Challenges',items:['Keeping AI honest on math — separated the calculation layer entirely: Gemini handles language, a deterministic engine handles every dollar amount','Structured output from free speech — careful prompt engineering with XML output tags and multi-turn accumulation','Bilingual consistency — agent always responds in the user\'s language, preserves tone across English and Spanish','Rate limits on the free tier — built a throttle queue, response cache, and local regex fallback for graceful degradation','Retaliation sensitivity — every message framed to feel supportive, not alarming, while remaining legally accurate']},{title:'Proud Of',items:['Three coordinated AI agents handing off seamlessly — intake, follow-up, and explanation — within a single conversation flow','Voice-to-claim pipeline end to end: speak naturally, form fills, analysis runs, explanation appears — under 30 seconds','Fully bilingual product where every component, every agent response, every UI element works in both languages','Built the entire frontend design system from scratch in 24 hours, matching the SolHacks visual identity','The app works even without an API key — local regex and fallback explanations mean the core flow never breaks']},{title:'What We Learned',items:['Prompt engineering for structured parseable output is a discipline of its own — small prompt changes have large effects on reliability','Separation between AI and deterministic logic is critical when accuracy matters','Designing for users with high anxiety and low institutional trust requires different UX decisions — every word, error message, and button label matters','Supabase row-level security makes building secure multi-user apps significantly faster than rolling auth from scratch']},{title:'What\'s Next',items:['Connect the evidence organizer to Supabase storage for persistent legal file management','Add a document reader — upload a pay stub photo and extract hours, rate, and deductions automatically','Expand the wage engine to cover tip credit rules, piece-rate work, and agricultural exemptions','Partner with worker centers and legal aid clinics to route high-risk cases directly to human advocates','Add push notifications reminding workers to log hours weekly before memories fade']}],links:[{h:'https://devpost.com/software/jornadajusta',l:'Devpost',embed:true}],img:'folderpic/wageguard.png'},
   cvd:{title:'Multi-State CVD Progression Modeling',cat:'UNC Chapel Hill — Department of Biostatistics',pi:'PI: Dr. Ming Ding',date:'Mar 2026 — Present',desc:`Cardiovascular disease rarely arrives as a single event. A patient's path from diagnosis to outcome typically passes through a sequence of states — coronary heart disease, stroke, heart failure, and ultimately mortality — each transition shaped by a different combination of risk factors, time horizons, and competing events. Modeling that sequence faithfully requires something more than a standard binary prediction: it demands a framework that treats disease as a process unfolding through time.<br><br>My honors thesis, supervised by Dr. Ming Ding in the UNC Department of Biostatistics, builds multi-state survival models on longitudinal cohort data to characterize these transitions explicitly. The central challenge is that the transitions are competing: a patient who experiences stroke cannot simultaneously experience heart failure as a first event. Ignoring that structure produces biased estimates. The competing-risk framework I'm implementing accounts for this directly, estimating cause-specific hazards for each transition separately while preserving the joint interpretation of the full disease trajectory.<br><br>The modeling pipeline integrates cause-specific Cox models, Kaplan–Meier estimation, and pooled logistic regression within a coherent multi-state framework. Each approach captures a different feature of the data: Cox models give interpretable hazard ratios for covariate effects on each transition; Kaplan–Meier provides nonparametric baseline survival curves that don't assume a distributional form; pooled logistic regression approximates discrete-time hazards and handles time-varying covariates flexibly. Together they form a layered analysis where assumptions can be tested at each stage.<br><br>The goal is precision CVD risk prediction — not a single risk score, but an estimate of which trajectory a patient is on and when transitions are most likely, conditioned on the covariates that matter. This kind of output is directly actionable for clinical decision-making and population health planning in a way that aggregate risk scores are not.`,bullets:['Developing multi-state cardiovascular disease progression models using longitudinal cohort data to predict transitions between CHD, stroke, heart failure, and mortality outcomes through survival analysis and cause-specific Cox modeling.','Implementing time-to-event and competing-risk pipelines using pooled logistic regression, Kaplan–Meier estimation, and multi-state survival frameworks for precision CVD risk prediction.'],ux:{goal:'Characterize patient-level CVD progression trajectories by modeling transitions between disease states under competing risks.',methods:'Multi-state survival analysis, cause-specific Cox modeling, Kaplan–Meier estimation, pooled logistic regression, competing-risk frameworks, longitudinal cohort data.',visual:'State-transition hazard curves, competing-risk cumulative incidence functions, covariate-adjusted transition probability surfaces, and patient trajectory projections.'},links:[],img:'folderpic/thumbs/BUSI.jpg'},
   datamini3:{title:'Duke Data Mini #3',cat:'Duke University — Data Mini #3',pi:'Best Statistical Analysis',date:'Apr 2026',desc:`Railroad fatalities in the United States are rarely random. Behind each incident is a pattern — behavioral, environmental, and structural — that repeats across geography, time, and demographic context. The goal of this project was to find those patterns and turn them into something a policymaker could actually use: not just a predictive model, but an argument about where and how to intervene.<br><br>I built a two-model risk analysis pipeline combining logistic regression and XGBoost on U.S. railroad incident records. The pairing was deliberate. Logistic regression surfaces interpretable odds ratios — exact multipliers that let you say trespassing carries 33.85x the fatality odds of ordinary incidents. XGBoost captures the nonlinear interaction effects that a linear model misses, revealing which behavioral and environmental factors compound in ways that simple coefficients can't represent. Running both in parallel created a richer picture than either could alone.<br><br>Positive drug test status emerged as the second-largest mortality driver after trespassing, with 9.53x odds. Taken together, these two variables explained the bulk of the mortality gap — not infrastructure failures or equipment failures, but behavioral patterns with known antecedents and intervention points. The model was predictively strong, but the point was never accuracy for its own sake.<br><br>The more important output was archetype discovery. I clustered fatal incidents into recurring behavioral and situational profiles — track-walkers struck by trains, grade-crossing drivers making catastrophic misjudgments, workers caught in maintenance zones. Each archetype represents a structurally different kind of risk, which means each one points toward a different class of preventive intervention. Collapsing them into a single "railroad fatality" category misses the underlying heterogeneity completely.<br><br>The project won Best Statistical Analysis at Duke Data Mini. The judges noted the combination of strong modeling performance with interpretable, prevention-oriented outputs — the work made a legible argument, not just a model, and that distinction was the whole point.`,sections:[{title:'What It Does',items:['<strong>Fatality risk modeling</strong> — predicts fatal vs. nonfatal railroad incidents using interpretable statistical and machine learning pipelines','<strong>Odds-ratio estimation</strong> — quantifies direct mortality risk contributions for behavioral and environmental variables','<strong>Nonlinear risk detection</strong> — uses XGBoost to capture interaction effects missed by linear statistical models','<strong>Archetype discovery</strong> — clusters fatal incidents into recurring behavioral and situational profiles','<strong>Risk-driver visualization</strong> — surfaces interpretable feature importance and high-risk behavioral signatures','<strong>Intervention-oriented profiling</strong> — transforms model outputs into prevention-ready accident archetypes','<strong>Classification diagnostics</strong> — evaluates predictive reliability through AUC, confusion matrices, and performance diagnostics','<strong>Behavioral pattern analysis</strong> — studies how trespassing, substance use, and crossing behavior interact with mortality risk','<strong>Interpretability-first modeling</strong> — balances predictive performance with policy-level explainability','<strong>Statistical storytelling</strong> — translates technical model findings into understandable transportation safety insights']},{title:'Overview',cards:[{key:'Methods',val:'Logistic regression, XGBoost, odds-ratio analysis, classification modeling, archetype profiling, clustering analysis, AUC diagnostics, feature importance analysis, behavioral risk modeling.'},{key:'Results',val:'Odds-ratio risk panels, nonlinear feature-importance diagnostics, fatality archetype clustering, AUC performance analysis, and intervention-oriented transportation risk profiles.'}]},{title:'Challenges',items:['Linear models alone missed behavioral interaction effects — XGBoost was added to capture nonlinear relationships hidden inside incident patterns','High predictive accuracy was not sufficient — the system also needed interpretable outputs usable for transportation policy discussions','Fatality populations were heterogeneous — clustering and archetype profiling were introduced to separate structurally different incident types','Rare but high-impact variables distorted simple interpretations — odds-ratio analysis was paired with broader model diagnostics to avoid misleading conclusions','Translating technical outputs into prevention strategies required balancing statistical rigor with actionable storytelling']},{title:'Proud Of',items:['Combined interpretable statistical inference with nonlinear machine learning inside a single unified risk-analysis framework','Identified trespasser status and positive drug tests as dominant mortality drivers with extremely elevated fatality odds','Built intervention-ready fatality archetypes instead of treating railroad incidents as a single undifferentiated population','Translated predictive models into interpretable transportation safety narratives understandable to nontechnical audiences','Won Best Statistical Analysis at Duke Data Mini for combining strong modeling performance with interpretable public-risk analysis']}],links:[{h:'Uni/Duke%20Mini%233.pdf',l:'Slides'}],img:'folderpic/thumbs/DataMini.jpg'}};
 
 function isDoc(h){return /\.pdf($|\?)/i.test(h)}
+function showDetail(html){
+  const body=document.getElementById('dBody');
+  const overlay=document.getElementById('dov');
+  body.classList.remove('detail-animated');
+  body.innerHTML=html;
+  body.scrollTop=0;
+  void body.offsetWidth;
+  body.classList.add('detail-animated');
+  overlay.style.display='block';
+}
+function splitParas(s){
+  return (s||'').split('<br><br>').filter(Boolean);
+}
+function stripTags(s){
+  return (s||'').replace(/<[^>]*>/g,'');
+}
+function slugify(s){
+  return stripTags(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')||'section';
+}
+function renderPageSection(sec,i){
+  const id=slugify(sec.title||`section-${i}`);
+  let out=`<section class="project-page-section" id="${id}"><h3>${sec.title}</h3>`;
+  if(sec.html){
+    out+=sec.html;
+  }else if(sec.stack){
+    out+='<dl class="project-page-stack">';
+    sec.stack.forEach(r=>{out+=`<div><dt>${r.layer}</dt><dd>${r.tech}</dd></div>`});
+    out+='</dl>';
+  }else if(sec.cards){
+    out+='<dl class="project-page-stack">';
+    sec.cards.forEach(c=>{out+=`<div><dt>${c.key}</dt><dd>${c.val}</dd></div>`});
+    out+='</dl>';
+  }else if(sec.items){
+    out+='<ul>';
+    sec.items.forEach(item=>{out+=`<li>${item}</li>`});
+    out+='</ul>';
+  }
+  return out+'</section>';
+}
+function renderPdfSection(l,p){
+  return `<section class="project-page-section project-page-pdf" id="${slugify(l.l)}"><h3>${l.l}</h3><iframe class="pdf-frame" src="${l.h}" title="${p.title} ${l.l}"></iframe><a class="project-page-pdf-open" href="${l.h}" target="_blank">Open ${l.l}</a></section>`;
+}
+function renderProjectPage(p,opts={}){
+  const paras=splitParas(p.desc);
+  const intro=opts.intro||paras[0]||'Project notes are being organized.';
+  const sections=[];
+  if(paras.length>1)sections.push({title:'Context',items:paras.slice(1).map(x=>x)});
+  if(p.bullets&&p.bullets.length)sections.push({title:opts.bulletTitle||'Process',items:p.bullets});
+  if(p.sections)sections.push(...p.sections);
+  if(p.ux){
+    sections.push({title:'Methods & Output',cards:[
+      {key:'Question',val:p.ux.goal},
+      {key:'Model / Tech',val:p.ux.methods},
+      {key:'Result',val:p.ux.visual}
+    ]});
+  }
+  if(opts.extraSections)sections.push(...opts.extraSections);
+  const nav=[{id:'top',label:'Intro'},...sections.map((s,i)=>({id:slugify(s.title||`section-${i}`),label:s.title}))];
+  let html=`<article class="project-page" id="top">
+    <p class="project-page-kicker">${p.cat}</p>
+    <h1 class="project-page-title">${p.title}</h1>
+    <p class="project-page-sub">${intro}</p>
+    <div class="project-page-meta">
+      <span>Role / PI<strong>${p.pi}</strong></span>
+      <span>Timeline<strong>${p.date}</strong></span>
+    </div>`;
+  if(opts.showImage&&p.img)html+=`<img class="project-window-image" src="${p.img}" alt="${p.title} project image">`;
+  html+=`<div class="project-page-layout"><nav class="project-page-nav">`;
+  nav.forEach(n=>{html+=`<a href="#${n.id}">${n.label}</a>`});
+  html+=`</nav><div class="project-page-main">`;
+  sections.forEach((sec,i)=>{html+=renderPageSection(sec,i)});
+  const docs=(p.links||[]).filter(l=>isDoc(l.h)),embeds=(p.links||[]).filter(l=>l.embed&&!isDoc(l.h)),actions=(p.links||[]).filter(l=>!isDoc(l.h)&&!l.embed);
+  if(actions.length){
+    html+='<section class="project-page-section" id="links"><h3>Links</h3><div class="project-page-actions">';
+    actions.forEach(l=>{html+=l.h==='#'?`<span class="project-action" style="opacity:.65;cursor:default">${l.l}</span>`:`<a class="project-action" href="${l.h}" target="_blank">${l.l}</a>`});
+    html+='</div></section>';
+  }
+  embeds.forEach(l=>{html+=`<section class="project-page-section" id="${slugify(l.l)}"><h3>${l.l}</h3><iframe class="site-frame" src="${l.h}" title="${p.title} — ${l.l}"></iframe><p style="margin-top:.75rem"><a class="project-inline-link" href="${l.h}" target="_blank">Open ${l.l}</a></p></section>`});
+  docs.forEach(l=>{html+=renderPdfSection(l,p)});
+  html+='</div></div></article>';
+  return html;
+}
 function od(id){
   pc();
   const p=DETAIL[id];if(!p)return;
   document.getElementById('dTitle').textContent=p.title;
-  let html=`<p style="font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#4a4440;margin-bottom:.28rem">${p.cat}</p>
-  <h2 style="font-size:1.52rem;font-weight:700;color:var(--ink);line-height:1.12;margin-bottom:.25rem;letter-spacing:-.02em">${p.title}</h2>
-  <p style="font-size:.76rem;font-family:'Courier New',monospace;color:#4a4440;margin-bottom:.85rem;padding-bottom:.7rem;border-bottom:2px solid var(--ink)"><strong style="color:var(--ink)">${p.pi}</strong> &nbsp;·&nbsp; ${p.date}</p>
-  <p style="font-size:1rem;line-height:1.82;color:#2a2520;margin-bottom:1rem">${p.desc}</p>`;
-  const renderSec=(sec)=>{html+=`<p style="font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4a4440;margin:1.1rem 0 .42rem">${sec.title}</p>`;if(sec.stack){html+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem;margin-bottom:.9rem">`;sec.stack.forEach(r=>html+=`<div style="font-size:.82rem;line-height:1.5;color:#2a2520;padding:.42rem .55rem;background:var(--paper);border-left:2px solid var(--ink)"><span style="font-weight:800;color:var(--ink);display:block;font-size:.54rem;letter-spacing:.09em;text-transform:uppercase;margin-bottom:.1rem">${r.layer}</span>${r.tech}</div>`);html+=`</div>`;}else if(sec.cards){html+=`<div style="display:grid;grid-template-columns:repeat(${Math.min(sec.cards.length,3)},minmax(0,1fr));gap:.55rem;margin:0 0 .9rem">`;sec.cards.forEach(c=>html+=`<div class="detail-card"><p class="detail-k">${c.key}</p><p class="detail-v">${c.val}</p></div>`);html+=`</div>`;}else{html+=`<ul style="list-style:none;display:flex;flex-direction:column;gap:.38rem;margin:0 0 .7rem;padding:0">`;sec.items.forEach(b=>html+=`<li style="font-size:.85rem;line-height:1.62;color:#2a2520;padding-left:1.1rem;position:relative"><span style="position:absolute;left:0;color:#4a4440;font-weight:800">→</span>${b}</li>`);html+=`</ul>`;}};
-  if(p.bullets&&p.bullets.length)renderSec({title:'Key Contributions',items:p.bullets});
-  if(p.sections)p.sections.forEach(renderSec);
-  if(p.ux)renderSec({title:'Overview',cards:[{key:'Goal',val:p.ux.goal},{key:'Methods',val:p.ux.methods},{key:'Results',val:p.ux.visual}]});
-  const docs=(p.links||[]).filter(l=>isDoc(l.h)),embeds=(p.links||[]).filter(l=>l.embed&&!isDoc(l.h)),actions=(p.links||[]).filter(l=>!isDoc(l.h)&&!l.embed);
-  if(actions.length){html+='<p style="font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin:.9rem 0 .4rem">Links</p><div>';actions.forEach(l=>{html+=l.h==='#'?`<span class="r-lnk" style="opacity:.65;cursor:default">${l.l}</span>`:`<a class="r-lnk" href="${l.h}" target="_blank">${l.l}</a>`});html+='</div>'}
-  docs.forEach(l=>{html+=`<div class="pdf-embed"><p style="font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.4rem">${l.l} Preview</p><iframe class="pdf-frame" src="${l.h}" title="${p.title} ${l.l}"></iframe></div>`});
-  embeds.forEach(l=>{html+=`<div class="pdf-embed"><p style="font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.4rem">${l.l}</p><iframe src="${l.h}" title="${p.title} — ${l.l}" style="width:100%;height:520px;border:2px solid var(--cbr);box-shadow:2px 2px 0 rgba(0,0,0,.15);display:block"></iframe><p style="font-size:.64rem;line-height:1.6;color:var(--ink2);margin-top:.55rem">If the page doesn't load here, <a href="${l.h}" target="_blank" style="color:var(--ink);font-weight:700">open it directly</a>.</p></div>`});
-  const body=document.getElementById('dBody');body.innerHTML=html;body.scrollTop=0;document.getElementById('dov').style.display='block';
+  if(id==='datafest'){
+    showDetail(renderProjectPage(p,{
+      intro:'A 48-hour care-access analysis that turns patient utilization, social-risk patterns, and mobile clinic routing into an interactive story.',
+      extraSections:[
+        {
+          title:'Interactive Embedding Map',
+          html:`<iframe class="site-frame asa-map-embed" src="https://miazhouruoya.github.io/kansasmobile/" title="Duke ASA DataFest interactive embedding map"></iframe>
+            <p>If the map does not load here, <a href="https://miazhouruoya.github.io/kansasmobile/" target="_blank">open the interactive map directly</a>.</p>`
+        },
+        {
+          title:'Slides',
+          html:'<div class="project-page-pdf"><iframe class="pdf-frame" src="Uni/Carolina_Correlation_DukeASA26.pdf" title="Duke ASA DataFest slides"></iframe><a class="project-page-pdf-open" href="Uni/Carolina_Correlation_DukeASA26.pdf" target="_blank">Open Slides</a></div>'
+        }
+      ]
+    }));
+    return;
+  }
+  if(id==='cvd'){
+    showDetail(`<article class="project-page working-page" id="top">
+      <div>
+        <div class="working-avatar" aria-hidden="true"><img src="sprite_1.png" alt=""></div>
+        <p class="working-text">Still working...</p>
+      </div>
+    </article>`);
+    return;
+  }
+  if(id==='wageguard'){
+    showDetail(renderProjectPage(p,{showImage:true}));
+    return;
+  }
+  showDetail(renderProjectPage(p));
 }
-function cd(){document.getElementById('dov').style.display='none'}
+function cd(){
+  const overlay=document.getElementById('dov');
+  overlay.style.display='none';
+}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')cd()});
 document.querySelectorAll('.r-entry a[href],.r-subproject a[href]').forEach(a=>{
   a.addEventListener('click',e=>{
     const wrap=a.closest('[data-detail]');
+    if(wrap&&wrap.dataset.detail==='enet'){e.stopPropagation();return}
     if(wrap&&isDoc(a.getAttribute('href'))){e.preventDefault();e.stopPropagation();od(wrap.dataset.detail)}
     else e.stopPropagation();
   });
