@@ -43,8 +43,8 @@ body{background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wa
 .mb-r{font-size:.62rem;font-weight:700;color:var(--ink);font-family:'Courier New',monospace}
 
 /* ── DESKTOP ── */
-#desk{position:fixed;top:24px;left:0;right:72px;bottom:0;z-index:2}
-#desk::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(circle,rgba(255,255,255,.25) 1px,transparent 1px);background-size:20px 20px}
+#desk{position:fixed;top:24px;left:0;right:72px;bottom:0;z-index:2;background:url("wallpaper.png") center/cover no-repeat}
+#desk::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background:linear-gradient(90deg,rgba(255,255,255,.22),rgba(255,255,255,.06) 42%,rgba(255,255,255,.18))}
 
 /* ── DOCK ── */
 #dock{position:fixed;top:24px;right:0;bottom:0;width:72px;z-index:8000;background:linear-gradient(180deg,rgba(240,237,234,.95) 0%,rgba(208,204,198,.95) 100%);border-left:1px solid var(--cbr);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 0 8px}
@@ -59,7 +59,7 @@ body{background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wa
 .dk-img.bounce{animation:dkB .4s ease-out}
 
 /* ── DESKTOP FOLDER ICONS ── */
-.di{position:absolute;width:88px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px;border:2px solid transparent}
+.di{position:absolute;z-index:20;width:88px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px;border:2px solid transparent}
 .di:hover{background:rgba(76,110,245,.08);border-color:rgba(76,110,245,.22)}
 .di.sel{background:rgba(76,110,245,.15);border-color:rgba(76,110,245,.5)}
 .di-fold{width:68px;height:60px;transition:transform .12s}
@@ -68,6 +68,33 @@ body{background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wa
 .di-fold svg{width:68px;height:60px;display:block}
 .di-lbl{font-size:.6rem;font-weight:700;color:var(--ink);text-align:center;line-height:1.2;max-width:84px;text-shadow:0 1px 0 rgba(255,255,255,.7)}
 .di.sel .di-lbl{background:rgba(76,110,245,.85);color:#fff;padding:0 2px;text-shadow:none}
+.desk-high{top:46px!important;left:18px!important;transform:rotate(-3deg)}
+.desk-exp{top:142px!important;left:104px!important;transform:rotate(2deg)}
+.desk-life{top:238px!important;left:32px!important;transform:rotate(3deg)}
+
+/* ── LIFE PHOTO HOVER FIELD ── */
+.life-hover-field{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:auto;
+}
+.life-float-photo{
+  position:fixed;
+  left:0;
+  top:0;
+  width:205px;
+  aspect-ratio:4/3;
+  object-fit:cover;
+  opacity:0;
+  pointer-events:none;
+  transform:translate3d(-50%,-50%,0) scale(.96);
+  filter:drop-shadow(0 18px 28px rgba(26,23,20,.18));
+  will-change:transform,opacity;
+  transition:opacity .18s ease;
+  z-index:65;
+}
+body.life-wall-on .life-float-photo{opacity:.9}
 
 /* ── FINDER WINDOWS ── */
 .fw{position:absolute;display:flex;flex-direction:column;background:var(--wbg);border:2px solid var(--cbr);box-shadow:4px 4px 0 rgba(0,0,0,.2),7px 7px 0 rgba(0,0,0,.07);z-index:100;overflow:hidden;min-width:280px;max-height:calc(100vh - 120px)}
@@ -126,8 +153,10 @@ body{background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wa
 .cc-title-block{flex:1}
 .cc-title{font-size:.82rem;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:.1rem}
 .cc-meta{font-size:.58rem;color:var(--ink2);font-family:'Courier New',monospace;letter-spacing:.03em;font-weight:600}
-.cc-badges{display:flex;gap:.22rem;flex-shrink:0}
-.cc-badge-pill{display:inline-block;font-size:.46rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.06rem .32rem;background:var(--ink);color:#fff}
+.cc-badges{display:flex;gap:.28rem;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;align-items:flex-start}
+.cc-badge-pill{display:inline-block;font-size:.5rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:.14rem .42rem;background:var(--ink);color:#fff;border:1.5px solid var(--ink);box-shadow:1.5px 1.5px 0 rgba(26,23,20,.22)}
+.cc-badge-award{position:relative;background:#fff7cf;color:#6a3b00;border:2px solid #c8683a;box-shadow:2px 2px 0 #1a1714;padding:.34rem .5rem .22rem;min-width:94px;text-align:center;line-height:1.12}
+.cc-badge-award::before{content:'Award';display:block;font-family:'Courier New',monospace;font-size:.42rem;letter-spacing:.12em;color:#c8683a;margin-bottom:.08rem}
 .cc-badge-pub{background:#c8683a}
 .cc-badge-soon{background:var(--ink3)}
 .cc-desc{font-size:.74rem;line-height:1.68;color:var(--ink2);margin-bottom:.6rem}
@@ -224,48 +253,20 @@ body{background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wa
 .aw-btn:hover{background:var(--ink);color:#fff}
 .aw-btn:active{transform:translate(2px,2px);box-shadow:none}
 .aw-btn svg{width:9px;height:9px;fill:currentColor;stroke:none;flex-shrink:0}
-.aw-awards{display:flex;flex-direction:column;gap:.28rem}
-.aw-award-row{font-size:.64rem;color:var(--ink2);display:flex;align-items:baseline;gap:.3rem;line-height:1.4}
-.aw-award-row::before{content:'★';color:#c8683a;font-size:.6rem;flex-shrink:0}
-
-/* ── PUBLICATIONS PANEL ── */
-.ppanel{display:none;flex:1;padding:.85rem .9rem;overflow-y:auto;background:var(--wc)}
-.ppanel.show{display:block}
-.pub-e{border-left:3px solid #c8683a;padding:.8rem .85rem .8rem .95rem;background:var(--wc)}
-.pub-badge{display:inline-block;font-size:.48rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:#c8683a;color:#fff;padding:.06rem .36rem;margin-bottom:.45rem}
-.pub-body{font-size:.78rem;line-height:1.75;color:var(--ink2);margin-bottom:.6rem}
-.pub-body strong{color:var(--ink);font-weight:700}
-.cite-xp{display:none;margin-top:.45rem}.cite-xp.show{display:block}
-.cite-bx{background:#fdf8f5;border-left:2px solid #c8683a;padding:.55rem .7rem;margin-top:.25rem}
-.cite-lbl{font-size:.46rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a05020;margin-bottom:.25rem}
-.cite-txt{font-family:'Courier New',monospace;font-size:.62rem;line-height:1.7;color:var(--ink2);margin-bottom:.42rem}
-.cite-txt strong{color:var(--ink)}
-
-/* ── DETAIL OVERLAY ── */
-
-
-
-
-
-
-/* detail text — pure typography, no decorative boxes */
-.d-cat{font-size:.5rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.28rem}
-.d-h1{font-size:1.38rem;font-weight:700;color:var(--ink);line-height:1.12;margin-bottom:.25rem;letter-spacing:-.02em}
-.d-byline{font-size:.64rem;font-family:'Courier New',monospace;color:var(--ink3);margin-bottom:.85rem;padding-bottom:.7rem;border-bottom:2px solid var(--ink)}
-.d-byline strong{color:var(--ink2)}
-.d-text{font-size:.86rem;line-height:1.82;color:var(--ink2);margin-bottom:1rem}
-.d-cite-lbl{font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.35rem}
-.d-cite-block{font-family:'Courier New',monospace;font-size:.66rem;line-height:1.72;color:var(--ink2);margin-bottom:.65rem;padding:.65rem .75rem;background:#f8f5f0;border-left:2px solid var(--ink4)}
-.d-cite-block strong{color:var(--ink)}
-.d-links-lbl{font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.35rem}
-.d-links{display:flex;flex-wrap:wrap;gap:.32rem}
-.d-lnk{display:inline-flex;align-items:center;gap:.24rem;font-size:.64rem;font-weight:700;text-decoration:none;padding:.22rem .58rem;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);background:#fff;color:var(--ink);transition:transform .07s,box-shadow .07s}
-.d-lnk:hover{background:var(--ink);color:#fff}
-.d-lnk:active{transform:translate(2px,2px);box-shadow:none}
-.d-lnk svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.vlog-player{width:100%;display:block;background:#111;aspect-ratio:16/9;object-fit:cover}
 
 /* responsive */
-@media(max-width:620px){#dock{display:none}#desk{bottom:0;right:0}.fw{min-width:260px!important}#fw-about{width:270px;left:8px}}
+@media(max-width:620px){
+  #dock{display:none}
+  #desk{bottom:0;right:0;background-position:center top}
+  .fw{min-width:260px!important}
+  #fw-about{width:270px;left:8px}
+  .desk-high{top:34px!important;left:14px!important}
+  .desk-exp{top:104px!important;left:112px!important}
+  .desk-life{top:184px!important;left:24px!important}
+  .life-hover-field{top:300px}
+  .life-float-photo{width:132px}
+}
 </style>
 </head>
 <body>
@@ -290,6 +291,8 @@ body{background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wa
   <span class="star" style="top:50%;left:73%;animation-delay:.8s;font-size:.52rem">✦</span>
   <span class="star" style="top:78%;left:14%;animation-delay:2.2s;font-size:.58rem">✦</span>
   <span class="star" style="top:22%;left:42%;animation-delay:.3s;font-size:.44rem">✦</span>
+
+  <div class="life-hover-field" id="lifeHoverField" aria-hidden="true"></div>
 
   <!-- ═══════════════ ABOUT WINDOW ═══════════════ -->
   <div class="fw focused" id="fw-about" style="top:48px;left:86px;width:305px">
@@ -319,14 +322,6 @@ body{background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wa
           <span class="aw-pill">Tableau</span><span class="aw-pill">Linux</span>
         </div>
       </div>
-      <div>
-        <div class="aw-section">Awards</div>
-        <div class="aw-awards">
-          <div class="aw-award-row">Best Statistical Analysis — Duke ASA DataFest 2026</div>
-          <div class="aw-award-row">1st Place Culture Track — SolHacks 2026 (MLH)</div>
-          <div class="aw-award-row">Best Statistical Analysis — Duke Data Mini #3</div>
-        </div>
-      </div>
       <div class="aw-links">
         <a class="aw-btn" href="https://github.com/miazhouruoya" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a>
         <a class="aw-btn" href="https://linkedin.com/in/miaazhoou" target="_blank"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
@@ -334,277 +329,6 @@ body{background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wa
         <a class="aw-btn" href="Landing.html?dest=ib.html&title=ib+portfolio"><svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>IB</a>
         <a class="aw-btn" href="Landing.html?dest=life.html&title=my+life"><svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Life</a>
       </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════ PUBLICATIONS WINDOW ═══════════════ -->
-  <div class="fw gone" id="fw-pub" style="top:48px;left:430px;width:500px">
-    <div class="wtb" data-wid="fw-pub">
-      <div class="tls"><div class="tl tl-r" onclick="cw('fw-pub')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-pub')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
-      <span class="wt-title">Publications</span>
-    </div>
-    <div style="flex:1;overflow-y:auto;padding:.8rem;background:var(--wc)">
-      <div class="pub-e">
-        <div class="pub-badge">Under Review</div>
-        <p class="pub-body">Shi, C., Han, S., Kusumanchi, S., <strong>Zhou, M.</strong>, &amp; Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. <em>Manuscript submitted for publication.</em></p>
-        <button class="pxb" id="citeTog">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Cite
-        </button>
-        <div class="cite-xp" id="citeXp">
-          <div class="cite-bx">
-            <div class="cite-lbl">APA citation</div>
-            <p class="cite-txt">Shi, C., Han, S., Kusumanchi, S., <strong>Zhou, M.</strong>, &amp; Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. <em>Manuscript submitted for publication.</em></p>
-            <button class="pxb" id="citeCp">Copy</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════════════ RESEARCH WINDOW ═══════════════ -->
-  <div class="fw gone" id="fw-res" style="top:48px;left:430px;width:560px">
-    <div class="wtb" data-wid="fw-res">
-      <div class="tls"><div class="tl tl-r" onclick="cw('fw-res')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-res')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
-      <span class="wt-title">Research</span>
-    </div>
-    <div class="wtb2" id="resTool">
-      <button class="wtab on" data-c="all">All (4)</button>
-      <button class="wtab" data-c="bio">Biostatistics</button>
-      <button class="wtab" data-c="fin">Finance AI</button>
-    </div>
-    <div class="wbody">
-      <div class="wsb" id="resSb">
-        <span class="wsb-h">Items</span>
-        <div class="wsb-r on" data-c="all"><div class="sdot" style="background:#9a9590"></div>All (4)</div>
-        <span class="wsb-h">Field</span>
-        <div class="wsb-r" data-c="bio"><div class="sdot" style="background:#2a8a7a"></div>Biostatistics</div>
-        <div class="wsb-r" data-c="fin"><div class="sdot" style="background:#4c6ef5"></div>Finance AI</div>
-      </div>
-      <div class="wscroll" id="resCards">
-
-        <!-- NIH Network -->
-        <div class="cc" data-c="bio" id="cc-nih" data-id="nih" onclick="od(this.dataset.id)" style="cursor:pointer">
-          <div class="cc-head">
-            <div class="cc-ico" style="background:var(--c1)"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><circle cx="19" cy="19" r="3"/><circle cx="5" cy="19" r="3"/><path d="M12 8v13M5 19h14"/></svg></div>
-            <div class="cc-title-block">
-              <div class="cc-title">NIH Network Analysis</div>
-              <div class="cc-meta">UNC Biostatistics · Li Lab · PI: Prof. Didong Li · Oct 2024 — Present</div>
-            </div>
-            <div class="cc-badges"><span class="cc-badge-pill cc-badge-pub">Under Review</span></div>
-          </div>
-          <p class="cc-desc">Processed 30,000+ NIH grant abstracts to identify funding trends by engineering an NLP pipeline using BERTopic and BioSentVec embeddings. Visualised co-PI collaboration networks to reveal dynamics and funding inequality at UNC.</p>
-          <div class="cc-links">
-            <a class="pxb" href="Uni/NIH_Network.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>PDF</a>
-            <a class="pxb" href="https://github.com/CuiranVivianShi/NIH_network" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
-          </div>
-        </div>
-
-        <!-- Spatial Transcriptomics -->
-        <div class="cc" data-c="bio" id="cc-spatial" data-id="spatial" onclick="od(this.dataset.id)" style="cursor:pointer">
-          <div class="cc-head">
-            <div class="cc-ico" style="background:var(--c2)"><svg viewBox="0 0 24 24"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 3v11"/><path d="m6 5 3-3 3 3"/></svg></div>
-            <div class="cc-title-block">
-              <div class="cc-title">Spatial Transcriptomics</div>
-              <div class="cc-meta">UNC Biostatistics · Li Lab · PI: Prof. Didong Li · Oct 2024 — Present</div>
-            </div>
-          </div>
-          <p class="cc-desc">Benchmarked 3 graph-building frameworks (Seurat, Squidpy, Niches) on Stimage-1K4M dataset, comparing model outputs and loss matrices for spatial gene expression analysis.</p>
-          <div class="cc-links">
-            <a class="pxb" href="https://github.com/parkyunjin/stgraph" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
-          </div>
-        </div>
-
-        <!-- eNet -->
-        <div class="cc" data-c="bio" id="cc-enet" data-id="enet" onclick="od(this.dataset.id)" style="cursor:pointer">
-          <div class="cc-head">
-            <div class="cc-ico" style="background:var(--c3)"><svg viewBox="0 0 24 24"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/><path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/></svg></div>
-            <div class="cc-title-block">
-              <div class="cc-title">eNet Enhancer Network</div>
-              <div class="cc-meta">Xiamen University · Huang Lab · PI: Prof. Jialiang Huang · Jun 2024 — Present</div>
-            </div>
-          </div>
-          <p class="cc-desc">Constructed enhancer network from single-cell multi-omics (scATAC + scRNA, 18k+ cells) using eNet algorithms, identifying rare modular topologies (8.39%) strongly predictive of MPA Leukemia driver genes. Achieved high-confidence disease gene prioritisation (p &lt; 1e−5).</p>
-          <div class="cc-links">
-            <a class="pxb" href="Uni/eNet.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>PDF</a>
-          </div>
-        </div>
-
-        <!-- Agent Econ Sim (Finance AI research) -->
-        <div class="cc" data-c="fin" data-id="agent" onclick="od(this.dataset.id)" style="cursor:pointer">
-          <div class="cc-head">
-            <div class="cc-ico" style="background:var(--c5)"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
-            <div class="cc-title-block">
-              <div class="cc-title">Agent-Based Economic Simulation</div>
-              <div class="cc-meta">Tsinghua University · Financial AI Intern · PI: Prof. Yong Li · May — Aug 2025</div>
-            </div>
-          </div>
-          <ul class="cc-list">
-            <li>Implemented behavioural agent-based RCK model using Cobb-Douglas production with Poisson-updated social imitation of savings and stochastic exploration noise.</li>
-            <li>Analysed networked dynamics and parameter sensitivity, identifying critical interaction threshold, bimodal wealth distribution and endogenous oscillatory regime.</li>
-            <li>Integrated LLM-driven decision making into Agent Society to reproduce polarisation and echo-chamber dynamics.</li>
-          </ul>
-          <div class="cc-links">
-            <a class="pxb" href="Uni/ABM.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>PDF</a>
-            <a class="pxb" href="https://github.com/miazhouruoya/agent-society-workplace" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <div class="wstat"><span id="resStat">4 items</span><span style="margin-left:auto">click card to expand</span></div>
-  </div>
-
-  <!-- ═══════════════ PROJECTS WINDOW ═══════════════ -->
-  <div class="fw gone" id="fw-proj" style="top:60px;left:200px;width:540px">
-    <div class="wtb" data-wid="fw-proj">
-      <div class="tls"><div class="tl tl-r" onclick="cw('fw-proj')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-proj')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
-      <span class="wt-title">Projects</span>
-    </div>
-    <div class="wtb2" id="projTool">
-      <button class="wtab on" data-c2="all">All (3)</button>
-      <button class="wtab" data-c2="health">Health</button>
-      <button class="wtab" data-c2="neuro">Neuro</button>
-      <button class="wtab" data-c2="math">Math</button>
-    </div>
-    <div class="wbody">
-      <div class="wsb" id="projSb">
-        <span class="wsb-h">Items</span>
-        <div class="wsb-r on" data-c2="all"><div class="sdot" style="background:#9a9590"></div>All (3)</div>
-        <span class="wsb-h">Category</span>
-        <div class="wsb-r" data-c2="health"><div class="sdot" style="background:#2a8a7a"></div>Health</div>
-        <div class="wsb-r" data-c2="neuro"><div class="sdot" style="background:#7dd3fc"></div>Neuroscience</div>
-        <div class="wsb-r" data-c2="math"><div class="sdot" style="background:#c9922a"></div>Math</div>
-      </div>
-      <div class="wscroll" id="projCards">
-
-        <!-- Clinical Doppelganger -->
-        <div class="cc" data-c2="health" data-id="app741" onclick="od(this.dataset.id)" style="cursor:pointer">
-          <div class="cc-head">
-            <div class="cc-ico" style="background:var(--c1)"><svg viewBox="0 0 24 24"><path d="M22 12h-3l-3 9L9 3l-3 9H3"/></svg></div>
-            <div class="cc-title-block">
-              <div class="cc-title">Clinical Doppelgänger — EHR Decision Support</div>
-              <div class="cc-meta">Full Stack Developer · Jan — May 2026</div>
-            </div>
-          </div>
-          <ul class="cc-list">
-            <li>Built full-stack EHR web app with SMART on FHIR + OAuth 2.0 authentication, querying 5 FHIR R4 resources via parallel jQuery API calls.</li>
-            <li>Engineered client-side statistical pipeline (cosine similarity, Propensity Score Matching, bootstrap 95% CI, Kaplan-Meier) visualised in 4 interactive Highcharts dashboards.</li>
-            <li>Designed interpretable clinical AI system using case-based reasoning with explainability panels and Markov state transitions.</li>
-            <li>Added robust error handling for empty FHIR bundles, missing observations, OAuth/API failures, and patient-record edge cases so the dashboard degrades gracefully instead of breaking.</li>
-          </ul>
-        </div>
-
-        <!-- UNC Math DRP -->
-        <div class="cc" data-c2="math" data-id="math" onclick="od(this.dataset.id)" style="cursor:pointer">
-          <div class="cc-head">
-            <div class="cc-ico" style="background:var(--c4)"><svg viewBox="0 0 24 24"><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M14 14h7v7h-7z"/><path d="M3 14h7v7H3z"/></svg></div>
-            <div class="cc-title-block">
-              <div class="cc-title">Tumour–Immune Dynamics: ODE, PDE &amp; Control</div>
-              <div class="cc-meta">UNC Mathematics · Directed Reading Program · Nonlinear Dynamics · Apr 2026</div>
-            </div>
-          </div>
-          <p class="cc-desc">Analysed a Kuznetsov-type nonlinear ODE system modelling cytotoxic T lymphocyte–tumour dynamics. Extended to reaction–diffusion PDEs with chemotaxis, stochastic Langevin formulation, delay differential equations, and optimal control. Identified three codimension-1 bifurcations (transcritical, saddle-node, Hopf) and mapped results to clinical phenomena including cancer dormancy and checkpoint inhibitor resistance.</p>
-          <div class="cc-links">
-            <a class="pxb" href="Uni/tumour_report_v4.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Report</a>
-          </div>
-        </div>
-
-        <!-- Neuromatch Neuron Simulation -->
-        <div class="cc" data-c2="neuro" data-id="neuro" onclick="od(this.dataset.id)" style="cursor:pointer">
-          <div class="cc-head">
-            <div class="cc-ico" style="background:var(--c4)"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-            <div class="cc-title-block">
-              <div class="cc-title">Neuromatch Neuron Simulation</div>
-              <div class="cc-meta">NeuroMatch Program · Computational Neuroscience · Jun — Aug 2025</div>
-            </div>
-          </div>
-          <p class="cc-desc">Decoded inter-regional brain communication via Leiden Analysis on the IBL dataset (30k+ neurons), predicting trial-by-trial behavioural decisions at 78% accuracy.</p>
-          <div class="cc-links">
-            <a class="pxb" href="Uni/slides.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <div class="wstat"><span id="projStat">3 items</span><span style="margin-left:auto">click card to expand</span></div>
-  </div>
-
-  <!-- ═══════════════ HACKATHON WINDOW ═══════════════ -->
-  <div class="fw gone" id="fw-hack" style="top:60px;left:200px;width:540px">
-    <div class="wtb" data-wid="fw-hack">
-      <div class="tls"><div class="tl tl-r" onclick="cw('fw-hack')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-hack')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
-      <span class="wt-title">Datathon &amp; Hackathon</span>
-    </div>
-    <div class="wscroll">
-
-      <div class="cc" data-id="datafest" onclick="od(this.dataset.id)" style="cursor:pointer">
-        <div class="cc-head">
-          <div class="cc-ico" style="background:var(--c4)"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
-          <div class="cc-title-block">
-            <div class="cc-title">Best Statistical Analysis — Duke ASA DataFest 2026</div>
-            <div class="cc-meta">Mar 2026 · 5-person team · 48-hour competition</div>
-          </div>
-          <div class="cc-badges">
-            <svg width="20" height="20" viewBox="0 0 28 28"><rect width="28" height="28" fill="#012169"/><text x="14" y="20" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#fff">D</text></svg>
-            <svg width="20" height="20" viewBox="0 0 28 28"><rect width="28" height="28" fill="#c8102e"/><text x="14" y="18" text-anchor="middle" font-family="Arial" font-size="8.5" font-weight="bold" fill="#fff">ASA</text></svg>
-          </div>
-        </div>
-        <ul class="cc-list">
-          <li>Led 5-person team analysing 10k+ diabetic patient records in 48 hours. Engineered longitudinal EHR features — inter-visit gap sequences, cv_gap irregularity metric, SDOH risk stratification across 8 social domains.</li>
-          <li>Surfaced structural health inequality via K-Means (k=3) — High-SDOH patients show 2.5× higher ED rates. Counterfactual simulation quantified a 16.6pp risk reduction if structural barriers removed.</li>
-          <li>Built geospatial mobile clinic routing covering 32,686 patients across 15 stops with Markov Chain comorbidity network and MLP risk-scoring dashboard.</li>
-        </ul>
-        <div class="cc-links">
-          <a class="pxb" href="Uni/Carolina_Correlation_DukeASA26.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
-          <a class="pxb" href="https://github.com/miazhouruoya/dukeasafest26" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
-          <a class="pxb" href="Uni/DataFest2026_MiaZhou_Report.pdf" target="_blank"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Report</a>
-          <a class="pxb" href="https://miazhouruoya.github.io/kansasmobile/" target="_blank"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>Map</a>
-        </div>
-      </div>
-
-      <div class="cc" data-id="wageguard" onclick="od(this.dataset.id)" style="cursor:pointer">
-        <div class="cc-head">
-          <div class="cc-ico" style="background:var(--c3)"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></div>
-          <div class="cc-title-block">
-            <div class="cc-title">1st Place Culture Track — SolHacks 2026 (MLH)</div>
-            <div class="cc-meta">Mar 2026 · 2-person team · 24-hour hackathon</div>
-          </div>
-          <div class="cc-badges">
-            <svg width="20" height="20" viewBox="0 0 28 28"><rect width="28" height="28" fill="#430066"/><text x="14" y="18" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="#fff">MLH</text></svg>
-          </div>
-        </div>
-        <ul class="cc-list">
-          <li>Built WageGuard, a bilingual AI wage-protection tool for Latino workers — voice-based case intake with automated wage violation detection.</li>
-          <li>Developed React/Vite frontend and end-to-end agent workflow powered by Gemini 2.5 Flash + ElevenLabs TTS; full conversational UX in 24 hours.</li>
-          <li>Won 1st Place Culture Track out of 40+ teams; recognised for real-world impact and production-quality design under time pressure.</li>
-        </ul>
-        <div class="cc-links">
-          <a class="pxb" href="Uni/WageGuard_SolHacks26.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
-          <a class="pxb" href="https://github.com/miazhouruoya/wageguard" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
-        </div>
-      </div>
-
-      <div class="cc" data-id="datamini3" onclick="od(this.dataset.id)" style="cursor:pointer">
-        <div class="cc-head">
-          <div class="cc-ico" style="background:var(--c7)"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-8"/><path d="M20 16v-3"/></svg></div>
-          <div class="cc-title-block">
-            <div class="cc-title">Best Statistical Analysis — Duke Data Mini #3</div>
-            <div class="cc-meta">Apr 2026 · Railroad fatality modeling · Datathon</div>
-          </div>
-          <div class="cc-badges"><span class="cc-badge-pill">Best Stats</span></div>
-        </div>
-        <ul class="cc-list">
-          <li>Analyzed U.S. railroad incident data to explain who is dying on America’s railroads: trespassers account for 86.2% of fatalities and, once injured, have a 48.4% chance of not surviving.</li>
-          <li>Built fatal-vs-nonfatal models using person type, state, age, time of day, and substance-test results; logistic regression reached 92.4% classification accuracy / AUC 0.924.</li>
-          <li>Identified actionable risk patterns: trespasser status had 33.85× odds of fatality, positive drug tests had 9.53× odds, and XGBoost highlighted event type, physical act, train type, and age 50+ as key drivers.</li>
-          <li>Profiled four fatal-trespasser archetypes, led by track-walkers struck by trains (59%) and grade-crossing drivers (23%), translating model outputs into targeted prevention strategies.</li>
-        </ul>
-        <div class="cc-links">
-          <a class="pxb" href="Uni/Duke%20Mini%233.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
-        </div>
-      </div>
-
     </div>
   </div>
 
@@ -628,104 +352,73 @@ body{background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wa
     <div class="wstat"><span>1 app</span><span style="margin-left:auto">resume-style view</span></div>
   </div>
 
-  <!-- ═══════════════ OTHER WINDOW ═══════════════ -->
-  <div class="fw gone" id="fw-other" style="top:88px;left:250px;width:430px">
-    <div class="wtb" data-wid="fw-other">
-      <div class="tls"><div class="tl tl-r" onclick="cw('fw-other')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-other')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
-      <span class="wt-title">Other</span>
+  <!-- ═══════════════ EXPERIENCE WINDOW ═══════════════ -->
+  <div class="fw gone" id="fw-experience" style="top:82px;left:245px;width:560px">
+    <div class="wtb" data-wid="fw-experience">
+      <div class="tls"><div class="tl tl-r" onclick="cw('fw-experience')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-experience')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
+      <span class="wt-title">Experience</span>
     </div>
-    <div class="app-grid">
-      <div class="mini-app" onclick="window.location='Landing.html?dest=life.html&title=my+life'">
-        <div class="app-icon" style="background:#ffe8a0">
-          <svg viewBox="0 0 58 58">
-            <rect x="8" y="10" width="42" height="34" rx="5" fill="#fff7d8" stroke="var(--ink)" stroke-width="2"/>
-            <path d="M18 34c5-10 17-8 22 0" fill="none" stroke="#d88888" stroke-width="3" stroke-linecap="round"/>
-            <circle cx="22" cy="23" r="5" fill="#ffb8d8" stroke="var(--ink)" stroke-width="1.5"/>
-            <path d="M36 25c0 7-7 11-7 11s-7-4-7-11a7 7 0 0 1 14 0z" fill="#f9a8d4" stroke="var(--ink)" stroke-width="1.5"/>
-          </svg>
-        </div>
-        <div class="app-name">Life</div>
-        <div class="app-sub">photo album</div>
+    <div class="app-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+      <div class="mini-app photo-app" onclick="window.location='resume.html#sec-lead'">
+        <div class="app-icon"><img src="folderpic/thumbs/WiDS.jpg" alt="WiDS leadership"></div>
+        <div class="app-name">Leadership: WiDS</div>
+        <div class="app-sub">chapter + community</div>
       </div>
-      <div class="mini-app" onclick="window.location='Landing.html?dest=ib.html&title=ib+portfolio'">
-        <div class="app-icon" style="background:#aaffd8">
-          <svg viewBox="0 0 58 58">
-            <rect x="16" y="8" width="26" height="40" rx="2" fill="#fff" stroke="var(--ink)" stroke-width="2"/>
-            <path d="M34 8v10h8" fill="#dff8ec" stroke="var(--ink)" stroke-width="2"/>
-            <line x1="21" y1="25" x2="37" y2="25" stroke="var(--ink)" stroke-width="1.5" opacity=".45"/>
-            <line x1="21" y1="31" x2="37" y2="31" stroke="var(--ink)" stroke-width="1.5" opacity=".45"/>
-            <text x="29" y="43" text-anchor="middle" font-family="Arial" font-size="9" font-weight="800" fill="#1a5030">IB</text>
-          </svg>
-        </div>
-        <div class="app-name">IB</div>
-        <div class="app-sub">portfolio archive</div>
+      <div class="mini-app photo-app" onclick="window.location='resume.html#sec-res'">
+        <div class="app-icon"><img src="folderpic/thumbs/NIH.jpg" alt="Research experience"></div>
+        <div class="app-name">Research</div>
+        <div class="app-sub">worked in 4 research labs</div>
+      </div>
+      <div class="mini-app photo-app" onclick="window.location='resume.html#sec-intern'">
+        <div class="app-icon"><img src="folderpic/thumbs/DataMini.jpg" alt="Work experience"></div>
+        <div class="app-name">Work: Google</div>
+        <div class="app-sub">professional experience</div>
       </div>
     </div>
-    <div class="wstat"><span>2 apps</span><span style="margin-left:auto">click to open</span></div>
+    <div class="wstat"><span>3 items</span><span style="margin-left:auto">click cards for resume sections</span></div>
   </div>
 
-  <!-- ═══════════════ LEADERSHIP WINDOW ═══════════════ -->
-  <div class="fw gone" id="fw-lead" style="top:78px;left:230px;width:520px">
-    <div class="wtb" data-wid="fw-lead">
-      <div class="tls"><div class="tl tl-r" onclick="cw('fw-lead')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-lead')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
-      <span class="wt-title">Leadership</span>
+  <!-- ═══════════════ LIFE WINDOW ═══════════════ -->
+  <div class="fw gone" id="fw-life" style="top:64px;left:235px;width:650px">
+    <div class="wtb" data-wid="fw-life">
+      <div class="tls"><div class="tl tl-r" onclick="cw('fw-life')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-life')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
+      <span class="wt-title">Life</span>
     </div>
-    <div class="wscroll">
-      <div class="cc" data-id="wids" onclick="od(this.dataset.id)" style="cursor:pointer">
-        <div class="cc-head">
-          <div class="cc-ico" style="background:var(--c3)"><svg viewBox="0 0 24 24"><path d="M12 3l3 6 6 .9-4.5 4.4 1.1 6.2L12 17.4 6.4 20.5l1.1-6.2L3 9.9 9 9z"/></svg></div>
-          <div class="cc-title-block">
-            <div class="cc-title">Founder &amp; President — UNC Women in Data Science</div>
-            <div class="cc-meta">Women in Data Science Ambassador · Worldwide WiDS Community</div>
-          </div>
-          <div class="cc-badges"><span class="cc-badge-pill">Leadership</span></div>
-        </div>
-        <ul class="cc-list">
-          <li>Founded and lead the UNC-Chapel Hill WiDS chapter while serving as a Women in Data Science Ambassador in the worldwide WiDS community.</li>
-          <li>Designing the chapter as a practical AI + data space: workshops for technical confidence, speaker series for career imagination, and student-led builds for portfolio depth.</li>
-          <li>Planning workshops, hackathon programming, and speaker events that connect statistics, AI, health, and social impact across campus.</li>
-        </ul>
-      </div>
+    <div class="app-grid" style="grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem">
+      <div class="mini-app photo-app" onclick="window.location='Landing.html?dest=life.html&title=my+life'"><div class="app-icon"><img src="life/bj.jpg" alt="China"></div><div class="app-name">China</div><div class="app-sub">home archive</div></div>
+      <div class="mini-app photo-app" onclick="window.location='Landing.html?dest=life.html&title=my+life'"><div class="app-icon"><img src="life/bostonchild.jpg" alt="Boston"></div><div class="app-name">Boston</div><div class="app-sub">early years</div></div>
+      <div class="mini-app photo-app" onclick="window.location='Landing.html?dest=life.html&title=my+life'"><div class="app-icon"><img src="life/ChapelHillKaren.jpg" alt="Chapel Hill"></div><div class="app-name">Chapel Hill</div><div class="app-sub">UNC days</div></div>
+      <div class="mini-app photo-app" onclick="window.location='Landing.html?dest=life.html&title=my+life'"><div class="app-icon"><img src="life/sging.jpg" alt="Singapore"></div><div class="app-name">Singapore</div><div class="app-sub">high school</div></div>
+      <div class="mini-app photo-app" onclick="window.location='Landing.html?dest=life.html&title=my+life'"><div class="app-icon"><img src="life/ie.jpg" alt="Ireland"></div><div class="app-name">Ireland</div><div class="app-sub">study abroad</div></div>
     </div>
-    <div class="wstat"><span>1 item</span><span style="margin-left:auto">click card to expand</span></div>
+    <div class="wstat"><span>5 places</span><span style="margin-left:auto">opens full life album</span></div>
+  </div>
+
+  <!-- ═══════════════ LIFE VLOG WINDOW ═══════════════ -->
+  <div class="fw gone" id="fw-vlog" style="top:300px;left:315px;width:520px">
+    <div class="wtb" data-wid="fw-vlog">
+      <div class="tls"><div class="tl tl-r" onclick="cw('fw-vlog')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-vlog')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
+      <span class="wt-title">Life Vlog</span>
+    </div>
+    <video id="lifeVlog" class="vlog-player" src="life/vlog.mov" controls playsinline muted preload="metadata"></video>
+    <div class="wstat"><span>vlog.mov</span><span style="margin-left:auto">opens with Life</span></div>
   </div>
 
   <!-- ═══════════════ DESKTOP FOLDER ICONS ═══════════════ -->
 
-  <!-- Publications — amber -->
-  <div class="di" style="top:28px;left:10px" ondblclick="ow('fw-pub')" onclick="sd(this)">
-    <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#ffd6f0" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#ff9de2" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><rect x="17" y="10" width="3" height="2" fill="#faecd8" stroke="var(--ink)" stroke-width="1" rx="1"/><text x="29" y="33" text-anchor="middle" font-family="Arial" font-size="6.5" font-weight="800" fill="#7a4010">PUBL.</text><text x="46" y="22" font-size="6.5" fill="#c8683a" font-family="Arial">✦</text></svg></div>
-    <div class="di-lbl">Publications</div>
+  <div class="di desk-high" onclick="location.href='ib.html'">
+    <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#ffe8a0" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#ffcc44" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><text x="29" y="31" text-anchor="middle" font-family="Arial" font-size="5.8" font-weight="800" fill="#603010">HIGH</text><text x="29" y="39" text-anchor="middle" font-family="Arial" font-size="5.8" font-weight="800" fill="#603010">SCHOOL</text><text x="46" y="22" font-size="6.5" fill="#c89858" font-family="Arial">✦</text></svg></div>
+    <div class="di-lbl">High School</div>
   </div>
 
-  <!-- Research — teal -->
-  <div class="di" style="top:110px;left:10px" ondblclick="ow('fw-res')" onclick="sd(this)">
-    <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#c0eeff" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#5bc8f5" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><text x="29" y="33" text-anchor="middle" font-family="Arial" font-size="6.5" font-weight="800" fill="#1a4a60">RESEARCH</text><text x="46" y="22" font-size="6.5" fill="#5ab8c8" font-family="Arial">✦</text></svg></div>
-    <div class="di-lbl">Research</div>
+  <div class="di desk-exp" ondblclick="ow('fw-experience')" onclick="sd(this)">
+    <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#c0eeff" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#5bc8f5" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><text x="29" y="33" text-anchor="middle" font-family="Arial" font-size="6.5" font-weight="800" fill="#1a4a60">EXP</text><text x="46" y="22" font-size="6.5" fill="#5ab8c8" font-family="Arial">✦</text></svg></div>
+    <div class="di-lbl">Experience</div>
   </div>
 
-  <!-- Projects — lavender -->
-  <div class="di" style="top:192px;left:10px" ondblclick="ow('fw-proj')" onclick="sd(this)">
-    <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#ddd0ff" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#b09ef8" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><text x="29" y="33" text-anchor="middle" font-family="Arial" font-size="6.5" font-weight="800" fill="#3a1a6a">PROJECTS</text><text x="46" y="22" font-size="6.5" fill="#8878c8" font-family="Arial">✦</text></svg></div>
-    <div class="di-lbl">Projects</div>
-  </div>
-
-  <!-- Hackathon — rose -->
-  <div class="di" style="top:274px;left:10px" ondblclick="ow('fw-hack')" onclick="sd(this)">
-    <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#ffb8d8" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#ff7eb3" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><text x="29" y="31" text-anchor="middle" font-family="Arial" font-size="6" font-weight="800" fill="#601030">HACK-</text><text x="29" y="39" text-anchor="middle" font-family="Arial" font-size="6" font-weight="800" fill="#601030">ATHON</text><text x="46" y="22" font-size="6.5" fill="#d88898" font-family="Arial">✦</text></svg></div>
-    <div class="di-lbl">Hackathon</div>
-  </div>
-
-  <!-- Other — peach -->
-  <div class="di" style="top:356px;left:10px" ondblclick="ow('fw-other')" onclick="sd(this)">
-    <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#ffe8a0" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#ffcc44" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><text x="29" y="31" text-anchor="middle" font-family="Arial" font-size="6.5" font-weight="800" fill="#603010">OTHER</text><text x="29" y="39" text-anchor="middle" font-family="Arial" font-size="5.5" font-weight="800" fill="#603010">IB + LIFE</text><text x="46" y="22" font-size="6.5" fill="#c89858" font-family="Arial">✦</text></svg></div>
-    <div class="di-lbl">Other</div>
-  </div>
-
-  <!-- Leadership — mint, intentionally last -->
-  <div class="di" style="top:438px;left:10px" ondblclick="ow('fw-lead')" onclick="sd(this)">
-    <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#aaffd8" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#3de8a0" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><text x="29" y="31" text-anchor="middle" font-family="Arial" font-size="6" font-weight="800" fill="#1a5030">LEADER</text><text x="29" y="39" text-anchor="middle" font-family="Arial" font-size="6" font-weight="800" fill="#1a5030">SHIP</text><text x="46" y="22" font-size="6.5" fill="#5ab898" font-family="Arial">✦</text></svg></div>
-    <div class="di-lbl">Leadership</div>
+  <div class="di desk-life" onclick="sd(this);openLife()">
+    <div class="di-fold"><svg viewBox="0 0 58 50"><rect x="2" y="12" width="54" height="34" fill="#ffb8d8" stroke="var(--ink)" stroke-width="2"/><path d="M2 12L2 8Q2 6 4 6L20 6Q24 6 26 10L28 12Z" fill="#ff7eb3" stroke="var(--ink)" stroke-width="2"/><rect x="4" y="15" width="8" height="1.5" fill="rgba(255,255,255,.55)"/><path d="M29 36l-9-8a6 6 0 0 1 9-8a6 6 0 0 1 9 8z" fill="#fff7d8" stroke="var(--ink)" stroke-width="1.5"/><text x="46" y="22" font-size="6.5" fill="#d88898" font-family="Arial">✦</text></svg></div>
+    <div class="di-lbl">Life</div>
   </div>
 
 
@@ -744,8 +437,6 @@ body{background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wa
   </div>
 
 
-  <!-- ═══════════════ DETAIL OVERLAY ═══════════════ -->
-  
 </div><!-- /desk -->
 
 <!-- DOCK -->
@@ -758,29 +449,13 @@ body{background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wa
     <div class="dk-img"><img src="life/bj.jpg" alt="Resume" style="width:100%;height:100%;object-fit:cover;border:1.5px solid var(--ink);background:#fff" onerror="this.src='Mia.jpg'"></div>
     <div class="dk-lbl">Resume</div>
   </div>
-  <div class="dk" onclick="tw('fw-pub');bd(this)">
-    <div class="dk-img"><svg viewBox="0 0 44 44"><rect x="1" y="1" width="42" height="42" rx="9" fill="#faecd8" stroke="var(--ink)" stroke-width="1.5"/><rect x="9" y="9" width="15" height="22" fill="#fdf0e0" stroke="var(--ink)" stroke-width="1.2"/><rect x="12" y="9" width="15" height="22" fill="#fffdf8" stroke="var(--ink)" stroke-width="1.2"/><path d="M21 9L21 14L27 14" fill="none" stroke="var(--ink)" stroke-width="1.2"/><line x1="15" y1="17" x2="24" y2="17" stroke="var(--ink)" stroke-width=".9" opacity=".5"/><line x1="15" y1="20" x2="24" y2="20" stroke="var(--ink)" stroke-width=".9" opacity=".5"/><line x1="15" y1="23" x2="20" y2="23" stroke="var(--ink)" stroke-width=".9" opacity=".5"/></svg></div>
-    <div class="dk-lbl">Pub</div>
-  </div>
-  <div class="dk" onclick="tw('fw-res');bd(this)">
+  <div class="dk" onclick="tw('fw-experience');bd(this)">
     <div class="dk-img"><svg viewBox="0 0 44 44"><rect x="1" y="1" width="42" height="42" rx="9" fill="var(--c1)" stroke="var(--ink)" stroke-width="1.5"/><rect x="7" y="21" width="30" height="17" fill="#7ec8d8" stroke="var(--ink)" stroke-width="1.2"/><path d="M7 21L7 16Q7 14 9 14L19 14Q23 14 25 18L27 21Z" fill="#5ab8c8" stroke="var(--ink)" stroke-width="1.2"/><line x1="11" y1="27" x2="29" y2="27" stroke="var(--ink)" stroke-width=".8" opacity=".45"/><line x1="11" y1="31" x2="22" y2="31" stroke="var(--ink)" stroke-width=".8" opacity=".45"/></svg></div>
-    <div class="dk-lbl">Research</div>
+    <div class="dk-lbl">Experience</div>
   </div>
-  <div class="dk" onclick="tw('fw-proj');bd(this)">
-    <div class="dk-img"><svg viewBox="0 0 44 44"><rect x="1" y="1" width="42" height="42" rx="9" fill="var(--c2)" stroke="var(--ink)" stroke-width="1.5"/><rect x="7" y="21" width="30" height="17" fill="#c8b8f0" stroke="var(--ink)" stroke-width="1.2"/><path d="M7 21L7 16Q7 14 9 14L19 14Q23 14 25 18L27 21Z" fill="#a898d0" stroke="var(--ink)" stroke-width="1.2"/><polyline points="10,35 14,26 18,30 23,23 30,35" stroke="var(--ink)" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <div class="dk-lbl">Projects</div>
-  </div>
-  <div class="dk" onclick="tw('fw-hack');bd(this)">
-    <div class="dk-img"><svg viewBox="0 0 44 44"><rect x="1" y="1" width="42" height="42" rx="9" fill="var(--c5)" stroke="var(--ink)" stroke-width="1.5"/><rect x="7" y="21" width="30" height="17" fill="#f9a8c8" stroke="var(--ink)" stroke-width="1.2"/><path d="M7 21L7 16Q7 14 9 14L19 14Q23 14 25 18L27 21Z" fill="#e890b8" stroke="var(--ink)" stroke-width="1.2"/><path d="M16 14L22 8L28 14" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round" fill="none"/><line x1="22" y1="8" x2="22" y2="21" stroke="var(--ink)" stroke-width="1.2"/></svg></div>
-    <div class="dk-lbl">Hackathon</div>
-  </div>
-  <div class="dk" onclick="tw('fw-other');bd(this)">
-    <div class="dk-img"><svg viewBox="0 0 44 44"><rect x="1" y="1" width="42" height="42" rx="9" fill="var(--c4)" stroke="var(--ink)" stroke-width="1.5"/><rect x="7" y="21" width="30" height="17" fill="#ffd66d" stroke="var(--ink)" stroke-width="1.2"/><path d="M7 21L7 16Q7 14 9 14L19 14Q23 14 25 18L27 21Z" fill="#ffbf3d" stroke="var(--ink)" stroke-width="1.2"/><circle cx="17" cy="29" r="2.2" fill="#fff" stroke="var(--ink)" stroke-width="1"/><circle cx="22" cy="29" r="2.2" fill="#fff" stroke="var(--ink)" stroke-width="1"/><circle cx="27" cy="29" r="2.2" fill="#fff" stroke="var(--ink)" stroke-width="1"/></svg></div>
-    <div class="dk-lbl">Other</div>
-  </div>
-  <div class="dk" onclick="tw('fw-lead');bd(this)">
-    <div class="dk-img"><svg viewBox="0 0 44 44"><rect x="1" y="1" width="42" height="42" rx="9" fill="var(--c3)" stroke="var(--ink)" stroke-width="1.5"/><rect x="7" y="21" width="30" height="17" fill="#7adfaf" stroke="var(--ink)" stroke-width="1.2"/><path d="M7 21L7 16Q7 14 9 14L19 14Q23 14 25 18L27 21Z" fill="#55c891" stroke="var(--ink)" stroke-width="1.2"/><path d="M22 8l3.2 6.2 6.8 1-4.9 4.8 1.1 6.8L22 23.5l-6.2 3.3 1.1-6.8-4.9-4.8 6.8-1z" fill="#fff7b8" stroke="var(--ink)" stroke-width="1.1"/></svg></div>
-    <div class="dk-lbl">Leadership</div>
+  <div class="dk" onclick="openLife();bd(this)">
+    <div class="dk-img"><svg viewBox="0 0 44 44"><rect x="1" y="1" width="42" height="42" rx="9" fill="var(--c5)" stroke="var(--ink)" stroke-width="1.5"/><rect x="7" y="21" width="30" height="17" fill="#f9a8c8" stroke="var(--ink)" stroke-width="1.2"/><path d="M7 21L7 16Q7 14 9 14L19 14Q23 14 25 18L27 21Z" fill="#e890b8" stroke="var(--ink)" stroke-width="1.2"/><path d="M22 32l-6-5.4a4 4 0 0 1 6-5.4 4 4 0 0 1 6 5.4z" fill="#fff7d8" stroke="var(--ink)" stroke-width="1.1"/></svg></div>
+    <div class="dk-lbl">Life</div>
   </div>
 </div>
 
@@ -795,51 +470,54 @@ function foc(id){document.querySelectorAll('.fw').forEach(w=>w.classList.remove(
 function ow(id){pc();const w=document.getElementById(id);if(!w)return;w.classList.remove('gone');w.classList.add('pop');setTimeout(()=>w.classList.remove('pop'),180);foc(id);sf(window.innerWidth/2,window.innerHeight/2,2)}
 function cw(id){pc();const w=document.getElementById(id);if(w)w.classList.add('gone')}
 function tw(id){const w=document.getElementById(id);if(!w)return;if(w.classList.contains('gone'))ow(id);else if(!w.classList.contains('focused'))foc(id);else cw(id)}
+function openLife(){
+  ow('fw-life');
+  ow('fw-vlog');
+  const v=document.getElementById('lifeVlog');
+  if(v){
+    v.currentTime=v.currentTime||0;
+    v.play?.().catch(()=>{});
+  }
+}
 document.querySelectorAll('.fw').forEach(w=>w.addEventListener('mousedown',()=>foc(w.id)));
 
 /* ── DRAG ── */
+let dragWin=null,dragDX=0,dragDY=0,dragX=0,dragY=0,dragRAF=null;
+function paintDrag(){
+  dragRAF=null;
+  if(!dragWin)return;
+  dragWin.style.left=dragX+'px';
+  dragWin.style.top=dragY+'px';
+}
 document.querySelectorAll('.wtb[data-wid]').forEach(bar=>{
-  let dx=0,dy=0,on=false;
-  bar.addEventListener('mousedown',e=>{
+  bar.addEventListener('pointerdown',e=>{
     if(e.target.classList.contains('tl'))return;
-    on=true;const win=document.getElementById(bar.dataset.wid);
-    const r=win.getBoundingClientRect();dx=e.clientX-r.left;dy=e.clientY-r.top;foc(bar.dataset.wid);e.preventDefault();
+    const win=document.getElementById(bar.dataset.wid);
+    if(!win)return;
+    const r=win.getBoundingClientRect();
+    dragWin=win;
+    dragDX=e.clientX-r.left;
+    dragDY=e.clientY-r.top;
+    win.style.left=r.left-document.getElementById('desk').getBoundingClientRect().left+'px';
+    win.style.right='auto';
+    win.style.bottom='auto';
+    foc(bar.dataset.wid);
+    bar.setPointerCapture?.(e.pointerId);
+    e.preventDefault();
   });
-  document.addEventListener('mousemove',e=>{
-    if(!on)return;const win=document.getElementById(bar.dataset.wid);
+  bar.addEventListener('pointermove',e=>{
+    if(!dragWin)return;
     const dr=document.getElementById('desk').getBoundingClientRect();
-    let nx=e.clientX-dx-dr.left,ny=e.clientY-dy-dr.top;
-    nx=Math.max(0,Math.min(nx,dr.width-win.offsetWidth));ny=Math.max(0,Math.min(ny,dr.height-28));
-    win.style.left=nx+'px';win.style.top=ny+'px';
+    dragX=Math.max(0,Math.min(e.clientX-dragDX-dr.left,dr.width-dragWin.offsetWidth));
+    dragY=Math.max(0,Math.min(e.clientY-dragDY-dr.top,dr.height-28));
+    if(!dragRAF)dragRAF=requestAnimationFrame(paintDrag);
   });
-  document.addEventListener('mouseup',()=>on=false);
+  bar.addEventListener('pointerup',e=>{
+    dragWin=null;
+    bar.releasePointerCapture?.(e.pointerId);
+  });
+  bar.addEventListener('pointercancel',()=>{dragWin=null});
 });
-
-/* ── RESEARCH FILTER ── */
-function setF(c){
-  document.querySelectorAll('#resTool .wtab').forEach(t=>t.classList.toggle('on',t.dataset.c===c));
-  document.querySelectorAll('#resSb .wsb-r').forEach(s=>s.classList.toggle('on',s.dataset.c===c));
-  document.querySelectorAll('#resCards .cc').forEach(i=>i.style.display=(c==='all'||i.dataset.c===c)?'':'none');
-  const v=document.querySelectorAll('#resCards .cc:not([style*="none"])').length;
-  document.getElementById('resStat').textContent=`${v} items`;
-}
-document.getElementById('resTool')?.addEventListener('click',e=>{const t=e.target.closest('.wtab');if(t)setF(t.dataset.c)});
-document.getElementById('resSb')?.addEventListener('click',e=>{const s=e.target.closest('.wsb-r');if(s)setF(s.dataset.c)});
-
-/* ── PROJECTS FILTER ── */
-function setFP(c){
-  document.querySelectorAll('#projTool .wtab').forEach(t=>t.classList.toggle('on',t.dataset.c2===c));
-  document.querySelectorAll('#projSb .wsb-r').forEach(s=>s.classList.toggle('on',s.dataset.c2===c));
-  document.querySelectorAll('#projCards .cc').forEach(i=>i.style.display=(c==='all'||i.dataset.c2===c)?'':'none');
-  const v=[...document.querySelectorAll('#projCards .cc')].filter(i=>i.style.display!=='none').length;
-  document.getElementById('projStat').textContent=`${v} items`;
-}
-document.getElementById('projTool')?.addEventListener('click',e=>{const t=e.target.closest('.wtab');if(t)setFP(t.dataset.c2)});
-document.getElementById('projSb')?.addEventListener('click',e=>{const s=e.target.closest('.wsb-r');if(s)setFP(s.dataset.c2)});
-
-/* ── PUB CITE ── */
-const _ct=document.getElementById('citeTog');if(_ct)_ct.addEventListener('click',function(){const x=document.getElementById('citeXp');x.classList.toggle('show');this.childNodes[this.childNodes.length-1].nodeValue=x.classList.contains('show')?' Hide':' Cite'});
-const _cp=document.getElementById('citeCp');if(_cp)_cp.addEventListener('click',function(){navigator.clipboard.writeText('Shi, C., Han, S., Kusumanchi, S., Zhou, M., & Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. Manuscript submitted for publication.').then(()=>{this.textContent='Copied!';setTimeout(()=>{this.textContent='Copy'},1800)})});
 
 /* ── DESKTOP SELECT ── */
 function sd(el){document.querySelectorAll('.di').forEach(d=>d.classList.remove('sel'));el.classList.add('sel')}
@@ -850,16 +528,29 @@ function bd(el){const img=el.querySelector('.dk-img');img.classList.remove('boun
 
 /* ── CURSOR ── */
 const cur=document.getElementById('cur');
-document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+let curX=0,curY=0,curRAF=false;
+document.addEventListener('mousemove',e=>{
+  curX=e.clientX;
+  curY=e.clientY;
+  if(curRAF)return;
+  curRAF=true;
+  requestAnimationFrame(()=>{
+    cur.style.transform=`translate3d(${curX}px,${curY}px,0)`;
+    curRAF=false;
+  });
+},{passive:true});
 
 /* ── SPARKLES + FLOATIES ── */
 const SC=['#7ec8c8','#a78bfa','#f9a8d4','#fcd34d','#6ee7b7','#7dd3fc','#b8f0d8'];
+let lastSpark=0;
 document.addEventListener('mousemove',e=>{
-  if(Math.random()>.87)return;
+  const now=performance.now();
+  if(now-lastSpark<120||Math.random()>.985)return;
+  lastSpark=now;
   const s=document.createElement('div');s.className='sp';const sz=2+Math.random()*3;
   s.style.cssText=`left:${e.clientX+(Math.random()*7-3.5)}px;top:${e.clientY+(Math.random()*7-3.5)}px;width:${sz}px;height:${sz}px;background:${SC[~~(Math.random()*SC.length)]}`;
   document.body.appendChild(s);setTimeout(()=>s.remove(),520);
-});
+},{passive:true});
 const FS=['✦','✧','+','×','·'];
 function sf(x,y,n=1){for(let i=0;i<n;i++)setTimeout(()=>{
   const f=document.createElement('div');f.className='fl';
@@ -868,6 +559,91 @@ function sf(x,y,n=1){for(let i=0;i<n;i++)setTimeout(()=>{
   document.body.appendChild(f);setTimeout(()=>f.remove(),1000);
 },i*65)}
 document.addEventListener('click',e=>{if(e.target.closest('.tl')||e.target.closest('.wtab')||e.target.closest('.wsb-r'))return;sf(e.clientX,e.clientY,1)});
+
+/* ── LIFE PHOTO HOVER FIELD ── */
+const lifePhotos=[
+  'life/UNC1.jpg','life/UNC2.jpg','life/UNC3.jpg','life/UNC4.jpg','life/UNC5.jpg',
+  'life/UNC6.jpg','life/UNC7.jpg','life/UNC8.jpg','life/UNC9.jpg',
+  'life/UNC10.jpg','life/UNC12.jpg','life/ChapelHillKaren.jpg','life/Bahamas.jpg','life/Dominican.jpg',
+  'life/alas.jpg','life/aurora.jpg','life/bace.jpg','life/bj.jpg','life/blu.jpg',
+  'life/bos.jpg','life/bostonchild.jpg','life/busan.jpg','life/chapel.jpg','life/cq.jpg',
+  'life/crys.jpg','life/fuj.jpg','life/grad1.jpg','life/grad2.jpg','life/ha.jpg',
+  'life/ie.jpg','life/ir.jpg','life/ireland.jpg','life/it.jpg','life/Italy.jpg','life/jp.jpg',
+  'life/kor.jpg','life/korsea.jpg','life/la.jpg','life/mt.jpg','life/nc.jpg',
+  'life/not.jpg','life/por.jpg','life/SC.jpg','life/sea.jpg','life/sging.jpg','life/we.jpg'
+];
+const lifeCache=new Map();
+function preloadLife(src){
+  if(lifeCache.has(src))return lifeCache.get(src);
+  const img=new Image();
+  img.decoding='async';
+  img.src=src;
+  lifeCache.set(src,img);
+  return img;
+}
+lifePhotos.slice(0,8).forEach(preloadLife);
+let lifePreloadIndex=8;
+function preloadLifeBatch(){
+  const end=Math.min(lifePreloadIndex+4,lifePhotos.length);
+  for(;lifePreloadIndex<end;lifePreloadIndex++)preloadLife(lifePhotos[lifePreloadIndex]);
+  if(lifePreloadIndex<lifePhotos.length){
+    const idle=window.requestIdleCallback||((cb)=>setTimeout(cb,220));
+    idle(preloadLifeBatch);
+  }
+}
+preloadLifeBatch();
+const lifeField=document.getElementById('lifeHoverField');
+let lifeFloat=null,lifeTargetX=0,lifeTargetY=0,lifeX=0,lifeY=0,lifeIdx=-1,lifeRAF=null,lastLifeSwap=0,lifeActive=false;
+function ensureLifeFloat(){
+  if(lifeFloat)return lifeFloat;
+  lifeFloat=document.createElement('img');
+  lifeFloat.className='life-float-photo';
+  lifeFloat.alt='';
+  lifeFloat.decoding='async';
+  lifeFloat.src=lifePhotos[0];
+  document.body.appendChild(lifeFloat);
+  return lifeFloat;
+}
+function moveLifeFloat(){
+  if(!lifeFloat)return;
+  lifeX+=(lifeTargetX-lifeX)*.18;
+  lifeY+=(lifeTargetY-lifeY)*.18;
+  lifeFloat.style.transform=`translate3d(${lifeX}px,${lifeY}px,0) translate(-50%,-50%) scale(1)`;
+  if(lifeActive)lifeRAF=requestAnimationFrame(moveLifeFloat);
+  else lifeRAF=null;
+}
+if(lifeField){
+  lifeField.addEventListener('mouseenter',e=>{
+    ensureLifeFloat();
+    lifeActive=true;
+    lifeX=lifeTargetX=e.clientX;
+    lifeY=lifeTargetY=e.clientY;
+    document.body.classList.add('life-wall-on');
+    if(!lifeRAF)lifeRAF=requestAnimationFrame(moveLifeFloat);
+  });
+  lifeField.addEventListener('mousemove',e=>{
+    const now=performance.now();
+    lifeTargetX=e.clientX+26;
+    lifeTargetY=e.clientY;
+    if(now-lastLifeSwap>150){
+      const r=lifeField.getBoundingClientRect();
+      const col=Math.max(0,Math.floor((e.clientX-r.left)/108));
+      const row=Math.max(0,Math.floor((e.clientY-r.top)/108));
+      const next=(row*9+col)%lifePhotos.length;
+      if(next!==lifeIdx){
+        lifeIdx=next;
+        const src=lifePhotos[next];
+        preloadLife(src);
+        ensureLifeFloat().src=src;
+      }
+      lastLifeSwap=now;
+    }
+  },{passive:true});
+  lifeField.addEventListener('mouseleave',()=>{
+    lifeActive=false;
+    document.body.classList.remove('life-wall-on');
+  });
+}
 
 
 /* ── PIXEL AVATAR ── */
@@ -919,180 +695,6 @@ if(_aw){
   _aw.addEventListener('pointerup',e=>{avDrag=false;_aw.classList.remove('dragging');_aw.releasePointerCapture?.(e.pointerId);});
 }
 
-/* ── PROJECT DETAIL POPUP ── */
-const PD={
-  nih:{title:'NIH Network Analysis',cat:'UNC Biostatistics — Li Lab',pi:'PI: Prof. Didong Li',date:'Oct 2024 — Present',
-    desc:'Processed 30,000+ NIH grant abstracts to identify funding trends by engineering an NLP pipeline using BERTopic and BioSentVec embeddings. Visualised co-PI networks to reveal collaboration dynamics and funding inequality at UNC.',
-    bullets:['Built the text pipeline around domain-specific biomedical embeddings rather than generic TF-IDF so topic similarity preserved scientific language in grant abstracts.','Converted grant metadata into a feature-rich multi-PI network, separating investigator-level collaboration patterns from institution-level funding concentration.','Produced manuscript-ready network statistics and visual summaries for an under-review NIH-MPINet dataset paper.'],
-    cite:'Shi, C., Han, S., Kusumanchi, S., <strong>Zhou, M.</strong>, & Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. <em>Manuscript submitted for publication.</em>',
-    links:[{h:'Uni/NIH_Network.pdf',l:'PDF'},{h:'https://github.com/CuiranVivianShi/NIH_network',l:'Code'}]},
-  spatial:{title:'Spatial Transcriptomics',cat:'UNC Biostatistics — Li Lab',pi:'PI: Prof. Didong Li',date:'Oct 2024 — Present',
-    desc:'Benchmarked 3 graph-building frameworks (Seurat, Squidpy, Niches) on Stimage-1K4M dataset, comparing model outputs and loss matrices for spatial gene expression analysis.',
-    bullets:['Treats graph construction as the experimental variable: neighborhood radius, ligand-receptor assumptions, and spatial adjacency definitions are compared before downstream learning.','Uses Stimage-1K4M-scale data to stress-test whether graph topology changes the loss landscape, not only the final visualization.','Current focus is building a reproducible benchmark table that explains when each framework is stable, sensitive, or biologically interpretable.'],
-    links:[{h:'https://github.com/parkyunjin/stgraph',l:'Code'}]},
-  enet:{title:'eNet Enhancer Network',cat:'Xiamen University — Huang Lab',pi:'PI: Prof. Jialiang Huang',date:'Jun 2024 — Present',
-    desc:'Constructed enhancer network from single-cell multi-omics (scATAC + scRNA, 18k+ cells), identifying rare modular topologies (8.39%) predictive of MPA Leukemia driver genes. Achieved high-confidence disease gene prioritisation (WT1, PADI3) with p < 1e−5.',
-    bullets:['Integrated chromatin accessibility and expression evidence so enhancer modules are evaluated as regulatory neighborhoods rather than isolated peaks.','Quantified rare modular topology frequency at 8.39%, then tested whether that structure was enriched for leukemia driver-gene signal.','Prioritized WT1 and PADI3 through network propagation and statistical enrichment, reaching p < 1e−5 in the strongest disease-gene tests.'],
-    links:[{h:'Uni/eNet.pdf',l:'PDF'}]},
-  neuro:{title:'Neuromatch Neuron Simulation',cat:'NeuroMatch Program',pi:'Computational Neuroscience',date:'Jun — Aug 2025',
-    desc:'Decoded inter-regional brain communication via Leiden Analysis on the IBL dataset (30k+ neurons), predicting trial-by-trial behavioural decisions at 78% accuracy.',
-    bullets:['Represented neural populations as communities rather than independent units, using Leiden clustering to detect coordinated cross-region activity blocks.','Linked community assignments back to trial-level behavioral decisions, making the output interpretable as circuit-level communication rather than a black-box classifier.','Reached 78% decision prediction accuracy while preserving a visual explanation of which regions and neural groups drove the signal.'],
-    links:[{h:'Uni/slides.pdf',l:'Slides'}]},
-  agent:{title:'Agent-Based Economic Simulation',cat:'Tsinghua University — Financial AI Intern',pi:'PI: Prof. Yong Li',date:'May — Aug 2025',
-    desc:'Implemented a behavioural agent-based RCK model using Cobb-Douglas production with Poisson-updated social imitation. Analysed networked dynamics identifying critical interaction threshold, bimodal wealth distribution, and endogenous oscillatory regime. Integrated LLM-driven decision making to reproduce polarisation and echo-chamber dynamics.',
-    bullets:['Extended a Ramsey-Cass-Koopmans economic core with network imitation so savings behavior evolves through social exposure, not only rational optimization.','Used parameter sweeps to locate a critical interaction threshold where wealth distributions split into a bimodal regime.','Added LLM-mediated agent decisions to test how narrative preference formation can amplify polarization and echo-chamber dynamics.'],
-    links:[{h:'Uni/ABM.pdf',l:'PDF'},{h:'https://github.com/miazhouruoya/agent-society-workplace',l:'Code'}]},
-  math:{title:'Tumour–Immune Dynamics: ODE, PDE & Control',cat:'UNC Mathematics — Directed Reading Program',pi:'Nonlinear Dynamics',date:'Apr 2026',
-    desc:'Analysed a Kuznetsov-type nonlinear ODE system modelling CTL–tumour dynamics. Extended to reaction-diffusion PDEs with chemotaxis, stochastic Langevin formulation, delay DEs, and optimal control. Identified three codimension-1 bifurcations (transcritical, saddle-node, Hopf); mapped results to cancer dormancy and checkpoint inhibitor resistance.',
-    bullets:['Started from a two-population CTL-tumour ODE, then tracked how equilibria move as immune recruitment and tumour growth parameters vary.','Extended the base model into PDE, stochastic, delayed, and optimal-control versions to compare how spatial spread, noise, immune lag, and treatment pressure change stability.','Interpreted transcritical, saddle-node, and Hopf bifurcations as mathematical signatures of immune escape, dormancy, oscillatory burden, and checkpoint-resistance-like behavior.'],
-    links:[{h:'Uni/tumour_report_v4.pdf',l:'Report'}]},
-  app741:{title:'Clinical Doppelgänger — EHR Decision Support',cat:'Full Stack Developer — CHIP 741',pi:'UNC Chapel Hill',date:'Jan — May 2026',
-    desc:'Built full-stack EHR web app with SMART on FHIR + OAuth 2.0 authentication, querying 5 FHIR R4 resources via parallel jQuery API calls. Engineered client-side statistical pipeline (cosine similarity, Propensity Score Matching, bootstrap 95% CI, Kaplan-Meier) visualised in 4 interactive Highcharts dashboards. Designed interpretable clinical AI using case-based reasoning with Markov state transitions.',
-    bullets:['Implemented SMART on FHIR OAuth flow and parallel retrieval across Patient, Condition, MedicationRequest, Observation, and Encounter resources.','Matched similar patients through cosine similarity, then used propensity-score matching and bootstrap confidence intervals to keep comparisons clinically defensible.','Built Kaplan-Meier and Markov transition views so the user can inspect survival/risk trajectories rather than receiving only a single model score.','Added defensive handling for empty bundles, missing lab observations, OAuth/API failures, and inconsistent patient records.'],
-    links:[]},
-  wageguard:{title:'WageGuard — Bilingual AI Wage Protection',cat:'SolHacks 2026 (MLH)',pi:'Product Manager + Full Stack Developer',date:'Mar 2026',
-    desc:'Built bilingual AI wage-protection tool for Latino workers — voice-based case intake with automated wage violation detection. Developed React/Vite frontend and end-to-end agent workflow powered by Gemini 2.5 Flash + ElevenLabs TTS. Won 1st Place Culture Track out of 40+ teams.',
-    bullets:['Designed the workflow around voice-first intake because the target user may not want to type a formal legal complaint in English.','Converted messy bilingual narratives into structured wage-violation facts: hours, pay rate, unpaid overtime, employer details, and next-step evidence checklist.','Balanced speed and trust in a 24-hour build: conversational UI, Gemini workflow, ElevenLabs TTS, and worker-facing summaries.'],
-    links:[{h:'Uni/WageGuard_SolHacks26.pdf',l:'Slides'},{h:'https://github.com/miazhouruoya/wageguard',l:'Code'}]},
-  datafest:{title:'Duke ASA DataFest 2026',cat:'Duke University — American Statistical Association',pi:'Best Statistical Analysis',date:'Mar 2026',
-    desc:'Led 5-person team analysing 10k+ diabetic patient records in 48 hours. Engineered longitudinal EHR features — inter-visit gap sequences, cv_gap irregularity metric, SDOH risk stratification across 8 social domains. Surfaced structural health inequality via K-Means (k=3) — High-SDOH patients show 2.5× higher ED rates. Counterfactual simulation quantified a 16.6pp risk reduction. Built geospatial mobile clinic routing covering 32,686 patients across 15 stops with Markov Chain comorbidity network.',
-    bullets:['Engineered longitudinal access features from visit gaps rather than treating the EHR as a static table; cv_gap captured irregular care continuity.','Separated clinical burden from structural risk by clustering SDOH profiles across 8 domains, then simulated risk reduction under barrier removal.','Translated statistical results into an operational mobile-clinic route covering 32,686 patients across 15 stops.'],
-    links:[{h:'Uni/Carolina_Correlation_DukeASA26.pdf',l:'Slides'},{h:'https://github.com/miazhouruoya/dukeasafest26',l:'Code'},{h:'Uni/DataFest2026_MiaZhou_Report.pdf',l:'Report'},{h:'https://miazhouruoya.github.io/kansasmobile/',l:'Map'}]},
-  datamini3:{title:'Duke Data Mini #3',cat:'Duke University — Datathon',pi:'Best Statistical Analysis',date:'Apr 2026',
-    desc:'Analyzed U.S. railroad incident data to explain who is dying on America’s railroads. The core finding was that trespassers account for 86.2% of railroad fatalities and, once injured, have a 48.4% chance of not surviving. We built fatal-vs-nonfatal models using person type, state, age, time of day, and substance-test results; logistic regression reached 92.4% classification accuracy with AUC 0.924. The model found trespasser status carried 33.85× odds of fatality and positive drug tests 9.53× odds. XGBoost highlighted event type, physical act, train type, and age 50+ as major risk drivers, while clustering/profiling split fatal trespassers into four intervention-ready archetypes: track-walkers struck by trains (59%), grade-crossing drivers (23%), non-typical/weekend cases (2%), and a western-corridor mixed group (16%).',
-    bullets:['Used both interpretable logistic regression and XGBoost so the final story could report odds ratios and still capture nonlinear risk interactions.','Found trespasser status dominates fatality risk with 33.85× odds, while positive drug-test status adds 9.53× odds after conditioning on other variables.','Turned model output into prevention archetypes: track-walkers struck by trains, grade-crossing drivers, weekend/non-typical cases, and western-corridor mixed cases.'],
-    links:[{h:'Uni/Duke%20Mini%233.pdf',l:'Slides'}]},
-  wids:{title:'Founder & President — UNC Women in Data Science',cat:'Leadership — WiDS Worldwide + UNC-Chapel Hill',pi:'Women in Data Science Ambassador',date:'2026 — Present',
-    desc:'Founded and lead the UNC-Chapel Hill Women in Data Science chapter while serving as a WiDS Ambassador in the worldwide community. The chapter is meant to become a practical AI + data space for the next generation: workshops, speaker series, hackathon programming, and student-led builds that make technical confidence feel possible.',
-    bullets:['Founder and president of the UNC-Chapel Hill WiDS chapter, with ambassador connection to the global Women in Data Science network.','Planning a program arc that moves from beginner-friendly technical workshops to speaker events, then toward hackathon/community-build formats.','The emphasis is community infrastructure: making statistics, AI, and data science feel less gated and more usable for students across disciplines.'],
-    links:[]}
-};
-
-const lnkSVG=`<svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`;
-const codeSVG=`<svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>`;
-const UX={
-  nih:{goal:'Create a machine-readable map of NIH team science that preserves biomedical semantics and exposes who collaborates, who receives funding, and where institutional inequality appears.',methods:'BERTopic for topic discovery, BioSentVec for domain-aware abstract embeddings, grant-level metadata cleaning, PI disambiguation, and weighted co-PI network construction.',visual:'Topic-by-funding maps, investigator collaboration graphs, centrality summaries, and manuscript-ready tables for the NIH-MPINet paper.'},
-  spatial:{goal:'Test whether spatial transcriptomics conclusions change because of the graph constructor itself, before any downstream model claims biology.',methods:'Seurat, Squidpy, and Niches benchmarks on Stimage-1K4M; controlled comparisons of adjacency rules, neighborhood definitions, output matrices, and loss behavior.',visual:'A framework comparison matrix showing where graph topology, loss stability, and biological interpretability agree or diverge.'},
-  enet:{goal:'Use enhancer-network topology to identify leukemia-relevant regulatory signals that are invisible if scATAC and scRNA are analyzed separately.',methods:'Single-cell multi-omics integration, enhancer-gene edge construction, modular-topology detection, co-accessibility modeling, and driver-gene enrichment tests.',visual:'Rare-module topology summaries, enhancer-gene network diagrams, and prioritized disease-gene tables with WT1/PADI3 signal.'},
-  app741:{goal:'Build a clinical “patient doppelgänger” system that lets a clinician inspect why a patient is similar, what happened next, and how robust the match is.',methods:'SMART on FHIR OAuth, parallel FHIR R4 API calls, cosine similarity, propensity-score matching, bootstrap 95% CI, Kaplan-Meier survival curves, and Markov state transitions.',visual:'Four Highcharts dashboards: match explainability, cohort balance, survival/risk trajectories, and patient-state transition summaries.'},
-  math:{goal:'Connect nonlinear tumour-immune mathematics to clinically meaningful regimes such as dormancy, escape, oscillatory relapse, and treatment resistance.',methods:'Equilibrium and stability analysis, transcritical/saddle-node/Hopf bifurcation tracking, reaction-diffusion PDE extension, chemotaxis, Langevin noise, delays, and optimal control.',visual:'Phase portraits, bifurcation diagrams, spatial PDE sketches, and treatment-control trajectories tied to biological interpretation.'},
-  neuro:{goal:'Infer decision-related neural communication patterns from large-scale IBL recordings without reducing every neuron to an isolated feature.',methods:'Population-level preprocessing, Leiden community detection over 30k+ neurons, region-to-community mapping, and trial-level behavioral decoding.',visual:'Community communication diagrams, region-level signal maps, and accuracy panels explaining the 78% decision-prediction result.'},
-  agent:{goal:'Study how local imitation and narrative-driven agent choices can generate macro-level inequality, polarization, and unstable economic regimes.',methods:'RCK economic core, Cobb-Douglas production, Poisson imitation updates, stochastic exploration, network interaction sweeps, and LLM-driven decision modules.',visual:'Bimodal wealth distributions, interaction-threshold heatmaps, oscillation plots, and echo-chamber network snapshots.'},
-  datafest:{goal:'Move beyond “predicting diabetes risk” by showing how irregular care access and social barriers create avoidable emergency utilization.',methods:'Longitudinal EHR feature engineering, cv_gap irregularity metric, K-Means SDOH clustering, counterfactual simulation, Markov comorbidity network, MLP risk scoring, and geospatial routing.',visual:'Mobile-clinic routing map, SDOH risk clusters, comorbidity transition network, and counterfactual risk-reduction dashboard.'},
-  wageguard:{goal:'Turn a stressful wage-theft story into a structured bilingual case file that workers can understand and act on quickly.',methods:'React/Vite conversational UI, Gemini 2.5 Flash extraction workflow, ElevenLabs voice feedback, bilingual intake design, and rule-based wage-violation detection.',visual:'Voice-first intake flow, violation summary card, evidence checklist, and worker-centered next-step interface.'},
-  datamini3:{goal:'Identify which railroad fatalities are preventable and translate model outputs into intervention archetypes rather than only accuracy metrics.',methods:'Fatal-vs-nonfatal classification, logistic odds-ratio interpretation, XGBoost feature importance, person/state/age/time/substance predictors, and fatal-trespasser archetype profiling.',visual:'Odds-ratio panels, AUC/model diagnostics, trespasser archetype cards, and risk-driver charts for prevention strategy.'}
-};
-
-function icoFor(l){return l==='Code'?codeSVG:lnkSVG}
-function isDoc(h){return /\.pdf($|\?)/i.test(h)}
-
-function od(id){
-  pc();
-  const p=PD[id];if(!p)return;
-  document.getElementById('dTitle').textContent=p.title;
-  const pxbStyle='font-size:.6rem;font-weight:700;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#1a1714;border:2px solid #1a1714;box-shadow:2px 2px 0 #1a1714;padding:.18rem .5rem;cursor:pointer;display:inline-flex;align-items:center;gap:.24rem;text-decoration:none;margin-right:.3rem;margin-top:.3rem';
-  let html=`<p style="font-size:.5rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9a9590;margin-bottom:.28rem;font-family:Arial,Helvetica,sans-serif">${p.cat}</p>
-<h2 style="font-size:1.38rem;font-weight:700;color:#1a1714;line-height:1.12;margin-bottom:.25rem;letter-spacing:-.02em;font-family:Arial,Helvetica,sans-serif">${p.title}</h2>
-<p style="font-size:.64rem;font-family:'Courier New',monospace;color:#9a9590;margin-bottom:.85rem;padding-bottom:.7rem;border-bottom:2px solid #1a1714"><strong style="color:#5a5650">${p.pi}</strong> &nbsp;·&nbsp; ${p.date}</p>
-<p style="font-size:.86rem;line-height:1.82;color:#5a5650;margin-bottom:1rem;font-family:Arial,Helvetica,sans-serif">${p.desc}</p>`;
-  if(p.bullets&&p.bullets.length){
-    html+=`<p style="font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9a9590;margin:.35rem 0 .42rem;font-family:Arial,Helvetica,sans-serif">Technical Notes</p><ul style="list-style:none;display:flex;flex-direction:column;gap:.42rem;margin:0 0 1rem;padding:0">`;
-    p.bullets.forEach(b=>{html+=`<li style="font-size:.72rem;line-height:1.62;color:#5a5650;padding-left:1rem;position:relative;font-family:Arial,Helvetica,sans-serif"><span style="position:absolute;left:0;color:#9a9590;font-weight:800">→</span>${b}</li>`});
-    html+='</ul>';
-  }
-  const ux=UX[id];
-  if(ux){
-    html+=`<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.55rem;margin:1rem 0 1.1rem">
-      <div style="border:2px solid #1a1714;box-shadow:2px 2px 0 #1a1714;padding:.65rem;background:#f8f5f0"><p style="font-size:.46rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#9a9590;margin-bottom:.25rem">Goal</p><p style="font-size:.68rem;line-height:1.55;color:#5a5650">${ux.goal}</p></div>
-      <div style="border:2px solid #1a1714;box-shadow:2px 2px 0 #1a1714;padding:.65rem;background:#f5f0ff"><p style="font-size:.46rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#9a9590;margin-bottom:.25rem">Methods</p><p style="font-size:.68rem;line-height:1.55;color:#5a5650">${ux.methods}</p></div>
-      <div style="border:2px solid #1a1714;box-shadow:2px 2px 0 #1a1714;padding:.65rem;background:#eefbf4"><p style="font-size:.46rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#9a9590;margin-bottom:.25rem">Results</p><p style="font-size:.68rem;line-height:1.55;color:#5a5650">${ux.visual}</p></div>
-    </div>`;
-  }
-  if(p.cite){
-    html+=`<p style="font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9a9590;margin-bottom:.35rem;font-family:Arial,Helvetica,sans-serif">Citation (APA)</p>
-<p style="font-family:'Courier New',monospace;font-size:.66rem;line-height:1.72;color:#5a5650;margin-bottom:.65rem;padding:.65rem .75rem;background:#f8f5f0;border-left:2px solid #c8c4be">${p.cite}</p>
-<button onclick="navigator.clipboard.writeText(this.previousElementSibling.innerText).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Citation',1800)})" style="${pxbStyle}">Copy Citation</button>`;
-  }
-  const docLinks=(p.links||[]).filter(l=>isDoc(l.h));
-  const actionLinks=(p.links||[]).filter(l=>!isDoc(l.h));
-  if(actionLinks.length){
-    html+=`<p style="font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9a9590;margin:.9rem 0 .4rem;font-family:Arial,Helvetica,sans-serif">Links</p><div>`;
-    actionLinks.forEach(l=>{html+=`<a href="${l.h}" target="_blank" style="${pxbStyle}">${icoFor(l.l)} ${l.l}</a>`});
-    html+='</div>';
-  }
-  if(docLinks.length){
-    docLinks.forEach(l=>{
-      html+=`<div class="pdf-embed"><p style="font-size:.48rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9a9590;margin-bottom:.4rem;font-family:Arial,Helvetica,sans-serif">${l.l} Preview</p><iframe class="pdf-frame" src="${l.h}" title="${p.title} — ${l.l}"></iframe><p style="font-size:.64rem;line-height:1.6;color:#5a5650;margin-top:.55rem;font-family:Arial,Helvetica,sans-serif">Embedded below automatically. If your browser blocks PDF embeds, open the project file directly from the repository folder.</p></div>`;
-    });
-  }
-  const body=document.getElementById('dBody');
-  body.innerHTML=html;
-  body.scrollTop=0;
-  document.getElementById('dov').style.display='block';
-  sf(window.innerWidth/2,window.innerHeight/2,2);
-  // show scroll hint if content overflows
-  setTimeout(()=>{
-    if(body.scrollHeight>body.clientHeight){
-      let hint=document.getElementById('scrollHint');
-      if(!hint){
-        hint=document.createElement('div');
-        hint.id='scrollHint';
-        hint.textContent='▼ scroll for more';
-        hint.style.cssText='position:absolute;bottom:0;left:0;right:0;text-align:center;font-size:.5rem;font-weight:700;letter-spacing:.1em;color:#9a9590;background:linear-gradient(transparent,#fff 40%);padding:1rem .5rem .4rem;pointer-events:none;font-family:Arial,sans-serif';
-        body.parentElement.style.position='relative';
-        body.parentElement.appendChild(hint);
-      }
-      hint.style.display='block';
-      body.addEventListener('scroll',()=>{
-        if(body.scrollTop+body.clientHeight>=body.scrollHeight-20)hint.style.display='none';
-        else hint.style.display='block';
-      },{passive:true,once:false});
-    }
-  },50);
-}
-function cd(){pc();document.getElementById('dov').style.display='none'}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')cd()});
-document.addEventListener('click',e=>{if(e.target&&e.target.id==='dov')cd()});
-document.addEventListener('click',e=>{
-  const a=e.target.closest('a[href]');
-  if(!a||!isDoc(a.getAttribute('href')))return;
-  const card=a.closest('.cc[data-id]');
-  if(!card)return;
-  e.preventDefault();
-  e.stopPropagation();
-  od(card.dataset.id);
-},{capture:true});
-document.querySelectorAll('.cc a[href]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    if(!isDoc(a.getAttribute('href')))e.stopPropagation();
-  });
-});
-document.addEventListener('click',e=>{if(e.target.closest('a[href],button'))e.stopPropagation()});
-
-/* cc cards wired via onclick="od(this.dataset.id)" */
-
-
-/* ── FORCE SCROLL ON dBody ── */
-document.addEventListener('DOMContentLoaded',()=>{
-  const db=document.getElementById('dBody');
-  if(!db)return;
-  // wheel events
-  db.addEventListener('wheel',function(e){
-    e.stopPropagation();
-    this.scrollTop+=e.deltaY;
-    e.preventDefault();
-  },{passive:false});
-  // touch scroll
-  let ty=0;
-  db.addEventListener('touchstart',function(e){ty=e.touches[0].clientY;},{passive:true});
-  db.addEventListener('touchmove',function(e){
-    const dy=ty-e.touches[0].clientY;
-    ty=e.touches[0].clientY;
-    this.scrollTop+=dy;
-    e.stopPropagation();
-  },{passive:true});
-});
-
 /* ── CLOCK ── */
 function uc(){const d=new Date();document.getElementById('clock').textContent=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')}
 uc();setInterval(uc,12000);
@@ -1114,28 +716,9 @@ window.addEventListener('resize',()=>{try{posAboutRight();}catch(e){}});
 document.addEventListener('keydown',e=>{
   if((e.metaKey||e.ctrlKey)&&e.key==='1'){e.preventDefault();tw('fw-about')}
   if((e.metaKey||e.ctrlKey)&&e.key==='2'){e.preventDefault();tw('fw-resume')}
-  if((e.metaKey||e.ctrlKey)&&e.key==='3'){e.preventDefault();tw('fw-pub')}
-  if((e.metaKey||e.ctrlKey)&&e.key==='4'){e.preventDefault();tw('fw-res')}
-  if((e.metaKey||e.ctrlKey)&&e.key==='5'){e.preventDefault();tw('fw-proj')}
-  if((e.metaKey||e.ctrlKey)&&e.key==='6'){e.preventDefault();tw('fw-hack')}
-  if((e.metaKey||e.ctrlKey)&&e.key==='7'){e.preventDefault();tw('fw-other')}
-  if((e.metaKey||e.ctrlKey)&&e.key==='8'){e.preventDefault();tw('fw-lead')}
+  if((e.metaKey||e.ctrlKey)&&e.key==='3'){e.preventDefault();tw('fw-experience')}
+  if((e.metaKey||e.ctrlKey)&&e.key==='4'){e.preventDefault();openLife()}
 });
 </script>
-<div id="dov" onclick="if(event.target===this)cd()" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:9500;background:rgba(0,0,0,.5);display:none">
-  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:560px;max-width:92vw">
-    <div style="background:#fff;border:2px solid #b0aca6;box-shadow:5px 5px 0 rgba(0,0,0,.3)">
-      <div style="height:27px;background:linear-gradient(180deg,#f0edea,#d8d4cf);border-bottom:1px solid #b0aca6;display:flex;align-items:center;padding:0 8px;gap:6px;position:relative;user-select:none;flex-shrink:0">
-        <div style="display:flex;gap:5px;align-items:center">
-          <div onclick="cd()" style="width:11px;height:11px;border-radius:50%;background:#ff5f56;border:1px solid rgba(0,0,0,.2);cursor:pointer"></div>
-          <div style="width:11px;height:11px;border-radius:50%;background:#febc2e;border:1px solid rgba(0,0,0,.2)"></div>
-          <div style="width:11px;height:11px;border-radius:50%;background:#28c840;border:1px solid rgba(0,0,0,.2)"></div>
-        </div>
-        <span id="dTitle" style="position:absolute;left:50%;transform:translateX(-50%);font-size:.64rem;font-weight:700;color:#5a5650;pointer-events:none;white-space:nowrap;font-family:Arial,sans-serif"></span>
-      </div>
-      <div id="dBody" style="height:500px;overflow-y:scroll;padding:22px 26px 32px;font-family:Arial,sans-serif"></div>
-    </div>
-  </div>
-</div>
 </body>
 </html>
