@@ -196,9 +196,6 @@ a{color:inherit;text-decoration:none}
 .r-pub::before{content:'[1]';position:absolute;left:0;top:.04rem;font-size:.58rem;font-family:'Courier New',monospace;color:var(--amber);font-weight:700}
 .r-pub strong{color:var(--ink);font-weight:700}
 .r-pub-status{display:inline-block;font-size:.44rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--amber);color:#fff;padding:.04rem .26rem;vertical-align:middle;margin-left:.25rem}
-.r-pub[data-idx]::before{content:attr(data-idx)}
-.r-pub-link{color:inherit;text-decoration:none}
-.r-pub-link:hover{text-decoration:underline;color:var(--ink)}
 
 /* ── PRINT ── */
 @media print{
@@ -553,8 +550,8 @@ body::before{
 .sb-contact-mini a{color:var(--ink2);font-size:.6rem;font-family:'Courier New',monospace}
 .sb-nav{padding:.35rem 0}
 .sb-item{
-  margin:0;border-radius:0;padding:.42rem .7rem;
-  color:var(--ink2);font-size:.88rem;
+  margin:0;border-radius:0;padding:.34rem .7rem;
+  color:var(--ink2);font-size:.68rem;
 }
 .sb-item:hover{background:rgba(0,0,0,.06);color:var(--ink)}
 .sb-item.on{
@@ -802,21 +799,14 @@ body::before{
 body{
   cursor:auto;
   background:
-    radial-gradient(circle at 18% 8%,rgba(244,167,197,.55),transparent 42%),
-    radial-gradient(circle at 85% 15%,rgba(112,214,179,.2),transparent 26%),
-    linear-gradient(140deg,#fbeef5,var(--ios-bg2) 52%,var(--ios-bg3));
+    radial-gradient(circle at 18% 8%,rgba(244,167,197,.35),transparent 30%),
+    radial-gradient(circle at 85% 15%,rgba(112,214,179,.28),transparent 28%),
+    linear-gradient(140deg,var(--ios-bg1),var(--ios-bg2) 52%,var(--ios-bg3));
 }
 body::before{
   background-image:radial-gradient(circle,rgba(255,255,255,.55) 1px,transparent 1px);
   background-size:22px 22px;
 }
-
-/* ── DESKTOP NAV: keep the top bar pinned above everything ── */
-@media(min-width:981px){
-  #topbar{position:fixed;top:0;left:0;right:0;z-index:300}
-  .layout{padding-top:calc(2.3rem + 42px)}
-}
-
 #cur{display:none!important}
 #topbar{
   height:42px;
@@ -1018,8 +1008,7 @@ body::before{
 }
 .r-entry[data-detail],
 .r-subproject[data-detail],
-.project-card,
-.proj-card{
+.project-card{
   transition:opacity .46s ease,transform .46s cubic-bezier(.2,.75,.25,1),box-shadow .18s ease,background .18s ease;
   backface-visibility:hidden;
   transform:translateZ(0);
@@ -1036,8 +1025,7 @@ body::before{
 }
 .r-entry[data-detail]:hover,
 .r-subproject[data-detail]:hover,
-.project-card:hover,
-.proj-card:hover{
+.project-card:hover{
   transform:translate3d(0,-3px,0);
 }
 .r-entry[data-detail]::before,
@@ -2155,378 +2143,10 @@ body::before{
   }
 }
 
-/* ── PROJECT CARD GRID (thumbnail cards for Research / Projects / Competitions / Leadership) ── */
-.proj-grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:1.1rem;
-}
-.proj-grid.proj-grid-1{
-  grid-template-columns:minmax(0,1fr);
-}
-.proj-card{
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  border:none;
-  border-radius:22px;
-  box-shadow:0 10px 26px rgba(30,30,35,.10);
-  background:#fff;
-  overflow:hidden;
-  cursor:pointer;
-  transition:opacity .46s ease,transform .4s cubic-bezier(.2,.75,.25,1),box-shadow .25s ease;
-  backface-visibility:hidden;
-  content-visibility:auto;
-  contain-intrinsic-size:260px;
-}
-.proj-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 18px 36px rgba(30,30,35,.16);
-}
-.proj-card.reveal-card{
-  opacity:0;
-  transform:translate3d(0,18px,0);
-}
-.proj-card.reveal-card.in-view{
-  opacity:1;
-  transform:translate3d(0,0,0);
-}
-.proj-thumb{
-  position:relative;
-  aspect-ratio:16/10.5;
-  max-height:260px;
-  margin:.9rem .9rem 0;
-  border-radius:16px;
-  background-color:#f4f1ec;
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-}
-.proj-thumb-logo{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background-color:#fff;
-  border:1px solid #eee8df;
-}
-.proj-thumb-logo svg{width:32%;height:auto}
-.proj-body{
-  padding:.8rem .95rem .95rem;
-  display:flex;
-  flex-direction:column;
-  gap:.3rem;
-  min-height:6.6rem;
-}
-.proj-title{
-  font-size:1.02rem;
-  font-weight:800;
-  color:var(--ink);
-  line-height:1.3;
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-}
-.proj-card[data-detail="cvd"] .proj-title{
-  display:block;
-  overflow:visible;
-  -webkit-line-clamp:unset;
-}
-.proj-card[data-detail="cvd"] .r-award-badge{
-  width:auto;
-  max-width:100%;
-  padding:.24rem .52rem!important;
-  font-size:.5rem!important;
-  letter-spacing:.025em!important;
-  white-space:nowrap;
-}
-.proj-sub{
-  font-size:.74rem;
-  font-weight:500;
-  color:var(--ink3);
-  line-height:1.42;
-}
-.proj-scrim{
-  position:absolute;
-  inset:0;
-  background:rgba(255,255,255,.96);
-  opacity:0;
-  transform:translateY(6px);
-  transition:opacity .3s cubic-bezier(.4,0,.2,1),transform .3s cubic-bezier(.4,0,.2,1);
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  gap:.35rem;
-  padding:1.1rem 1.15rem;
-  pointer-events:none;
-  overflow-y:auto;
-}
-.proj-card:hover .proj-scrim{
-  opacity:1;
-  transform:translateY(0);
-  pointer-events:auto;
-}
-.proj-scrim-date{
-  font-size:.52rem;
-  font-weight:700;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--amber);
-  font-family:'Courier New',monospace;
-}
-.proj-scrim-title{
-  font-size:.84rem;
-  font-weight:800;
-  color:var(--ink);
-  line-height:1.3;
-}
-.proj-scrim-desc{
-  font-size:.86rem;
-  line-height:1.6;
-  color:var(--ink2);
-}
-.proj-scrim .r-links{margin-top:.2rem;gap:.42rem}
-.proj-scrim .r-links .r-lnk{
-  width:26px;height:26px;padding:0;
-  border-radius:50%;
-  justify-content:center;
-  box-shadow:none;
-  border:1.5px solid var(--ink4);
-  transition:border-color .15s,background .15s,color .15s;
-}
-.proj-scrim .r-links .r-lnk:hover{
-  border-color:var(--ink);
-  background:var(--ink);
-  color:#fff;
-}
-.proj-scrim .r-links .r-lnk svg{width:12px;height:12px}
-.proj-scrim .r-links .r-lnk-label{
-  position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
-  clip:rect(0,0,0,0);white-space:nowrap;border:0;
-}
-@media(max-width:980px){
-  .proj-grid{grid-template-columns:1fr 1fr;}
-}
-@media(max-width:760px){
-  .proj-grid{grid-template-columns:1fr;justify-items:center;}
-  .proj-card{width:100%;max-width:380px;}
-  .proj-thumb{max-height:220px;}
-}
-@media(hover:none){
-  .proj-scrim{
-    position:static;
-    opacity:1;
-    transform:none;
-    pointer-events:auto;
-    background:transparent;
-    padding:0 .95rem .9rem;
-  }
-  .proj-card{cursor:pointer}
-}
-
-/* ── SKETCHY CONTACT BUTTONS (no color fill) ── */
-.r-contact-row a{
-  border:1.5px solid var(--ink)!important;
-  border-radius:999px!important;
-  box-shadow:none!important;
-  background:#fff!important;
-  color:var(--ink)!important;
-  padding:.32rem .8rem .32rem .4rem!important;
-  gap:.4rem!important;
-  font-family:Arial,Helvetica,sans-serif!important;
-  font-weight:700!important;
-  font-size:.66rem!important;
-  transition:transform .15s ease,background .15s ease,color .15s ease!important;
-}
-.r-contact-row a svg{width:19px!important;height:19px!important;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
-.r-contact-row a:hover{
-  transform:translateY(-2px);
-  background:var(--ink)!important;
-  color:#fff!important;
-}
-
-/* ── DESCRIPTION BUTTONS (card hover links) — pixel chip redesign ── */
-.proj-scrim .r-links{gap:.4rem}
-.proj-scrim .r-links .r-lnk{
-  width:auto!important;
-  height:auto!important;
-  padding:.28rem .55rem!important;
-  border-radius:4px!important;
-  border:1.5px solid var(--ink)!important;
-  box-shadow:1.5px 1.5px 0 var(--ink)!important;
-  background:#fff!important;
-  color:var(--ink)!important;
-  font-size:.62rem!important;
-  font-weight:700!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  gap:.3rem!important;
-}
-.proj-scrim .r-links .r-lnk:hover{
-  background:var(--ink)!important;
-  color:#fff!important;
-  transform:none;
-}
-.proj-scrim .r-links .r-lnk:active{
-  transform:translate(1.5px,1.5px);
-  box-shadow:none!important;
-}
-.proj-scrim .r-links .r-lnk svg{width:11px!important;height:11px!important}
-.proj-scrim .r-links .r-lnk-label{
-  position:static!important;width:auto!important;height:auto!important;padding:0!important;margin:0!important;
-  overflow:visible!important;clip:auto!important;white-space:nowrap!important;
-}
-
-/* ── DARKER ROLE / LOCATION LINE ── */
-.proj-sub{color:var(--ink2)!important}
-
-/* ── TYPEFACE: match reference (plain system font) ── */
-body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card-title,.contact-heading{
-  font-family:Arial,Helvetica,sans-serif!important;
-}
-
-/* ── BIGGER DESKTOP TAB ── */
-.tb-back{
-  font-size:.78rem!important;
-  padding:.32rem .8rem!important;
-  gap:.35rem!important;
-}
-.tb-back svg{width:13px!important;height:13px!important}
-
-/* ── BIGGER SKILL PILL TEXT ── */
-.skill-pills .r-pill{font-size:.68rem!important;padding:.18rem .5rem!important}
-.skill-group-label{
-  font-family:Arial,Helvetica,sans-serif;
-  font-size:.56rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--ios-muted);margin-bottom:.3rem;
-}
-
-/* ── FIX: nav-bar/profile gap was being wiped out by a later
-   `.layout{padding:1.6rem 1rem 5rem}` shorthand rule further down the
-   sheet, which reset padding-top after our media-query override —
-   same specificity, later in source, so it always won. Forcing it here
-   at the true end of the cascade. ── */
-@media(min-width:981px){
-  .layout{padding-top:calc(2.3rem + 42px)!important}
-}
-
-/* ── SCROLL PROGRESS BAR ── */
-#scrollbar{position:fixed;top:0;left:0;width:100%;height:3px;z-index:9999;background:transparent;pointer-events:none}
-#scrollbarFill{height:100%;width:0%;background:linear-gradient(90deg,var(--amber),#a78bfa);transition:width .08s linear}
-
-/* ── BIGGER SECTION TITLES ── */
-.r-card-bar{height:52px!important}
-.r-card-title{
-  font-size:1.18rem!important;
-  font-weight:800!important;
-  letter-spacing:.01em!important;
-  color:var(--ink)!important;
-}
-@media(max-width:760px){
-  .r-card-title{font-size:.98rem!important;max-width:68%!important}
-}
-
-/* ── BIGGER PUBLICATION TEXT ── */
-.r-pub{font-size:.95rem!important;line-height:1.85!important;padding-left:1.35rem!important}
-.r-pub::before{font-size:.62rem!important}
-.r-pub-status{font-size:.5rem!important;padding:.06rem .32rem!important}
-
-/* ── FIX: HOVER DESCRIPTION WAS GETTING CUT OFF ──
-   root cause: the scrim used justify-content:center, so once text
-   was taller than the card it centered (and clipped) content on
-   BOTH ends instead of starting at the top; also gave more vertical
-   room + a slim visible scrollbar so overflow is obvious, not hidden. */
-.proj-thumb{aspect-ratio:4/3.4!important;max-height:300px!important}
-.proj-body{min-height:5.6rem!important}
-@media(max-width:760px){
-  .proj-thumb{max-height:260px!important}
-}
-.proj-scrim{
-  justify-content:flex-start!important;
-  padding:1.15rem 1.2rem 1rem!important;
-  gap:.4rem!important;
-}
-.proj-scrim::-webkit-scrollbar{width:5px}
-.proj-scrim::-webkit-scrollbar-track{background:transparent}
-.proj-scrim::-webkit-scrollbar-thumb{background:var(--ink4);border-radius:4px}
-.proj-scrim{scrollbar-width:thin;scrollbar-color:var(--ink4) transparent}
-
-/* ── DATE VISIBLE ON CARD FRONT (not hover-only) ── */
-.proj-thumb{position:relative}
-.proj-date-badge{
-  position:absolute;top:.5rem;right:.5rem;left:auto;
-  background:#fff;
-  border:1.5px solid var(--ink);
-  color:var(--ink);
-  font-family:Arial,Helvetica,sans-serif;
-  font-size:.56rem;font-weight:700;letter-spacing:.01em;
-  padding:.18rem .42rem;border-radius:4px;
-  box-shadow:1.5px 1.5px 0 var(--ink);
-  pointer-events:none;
-}
-.proj-thumb-logo .proj-date-badge{top:.6rem;right:.6rem}
-
-/* ── PERSONAL BRANDING STATEMENT: plain, matches site theme ── */
-.r-statement{
-  margin-top:1.2rem;
-  padding-top:1rem;
-  border-top:1px solid var(--ct);
-}
-.r-stmt-label{
-  display:block;
-  font-family:'Courier New',monospace;
-  font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--amber);margin-bottom:.5rem;
-}
-.r-statement p{
-  font-size:.84rem;line-height:1.75;color:var(--ink2);margin:0 0 .6rem;
-}
-.r-statement p:last-child{margin-bottom:0}
-.r-statement strong{color:var(--ink);font-weight:700}
-
-/* ── SECTION FLOW / RHYTHM POLISH ── */
-.r-card{scroll-margin-top:64px}
-.main .r-card + .r-card{margin-top:1.6rem}
-.proj-title{font-size:1.06rem!important}
-
-/* ── ALL TEXT DARKER ── */
-:root{
-  --ink2:#2c2822;
-  --ink3:#5c564c;
-  --ios-muted:#42506a;
-}
-.tb-title,.tb-clock,.r-date{color:#333029!important}
-
-/* ── UI/UX PLACEHOLDER THUMBS ── */
-.proj-thumb-tool{
-  font-family:'Courier New',monospace;
-  font-size:.66rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
-  color:var(--ink3);
-}
-
-/* ── MINI DIGITAL PROJECTS COLLAPSIBLE TAB ── */
-.uiux-tab{cursor:pointer;user-select:none}
-.uiux-tab:focus-visible{outline:2px solid var(--ios-line);outline-offset:2px}
-.uiux-chevron{width:16px;height:16px;margin-left:auto;color:var(--ios-muted);transition:transform .3s cubic-bezier(.2,.75,.25,1)}
-.uiux-tab.open .uiux-chevron{transform:rotate(90deg)}
-.uiux-panel{
-  display:grid;
-  grid-template-rows:0fr;
-  opacity:0;
-  overflow:hidden;
-  transition:grid-template-rows .42s cubic-bezier(.2,.75,.25,1),opacity .32s ease,padding .42s ease;
-}
-.uiux-panel > .proj-grid{min-height:0;overflow:hidden}
-.uiux-panel.open{
-  grid-template-rows:1fr;
-  opacity:1;
-}
-
 </style>
 </head>
 <body>
 
-<div id="scrollbar"><div id="scrollbarFill"></div></div>
 <div id="cur"><svg width="16" height="16" viewBox="0 0 16 16"><polygon points="2,2 2,14 5,10 7,15 9,14 7,9.5 11,9.5" fill="#1a1714" stroke="#fff" stroke-width=".8" stroke-linejoin="round"/></svg></div>
 
 <!-- TOPBAR -->
@@ -2555,15 +2175,8 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
     <div class="sb-bar">Navigation</div>
     <div class="sb-profile">
       <div class="sb-name">Mia Zhou</div>
-      <div class="skill-pills" style="margin-top:.55rem">
-        <div class="skill-group-label">Languages</div>
-        <div style="display:flex;flex-wrap:wrap;gap:.2rem;margin-bottom:.5rem">
-          <span class="r-pill">Python</span><span class="r-pill">R</span><span class="r-pill">SAS</span><span class="r-pill">MATLAB</span><span class="r-pill">JavaScript</span><span class="r-pill">SQL</span>
-        </div>
-        <div class="skill-group-label">Tools / Frameworks</div>
-        <div style="display:flex;flex-wrap:wrap;gap:.2rem">
-          <span class="r-pill">Tableau</span><span class="r-pill">Linux&nbsp;/&nbsp;Unix</span><span class="r-pill">Azure</span><span class="r-pill">GitHub</span><span class="r-pill">GCP</span><span class="r-pill">XGBoost</span><span class="r-pill">PyTorch</span><span class="r-pill">Scikit-learn</span><span class="r-pill">Pandas</span><span class="r-pill">NumPy</span><span class="r-pill">p5.js</span><span class="r-pill">Node.js</span><span class="r-pill">REST&nbsp;API</span><span class="r-pill">React.js</span><span class="r-pill">Power&nbsp;BI</span><span class="r-pill">VM</span>
-        </div>
+      <div class="skill-pills" style="display:flex;flex-wrap:wrap;gap:.2rem;margin-top:.55rem">
+        <span class="r-pill">Python</span><span class="r-pill">R</span><span class="r-pill">SAS</span><span class="r-pill">MATLAB</span><span class="r-pill">JavaScript</span><span class="r-pill">SQL</span><span class="r-pill">Tableau</span><span class="r-pill">Linux&nbsp;/&nbsp;Unix</span><span class="r-pill">Azure</span><span class="r-pill">GitHub</span>
       </div>
     </div>
     <nav class="sb-nav">
@@ -2581,17 +2194,17 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
         <div class="sb-dot" style="background:#2a8a7a"></div>Research
       </div>
       <div class="sb-sep"></div>
-      <div class="sb-item" data-sec="sec-hack" onclick="navTo(this,'sec-hack')">
-        <div class="sb-dot" style="background:#f9a8d4"></div>Competitions
-      </div>
       <div class="sb-item" data-sec="sec-proj" onclick="navTo(this,'sec-proj')">
         <div class="sb-dot" style="background:#a78bfa"></div>Projects
       </div>
-      <div class="sb-item" data-sec="sec-uiux" onclick="navTo(this,'sec-uiux')">
-        <div class="sb-dot" style="background:#22d3ee"></div>UI/UX
+      <div class="sb-item" data-sec="sec-hack" onclick="navTo(this,'sec-hack')">
+        <div class="sb-dot" style="background:#f9a8d4"></div>Competitions
       </div>
       <div class="sb-item" data-sec="sec-lead" onclick="navTo(this,'sec-lead')">
         <div class="sb-dot" style="background:#34d399"></div>Leadership
+      </div>
+      <div class="sb-item" data-sec="sec-teach" onclick="navTo(this,'sec-teach')">
+        <div class="sb-dot" style="background:#60a5fa"></div>Teaching
       </div>
     </nav>
     <div class="sb-sep"></div>
@@ -2623,17 +2236,12 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             <div class="r-name">Mia Zhou</div>
             <div class="r-sub">Mathematics (B.S.) &amp; Biostatistics (B.S.P.H) · Minor in Neuroscience<br>University of North Carolina at Chapel Hill · Expected May 2027</div>
             <div class="r-contact-row">
-              <a href="mailto:zhoumia@ad.unc.edu" title="zhoumia@ad.unc.edu"><svg viewBox="0 0 24 24"><path d="M4.2 6.9c5.3-.7 10.4-.6 15.4.1.4 3.6.4 6.8-.1 10.3-5.1.6-10.2.5-15.3-.1-.3-3.5-.3-6.7 0-10.3z"/><path d="M4.6 7.3c2.5 2.2 5 4 7.5 5.4 2.5-1.4 4.9-3.1 7.3-5.3"/></svg>Email</a>
-              <a href="tel:9193372313" title="919-337-2313"><svg viewBox="0 0 24 24"><path d="M8.5 5.7c-1.1-.8-2.2-.7-3 .2l-.9 1c-.8 1-.6 2.4.3 3.7 2.1 3 4.7 5.6 7.8 7.5 1.4.9 2.9.9 3.7-.1l.9-1c.8-.9.7-2.1-.4-2.7l-2-1.3c-.6-.4-1.4-.3-1.9.3l-.7.7c-1.5-1-2.7-2.4-3.5-3.9l.7-.7c.5-.5.6-1.3.2-1.9z"/></svg>Phone</a>
-              <a href="https://linkedin.com/in/miaazhoou" target="_blank" title="linkedin.com/in/miaazhoou"><svg viewBox="0 0 24 24"><path d="M4.7 4.9c4.9-.7 9.7-.6 14.6.1.5 4.7.5 9.3 0 14.1-4.9.6-9.7.5-14.6-.1-.4-4.6-.4-9.3 0-14.1z"/><text x="12" y="16.5" font-family="'Segoe Print','Comic Sans MS',cursive" font-weight="700" font-size="10.5" fill="currentColor" stroke="none" text-anchor="middle">in</text></svg>LinkedIn</a>
-              <a href="https://github.com/miazhouruoya" target="_blank" title="github.com/miazhouruoya"><svg viewBox="0 0 24 24"><path d="M12 4.6c3.3-.3 6.1 1.9 6.7 5 .5 2.6-.6 5.1-2.7 6.6.1 1.5.1 2.5-.7 3.3-1.7-.2-2-.9-2.1-2-1.4.2-2.9.2-4.3 0-.1 1.1-.4 1.8-2.1 2-.8-.8-.8-1.8-.7-3.3-2.1-1.5-3.2-4-2.7-6.6.6-3.1 3.4-5.3 6.6-5z"/><path d="M8.3 7.6l-1.6-2.3"/><path d="M15.7 7.6l1.6-2.3"/><circle cx="9.6" cy="12.2" r=".55" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.2" r=".55" fill="currentColor" stroke="none"/></svg>GitHub</a>
+              <a href="mailto:zhoumia@ad.unc.edu"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>zhoumia@ad.unc.edu</a>
+              <a href="tel:9193372313"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.95-.85a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>919-337-2313</a>
+              <a href="https://linkedin.com/in/miaazhoou" target="_blank"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V9h4v1.5a6 6 0 0 1 2-1.5z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>linkedin.com/in/miaazhoou</a>
+              <a href="https://github.com/miazhouruoya" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>github.com/miazhouruoya</a>
             </div>
           </div>
-        </div>
-        <div class="r-statement">
-          <span class="r-stmt-label">// philosophy</span>
-          <p>Research has taught me that the most valuable ideas emerge when curiosity meets execution. As an aspiring <strong>AI and Data Scientist</strong>, I enjoy exploring new questions, learning across disciplines, and transforming complex data into actionable insights. <strong>My current research focuses on AI applications and security, biostatistics, network science, and survival analysis.</strong></p>
-          <p>In the long term, I hope to become both a researcher and an entrepreneur — creating AI technologies that move beyond publications to deliver lasting real-world impact. I am driven by continuous growth, interdisciplinary collaboration, and the belief that thoughtful innovation can improve how people live, learn, and make decisions.</p>
         </div>
       </div>
     </div>
@@ -2645,28 +2253,20 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
         <span class="r-card-title">internship / work experience</span>
       </div>
       <div class="r-card-body">
-        <div class="proj-grid">
-          <div class="proj-card" onclick="window.open('http://34.58.86.171/','_blank')">
-            <div class="proj-thumb proj-thumb-logo">
-              <span class="proj-date-badge">Jul – Aug 2026</span>
-              <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
-                <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
-                <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34A21.93 21.93 0 0 0 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z"/>
-                <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
-              </svg>
+        <div class="r-entry" style="padding-top:0;border-top:none">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Software Engineer Intern</div>
+              <div class="r-org-line">Google Raleigh-Durham &nbsp;·&nbsp; <em>Google × Break Through Tech Sprinternship Partnership</em></div>
             </div>
-            <div class="proj-body">
-              <div class="proj-title">Software Engineer Intern</div>
-              <div class="proj-sub">Google Raleigh-Durham · Break Through Tech Sprinternship</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-date">Jul — Aug 2026</div>
-              <div class="proj-scrim-title">Software Engineer Intern</div>
-              <p class="proj-scrim-desc">Led a 4-person Agile team to develop an agentic AI application using Python, BigQuery (SQL), and GCP, analyzing 41 GTFS transit feeds to study educational accessibility for 2,400+ public schools across 100 counties.</p>
-              <p class="proj-scrim-desc">Designed a multi-agent RAG system using the Google ADK framework and Gemini 3.5 Flash model to generate policy recommendations and logistic regression risk-factor analysis.</p>
-            </div>
+            <div class="r-date">Jul 2026 — Aug 2026</div>
           </div>
+          <ul class="r-bullets">
+            <li>Selected for a competitive AI/ML-focused micro-internship program hosted at Google Raleigh-Durham through Break Through Tech.</li>
+            <li>Collaborate in a 5-person engineering team to develop solutions for real-world technical challenges using technologies including Python, React, SQL, TensorFlow, Kubernetes, and Google Cloud Platform.</li>
+            <li>Complete technical training in cloud computing, data engineering, and AI/ML workflows through Google Cloud Skills Boost and mentor-guided project development.</li>
+            <li>Participate in agile project planning, technical design discussions, and final solution presentation with Google engineers and industry mentors.</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -2683,7 +2283,7 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
           <span class="r-pub-status">Submitted</span>
         </div>
         <div class="r-pub">
-          <a class="r-pub-link" href="https://arxiv.org/abs/2604.22802" target="_blank">Shi, C., Han, S., Kusumanchi, S., <strong>Zhou, M.</strong>, &amp; Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. <em>Manuscript submitted for publication.</em></a>
+          Shi, C., Han, S., Kusumanchi, S., <strong>Zhou, M.</strong>, &amp; Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. <em>Manuscript submitted for publication.</em>
           <span class="r-pub-status">Under Review</span>
         </div>
       </div>
@@ -2696,147 +2296,84 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
         <span class="r-card-title">research experience</span>
       </div>
       <div class="r-card-body">
-        <div class="proj-grid">
 
-          <div class="proj-card" data-detail="nih" onclick="window.open('https://arxiv.org/abs/2604.22802','_blank')">
-            <div class="proj-thumb" style="background-image:url('folderpic/thumbs/NIH.jpg')"><span class="proj-date-badge">Oct 2024 – Present</span></div>
-            <div class="proj-body">
-              <div class="proj-title">Project 1 — NIH Network Analysis</div>
-              <div class="proj-sub">Project Assistant · UNC Biostatistics — Li Lab</div>
+        <div class="r-entry li-lab-wrap">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Project Assistant</div>
+              <div class="r-org-line">UNC Biostatistics — Li Lab &nbsp;·&nbsp; <em>PI: Prof. Didong Li</em></div>
             </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-date">Oct 2024 — Present</div>
-              <div class="proj-scrim-title">Project 1 — NIH Network Analysis</div>
-              <p class="proj-scrim-desc">Read through 30,000+ NIH grant abstracts to see how research funding clusters by topic, and mapped how researchers collaborate with each other. Paper currently under review.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="https://github.com/CuiranVivianShi/NIH_network" target="_blank" title="Code" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M8.6 6.6c-2.1 1.7-3.5 3.2-4.7 5.3 1.3 2 2.7 3.6 4.8 5.4"/><path d="M15.5 6.5c2 1.8 3.5 3.3 4.7 5.4-1.3 2-2.7 3.5-4.8 5.3"/><path d="M13.7 5.1c-1 4.5-2 9.1-3.2 13.7"/></svg><span class="r-lnk-label">Code</span></a>
-              </div>
+            <div class="r-date">Oct 2024 — Present</div>
+          </div>
+          <div class="r-subproject" data-detail="nih" onclick="od('nih')">
+            <div class="r-subproject-title">Project 1 — NIH Network Analysis<span>completed / under review</span></div>
+            <ul class="r-bullets">
+              <li>Processed 30,000+ NIH grant abstracts to identify funding trends by engineering an <strong>NLP</strong> pipeline using <strong>BERTopic</strong> and <strong>BioSentVec</strong> embeddings.</li>
+              <li>Built co-PI collaboration networks to reveal team-science structure, collaboration dynamics, and funding inequality at UNC. <em>(Paper under review)</em></li>
+            </ul>
+            <div class="r-links">
+              <a class="r-lnk" href="https://github.com/CuiranVivianShi/NIH_network" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
             </div>
           </div>
-
-          <div class="proj-card" data-detail="spatial" onclick="od('spatial')">
-            <div class="proj-thumb" style="background-image:url('folderpic/thumbs/project2.jpg')"><span class="proj-date-badge">Oct 2024 – Present</span></div>
-            <div class="proj-body">
-              <div class="proj-title">Project 2 — Spatial Transcriptomics</div>
-              <div class="proj-sub">Project Assistant · UNC Biostatistics — Li Lab</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-date">Oct 2024 — Present</div>
-              <div class="proj-scrim-title">Project 2 — Spatial Transcriptomics</div>
-              <p class="proj-scrim-desc">Comparing a few different methods for mapping how cells are arranged in tissue, to see which one gives the most reliable results for studying gene activity.</p>
-            </div>
+          <div class="r-subproject" data-detail="spatial" onclick="od('spatial')">
+            <div class="r-subproject-title">Project 2 — Spatial Transcriptomics<span>current work</span></div>
+            <ul class="r-bullets">
+              <li>Benchmarking <strong>Seurat</strong>, <strong>Squidpy</strong>, and <strong>Niches</strong> graph-building frameworks on <strong>Stimage-1K4M</strong> to compare spatial neighborhood construction choices.</li>
+              <li>Comparing model outputs and loss matrices to identify stable <strong>graph representations</strong> for downstream spatial gene-expression analysis.</li>
+            </ul>
           </div>
-
-          <div class="proj-card" data-detail="cvd" onclick="window.open('Uni/BUSI_Mia2.pdf','_blank')">
-            <div class="proj-thumb" style="background-image:url('folderpic/thumbs/BUSI.jpg')"><span class="proj-date-badge">Mar 2026 – Present</span></div>
-            <div class="proj-body">
-              <div class="proj-title">Multi-State CVD Progression Modeling<span class="r-tag r-tag-amber r-award-badge">BUSI 2026 · Honorable Mention</span></div>
-              <div class="proj-sub">Honors Thesis · UNC Chapel Hill — Dept. of Biostatistics</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-date">Mar 2026 — Present</div>
-              <div class="proj-scrim-title">Multi-State CVD Progression Modeling</div>
-              <p class="proj-scrim-desc">Building models that track how heart disease progresses over time — from diagnosis to stroke, heart failure, or other outcomes — using real patient health records.</p>
-            </div>
-          </div>
-
-          <div class="proj-card" data-detail="enet" onclick="window.open('Uni/eNet.pdf','_blank')">
-            <div class="proj-thumb" style="background-image:url('folderpic/thumbs/eNet.jpg')"><span class="proj-date-badge">Jun 2024 – Present</span></div>
-            <div class="proj-body">
-              <div class="proj-title">eNet Enhancer Network</div>
-              <div class="proj-sub">Research Intern · Xiamen University — Huang Lab</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-date">Jun 2024 — Present</div>
-              <div class="proj-scrim-title">eNet Enhancer Network</div>
-              <p class="proj-scrim-desc">Combined two types of single-cell data to map which DNA switches (enhancers) control which genes in leukemia, and pinpointed the genes most likely driving the disease.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="Uni/eNet.pdf" target="_blank" title="Report" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M7 3.3c3.6-.4 7-.3 10.3.2.4 4.8.3 9.6-.2 14.7-3.6.5-7.1.4-10.6-.1-.3-4.9-.2-9.8.5-14.8z"/><path d="M9.3 9c2 .2 3.8.2 5.7 0"/><path d="M9.1 12.4c2.3.3 4.4.3 6.6 0"/><path d="M9 15.6c1.6.2 3 .2 4.6 0"/></svg><span class="r-lnk-label">Report</span></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="proj-card" data-detail="agent" onclick="od('agent')">
-            <div class="proj-thumb" style="background-image:url('folderpic/thumbs/Agent-Society.jpg')"><span class="proj-date-badge">May – Aug 2025</span></div>
-            <div class="proj-body">
-              <div class="proj-title">Agent-Based Economic Simulation</div>
-              <div class="proj-sub">Financial AI Intern · Tsinghua University</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-date">May — Aug 2025</div>
-              <div class="proj-scrim-title">Agent-Based Economic Simulation</div>
-              <p class="proj-scrim-desc">Simulated a simplified economy where AI agents make spending decisions like real people — copying neighbors, reacting to trends — to see how that changes wealth inequality and market swings.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="Uni/ABM.pdf" target="_blank" title="PDF" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M7 3.3c3.6-.4 7-.3 10.3.2.4 4.8.3 9.6-.2 14.7-3.6.5-7.1.4-10.6-.1-.3-4.9-.2-9.8.5-14.8z"/><path d="M9.3 9c2 .2 3.8.2 5.7 0"/><path d="M9.1 12.4c2.3.3 4.4.3 6.6 0"/><path d="M9 15.6c1.6.2 3 .2 4.6 0"/></svg><span class="r-lnk-label">PDF</span></a>
-                <a class="r-lnk" href="https://github.com/miazhouruoya/agent-society-workplace" target="_blank" title="Code" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M8.6 6.6c-2.1 1.7-3.5 3.2-4.7 5.3 1.3 2 2.7 3.6 4.8 5.4"/><path d="M15.5 6.5c2 1.8 3.5 3.3 4.7 5.4-1.3 2-2.7 3.5-4.8 5.3"/><path d="M13.7 5.1c-1 4.5-2 9.1-3.2 13.7"/></svg><span class="r-lnk-label">Code</span></a>
-              </div>
-            </div>
-          </div>
-
         </div>
-      </div>
-    </div>
 
-    <!-- ── COMPETITIONS ── -->
-    <div class="r-card" id="sec-hack">
-      <div class="r-card-bar">
-        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
-        <span class="r-card-title">competitions &amp; hackathons</span>
-      </div>
-      <div class="r-card-body">
-        <div class="proj-grid">
-
-          <div class="proj-card" data-detail="datafest" onclick="od('datafest')">
-            <div class="proj-thumb" style="background-image:url('folderpic/thumbs/ASA.jpg')"><span class="proj-date-badge">Mar 2026</span></div>
-            <div class="proj-body">
-              <div class="proj-title">Duke ASA DataFest 2026<span class="r-tag r-tag-amber r-award-badge">Best Statistical Analysis</span></div>
-              <div class="proj-sub">Duke University · American Statistical Association · 5-person team</div>
+        <div class="r-entry" data-detail="cvd" onclick="od('cvd')">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Biostatistics Undergraduate Summer Intern &amp; Honors Thesis<span class="r-tag r-tag-amber r-award-badge">BUSI 2026 · Honorable Mention</span></div>
+              <div class="r-org-line">UNC Chapel Hill — Department of Biostatistics &nbsp;·&nbsp; <em>PI: Dr. Ming Ding</em></div>
             </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-date">Mar 2026</div>
-              <div class="proj-scrim-title">Duke ASA DataFest 2026</div>
-              <p class="proj-scrim-desc">In 48 hours, analyzed 10,000+ patient records to show how things like poverty and transportation access predict ER visits, then mapped out where a mobile clinic could help most.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="Uni/Carolina_Correlation_DukeASA26.pdf" target="_blank" title="Slides" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M7 3.3c3.6-.4 7-.3 10.3.2.4 4.8.3 9.6-.2 14.7-3.6.5-7.1.4-10.6-.1-.3-4.9-.2-9.8.5-14.8z"/><path d="M9.3 9c2 .2 3.8.2 5.7 0"/><path d="M9.1 12.4c2.3.3 4.4.3 6.6 0"/><path d="M9 15.6c1.6.2 3 .2 4.6 0"/></svg><span class="r-lnk-label">Slides</span></a>
-                <a class="r-lnk" href="https://github.com/miazhouruoya/dukeasafest26" target="_blank" title="Code" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M8.6 6.6c-2.1 1.7-3.5 3.2-4.7 5.3 1.3 2 2.7 3.6 4.8 5.4"/><path d="M15.5 6.5c2 1.8 3.5 3.3 4.7 5.4-1.3 2-2.7 3.5-4.8 5.3"/><path d="M13.7 5.1c-1 4.5-2 9.1-3.2 13.7"/></svg><span class="r-lnk-label">Code</span></a>
-                <a class="r-lnk" href="https://miazhouruoya.github.io/kansasmobile/" target="_blank" title="Map" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M6.2 8.3c-.5 3.4-.6 6.3-.2 9.5 3.4.5 6.3.4 9.5-.1"/><path d="M9.6 14.3c3.1-3 5.7-5.6 8.9-8.3"/><path d="M13.7 5.5c1.8-.2 3.2-.2 4.9 0 .2 1.7.2 3.2 0 5"/></svg><span class="r-lnk-label">Map</span></a>
-              </div>
-            </div>
+            <div class="r-date">Mar 2026 — Present</div>
           </div>
-
-          <div class="proj-card" data-detail="wageguard" onclick="window.open('https://devpost.com/software/jornadajusta','_blank')">
-            <div class="proj-thumb" style="background-image:url('folderpic/wageguard.png')"><span class="proj-date-badge">Mar 2026</span></div>
-            <div class="proj-body">
-              <div class="proj-title">WageGuard — SolHacks 2026 (MLH)<span class="r-tag r-tag-amber r-award-badge">1st Place Culture Track</span></div>
-              <div class="proj-sub">Product Manager + Full Stack Developer · 2-person team</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-date">Mar 2026</div>
-              <div class="proj-scrim-title">WageGuard</div>
-              <p class="proj-scrim-desc">Built a voice-based app that helps Latino workers check if they're being underpaid and walks them through what to do about it, in English or Spanish.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="https://devpost.com/software/jornadajusta" target="_blank" title="Devpost" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M6.2 8.3c-.5 3.4-.6 6.3-.2 9.5 3.4.5 6.3.4 9.5-.1"/><path d="M9.6 14.3c3.1-3 5.7-5.6 8.9-8.3"/><path d="M13.7 5.5c1.8-.2 3.2-.2 4.9 0 .2 1.7.2 3.2 0 5"/></svg><span class="r-lnk-label">Devpost</span></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="proj-card" data-detail="datamini3" onclick="od('datamini3')">
-            <div class="proj-thumb" style="background-image:url('folderpic/thumbs/DataMini.jpg')"><span class="proj-date-badge">Apr 2026</span></div>
-            <div class="proj-body">
-              <div class="proj-title">Duke Data Mini #3<span class="r-tag r-tag-amber r-award-badge">Best Statistical Analysis</span></div>
-              <div class="proj-sub">Duke University · Railroad fatality modeling datathon</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-date">Apr 2026</div>
-              <div class="proj-scrim-title">Duke Data Mini #3</div>
-              <p class="proj-scrim-desc">Studied U.S. railroad accident data to find out who's most at risk and why — trespassing and drug use turned out to be the biggest predictors of fatal outcomes.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="Uni/Duke%20Mini%233.pdf" target="_blank" title="Slides" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M7 3.3c3.6-.4 7-.3 10.3.2.4 4.8.3 9.6-.2 14.7-3.6.5-7.1.4-10.6-.1-.3-4.9-.2-9.8.5-14.8z"/><path d="M9.3 9c2 .2 3.8.2 5.7 0"/><path d="M9.1 12.4c2.3.3 4.4.3 6.6 0"/><path d="M9 15.6c1.6.2 3 .2 4.6 0"/></svg><span class="r-lnk-label">Slides</span></a>
-              </div>
-            </div>
-          </div>
-
+          <ul class="r-bullets">
+            <li>Developing multi-state cardiovascular disease progression models using longitudinal cohort data to predict transitions between CHD, stroke, heart failure, and mortality outcomes through <strong>survival analysis</strong> and <strong>cause-specific Cox modeling</strong>.</li>
+            <li>Implementing time-to-event and competing-risk pipelines using <strong>pooled logistic regression</strong>, <strong>Kaplan–Meier estimation</strong>, and <strong>multi-state survival frameworks</strong> for precision CVD risk prediction.</li>
+          </ul>
         </div>
+
+        <div class="r-entry" data-detail="enet" onclick="window.open('Uni/eNet.pdf','_blank')">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Research Intern</div>
+              <div class="r-org-line">Xiamen University — Huang Lab &nbsp;·&nbsp; <em>PI: Prof. Jialiang Huang</em></div>
+            </div>
+            <div class="r-date">Jun 2024 — Present</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Constructed enhancer network from <strong>single-cell multi-omics</strong> (<strong>scATAC + scRNA</strong>, 18k+ cells) using <strong>eNet</strong> algorithms, identifying rare modular topologies (8.39%) strongly predictive of MPA Leukemia driver genes.</li>
+            <li>Modelled co-accessibility and spatial constraints to quantify regulatory signal propagation, achieving high-confidence disease gene prioritisation (WT1, PADI3) with p &lt; 1e−5.</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/eNet.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Report</a>
+          </div>
+        </div>
+
+        <div class="r-entry" data-detail="agent" onclick="od('agent')">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Financial AI Intern</div>
+              <div class="r-org-line">Tsinghua University &nbsp;·&nbsp; <em>PI: Prof. Yong Li</em></div>
+            </div>
+            <div class="r-date">May — Aug 2025</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Implemented a behavioural <strong>agent-based RCK model</strong> using <strong>Cobb-Douglas production</strong> with <strong>Poisson-updated</strong> social imitation of savings and stochastic exploration noise.</li>
+            <li>Analysed networked dynamics and parameter sensitivity, identifying critical interaction threshold, bimodal wealth distribution, and endogenous oscillatory regime.</li>
+            <li>Integrated <strong>LLM-driven</strong> decision making into <strong>Agent Society</strong> to reproduce polarisation and echo-chamber dynamics.</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/ABM.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>PDF</a>
+            <a class="r-lnk" href="https://github.com/miazhouruoya/agent-society-workplace" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -2847,124 +2384,133 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
         <span class="r-card-title">projects</span>
       </div>
       <div class="r-card-body">
-        <div class="proj-grid">
 
-          <div class="proj-card" data-detail="app741" onclick="od('app741')">
-            <div class="proj-thumb" style="background-image:url('folderpic/thumbs/Doople.jpg')"><span class="proj-date-badge">Jan – May 2026</span></div>
-            <div class="proj-body">
-              <div class="proj-title">Clinical Doppelgänger — EHR Clinical Decision Support</div>
-              <div class="proj-sub">Full Stack Developer · CHIP 741</div>
+        <div class="r-entry r-two-img" data-detail="app741" onclick="od('app741')">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Clinical Doppelgänger — EHR Clinical Decision Support</div>
+              <div class="r-org-line">Full Stack Developer · CHIP 741</div>
             </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-date">Jan — May 2026</div>
-              <div class="proj-scrim-title">Clinical Doppelgänger</div>
-              <p class="proj-scrim-desc">Built a tool that helps doctors find patients with similar histories to the one in front of them, so they can see what treatments worked before — with clear visual explanations, not just a black-box score.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="https://miazhouruoya.github.io/doppelganger/" target="_blank" title="Live Demo" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M6.2 8.3c-.5 3.4-.6 6.3-.2 9.5 3.4.5 6.3.4 9.5-.1"/><path d="M9.6 14.3c3.1-3 5.7-5.6 8.9-8.3"/><path d="M13.7 5.5c1.8-.2 3.2-.2 4.9 0 .2 1.7.2 3.2 0 5"/></svg><span class="r-lnk-label">Live Demo</span></a>
-                <a class="r-lnk" href="https://github.com/miazhouruoya/doppelganger" target="_blank" title="Code" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M8.6 6.6c-2.1 1.7-3.5 3.2-4.7 5.3 1.3 2 2.7 3.6 4.8 5.4"/><path d="M15.5 6.5c2 1.8 3.5 3.3 4.7 5.4-1.3 2-2.7 3.5-4.8 5.3"/><path d="M13.7 5.1c-1 4.5-2 9.1-3.2 13.7"/></svg><span class="r-lnk-label">Code</span></a>
-                <a class="r-lnk" href="Uni/Chip741.pdf" target="_blank" title="Slides" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M7 3.3c3.6-.4 7-.3 10.3.2.4 4.8.3 9.6-.2 14.7-3.6.5-7.1.4-10.6-.1-.3-4.9-.2-9.8.5-14.8z"/><path d="M9.3 9c2 .2 3.8.2 5.7 0"/><path d="M9.1 12.4c2.3.3 4.4.3 6.6 0"/><path d="M9 15.6c1.6.2 3 .2 4.6 0"/></svg><span class="r-lnk-label">Slides</span></a>
-              </div>
+            <div class="r-date">Jan — May 2026</div>
+          </div>
+          <div class="r-img-col">
+            <div class="r-img-box r-img-doople">Clinical Doppelgänger</div>
+          </div>
+          <div class="r-content-col">
+            <ul class="r-bullets">
+              <li>Built full-stack EHR web app with <strong>SMART on FHIR</strong> + <strong>OAuth 2.0</strong> authentication, querying <strong>FHIR R4</strong> resources via parallel <strong>jQuery API</strong> calls, deployed as self-contained offline build on GitHub Pages.</li>
+              <li>Engineered client-side statistical pipeline (<strong>cosine similarity</strong>, <strong>Propensity Score Matching</strong>, <strong>bootstrap 95% CI</strong>, <strong>Kaplan-Meier</strong>) visualised in 4 interactive Highcharts dashboards.</li>
+              <li>Designed interpretable clinical AI system using case-based reasoning with explainability panels and <strong>Markov state transitions</strong>.</li>
+            </ul>
+            <div class="r-links">
+              <a class="r-lnk" href="https://miazhouruoya.github.io/doppelganger/" target="_blank"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>Clinical Dashboard</a>
+              <a class="r-lnk" href="https://github.com/miazhouruoya/doppelganger" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</a>
+              <a class="r-lnk" href="Uni/Chip741.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
             </div>
           </div>
-
-          <div class="proj-card" data-detail="math" onclick="od('math')">
-            <div class="proj-thumb" style="background-image:url('folderpic/thumbs/tumor.jpg')"><span class="proj-date-badge">Apr 2026</span></div>
-            <div class="proj-body">
-              <div class="proj-title">Tumour–Immune Dynamics: ODE, PDE &amp; Control</div>
-              <div class="proj-sub">UNC Mathematics · Directed Reading Program</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-date">Apr 2026</div>
-              <div class="proj-scrim-title">Tumour–Immune Dynamics: ODE, PDE &amp; Control</div>
-              <p class="proj-scrim-desc">Used math to model how a tumor and the immune system interact over time, showing when the immune system wins, when it stalls, and when treatment could tip the balance.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="Uni/tumour_immune.pdf" target="_blank" title="Report" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M7 3.3c3.6-.4 7-.3 10.3.2.4 4.8.3 9.6-.2 14.7-3.6.5-7.1.4-10.6-.1-.3-4.9-.2-9.8.5-14.8z"/><path d="M9.3 9c2 .2 3.8.2 5.7 0"/><path d="M9.1 12.4c2.3.3 4.4.3 6.6 0"/><path d="M9 15.6c1.6.2 3 .2 4.6 0"/></svg><span class="r-lnk-label">Report</span></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="proj-card" data-detail="neuro" onclick="od('neuro')">
-            <div class="proj-thumb" style="background-image:url('folderpic/thumbs/Neuromatch.jpg')"><span class="proj-date-badge">Jun – Aug 2025</span></div>
-            <div class="proj-body">
-              <div class="proj-title">Neuromatch Neuron Simulation</div>
-              <div class="proj-sub">NeuroMatch Computational Neuroscience Program</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-date">Jun — Aug 2025</div>
-              <div class="proj-scrim-title">Neuromatch Neuron Simulation</div>
-              <p class="proj-scrim-desc">Studied recordings from mouse brains to understand how different brain regions talk to each other while the mouse makes decisions.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="Uni/slides.pdf" target="_blank" title="Slides" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M7 3.3c3.6-.4 7-.3 10.3.2.4 4.8.3 9.6-.2 14.7-3.6.5-7.1.4-10.6-.1-.3-4.9-.2-9.8.5-14.8z"/><path d="M9.3 9c2 .2 3.8.2 5.7 0"/><path d="M9.1 12.4c2.3.3 4.4.3 6.6 0"/><path d="M9 15.6c1.6.2 3 .2 4.6 0"/></svg><span class="r-lnk-label">Slides</span></a>
-              </div>
-            </div>
-          </div>
-
         </div>
+
+        <div class="r-entry r-two-img" data-detail="math" onclick="od('math')">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Tumour–Immune Dynamics: ODE, PDE &amp; Control</div>
+              <div class="r-org-line">UNC Mathematics · Directed Reading Program · Nonlinear Dynamics</div>
+            </div>
+            <div class="r-date">Apr 2026</div>
+          </div>
+          <div class="r-img-col">
+            <div class="r-img-box r-img-math"></div>
+          </div>
+          <div class="r-content-col">
+            <div class="compact-tech"><strong>Model/Tech:</strong> Kuznetsov-type ODEs, reaction-diffusion PDEs, chemotaxis, stochastic Langevin formulation, delay DEs, optimal control, bifurcation analysis.</div>
+            <div class="r-links">
+              <a class="r-lnk" href="Uni/tumour_immune.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Report</a>
+              <a class="r-lnk" href="#" onclick="event.preventDefault();event.stopPropagation()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Link Coming Soon</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="r-entry" data-detail="neuro" onclick="od('neuro')">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Neuromatch Neuron Simulation</div>
+              <div class="r-org-line">NeuroMatch Computational Neuroscience Program</div>
+            </div>
+            <div class="r-date">Jun — Aug 2025</div>
+          </div>
+          <div class="compact-tech"><strong>Model/Tech:</strong> IBL neural recordings, cross-correlation, PSTH, latency analysis, PCA, Random Forest, XGBoost, SVM, pre-stimulus population decoding.</div>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/slides.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
+          </div>
+        </div>
+
+
       </div>
     </div>
 
-    <!-- ── UI/UX PROJECTS ── -->
-    <div class="r-card" id="sec-uiux">
-      <div class="r-card-bar uiux-tab" id="uiuxBar" onclick="toggleUiux()" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleUiux();}">
+    <!-- ── COMPETITIONS ── -->
+    <div class="r-card" id="sec-hack">
+      <div class="r-card-bar">
         <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
-        <span class="r-card-title">mini digital projects</span>
-        <svg class="uiux-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+        <span class="r-card-title">competitions &amp; hackathons</span>
       </div>
-      <div class="r-card-body uiux-panel" id="uiuxPanel">
-        <div class="proj-grid">
+      <div class="r-card-body">
 
-          <div class="proj-card" data-detail="sakurasky" onclick="window.open('Design/vanta-birds-refined.html','_blank')">
-            <div class="proj-thumb proj-thumb-logo">
-              <span class="proj-thumb-tool">vanta.js</span>
+        <div class="r-entry" data-detail="datafest" onclick="od('datafest')">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Duke ASA DataFest 2026<span class="r-tag r-tag-amber r-award-badge">Best Statistical Analysis</span></div>
+              <div class="r-org-line">Duke University · American Statistical Association · 5-person team</div>
             </div>
-            <div class="proj-body">
-              <div class="proj-title">Sakura Sky</div>
-              <div class="proj-sub">UI/UX Project</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-title">Sakura Sky</div>
-              <p class="proj-scrim-desc">Built with Vanta.js.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="Design/vanta-birds-refined.html" target="_blank" title="Open" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M6.2 8.3c-.5 3.4-.6 6.3-.2 9.5 3.4.5 6.3.4 9.5-.1"/><path d="M9.6 14.3c3.1-3 5.7-5.6 8.9-8.3"/><path d="M13.7 5.5c1.8-.2 3.2-.2 4.9 0 .2 1.7.2 3.2 0 5"/></svg><span class="r-lnk-label">Open</span></a>
-              </div>
-            </div>
+            <div class="r-date">Mar 2026</div>
           </div>
-
-          <div class="proj-card" data-detail="tree" onclick="window.open('Design/tree.html','_blank')">
-            <div class="proj-thumb proj-thumb-logo">
-              <span class="proj-thumb-tool">vanta.js</span>
-            </div>
-            <div class="proj-body">
-              <div class="proj-title">Tree</div>
-              <div class="proj-sub">UI/UX Project</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-title">Tree</div>
-              <p class="proj-scrim-desc">Built with Vanta.js.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="Design/tree.html" target="_blank" title="Open" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M6.2 8.3c-.5 3.4-.6 6.3-.2 9.5 3.4.5 6.3.4 9.5-.1"/><path d="M9.6 14.3c3.1-3 5.7-5.6 8.9-8.3"/><path d="M13.7 5.5c1.8-.2 3.2-.2 4.9 0 .2 1.7.2 3.2 0 5"/></svg><span class="r-lnk-label">Open</span></a>
-              </div>
-            </div>
+          <ul class="r-bullets">
+            <li>Led 5-person team to analyse 10k+ diabetic patient records in 48 hours. Engineered longitudinal <strong>EHR</strong> features — inter-visit gap sequences, cv_gap irregularity metric, SDOH risk stratification across 8 social domains.</li>
+            <li>Surfaced structural health inequality via <strong>K-Means (k=3)</strong> — High-SDOH patients show 2.5× higher ED rates. Counterfactual simulation quantified a 16.6pp risk reduction if structural barriers removed.</li>
+            <li>Built geospatial mobile clinic routing covering 32,686 patients across 15 stops with <strong>Markov Chain</strong> comorbidity network and <strong>MLP</strong> risk-scoring dashboard.</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/Carolina_Correlation_DukeASA26.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
+            <a class="r-lnk" href="https://github.com/miazhouruoya/dukeasafest26" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>Code</a>
+            <a class="r-lnk" href="https://miazhouruoya.github.io/kansasmobile/" target="_blank"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>Map</a>
           </div>
-
-          <div class="proj-card" data-detail="streamofconsciousness" onclick="window.open('stream.html','_blank')">
-            <div class="proj-thumb proj-thumb-logo">
-              <span class="proj-thumb-tool">p5.js · sketch.js</span>
-            </div>
-            <div class="proj-body">
-              <div class="proj-title">Stream of Consciousness</div>
-              <div class="proj-sub">UI/UX Project</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-title">Stream of Consciousness</div>
-              <p class="proj-scrim-desc">Built with p5.js and sketch.js.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="stream.html" target="_blank" title="Open" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M6.2 8.3c-.5 3.4-.6 6.3-.2 9.5 3.4.5 6.3.4 9.5-.1"/><path d="M9.6 14.3c3.1-3 5.7-5.6 8.9-8.3"/><path d="M13.7 5.5c1.8-.2 3.2-.2 4.9 0 .2 1.7.2 3.2 0 5"/></svg><span class="r-lnk-label">Open</span></a>
-              </div>
-            </div>
-          </div>
-
         </div>
+
+        <div class="r-entry" data-detail="wageguard" onclick="od('wageguard')">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">WageGuard — SolHacks 2026 (MLH)<span class="r-tag r-tag-amber r-award-badge">1st Place Culture Track</span></div>
+              <div class="r-org-line">Product Manager + Full Stack Developer · 2-person team · 24 hours</div>
+            </div>
+            <div class="r-date">Mar 2026</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Built WageGuard, a bilingual AI wage-protection tool for Latino workers — voice-based case intake with automated wage violation detection.</li>
+            <li>Developed <strong>React/Vite</strong> frontend and end-to-end <strong>agent workflow</strong> powered by <strong>Gemini 2.5 Flash</strong> + <strong>ElevenLabs TTS</strong>; won 1st Place Culture Track out of 40+ teams.</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="https://devpost.com/software/jornadajusta" target="_blank"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>Devpost</a>
+          </div>
+        </div>
+
+        <div class="r-entry" data-detail="datamini3" onclick="od('datamini3')">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Duke Data Mini #3<span class="r-tag r-tag-amber r-award-badge">Best Statistical Analysis</span></div>
+              <div class="r-org-line">Duke University · Railroad fatality modeling datathon</div>
+            </div>
+            <div class="r-date">Apr 2026</div>
+          </div>
+          <ul class="r-bullets">
+            <li>Analyzed U.S. railroad incident data to explain who is dying on America’s railroads; found trespassers account for 86.2% of fatalities and have a 48.4% non-survival probability once injured.</li>
+            <li>Built fatal-vs-nonfatal models using person type, state, age, time of day, and substance-test results; <strong>logistic regression</strong> reached 92.4% classification accuracy / AUC 0.924.</li>
+            <li>Explained key risk drivers and prevention targets: trespasser status had 33.85× fatality odds, positive drug tests had 9.53× odds, and fatal trespassers clustered into four archetypes led by track-walkers struck by trains (59%).</li>
+          </ul>
+          <div class="r-links">
+            <a class="r-lnk" href="Uni/Duke%20Mini%233.pdf" target="_blank"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Slides</a>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -2975,11 +2521,11 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
         <span class="r-card-title">leadership experience</span>
       </div>
       <div class="r-card-body">
-        <div class="r-entry">
+        <div class="r-entry" data-detail="wids" onclick="od('wids')">
           <div class="r-entry-head">
             <div>
               <div class="r-role">Founder &amp; President — UNC Women in Data Science</div>
-              <div class="r-org-line">Women in Data Science Ambassador &nbsp;·&nbsp; <em>Worldwide WiDS Community</em></div>
+              <div class="r-org-line">Women in Data Science Ambassador · Worldwide WiDS Community</div>
             </div>
             <div class="r-date">2026 — Present</div>
           </div>
@@ -2989,7 +2535,17 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             <li>Planning UNC-hosted workshops, hackathon programming, and speaker series connecting statistics, AI, health, and social impact.</li>
           </ul>
         </div>
-        <div class="r-entry">
+      </div>
+    </div>
+
+    <!-- ── TEACHING ── -->
+    <div class="r-card" id="sec-teach">
+      <div class="r-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="r-card-title">teaching experience</span>
+      </div>
+      <div class="r-card-body">
+        <div class="r-entry" style="padding-top:0;border-top:none">
           <div class="r-entry-head">
             <div>
               <div class="r-role">Undergraduate Learning Assistant</div>
@@ -3193,19 +2749,9 @@ function navTo(el,id){
   el.classList.add('on');
   const sec=document.getElementById(id);
   if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'});
-  if(id==='sec-uiux')openUiux();
 }
-function openUiux(){
-  const bar=document.getElementById('uiuxBar');
-  const panel=document.getElementById('uiuxPanel');
-  if(!bar||!panel)return;
-  bar.classList.add('open');
-  panel.classList.add('open');
-  bar.setAttribute('aria-expanded','true');
-}
-if(window.location.hash==='#sec-uiux')window.addEventListener('DOMContentLoaded',openUiux);
 /* highlight active section on scroll */
-const sections=['sec-header','sec-intern','sec-pub','sec-res','sec-hack','sec-proj','sec-uiux','sec-lead'];
+const sections=['sec-header','sec-intern','sec-pub','sec-res','sec-proj','sec-hack','sec-lead','sec-teach'];
 let navRAF=false,scrolling=false,scrollTimer=0;
 function updateActiveNav(){
   navRAF=false;
@@ -3218,33 +2764,21 @@ function updateActiveNav(){
     i.classList.toggle('on',i.dataset.sec===cur2);
   });
 }
-function updateScrollbar(){
-  const h=document.documentElement;
-  const max=h.scrollHeight-h.clientHeight;
-  const pct=max>0?(h.scrollTop/max)*100:0;
-  const fill=document.getElementById('scrollbarFill');
-  if(fill)fill.style.width=pct+'%';
-}
 window.addEventListener('scroll',()=>{
   scrolling=true;
   clearTimeout(scrollTimer);
   scrollTimer=setTimeout(()=>{scrolling=false},140);
-  updateScrollbar();
   if(navRAF)return;
   navRAF=true;
   requestAnimationFrame(updateActiveNav);
 },{passive:true});
-updateScrollbar();
 
 /* ── Scroll reveal + tap feedback ── */
 const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function setupMotion(){
   if(reduceMotion)return;
-  const revealTargets=[...document.querySelectorAll('.r-entry[data-detail],.r-subproject[data-detail],.proj-card')];
-  revealTargets.forEach((el,i)=>{
-    el.classList.add('reveal-card');
-    el.style.transitionDelay=(i%3*70)+'ms';
-  });
+  const revealTargets=[...document.querySelectorAll('.r-entry[data-detail],.r-subproject[data-detail]')];
+  revealTargets.forEach(el=>el.classList.add('reveal-card'));
   const revealObserver=new IntersectionObserver(entries=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){
@@ -3300,17 +2834,6 @@ document.addEventListener('click',e=>{
   f.style.cssText=`left:${e.clientX+(Math.random()*28-14)}px;top:${e.clientY+(Math.random()*14-7)}px;color:${SC[~~(Math.random()*SC.length)]};font-size:.5rem`;
   document.body.appendChild(f);setTimeout(()=>f.remove(),900);
 });
-
-/* mini digital projects — collapsible tab */
-function toggleUiux(){
-  const bar=document.getElementById('uiuxBar');
-  const panel=document.getElementById('uiuxPanel');
-  if(!bar||!panel)return;
-  const open=bar.classList.toggle('open');
-  panel.classList.toggle('open',open);
-  bar.setAttribute('aria-expanded',open?'true':'false');
-}
-
 </script>
 </body>
 </html>

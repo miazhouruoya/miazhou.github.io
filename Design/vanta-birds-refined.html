@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vanta Birds · Aesthetic Config</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #f5f4ef; /* prevents a white flash before Vanta paints */
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+  }
+
+  #vanta-bg {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    cursor: default;
+  }
+
+  /* Soft vignette so the corners recede and the birds read as the
+     subject rather than the whole canvas competing for attention */
+  #vignette {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(245, 244, 239, 0) 45%,
+      rgba(245, 244, 239, 0.55) 100%
+    );
+  }
+
+  /* Hero copy, centered — mirrors the calm, editorial layout of the
+     original vantajs.com showcase without copying its dark palette */
+  .hero {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    pointer-events: none;
+    padding: 0 24px;
+    opacity: 0;
+    animation: fadeIn 1.6s ease-out 0.3s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: clamp(2.75rem, 7vw, 5.5rem);
+    color: #33302a;
+    letter-spacing: 0.02em;
+    line-height: 1.05;
+  }
+
+  .hero p {
+    margin-top: 18px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+    color: #6b6559;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .hero .divider {
+    width: 44px;
+    height: 1px;
+    background: #c9a4b0;
+    margin: 22px 0;
+  }
+
+  .credit {
+    position: fixed;
+    bottom: 20px;
+    right: 24px;
+    z-index: 2;
+    font-size: 0.75rem;
+    color: #8a8578;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    animation: fadeIn 1.6s ease-out 0.9s forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<!-- Three.js + Vanta Birds -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
+</head>
+<body>
+
+  <div id="vanta-bg"></div>
+  <div id="vignette"></div>
+
+  <div class="hero">
+    <h1>迁徙的意境</h1>
+    <div class="divider"></div>
+    <p>Sakura &amp; Sky · A Quiet Migration</p>
+  </div>
+
+  <div class="credit">Vanta.js · Birds</div>
+
+  <script>
+    var effect = VANTA.BIRDS({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+
+      // 🎨 Palette — soft cream base, sakura pink → sky blue
+      backgroundColor: 0xf5f4ef,
+      color1: 0xf472b6,
+      color2: 0x38bdf8,
+
+      // Gradient blending across each bird's own body, the way the
+      // original demo's "varianceGradient" gives depth instead of a
+      // flat, single-tone flock
+      colorMode: "lerpGradient",
+
+      // Flock character — fuller and calmer than the original 3-bird
+      // config, but still well short of the busy 1024-bird default
+      birdSize: 1.30,
+      wingSpan: 26.00,
+      speedLimit: 3.50,
+      separation: 55.00,
+      alignment: 35.00,
+      cohesion: 28.00,
+      quantity: 4.00
+    });
+
+    // Clean up the WebGL context if this page is ever swapped out
+    window.addEventListener("beforeunload", function () {
+      if (effect && effect.destroy) effect.destroy();
+    });
+  </script>
+</body>
+</html>

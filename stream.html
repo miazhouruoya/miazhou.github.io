@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mia Zhou</title>
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+<style>
+/* ── TOKENS ── */
+:root{
+  --ct:#f0edea;--cm:#d8d4cf;--cb:#c8c4be;--cbr:#b0aca6;
+  --wbg:#f5f3f0;--wc:#ffffff;
+  --ink:#1a1714;--ink2:#5a5650;--ink3:#9a9590;--ink4:#c8c4be;
+  --c1:#b8e4f0;--c2:#e4d8f8;--c3:#b8f0d8;--c4:#f8e0b8;--c5:#f8c8d8;--c6:#d8f0b8;--c7:#f8d8f0;
+  --wall1:#f0e4f8;--wall2:#e4eef8;--wall3:#f8eee4;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wall3) 100%);cursor:none}
+#cur{position:fixed;width:16px;height:16px;pointer-events:none;z-index:99999;top:0;left:0}
+#cur svg{display:block}
+@media(hover:none){#cur{display:none}body{cursor:auto}}
+.sp{position:fixed;pointer-events:none;z-index:99997;animation:spF .5s ease-out forwards;border-radius:0}
+@keyframes spF{0%{opacity:.9}100%{opacity:0;transform:scale(0)}}
+.fl{position:fixed;pointer-events:none;z-index:99998;animation:flU .95s ease-out forwards;font-weight:700;line-height:1}
+@keyframes flU{0%{opacity:1;transform:translate(-50%,-50%) scale(.7)}100%{opacity:0;transform:translate(-50%,calc(-50% - 46px)) scale(1)}}
+.star{position:absolute;pointer-events:none;animation:twk 3s ease-in-out infinite;color:rgba(120,80,180,.2);font-size:.65rem;z-index:3}
+@keyframes twk{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:.7;transform:scale(1.3)}}
+
+
+/* ── DESKTOP WALLPAPER ── */
+/* dot pattern on top of the gradient desktop */
+#desk::before{z-index:2}
+
+/* ── MENUBAR ── */
+#mb{position:fixed;top:0;left:0;right:0;height:24px;z-index:9000;background:linear-gradient(180deg,var(--ct) 0%,var(--cm) 100%);border-bottom:1px solid var(--cbr);display:flex;align-items:center;justify-content:space-between;padding:0 10px}
+.mb-l{display:flex;align-items:center;gap:0}
+.mb-apple{width:20px;height:20px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.mb-apple:hover{background:rgba(0,0,0,.1)}
+.mb-apple svg{width:12px;height:12px}
+.mb-i{font-size:.68rem;font-weight:700;color:var(--ink);padding:.1rem .4rem;cursor:default}
+.mb-i:hover{background:rgba(0,0,0,.09)}
+.mb-r{font-size:.62rem;font-weight:700;color:var(--ink);font-family:'Courier New',monospace}
+
+/* ── DESKTOP ── */
+#desk{position:fixed;top:24px;left:0;right:0;bottom:0;z-index:2;background:#f0edea;overflow:hidden}
+#desk::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background:linear-gradient(90deg,rgba(255,255,255,.22),rgba(255,255,255,.06) 42%,rgba(255,255,255,.18))}
+#desk canvas{position:absolute;top:0;left:0;z-index:0;display:block;pointer-events:auto}
+
+
+/* ── FINDER WINDOWS ── */
+.fw{position:absolute;display:flex;flex-direction:column;background:var(--wbg);border:2px solid var(--cbr);box-shadow:4px 4px 0 rgba(0,0,0,.2),7px 7px 0 rgba(0,0,0,.07);z-index:100;overflow:hidden;min-width:280px;max-height:calc(100vh - 120px)}
+.fw.focused{z-index:200;box-shadow:5px 5px 0 rgba(0,0,0,.28),9px 9px 0 rgba(0,0,0,.09)}
+.fw.gone{display:none}
+@keyframes wO{from{transform:scale(.84);opacity:0}to{transform:scale(1);opacity:1}}
+.fw.pop{animation:wO .16s ease-out forwards}
+
+/* titlebar */
+.wtb{height:27px;background:linear-gradient(180deg,var(--ct) 0%,var(--cm) 100%);border-bottom:1px solid var(--cbr);display:flex;align-items:center;padding:0 8px;gap:6px;cursor:grab;user-select:none;flex-shrink:0;position:relative}
+.wtb:active{cursor:grabbing}
+.fw:not(.focused) .wtb{background:linear-gradient(180deg,#e0ddd8 0%,#ccc8c2 100%)}
+.tls{display:flex;gap:5px;align-items:center;flex-shrink:0}
+.tl{width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.18);position:relative;flex-shrink:0}
+.tl::after{content:'';position:absolute;inset:0;border-radius:50%;opacity:0;transition:opacity .1s;background-size:7px 7px;background-position:center;background-repeat:no-repeat}
+.tls:hover .tl::after{opacity:1}
+.tl-r{background:#ff5f56}.tl-r::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Cpath d='M1 1l5 5M6 1L1 6' stroke='%23820005' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.tl-y{background:#febc2e}.tl-y::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Cpath d='M1.5 3.5h4' stroke='%23985700' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.tl-g{background:#28c840}.tl-g::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Cpath d='M1.5 3.5h4M3.5 1.5v4' stroke='%23006500' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.fw:not(.focused) .tl{filter:grayscale(1) brightness(.9)}
+.wt-title{position:absolute;left:50%;transform:translateX(-50%);font-size:.64rem;font-weight:700;color:var(--ink2);pointer-events:none;white-space:nowrap}
+
+/* toolbar */
+.wtb2{height:29px;background:var(--cm);border-bottom:1px solid var(--cbr);display:flex;align-items:center;padding:0 6px;gap:2px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.wtb2::-webkit-scrollbar{display:none}
+.wtab{font-size:.55rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:.18rem .52rem;border:1.5px solid var(--cbr);background:transparent;color:var(--ink2);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .1s}
+.wtab:hover{background:rgba(0,0,0,.07);color:var(--ink)}
+.wtab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* window body */
+.wbody{display:flex;flex:1;overflow:hidden;min-height:0}
+
+/* sidebar */
+.wsb{width:130px;flex-shrink:0;background:linear-gradient(180deg,#e6e2de 0%,#d8d4cf 100%);border-right:1px solid var(--cbr);padding:.3rem 0;display:flex;flex-direction:column;overflow-y:auto}
+.wsb-h{font-size:.48rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);padding:.35rem .6rem .12rem;margin-top:.25rem}
+.wsb-h:first-child{margin-top:0}
+.wsb-r{display:flex;align-items:center;gap:.35rem;padding:.23rem .6rem;font-size:.65rem;font-weight:600;color:var(--ink2);cursor:pointer}
+.wsb-r:hover{background:rgba(0,0,0,.06)}
+.wsb-r.on{background:#4c6ef5;color:#fff}
+.wsb-r.on .sdot{background:#fff!important}
+.sdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+/* window scroll area for card-style content */
+.wscroll{flex:1;overflow-y:scroll;padding:.8rem;background:var(--wc);display:flex;flex-direction:column;gap:.7rem;min-height:0;scrollbar-color:var(--ink3) var(--cm);scrollbar-width:thin}
+.fw *::-webkit-scrollbar{width:10px;height:10px}
+.fw *::-webkit-scrollbar-track{background:var(--cm);border-left:1px solid var(--cbr)}
+.fw *::-webkit-scrollbar-thumb{background:var(--ink3);border:2px solid var(--cm)}
+.fw *::-webkit-scrollbar-thumb:hover{background:var(--ink2)}
+
+/* ── CONTENT CARDS (shared by research, projects, hackathon) ── */
+.cc{border-left:3px solid var(--ink4);padding:.75rem .85rem .75rem .95rem;background:var(--wc);transition:background .12s}
+.cc[data-id]:hover{background:#f5f0ff;border-left-color:#a78bfa}
+.cc-head{display:flex;align-items:flex-start;gap:.65rem;margin-bottom:.5rem}
+.cc-ico{width:30px;height:30px;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cc-ico svg{width:15px;height:15px;stroke:var(--ink);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.cc-title-block{flex:1}
+.cc-title{font-size:.82rem;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:.1rem}
+.cc-meta{font-size:.58rem;color:var(--ink2);font-family:'Courier New',monospace;letter-spacing:.03em;font-weight:600}
+.cc-badges{display:flex;gap:.28rem;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;align-items:flex-start}
+.cc-badge-pill{display:inline-block;font-size:.5rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:.14rem .42rem;background:var(--ink);color:#fff;border:1.5px solid var(--ink);box-shadow:1.5px 1.5px 0 rgba(26,23,20,.22)}
+.cc-badge-award{position:relative;background:#fff7cf;color:#6a3b00;border:2px solid #c8683a;box-shadow:2px 2px 0 #1a1714;padding:.34rem .5rem .22rem;min-width:94px;text-align:center;line-height:1.12}
+.cc-badge-award::before{content:'Award';display:block;font-family:'Courier New',monospace;font-size:.42rem;letter-spacing:.12em;color:#c8683a;margin-bottom:.08rem}
+.cc-badge-pub{background:#c8683a}
+.cc-badge-soon{background:var(--ink3)}
+.cc-desc{font-size:.74rem;line-height:1.68;color:var(--ink2);margin-bottom:.6rem}
+.cc-list{list-style:none;display:flex;flex-direction:column;gap:.38rem;margin-bottom:.6rem}
+.cc-list li{font-size:.72rem;line-height:1.62;color:var(--ink2);padding-left:.85rem;position:relative}
+.cc-list li::before{content:'→';position:absolute;left:0;top:.03rem;color:var(--ink3);font-size:.68rem;font-weight:700}
+.cc-links{display:flex;flex-wrap:wrap;gap:.28rem}
+.pdf-embed{margin-top:1rem;border-top:1px solid #eee8df;padding-top:.9rem}
+	.pdf-frame{width:100%;height:66vh;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);background:#f8f5f0}
+  .app-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;padding:1rem}
+  .mini-app{display:flex;flex-direction:column;align-items:center;gap:.45rem;text-align:center;cursor:pointer;border:2px solid transparent;padding:.55rem .35rem;transition:transform .1s,background .1s,border-color .1s}
+  .mini-app:hover{background:#f8f5f0;border-color:var(--ink);transform:translateY(-2px)}
+  .app-icon{width:76px;height:76px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .app-icon svg{width:56px;height:56px}
+  .app-icon img{width:100%;height:100%;object-fit:cover;display:block}
+  .app-name{font-size:.66rem;font-weight:800;color:var(--ink);line-height:1.2}
+  .app-sub{font-size:.5rem;font-family:'Courier New',monospace;color:var(--ink3);line-height:1.3}
+
+/* statusbar */
+.wstat{height:18px;background:var(--cm);border-top:1px solid var(--cbr);display:flex;align-items:center;padding:0 7px;gap:6px;flex-shrink:0}
+.wstat span{font-size:.51rem;font-weight:700;color:var(--ink2);font-family:'Courier New',monospace}
+
+/* ── PIXEL BUTTON ── */
+.pxb{font-size:.58rem;font-weight:700;font-family:Arial,Helvetica,sans-serif;background:#fff;color:var(--ink);border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);padding:.16rem .5rem;cursor:pointer;display:inline-flex;align-items:center;gap:.24rem;transition:transform .07s,box-shadow .07s;text-decoration:none}
+.pxb:hover{background:var(--ink);color:#fff}
+.pxb:active{transform:translate(2px,2px);box-shadow:none}
+.pxb svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+
+/* ── PIXEL AVATAR (center of desktop) ── */
+#avWrap{
+  position:fixed;
+  left:50%;bottom:10px;
+  transform:translateX(-50%);
+  z-index:7000;
+  display:flex;flex-direction:column;align-items:center;
+  cursor:grab;user-select:none;
+  touch-action:none;
+}
+#avWrap.dragging{cursor:grabbing}
+#pixelAvatar{
+  width:140px;height:auto;
+  filter:drop-shadow(3px 6px 0 rgba(0,0,0,.45));
+  transition:transform .15s;
+  position:relative;
+}
+#avWrap:hover #pixelAvatar{transform:scale(1.08) translateY(-5px)}
+#avWrap:active #pixelAvatar{transform:scale(.93)}
+#pixelAvatar img{width:140px;image-rendering:pixelated;display:block}
+/* speech bubble */
+#avBubble{
+  position:absolute;
+  bottom:calc(100% + 4px);
+  left:50%;transform:translateX(-50%) scale(0);
+  transform-origin:bottom center;
+  background:#fff;
+  border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);
+  padding:.42rem .68rem;
+  width:235px;
+  white-space:normal;
+  font-size:.62rem;font-weight:700;color:var(--ink);
+  line-height:1.35;
+  font-family:Arial,Helvetica,sans-serif;
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;
+}
+#avBubble.show{transform:translateX(-50%) scale(1);pointer-events:all}
+/* pixel bubble tail */
+#avBubble::after{
+  content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);
+  border-left:5px solid transparent;border-right:5px solid transparent;
+  border-top:6px solid var(--ink);
+}
+#avBubble::before{
+  content:'';position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);
+  border-left:4px solid transparent;border-right:4px solid transparent;
+  border-top:5px solid #fff;z-index:1;
+}
+#avBubble a{color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.3rem}
+#avBubble a:hover{text-decoration:underline}
+/* ── ABOUT WINDOW ── */
+.aw{padding:.95rem;background:var(--wc);display:flex;flex-direction:column;gap:.6rem;overflow-y:auto;flex:1}
+.aw-top{display:flex;align-items:center;gap:.8rem}
+.aw-photo{width:58px;height:58px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);flex-shrink:0;overflow:hidden;object-fit:cover;display:block}
+.aw-name{font-size:.92rem;font-weight:700;color:var(--ink);line-height:1.1}
+.aw-role{font-size:.61rem;color:var(--ink2);margin-top:.1rem;line-height:1.35}
+.aw-hr{border:none;border-top:1px dashed var(--ink4)}
+.aw-desc{font-size:.71rem;line-height:1.72;color:var(--ink2)}
+.aw-section{font-size:.46rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.28rem}
+.aw-pills{display:flex;flex-wrap:wrap;gap:.25rem}
+.aw-pill{font-size:.5rem;font-weight:700;border:1.5px solid var(--ink);padding:.06rem .32rem;background:#fff;color:var(--ink)}
+.aw-links{display:flex;gap:.28rem;flex-wrap:wrap}
+.aw-btn{font-size:.56rem;font-weight:700;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);background:#fff;color:var(--ink);padding:.14rem .44rem;cursor:pointer;display:inline-flex;align-items:center;gap:.18rem;text-decoration:none;transition:transform .07s,box-shadow .07s}
+.aw-btn:hover{background:var(--ink);color:#fff}
+.aw-btn:active{transform:translate(2px,2px);box-shadow:none}
+.aw-btn svg{width:9px;height:9px;fill:currentColor;stroke:none;flex-shrink:0}
+.vlog-player{width:100%;display:block;background:#111;aspect-ratio:16/9;object-fit:cover}
+
+/* responsive */
+@media(max-width:620px){
+  #desk{bottom:0;right:0}
+  .fw{min-width:260px!important}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GLASS RESKIN — match resume.html's pastel/glass style:
+   frosted blur, rounded corners, soft shadows, Baloo 2 / Quicksand.
+   Kept as one pass at the end so nothing above had to be rewritten.
+   ══════════════════════════════════════════════════════════════ */
+:root{
+  --glass:rgba(255,255,255,.78);
+  --glass-line:rgba(120,128,145,.22);
+  --glass-shadow:0 20px 50px rgba(80,90,110,.16);
+  --pink:#f4a7c5;--mint:#70d6b3;--blue:#5b8def;--soft-ink:#1c1d22;--soft-muted:#667085;
+  --bg1:#f7f4ff;--bg2:#eef8ff;--bg3:#fff8ee;
+}
+html,body{font-family:'Quicksand',Arial,Helvetica,sans-serif}
+body{
+  background:
+    radial-gradient(circle at 18% 8%,rgba(244,167,197,.35),transparent 30%),
+    radial-gradient(circle at 85% 15%,rgba(112,214,179,.28),transparent 28%),
+    linear-gradient(140deg,var(--bg1),var(--bg2) 52%,var(--bg3));
+}
+
+/* menubar → frosted glass top bar */
+#mb{
+  height:42px;background:rgba(255,255,255,.72);border-bottom:1px solid var(--glass-line);
+  backdrop-filter:blur(22px) saturate(1.3);
+}
+.mb-i,.mb-r{font-family:'Quicksand',sans-serif;color:var(--soft-ink)}
+.mb-apple:hover,.mb-i:hover{background:rgba(0,0,0,.06);border-radius:8px}
+
+/* finder windows → glass cards */
+.fw{
+  background:var(--glass);border:1px solid var(--glass-line);border-radius:20px;
+  box-shadow:var(--glass-shadow);backdrop-filter:blur(22px) saturate(1.25);
+}
+.fw.focused{box-shadow:0 26px 60px rgba(91,141,239,.2)}
+.wtb,.fw:not(.focused) .wtb{
+  background:rgba(255,255,255,.58);border-bottom:1px solid var(--glass-line);
+  backdrop-filter:blur(18px);border-radius:20px 20px 0 0;
+}
+.wt-title{font-family:'Baloo 2',sans-serif;color:var(--soft-muted)}
+.wtb2{background:rgba(255,255,255,.4);border-bottom:1px solid var(--glass-line)}
+.wtab{border-radius:999px;border-color:var(--glass-line);color:var(--soft-muted);font-family:'Quicksand',sans-serif}
+.wtab.on{background:var(--soft-ink);border-color:var(--soft-ink)}
+.wsb{background:rgba(255,255,255,.5);border-right:1px solid var(--glass-line)}
+.wsb-r.on{background:var(--blue)}
+.wscroll{background:transparent}
+.wstat{background:rgba(255,255,255,.4);border-top:1px solid var(--glass-line)}
+
+/* content cards */
+.cc{border-left:3px solid var(--pink);background:rgba(255,255,255,.6);border-radius:12px}
+.cc[data-id]:hover{background:rgba(255,255,255,.85);border-left-color:var(--blue)}
+.cc-ico{border:none;box-shadow:none;background:var(--mint);border-radius:10px}
+.cc-ico svg{stroke:#fff}
+.cc-title,.app-name,.aw-name{font-family:'Baloo 2',sans-serif}
+.cc-badge-pill{background:var(--soft-ink);border-radius:999px;border-color:var(--soft-ink);box-shadow:none}
+.mini-app:hover{background:rgba(255,255,255,.7);border-color:var(--glass-line);border-radius:14px}
+.app-icon{border:none;box-shadow:0 10px 24px rgba(80,90,110,.18);border-radius:16px;background:#fff}
+
+/* buttons + pills */
+.pxb,.aw-btn{
+  font-family:'Quicksand',sans-serif;font-weight:700;border:1px solid var(--glass-line);
+  border-radius:999px;box-shadow:none;background:rgba(255,255,255,.74);color:var(--soft-ink);
+}
+.pxb:hover,.aw-btn:hover{background:var(--soft-ink);color:#fff}
+.pxb:active,.aw-btn:active{box-shadow:none}
+.aw-pill{border-radius:999px;border-color:var(--glass-line);background:rgba(255,255,255,.72)}
+.aw-photo{border:3px solid rgba(255,255,255,.92);border-radius:16px;box-shadow:0 10px 24px rgba(80,90,110,.2)}
+
+/* desktop folder icons */
+.di:hover{background:rgba(255,255,255,.35);border-color:var(--glass-line);border-radius:14px}
+.di.sel{background:rgba(91,141,239,.18);border-color:var(--blue);border-radius:14px}
+.di-lbl{font-family:'Quicksand',sans-serif}
+.di.sel .di-lbl{background:var(--blue);border-radius:4px}
+
+/* speech bubble */
+#avBubble{
+  border:1px solid var(--glass-line);border-radius:16px;box-shadow:var(--glass-shadow);
+  background:rgba(255,255,255,.9);font-family:'Quicksand',sans-serif;backdrop-filter:blur(16px);
+}
+#avBubble::before{display:none}
+#avBubble::after{border-top-color:rgba(255,255,255,.9)}
+</style>
+</head>
+<body>
+
+<div id="cur"><svg width="16" height="16" viewBox="0 0 16 16"><polygon points="2,2 2,14 5,10 7,15 9,14 7,9.5 11,9.5" fill="#1a1714" stroke="#fff" stroke-width=".8" stroke-linejoin="round"/></svg></div>
+
+<!-- MENUBAR -->
+<div id="mb">
+  <div class="mb-l">
+    <div class="mb-apple"><svg viewBox="0 0 14 14" fill="none"><path d="M11 5c-.6-.9-1.6-1.4-2.7-1.3 0 0-.2-1.4 1.1-2.2 0 0-1.2-.2-2.3 1.1C5.8 3.7 5.4 5 5.4 5 4.3 4.9 3.3 5.4 2.7 6.2c-.9 1.4-.7 3.7.4 5 .7.9 1.6 1.4 2.3 1.4.4 0 .9-.2 1.4-.4.4.2.9.4 1.4.4.6 0 1.5-.5 2.3-1.4C11.7 10 11.8 7.7 11 5z" fill="#1a1714"/><path d="M7.3 1.8c.4-.5.7-1.1.7-1.8 0 0-.7.1-1.4.7-.4.5-.7 1.1-.7 1.8 0 0 .7-.1 1.4-.7z" fill="#1a1714"/></svg></div>
+    <span class="mb-i" style="font-weight:800">Mia Zhou</span>
+    <span class="mb-i">File</span><span class="mb-i">Edit</span><span class="mb-i">View</span><span class="mb-i">Window</span>
+  </div>
+  <span class="mb-r" id="clock">00:00</span>
+</div>
+
+<!-- DESKTOP -->
+<div id="desk">
+  <span class="star" style="top:13%;left:19%;animation-delay:.5s">✦</span>
+  <span class="star" style="top:30%;left:55%;animation-delay:1.1s;font-size:.48rem">✦</span>
+  <span class="star" style="top:64%;left:30%;animation-delay:1.8s">✦</span>
+  <span class="star" style="top:50%;left:73%;animation-delay:.8s;font-size:.52rem">✦</span>
+  <span class="star" style="top:78%;left:14%;animation-delay:2.2s;font-size:.58rem">✦</span>
+  <span class="star" style="top:22%;left:42%;animation-delay:.3s;font-size:.44rem">✦</span>
+
+  <!-- ═══════════════ RESUME WINDOW ═══════════════ -->
+  <div class="fw gone" id="fw-resume" style="top:86px;left:260px;width:330px">
+    <div class="wtb" data-wid="fw-resume">
+      <div class="tls"><div class="tl tl-r" onclick="cw('fw-resume')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-resume')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
+      <span class="wt-title">Resume</span>
+    </div>
+    <div class="app-grid" style="grid-template-columns:1fr">
+      <div class="mini-app" onclick="window.location='Landing.html?dest=resume.html&title=resume'">
+        <div class="app-icon">
+          <img src="life/bj.jpg" alt="Mia Zhou" onerror="this.src='Mia.jpg'">
+        </div>
+        <div>
+          <div class="app-name">Mia Zhou Resume</div>
+          <div class="app-sub">formal view · click to open</div>
+        </div>
+      </div>
+    </div>
+    <div class="wstat"><span>1 app</span><span style="margin-left:auto">resume-style view</span></div>
+  </div>
+
+  <!-- ═══════════════ EXPERIENCE WINDOW ═══════════════ -->
+  <div class="fw gone" id="fw-experience" style="top:82px;left:245px;width:560px">
+    <div class="wtb" data-wid="fw-experience">
+      <div class="tls"><div class="tl tl-r" onclick="cw('fw-experience')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-experience')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
+      <span class="wt-title">Experience</span>
+    </div>
+    <div class="app-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+      <div class="mini-app photo-app" onclick="window.location='resume.html#sec-lead'">
+        <div class="app-icon"><img src="folderpic/thumbs/WiDS.jpg" alt="WiDS leadership"></div>
+        <div class="app-name">Leadership: WiDS</div>
+        <div class="app-sub">chapter + community</div>
+      </div>
+      <div class="mini-app photo-app" onclick="window.location='resume.html#sec-res'">
+        <div class="app-icon"><img src="folderpic/thumbs/NIH.jpg" alt="Research experience"></div>
+        <div class="app-name">Research</div>
+        <div class="app-sub">worked in 4 research labs</div>
+      </div>
+      <div class="mini-app photo-app" onclick="window.location='resume.html#sec-intern'">
+        <div class="app-icon"><img src="folderpic/thumbs/DataMini.jpg" alt="Work experience"></div>
+        <div class="app-name">Work: Google</div>
+        <div class="app-sub">professional experience</div>
+      </div>
+    </div>
+    <div class="wstat"><span>3 items</span><span style="margin-left:auto">click cards for resume sections</span></div>
+  </div>
+
+  <!-- ═══════════════ LIFE WINDOW ═══════════════ -->
+  <div class="fw gone" id="fw-life" style="top:64px;left:235px;width:650px">
+    <div class="wtb" data-wid="fw-life">
+      <div class="tls"><div class="tl tl-r" onclick="cw('fw-life')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-life')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
+      <span class="wt-title">Life</span>
+    </div>
+    <div class="app-grid" style="grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem">
+      <div class="mini-app photo-app" onclick="window.location='Landing.html?dest=life.html&title=my+life'"><div class="app-icon"><img src="life/bj.jpg" alt="China"></div><div class="app-name">China</div><div class="app-sub">home archive</div></div>
+      <div class="mini-app photo-app" onclick="window.location='Landing.html?dest=life.html&title=my+life'"><div class="app-icon"><img src="life/bostonchild.jpg" alt="Boston"></div><div class="app-name">Boston</div><div class="app-sub">early years</div></div>
+      <div class="mini-app photo-app" onclick="window.location='Landing.html?dest=life.html&title=my+life'"><div class="app-icon"><img src="life/ChapelHillKaren.jpg" alt="Chapel Hill"></div><div class="app-name">Chapel Hill</div><div class="app-sub">UNC days</div></div>
+      <div class="mini-app photo-app" onclick="window.location='Landing.html?dest=life.html&title=my+life'"><div class="app-icon"><img src="life/sging.jpg" alt="Singapore"></div><div class="app-name">Singapore</div><div class="app-sub">high school</div></div>
+      <div class="mini-app photo-app" onclick="window.location='Landing.html?dest=life.html&title=my+life'"><div class="app-icon"><img src="life/ie.jpg" alt="Ireland"></div><div class="app-name">Ireland</div><div class="app-sub">study abroad</div></div>
+    </div>
+    <div class="wstat"><span>5 places</span><span style="margin-left:auto">opens full life album</span></div>
+  </div>
+
+  <!-- ═══════════════ LIFE VLOG WINDOW ═══════════════ -->
+  <div class="fw gone" id="fw-vlog" style="top:300px;left:315px;width:520px">
+    <div class="wtb" data-wid="fw-vlog">
+      <div class="tls"><div class="tl tl-r" onclick="cw('fw-vlog')" style="cursor:pointer"></div><div class="tl tl-y" onclick="cw('fw-vlog')" style="cursor:pointer"></div><div class="tl tl-g"></div></div>
+      <span class="wt-title">Life Vlog</span>
+    </div>
+    <video id="lifeVlog" class="vlog-player" src="life/vlog.mov" controls playsinline muted preload="metadata"></video>
+    <div class="wstat"><span>vlog.mov</span><span style="margin-left:auto">opens with Life</span></div>
+  </div>
+
+  <!-- ═══════════════ PIXEL AVATAR (center) ═══════════════ -->
+  <div id="avWrap" onclick="cycleAvatar()">
+    <!-- speech bubble (shows on hover, links to resume) -->
+    <div id="avBubble">
+      <a href="#" onclick="event.preventDefault();tw('fw-resume')">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Desktop confusing? See the full resume-style view ✦
+      </a>
+    </div>
+    <div id="pixelAvatar" style="position:relative;width:140px;height:320px">
+      <img id="avImg" src="sprite_1.png" alt="Mia">
+    </div>
+  </div>
+
+
+</div><!-- /desk -->
+
+<!-- ═══════════════ POEM RAIN-CURTAIN BACKGROUND (p5.js) ═══════════════
+     Adapted from an uploaded p5 sketch: a hanging "poem-character rain
+     curtain" with Verlet rope physics + a swallow-bird flock that grazes
+     the strings. Canvas fills #desk and its own fill colour matches the
+     desktop's base tone. Each desktop folder is bound to its own
+     permanently-anchored Verlet thread (topPoint.snap = true, and never
+     registered as a "drop" that can be plucked/detached) so it sways,
+     shakes and gently rebounds when birds strike the curtain or the
+     mouse stirs it — but can never come loose and fall. -->
+<script>
+(function(){
+window.reduceMotionCurtain = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const BG_COLOR = '#f0edea';
+const TEXT_COLOR = '#111111';
+const CURTAIN_LINE_COLOR = '#1a1a1a';
+const CURTAIN_LINE_ALPHA = 70;
+
+const POEM_TEXT = '负担越重我们的生命越贴近大地它就越真实存在当负担完全缺失人就会变得比空气还轻飞向高空远离大地我不寻找答案我是那个创造答案的风暴你必须在自身中怀抱混乱才能生出一颗发光的星';
+const POEM_CHARS = POEM_TEXT.split('');
+const STROKE_GLYPHS = ['一', '丨', '丿', '丶', '乙'];
+
+const CURTAIN_AREA_RATIO = 2 / 3;
+const CURTAIN_TOP_Y = -10;
+const CURTAIN_LINE_COUNT = 18;
+let CANVAS_W, CANVAS_H, CURTAIN_WIDTH, CURTAIN_MARGIN_X, CURTAIN_LENGTH;
+let GROUND_BASE_Y, GROUND_MIN_Y, ENTRY_Y_MIN, ENTRY_Y_MAX, EXIT_Y_MIN, EXIT_Y_MAX;
+
+const ROWS_NEEDED = Math.ceil(POEM_CHARS.length / CURTAIN_LINE_COUNT);
+const ROW_DEPTH_JITTER = 16;
+const GROUND_BUCKET_COUNT = 40;
+
+const DROP_SIZE_MIN = 17;
+const DROP_SIZE_MAX = 26;
+const ROPE_SUBDIVISIONS = 10;
+
+const VERLET_TIMESTEPS = 26;
+const VERLET_GRAVITY = 0.18;
+const VERLET_AIR_DRAG = 0.995;
+const VERLET_REPULSION_SIZE = 130;
+const VERLET_SEGMENT_DIVISOR = 5;
+const VERLET_VEL_LIMIT = 15;
+
+const MOUSE_REPULSE_STRENGTH = 1.4;
+const BIRD_REPULSE_RADIUS = 150;
+const BIRD_REPULSE_STRENGTH = 2.4;
+
+const DETACH_MOUSE_SPEED_MIN = 1.2;
+const DETACH_BEAD_SPEED_MIN = 1.4;
+const DETACH_PROBABILITY = 0.24;
+const DETACH_REPULSE_MULT = 1.45;
+const MAX_DETACH_PER_FRAME = 4;
+
+const BIRD_DETACH_RADIUS = 75;
+const BIRD_DETACH_PROBABILITY = 0.45;
+
+const LINE_BREAK_THRESHOLD = 6;
+
+const FALLING_DROP_GRAVITY = 0.5;
+const FALLING_DROP_DRAG = 0.992;
+
+const SPLIT_DISTANCE = 80;
+const MAX_GENERATION = 2;
+const SPLIT_SCALE = 0.72;
+
+const BIRD_BODY_URL = 'https://cdn.jsdelivr.net/gh/xxoogreymon-prog/image-resources@main/icons/bird/bird_body.svg';
+const BIRD_WING_L_URL = 'https://cdn.jsdelivr.net/gh/xxoogreymon-prog/image-resources@main/icons/bird/bird_wing_l.svg';
+const BIRD_WING_R_URL = 'https://cdn.jsdelivr.net/gh/xxoogreymon-prog/image-resources@main/icons/bird/bird_wing_r.svg';
+const BIRD_BODY_W = 17, BIRD_BODY_H = 69;
+const BIRD_WING_W = 66, BIRD_WING_H = 28;
+
+const FLOCK_SIZE = 5;
+const FLIGHT_DURATION_MIN = 7600;
+const FLIGHT_DURATION_MAX = 8400;
+const STAGGER_SPAN = 1800;
+const ARC_BOW = 0.28, ARC_JITTER = 0.12;
+const EASE_POWER = 2.4;
+const ENTRY_X_MIN = 30, ENTRY_X_MAX = 260;
+const EXIT_X_MIN = -380, EXIT_X_MAX = -60;
+
+const BIRD_SCALE = 0.58, BIRD_SCALE_JITTER = 0.18;
+const WING_FLAP_SPEED = 0.3;
+const WING_SCALE_MIN = 0.2;
+const BIRD_COLOR = '#111111';
+const TAIL_COLOR = '#111111';
+const TAIL_HALF_W = 0.5, TAIL_PARTICLE_COUNT = 12, TAIL_TOTAL_LEN = 88;
+const TAIL_SPREAD_ANGLE = 8, TAIL_DAMPING = 0.94;
+const TAIL_CONSTRAINT_ITERS = 5, TAIL_ROOT_TRANSFER = 0.3;
+
+const START_DELAY = 5000;
+const LOOP_INTERVAL = 6000;
+
+function computeLayout(){
+  const deskEl = document.getElementById('desk');
+  CANVAS_W = deskEl ? deskEl.clientWidth : window.innerWidth;
+  CANVAS_H = deskEl ? deskEl.clientHeight : (window.innerHeight - 24);
+  CURTAIN_WIDTH = CANVAS_W * CURTAIN_AREA_RATIO;
+  CURTAIN_MARGIN_X = (CANVAS_W - CURTAIN_WIDTH) / 2;
+  CURTAIN_LENGTH = CANVAS_H * CURTAIN_AREA_RATIO - 40;
+  GROUND_BASE_Y = CANVAS_H - 20;
+  GROUND_MIN_Y = CURTAIN_TOP_Y + CURTAIN_LENGTH + 30;
+  ENTRY_Y_MIN = 40; ENTRY_Y_MAX = CURTAIN_TOP_Y + CURTAIN_LENGTH - 20;
+  EXIT_Y_MIN = 40; EXIT_Y_MAX = CURTAIN_TOP_Y + CURTAIN_LENGTH - 20;
+}
+
+let birdImages = { body: null, wingL: null, wingR: null };
+let _birdImgsReady = false;
+let _birdR = 0, _birdG = 0, _birdB = 0;
+let swallows = [];
+let flockPhase = 'idle';
+let flockTimer = 0;
+
+let curtainLineFromTo = [];
+let curtainDrops = [];
+let curtainBodies = [];
+let fallingParticles = [];
+let groundHeights = [];
+
+async function loadBirdImages() {
+  async function loadSVG(url, targetW, targetH) {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('Fetch failed: ' + url);
+    const svgText = await resp.text();
+    const blob = new Blob([svgText], { type: 'image/svg+xml' });
+    const blobUrl = URL.createObjectURL(blob);
+    const native = await new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error('Decode failed: ' + url));
+      img.src = blobUrl;
+    });
+    URL.revokeObjectURL(blobUrl);
+    const p5img = createImage(targetW, targetH);
+    p5img.drawingContext.drawImage(native, 0, 0, targetW, targetH);
+    return p5img;
+  }
+  const [bodyImg, wingL, wingR] = await Promise.all([
+    loadSVG(BIRD_BODY_URL, BIRD_BODY_W, BIRD_BODY_H),
+    loadSVG(BIRD_WING_L_URL, BIRD_WING_W, BIRD_WING_H),
+    loadSVG(BIRD_WING_R_URL, BIRD_WING_W, BIRD_WING_H),
+  ]);
+  birdImages = { body: bodyImg, wingL, wingR };
+}
+
+class SwallowBird {
+  constructor(index, total) {
+    this.startX = CANVAS_W + random(ENTRY_X_MIN, ENTRY_X_MAX);
+    this.startY = random(ENTRY_Y_MIN, ENTRY_Y_MAX);
+    this.exitX = random(EXIT_X_MIN, EXIT_X_MAX);
+    this.exitY = random(EXIT_Y_MIN, EXIT_Y_MAX);
+
+    const mx = (this.startX + this.exitX) / 2;
+    const my = (this.startY + this.exitY) / 2;
+    const dx = this.exitX - this.startX;
+    const dy = this.exitY - this.startY;
+    const dd = sqrt(dx * dx + dy * dy) || 1;
+    const perpX = dy / dd, perpY = -dx / dd;
+    const bow = dd * (ARC_BOW + random(-ARC_JITTER, ARC_JITTER));
+    this.cpX = mx + perpX * bow + random(-50, 50);
+    this.cpY = my + perpY * bow + random(-50, 50);
+
+    const totalForSpan = max(total - 1, 1);
+    this.startDelay = (index / totalForSpan) * STAGGER_SPAN;
+    this.flightDuration = random(FLIGHT_DURATION_MIN, FLIGHT_DURATION_MAX);
+    this.birthTime = 0;
+
+    this.x = this.startX; this.y = this.startY;
+    this.prevX = this.x; this.prevY = this.y;
+    this.opacity = 0; this.done = false;
+
+    this.wingPhase = random(TWO_PI);
+    this.wingTime = random(TWO_PI);
+    this.scale = BIRD_SCALE * random(1 - BIRD_SCALE_JITTER, 1 + BIRD_SCALE_JITTER);
+
+    this._bodyW = BIRD_BODY_W; this._bodyH = BIRD_BODY_H;
+    this._wingLW = BIRD_WING_W; this._wingLH = BIRD_WING_H;
+    this._wingRW = BIRD_WING_W; this._wingRH = BIRD_WING_H;
+    this._anchorWingLX = 0; this._anchorWingLY = 0;
+    this._anchorWingRX = 68; this._anchorWingRY = 0;
+    this._anchorBodyX = 58; this._anchorBodyY = -14.5;
+    this._anchorTailX = 67; this._anchorTailY = 54;
+    this._centerX = null; this._centerY = null;
+
+    this._tailL = []; this._tailR = [];
+    this._initTail();
+  }
+
+  _initTail() {
+    const N = TAIL_PARTICLE_COUNT;
+    const segLen = TAIL_TOTAL_LEN / (N - 1);
+    const ax = this._anchorTailX, ay = this._anchorTailY;
+    const spreadRad = radians(TAIL_SPREAD_ANGLE);
+    const forkAngL = PI / 2 + spreadRad, forkAngR = PI / 2 - spreadRad;
+    for (let i = 0; i < N; i++) {
+      const d = i * segLen;
+      this._tailL.push({ x: ax + cos(forkAngL) * d, y: ay + sin(forkAngL) * d, px: ax + cos(forkAngL) * d, py: ay + sin(forkAngL) * d });
+      this._tailR.push({ x: ax + cos(forkAngR) * d, y: ay + sin(forkAngR) * d, px: ax + cos(forkAngR) * d, py: ay + sin(forkAngR) * d });
+    }
+  }
+
+  _updateTail() {
+    const N = TAIL_PARTICLE_COUNT;
+    const segLen = TAIL_TOTAL_LEN / (N - 1);
+    const damp = TAIL_DAMPING, transfer = TAIL_ROOT_TRANSFER, iters = TAIL_CONSTRAINT_ITERS;
+    const ax = this._anchorTailX, ay = this._anchorTailY;
+    for (const fork of [this._tailL, this._tailR]) {
+      const rootPrevX = fork[0].x, rootPrevY = fork[0].y;
+      fork[0].px = fork[0].x; fork[0].py = fork[0].y;
+      fork[0].x = ax; fork[0].y = ay;
+      const rootDx = fork[0].x - rootPrevX, rootDy = fork[0].y - rootPrevY;
+      for (let i = 1; i < N; i++) {
+        const p = fork[i];
+        const vx = (p.x - p.px) * damp, vy = (p.y - p.py) * damp;
+        p.px = p.x; p.py = p.y;
+        p.x += vx + rootDx * transfer; p.y += vy + rootDy * transfer;
+      }
+      for (let iter = 0; iter < iters; iter++) {
+        for (let i = 0; i < N - 1; i++) {
+          const a = fork[i], b = fork[i + 1];
+          let dx = b.x - a.x, dy = b.y - a.y;
+          const d = sqrt(dx * dx + dy * dy) || 0.001;
+          const corr = (d - segLen) / d * 0.5;
+          if (i > 0) { a.x += dx * corr; a.y += dy * corr; }
+          if (i < N - 2) { b.x -= dx * corr; b.y -= dy * corr; }
+        }
+      }
+    }
+  }
+
+  _calcCenter() {
+    const bW = this._bodyW, bH = this._bodyH, lW = this._wingLW, lH = this._wingLH, rW = this._wingRW, rH = this._wingRH;
+    const minX = min(this._anchorWingLX, this._anchorWingRX, this._anchorBodyX);
+    const maxX = max(this._anchorWingLX + lW, this._anchorWingRX + rW, this._anchorBodyX + bW);
+    const minY = min(this._anchorWingLY, this._anchorWingRY, this._anchorBodyY);
+    const maxY = max(this._anchorWingLY + lH, this._anchorWingRY + rH, this._anchorBodyY + bH);
+    this._centerX = (minX + maxX) / 2; this._centerY = (minY + maxY) / 2;
+  }
+
+  update() {
+    const elapsed = millis() - this.birthTime - this.startDelay;
+    if (elapsed < 0) {
+      this.opacity = 0; this.prevX = this.x; this.prevY = this.y; this._updateTail(); return;
+    }
+    this.opacity = constrain(map(elapsed, 0, 200, 0, 255), 0, 255);
+    const rawT = constrain(elapsed / this.flightDuration, 0, 1);
+    this.prevX = this.x; this.prevY = this.y;
+    if (rawT >= 1) {
+      this.done = true; this.x = this.exitX; this.y = this.exitY;
+    } else {
+      const t = 1 - pow(1 - rawT, EASE_POWER), u = 1 - t;
+      this.x = u * u * this.startX + 2 * u * t * this.cpX + t * t * this.exitX;
+      this.y = u * u * this.startY + 2 * u * t * this.cpY + t * t * this.exitY;
+    }
+    this.wingTime += WING_FLAP_SPEED;
+    this._updateTail();
+  }
+
+  display() {
+    if (this.opacity <= 0 || this.done) return;
+    if (!birdImages.body || !birdImages.wingL || !birdImages.wingR) return;
+    if (this._centerX === null) this._calcCenter();
+
+    push();
+    translate(this.x, this.y);
+    const ddx = this.x - this.prevX, ddy = this.y - this.prevY;
+    const flyAngle = (abs(ddx) < 0.01 && abs(ddy) < 0.01) ? -PI / 4 : atan2(ddx, -ddy);
+    rotate(flyAngle);
+    translate(-this._centerX, -this._centerY);
+    scale(this.scale);
+
+    const flapT = (sin(this.wingTime + this.wingPhase) + 1) / 2;
+    const wingSX = lerp(WING_SCALE_MIN, 1.0, flapT);
+
+    push();
+    translate(this._anchorWingRX, this._anchorWingRY);
+    scale(wingSX, 1);
+    tint(_birdR, _birdG, _birdB, this.opacity);
+    image(birdImages.wingR, 0, 0);
+    noTint(); pop();
+
+    push();
+    translate(this._anchorWingLX + this._wingLW, this._anchorWingLY);
+    scale(wingSX, 1);
+    tint(_birdR, _birdG, _birdB, this.opacity);
+    image(birdImages.wingL, -this._wingLW, 0);
+    noTint(); pop();
+
+    push();
+    translate(this._anchorBodyX, this._anchorBodyY);
+    tint(_birdR, _birdG, _birdB, this.opacity);
+    image(birdImages.body, 0, 0);
+    noTint(); pop();
+
+    const tc = color(TAIL_COLOR);
+    noStroke();
+    for (const fork of [this._tailL, this._tailR]) {
+      const N = fork.length;
+      const normals = [];
+      for (let i = 0; i < N; i++) {
+        let nx = 0, ny = 0;
+        if (i > 0) {
+          let dx = fork[i].x - fork[i - 1].x, dy = fork[i].y - fork[i - 1].y;
+          const d = sqrt(dx * dx + dy * dy) || 1;
+          nx += -dy / d; ny += dx / d;
+        }
+        if (i < N - 1) {
+          let dx = fork[i + 1].x - fork[i].x, dy = fork[i + 1].y - fork[i].y;
+          const d = sqrt(dx * dx + dy * dy) || 1;
+          nx += -dy / d; ny += dx / d;
+        }
+        const nl = sqrt(nx * nx + ny * ny) || 1;
+        normals.push({ x: nx / nl * TAIL_HALF_W, y: ny / nl * TAIL_HALF_W });
+      }
+      for (let i = 0; i < N - 1; i++) {
+        const a1 = this.opacity * (1 - i / (N - 1));
+        const a2 = this.opacity * (1 - (i + 1) / (N - 1));
+        const p1 = fork[i], n1 = normals[i], p2 = fork[i + 1], n2 = normals[i + 1];
+        fill(red(tc), green(tc), blue(tc), a1);
+        beginShape();
+        vertex(p1.x + n1.x, p1.y + n1.y);
+        vertex(p1.x - n1.x, p1.y - n1.y);
+        fill(red(tc), green(tc), blue(tc), a2);
+        vertex(p2.x - n2.x, p2.y - n2.y);
+        vertex(p2.x + n2.x, p2.y + n2.y);
+        endShape(CLOSE);
+      }
+    }
+    pop();
+  }
+}
+
+function spawnFlock() {
+  swallows = [];
+  for (let i = 0; i < FLOCK_SIZE; i++) swallows.push(new SwallowBird(i, FLOCK_SIZE));
+}
+function startFlock() {
+  if (!_birdImgsReady || window.reduceMotionCurtain) return;
+  flockPhase = 'flying';
+  flockTimer = millis();
+  spawnFlock();
+  for (const b of swallows) b.birthTime = flockTimer;
+}
+
+function VerletPoint(x, y) {
+  this.oldPos = createVector(x, y);
+  this.pos = createVector(x, y);
+  this.forces = createVector(0, 0);
+  this.snap = false;
+}
+VerletPoint.prototype.applyForce = function (f) { this.forces.add(f.copy()); };
+VerletPoint.prototype.sim = function () {
+  if (this.snap) return;
+  this.applyForce(createVector(0, VERLET_GRAVITY));
+
+  const dMouse = dist(mouseX, mouseY, this.pos.x, this.pos.y);
+  if (dMouse < VERLET_REPULSION_SIZE && dMouse > 1e-6) {
+    const repulse = this.pos.copy().sub(createVector(mouseX, mouseY));
+    repulse.normalize();
+    repulse.mult(MOUSE_REPULSE_STRENGTH);
+    this.applyForce(repulse);
+  }
+
+  for (const b of swallows) {
+    if (b.opacity <= 0 || b.done) continue;
+    const dBird = dist(b.x, b.y, this.pos.x, this.pos.y);
+    if (dBird < BIRD_REPULSE_RADIUS && dBird > 1e-6) {
+      const repulse = this.pos.copy().sub(createVector(b.x, b.y));
+      repulse.normalize();
+      repulse.mult(BIRD_REPULSE_STRENGTH);
+      this.applyForce(repulse);
+    }
+  }
+
+  let velocity = this.pos.copy().sub(this.oldPos);
+  velocity.add(this.forces);
+  velocity.mult(VERLET_AIR_DRAG);
+  velocity.limit(VERLET_VEL_LIMIT);
+  this.oldPos.set(this.pos);
+  this.pos.add(velocity);
+  this.forces.mult(0);
+};
+
+function VerletSegment(p1, p2) {
+  this.point1 = p1; this.point2 = p2;
+  this.restLength = p1.pos.dist(p2.pos);
+}
+VerletSegment.prototype.sim = function () {
+  const cur = this.point1.pos.dist(this.point2.pos);
+  if (cur < 1e-8) return;
+  const diff = this.restLength - cur;
+  const offset = diff / cur / VERLET_SEGMENT_DIVISOR;
+  const dir = this.point2.pos.copy().sub(this.point1.pos);
+  dir.mult(offset);
+  if (!this.point1.snap) this.point1.pos.sub(dir);
+  if (!this.point2.snap) this.point2.pos.add(dir);
+};
+
+function CurtainRigidBody() {
+  this.points = []; this.segments = []; this.lineIndex = 0;
+  this.drops = []; this.plucks = 0; this.broken = false;
+}
+CurtainRigidBody.prototype.addPoint = function (x, y) {
+  const p = new VerletPoint(x, y); this.points.push(p); return p;
+};
+CurtainRigidBody.prototype.addSegment = function (p1, p2) {
+  const s = new VerletSegment(p1, p2); this.segments.push(s); return s;
+};
+CurtainRigidBody.prototype.sim = function () {
+  for (const p of this.points) p.sim();
+  for (let t = 0; t < VERLET_TIMESTEPS; t++) {
+    for (const s of this.segments) s.sim();
+  }
+};
+
+function initCurtainLines() {
+  curtainLineFromTo = [];
+  const spacing = CURTAIN_WIDTH / (CURTAIN_LINE_COUNT - 1);
+  for (let i = 0; i < CURTAIN_LINE_COUNT; i++) {
+    curtainLineFromTo.push({ x0: CURTAIN_MARGIN_X + i * spacing, y1: CURTAIN_TOP_Y });
+  }
+}
+
+function pickChar() {
+  return random(POEM_CHARS);
+}
+
+function buildDrops() {
+  curtainDrops = [];
+  for (let i = 0; i < POEM_CHARS.length; i++) {
+    const row = Math.floor(i / CURTAIN_LINE_COUNT);
+    const col = i % CURTAIN_LINE_COUNT;
+    const baseDepth = CURTAIN_LENGTH * ((row + 0.5) / ROWS_NEEDED);
+    const depth = constrain(baseDepth + random(-ROW_DEPTH_JITTER, ROW_DEPTH_JITTER), 10, CURTAIN_LENGTH);
+    curtainDrops.push({
+      y0: depth,
+      size: random(DROP_SIZE_MIN, DROP_SIZE_MAX),
+      ch: POEM_CHARS[i],
+      lineIndex: col,
+      xJitter: random(-6, 6),
+      attached: true,
+      pointRef: null,
+      rb: null,
+    });
+  }
+}
+
+function initVerletCurtain() {
+  curtainBodies = [];
+  const nSub = max(1, round(ROPE_SUBDIVISIONS));
+
+  for (let li = 0; li < curtainLineFromTo.length; li++) {
+    const base = curtainLineFromTo[li];
+    const drops = curtainDrops.filter(d => d.lineIndex === li).sort((a, b) => a.y0 - b.y0);
+    if (drops.length === 0) continue;
+
+    const rb = new CurtainRigidBody();
+    rb.lineIndex = li;
+    rb.drops = drops;
+
+    const x0 = base.x0, yTop = base.y1;
+    const p0 = rb.addPoint(x0, yTop);
+    p0.snap = true;
+
+    const beadRestY = [0];
+    for (const d of drops) beadRestY.push(d.y0 - yTop);
+
+    let prevPoint = p0;
+    for (let j = 0; j < drops.length; j++) {
+      const spanStart = beadRestY[j], spanEnd = beadRestY[j + 1];
+      const subRest = max(1e-3, (spanEnd - spanStart) / nSub);
+      for (let s = 0; s < nSub; s++) {
+        const t = (s + 1) / nSub;
+        const yOff = lerp(spanStart, spanEnd, t);
+        const p = rb.addPoint(x0, yTop + yOff);
+        rb.addSegment(prevPoint, p);
+        rb.segments[rb.segments.length - 1].restLength = subRest;
+        prevPoint = p;
+        if (s === nSub - 1) {
+          drops[j].pointRef = p;
+          drops[j].rb = rb;
+        }
+      }
+    }
+    curtainBodies.push(rb);
+  }
+}
+
+function dropToFalling(d) {
+  d.attached = false;
+  const p = d.pointRef;
+  const v = p.pos.copy().sub(p.oldPos);
+  fallingParticles.push({
+    x: p.pos.x, y: p.pos.y, originY: p.pos.y,
+    vx: v.x * 0.65 + random(-1.2, 1.2),
+    vy: v.y * 0.65 + random(1.2, 4),
+    text: d.ch,
+    size: d.size,
+    gen: 0,
+    settled: false,
+    rot: random(-0.2, 0.2),
+    rotSpeed: random(-0.02, 0.02),
+  });
+}
+
+function detachDrop(d) {
+  dropToFalling(d);
+  const rb = d.rb;
+  if (rb && !rb.broken) {
+    rb.plucks++;
+    if (rb.plucks >= LINE_BREAK_THRESHOLD) {
+      breakLine(rb);
+    }
+  }
+}
+
+function breakLine(rb) {
+  rb.broken = true;
+  if (rb.points.length > 0) rb.points[0].snap = false;
+  for (const d of rb.drops) {
+    if (d.attached) dropToFalling(d);
+  }
+}
+
+function maybeDetachFromMouse() {
+  if (curtainBodies.length === 0) return;
+  const mspd = dist(mouseX, mouseY, pmouseX, pmouseY);
+  const mouseFast = mspd >= DETACH_MOUSE_SPEED_MIN;
+  const mouseDrag = mouseIsPressed && mspd > 0.35;
+  const r0 = VERLET_REPULSION_SIZE * DETACH_REPULSE_MULT;
+  let detached = 0;
+
+  for (const rb of curtainBodies) {
+    if (detached >= MAX_DETACH_PER_FRAME) break;
+    for (const d of rb.drops) {
+      if (detached >= MAX_DETACH_PER_FRAME) break;
+      if (!d.attached || !d.pointRef) continue;
+      const p = d.pointRef;
+      if (dist(mouseX, mouseY, p.pos.x, p.pos.y) > r0) continue;
+      const beadSpeed = p.pos.dist(p.oldPos);
+      const beadSwing = beadSpeed >= DETACH_BEAD_SPEED_MIN;
+      if (!mouseFast && !mouseDrag && !beadSwing) continue;
+      if (random() < DETACH_PROBABILITY) {
+        detachDrop(d);
+        detached++;
+      }
+    }
+  }
+}
+
+function maybeDetachFromBirds() {
+  for (const rb of curtainBodies) {
+    for (const d of rb.drops) {
+      if (!d.attached || !d.pointRef) continue;
+      for (const b of swallows) {
+        if (b.opacity <= 0 || b.done) continue;
+        if (dist(b.x, b.y, d.pointRef.pos.x, d.pointRef.pos.y) < BIRD_DETACH_RADIUS) {
+          if (random() < BIRD_DETACH_PROBABILITY) {
+            detachDrop(d);
+          }
+          break;
+        }
+      }
+    }
+  }
+}
+
+function initGround() {
+  groundHeights = new Array(GROUND_BUCKET_COUNT).fill(GROUND_BASE_Y);
+}
+
+function bucketIndex(x) {
+  const bw = CANVAS_W / GROUND_BUCKET_COUNT;
+  return constrain(floor(x / bw), 0, GROUND_BUCKET_COUNT - 1);
+}
+
+function splitParticle(f, index) {
+  fallingParticles.splice(index, 1);
+  const nextGen = f.gen + 1;
+  for (let k = 0; k < 2; k++) {
+    const spread = k === 0 ? -1 : 1;
+    const useStroke = random() < 0.5;
+    fallingParticles.push({
+      x: f.x + random(-4, 4), y: f.y, originY: f.y,
+      vx: f.vx * 0.5 + spread * random(0.5, 1.6),
+      vy: f.vy * 0.55 + random(-0.3, 0.3),
+      text: useStroke ? random(STROKE_GLYPHS) : pickChar(),
+      size: f.size * SPLIT_SCALE,
+      gen: nextGen,
+      settled: false,
+      rot: random(-0.4, 0.4),
+      rotSpeed: random(-0.03, 0.03),
+    });
+  }
+}
+
+function stepFallingParticles() {
+  for (let i = fallingParticles.length - 1; i >= 0; i--) {
+    const f = fallingParticles[i];
+    if (f.settled) continue;
+
+    f.vy += FALLING_DROP_GRAVITY;
+    f.vx *= FALLING_DROP_DRAG;
+    f.vy *= FALLING_DROP_DRAG;
+    f.x += f.vx;
+    f.y += f.vy;
+    f.rot += f.rotSpeed;
+
+    if (f.x < 10) { f.x = 10; f.vx = abs(f.vx) * 0.3; }
+    if (f.x > CANVAS_W - 10) { f.x = CANVAS_W - 10; f.vx = -abs(f.vx) * 0.3; }
+
+    if (f.gen < MAX_GENERATION && (f.y - f.originY) > SPLIT_DISTANCE) {
+      splitParticle(f, i);
+      continue;
+    }
+
+    const bi = bucketIndex(f.x);
+    const floorY = max(GROUND_MIN_Y, groundHeights[bi]);
+    if (f.y >= floorY) {
+      f.y = floorY;
+      f.vx = 0; f.vy = 0;
+      f.settled = true;
+      groundHeights[bi] = max(GROUND_MIN_Y, floorY - f.size * 0.5);
+    }
+  }
+}
+
+function drawCurtainLines() {
+  push();
+  const cc = color(CURTAIN_LINE_COLOR);
+  stroke(red(cc), green(cc), blue(cc), CURTAIN_LINE_ALPHA);
+  strokeWeight(1);
+  for (const rb of curtainBodies) {
+    for (let j = 0; j < rb.points.length - 1; j++) {
+      const a = rb.points[j], b = rb.points[j + 1];
+      line(a.pos.x, a.pos.y, b.pos.x, b.pos.y);
+    }
+  }
+  pop();
+}
+
+function drawCurtainDrops() {
+  noStroke();
+  fill(TEXT_COLOR);
+  textAlign(CENTER, CENTER);
+  for (const rb of curtainBodies) {
+    for (const d of rb.drops) {
+      if (!d.attached || !d.pointRef) continue;
+      textSize(d.size);
+      text(d.ch, d.pointRef.pos.x + d.xJitter, d.pointRef.pos.y);
+    }
+  }
+}
+
+function drawFallingParticles() {
+  noStroke();
+  fill(TEXT_COLOR);
+  textAlign(CENTER, CENTER);
+  for (const f of fallingParticles) {
+    push();
+    translate(f.x, f.y);
+    rotate(f.settled ? 0 : f.rot);
+    textSize(f.size);
+    text(f.text, 0, 0);
+    pop();
+  }
+}
+
+function cleanupBrokenLines() {
+  for (let i = curtainBodies.length - 1; i >= 0; i--) {
+    const rb = curtainBodies[i];
+    if (!rb.broken) continue;
+    const last = rb.points[rb.points.length - 1];
+    if (last.pos.y > CANVAS_H + 80) {
+      curtainBodies.splice(i, 1);
+    }
+  }
+}
+
+async function setup() {
+  computeLayout();
+  const cnv = createCanvas(CANVAS_W, CANVAS_H);
+  cnv.parent('desk');
+  textFont('serif');
+
+  initCurtainLines();
+  buildDrops();
+  initVerletCurtain();
+  initGround();
+
+  const hex = BIRD_COLOR.replace('#', '');
+  _birdR = parseInt(hex.substring(0, 2), 16);
+  _birdG = parseInt(hex.substring(2, 4), 16);
+  _birdB = parseInt(hex.substring(4, 6), 16);
+
+  try {
+    await loadBirdImages();
+    _birdImgsReady = true;
+  } catch (e) {
+    console.error('bird asset load failed:', e);
+  }
+}
+
+function windowResized() {
+  computeLayout();
+  resizeCanvas(CANVAS_W, CANVAS_H);
+  initCurtainLines();
+  buildDrops();
+  initVerletCurtain();
+  initGround();
+}
+
+function draw() {
+  background(BG_COLOR);
+
+  for (const rb of curtainBodies) rb.sim();
+  maybeDetachFromMouse();
+
+  const now = millis();
+  if (_birdImgsReady && !window.reduceMotionCurtain) {
+    if (flockPhase === 'idle' && now > START_DELAY) startFlock();
+    if (flockPhase === 'flying') {
+      for (const b of swallows) b.update();
+      maybeDetachFromBirds();
+      if (swallows.every(b => b.done)) {
+        flockPhase = 'done';
+        flockTimer = now;
+      }
+    }
+    if (flockPhase === 'done' && LOOP_INTERVAL > 0 && now - flockTimer > LOOP_INTERVAL) {
+      flockPhase = 'idle';
+    }
+  }
+
+  stepFallingParticles();
+  cleanupBrokenLines();
+
+  drawCurtainLines();
+  drawCurtainDrops();
+  drawFallingParticles();
+
+  if (_birdImgsReady) {
+    for (const b of swallows) b.display();
+  }
+}
+
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+})();
+</script>
+
+<script>
+/* ── AUDIO ── */
+let _ac=null;
+function pc(){try{if(!_ac)_ac=new(window.AudioContext||window.webkitAudioContext)();const t=_ac.currentTime,o=_ac.createOscillator(),g=_ac.createGain(),f=_ac.createBiquadFilter();o.type='square';o.frequency.setValueAtTime(1760,t);o.frequency.exponentialRampToValueAtTime(2960,t+.018);f.type='highpass';f.frequency.value=900;o.connect(f);f.connect(g);g.connect(_ac.destination);g.gain.setValueAtTime(.11,t);g.gain.exponentialRampToValueAtTime(.001,t+.055);o.start(t);o.stop(t+.06)}catch(e){}}
+
+/* ── WINDOW OPS ── */
+let zt=200;
+function foc(id){document.querySelectorAll('.fw').forEach(w=>w.classList.remove('focused'));const w=document.getElementById(id);if(w){w.classList.add('focused');w.style.zIndex=++zt}}
+function ow(id){pc();const w=document.getElementById(id);if(!w)return;w.classList.remove('gone');w.classList.add('pop');setTimeout(()=>w.classList.remove('pop'),180);foc(id);sf(window.innerWidth/2,window.innerHeight/2,2)}
+function cw(id){pc();const w=document.getElementById(id);if(w)w.classList.add('gone')}
+function tw(id){const w=document.getElementById(id);if(!w)return;if(w.classList.contains('gone'))ow(id);else if(!w.classList.contains('focused'))foc(id);else cw(id)}
+function openLife(){
+  ow('fw-life');
+  ow('fw-vlog');
+  const v=document.getElementById('lifeVlog');
+  if(v){
+    v.currentTime=v.currentTime||0;
+    v.play?.().catch(()=>{});
+  }
+}
+document.querySelectorAll('.fw').forEach(w=>w.addEventListener('mousedown',()=>foc(w.id)));
+
+/* ── DRAG ── */
+let dragWin=null,dragDX=0,dragDY=0,dragX=0,dragY=0,dragRAF=null;
+function paintDrag(){
+  dragRAF=null;
+  if(!dragWin)return;
+  dragWin.style.left=dragX+'px';
+  dragWin.style.top=dragY+'px';
+}
+document.querySelectorAll('.wtb[data-wid]').forEach(bar=>{
+  bar.addEventListener('pointerdown',e=>{
+    if(e.target.classList.contains('tl'))return;
+    const win=document.getElementById(bar.dataset.wid);
+    if(!win)return;
+    const r=win.getBoundingClientRect();
+    dragWin=win;
+    dragDX=e.clientX-r.left;
+    dragDY=e.clientY-r.top;
+    win.style.left=r.left-document.getElementById('desk').getBoundingClientRect().left+'px';
+    win.style.right='auto';
+    win.style.bottom='auto';
+    foc(bar.dataset.wid);
+    bar.setPointerCapture?.(e.pointerId);
+    e.preventDefault();
+  });
+  bar.addEventListener('pointermove',e=>{
+    if(!dragWin)return;
+    const dr=document.getElementById('desk').getBoundingClientRect();
+    dragX=Math.max(0,Math.min(e.clientX-dragDX-dr.left,dr.width-dragWin.offsetWidth));
+    dragY=Math.max(0,Math.min(e.clientY-dragDY-dr.top,dr.height-28));
+    if(!dragRAF)dragRAF=requestAnimationFrame(paintDrag);
+  });
+  bar.addEventListener('pointerup',e=>{
+    dragWin=null;
+    bar.releasePointerCapture?.(e.pointerId);
+  });
+  bar.addEventListener('pointercancel',()=>{dragWin=null});
+});
+
+/* ── DESKTOP SELECT ── */
+function sd(el){document.querySelectorAll('.di').forEach(d=>d.classList.remove('sel'));el.classList.add('sel')}
+document.getElementById('desk')?.addEventListener('click',e=>{if(!e.target.closest('.di')&&!e.target.closest('.fw'))document.querySelectorAll('.di').forEach(d=>d.classList.remove('sel'))});
+
+/* ── DOCK BOUNCE ── */
+function bd(el){const img=el.querySelector('.dk-img');img.classList.remove('bounce');void img.offsetWidth;img.classList.add('bounce');setTimeout(()=>img.classList.remove('bounce'),420)}
+
+/* ── CURSOR ── */
+const cur=document.getElementById('cur');
+let curX=0,curY=0,curRAF=false;
+document.addEventListener('mousemove',e=>{
+  curX=e.clientX;
+  curY=e.clientY;
+  if(curRAF)return;
+  curRAF=true;
+  requestAnimationFrame(()=>{
+    cur.style.transform=`translate3d(${curX}px,${curY}px,0)`;
+    curRAF=false;
+  });
+},{passive:true});
+
+/* ── SPARKLES + FLOATIES ── */
+const SC=['#7ec8c8','#a78bfa','#f9a8d4','#fcd34d','#6ee7b7','#7dd3fc','#b8f0d8'];
+let lastSpark=0;
+document.addEventListener('mousemove',e=>{
+  const now=performance.now();
+  if(now-lastSpark<120||Math.random()>.985)return;
+  lastSpark=now;
+  const s=document.createElement('div');s.className='sp';const sz=2+Math.random()*3;
+  s.style.cssText=`left:${e.clientX+(Math.random()*7-3.5)}px;top:${e.clientY+(Math.random()*7-3.5)}px;width:${sz}px;height:${sz}px;background:${SC[~~(Math.random()*SC.length)]}`;
+  document.body.appendChild(s);setTimeout(()=>s.remove(),520);
+},{passive:true});
+const FS=['✦','✧','+','×','·'];
+function sf(x,y,n=1){for(let i=0;i<n;i++)setTimeout(()=>{
+  const f=document.createElement('div');f.className='fl';
+  f.textContent=FS[~~(Math.random()*FS.length)];
+  f.style.cssText=`left:${x+(Math.random()*36-18)}px;top:${y+(Math.random()*18-9)}px;color:${SC[~~(Math.random()*SC.length)]};font-size:${.55+Math.random()*.5}rem`;
+  document.body.appendChild(f);setTimeout(()=>f.remove(),1000);
+},i*65)}
+document.addEventListener('click',e=>{if(e.target.closest('.tl')||e.target.closest('.wtab')||e.target.closest('.wsb-r'))return;sf(e.clientX,e.clientY,1)});
+
+/* ── PIXEL AVATAR ── */
+const avPoses=['sprite_1.png','sprite_2.png','sprite_3.png','sprite_4.png'];
+let avIdx=0,bubbleTimer=null,avDrag=false,avMoved=false,avDX=0,avDY=0;
+avPoses.forEach(s=>{const i=new Image();i.src=s});
+
+function cycleAvatar(e){
+  if(e)e.stopPropagation();
+  if(avMoved){avMoved=false;return}
+  location.href='resume.html';
+}
+
+function showBubble(){
+  const b=document.getElementById('avBubble');
+  b.classList.add('show');
+  clearTimeout(bubbleTimer);
+  bubbleTimer=setTimeout(()=>b.classList.remove('show'),2800);
+}
+
+/* hover shows bubble too + drag to move the desktop avatar */
+const _aw=document.getElementById('avWrap');
+if(_aw){
+  _aw.addEventListener('mouseenter',()=>{clearTimeout(bubbleTimer);const b=document.getElementById('avBubble');if(b)b.classList.add('show');});
+  _aw.addEventListener('mouseleave',()=>{bubbleTimer=setTimeout(()=>{const b=document.getElementById('avBubble');if(b)b.classList.remove('show')},600);});
+  _aw.addEventListener('pointerdown',e=>{
+    if(e.target.closest('a'))return;
+    avDrag=true;avMoved=false;_aw.classList.add('dragging');
+    const r=_aw.getBoundingClientRect();
+    avDX=e.clientX-r.left;avDY=e.clientY-r.top;
+    _aw.setPointerCapture?.(e.pointerId);
+  });
+  _aw.addEventListener('pointermove',e=>{
+    if(!avDrag)return;
+    const x=e.clientX-avDX,y=e.clientY-avDY;
+    if(Math.abs(x-_aw.getBoundingClientRect().left)>2||Math.abs(y-_aw.getBoundingClientRect().top)>2)avMoved=true;
+    _aw.style.left=Math.max(0,Math.min(window.innerWidth-_aw.offsetWidth,x))+'px';
+    _aw.style.top=Math.max(24,Math.min(window.innerHeight-_aw.offsetHeight,y))+'px';
+    _aw.style.bottom='auto';_aw.style.transform='none';
+  });
+  _aw.addEventListener('pointerup',e=>{avDrag=false;_aw.classList.remove('dragging');_aw.releasePointerCapture?.(e.pointerId);});
+}
+
+/* ── CLOCK ── */
+function uc(){const d=new Date();document.getElementById('clock').textContent=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')}
+uc();setInterval(uc,12000);
+
+/* ── POSITION ABOUT WINDOW TOP-RIGHT ── */
+/* ── KEYBOARD ── */
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key==='2'){e.preventDefault();tw('fw-resume')}
+  if((e.metaKey||e.ctrlKey)&&e.key==='3'){e.preventDefault();tw('fw-experience')}
+  if((e.metaKey||e.ctrlKey)&&e.key==='4'){e.preventDefault();openLife()}
+});
+</script>
+</body>
+</html>
