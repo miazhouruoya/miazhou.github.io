@@ -2590,6 +2590,37 @@ html body .r-pub-status-accepted{background:#b8f0d8!important;color:#085041!impo
 /* ── background color ── */
 html body{background:#FACBC6!important}
 @media print{html body{background:#fff!important}}
+
+/* ── MOBILE: compact project cards like the desktop "projects" tab ── */
+.m-date,.m-more{display:none}
+@media(max-width:680px){
+  html body .proj-grid{display:flex!important;flex-direction:column!important;gap:10px!important}
+  html body .proj-card{display:grid!important;grid-template-columns:78px minmax(0,1fr)!important;column-gap:14px!important;row-gap:0!important;grid-template-rows:auto!important;grid-auto-rows:auto!important;contain-intrinsic-size:auto 130px!important;
+    align-items:start!important;padding:12px!important;min-height:0!important;height:auto!important;border-radius:16px!important}
+  html body .proj-card:hover{transform:none!important}
+  html body .proj-thumb{grid-column:1!important;grid-row:1!important;width:78px!important;height:78px!important;min-height:0!important;aspect-ratio:1!important;
+    border-radius:12px!important;margin:0!important;background-size:cover!important;background-position:center!important}
+  html body .proj-date-badge{display:none!important}
+  html body .proj-thumb-logo{background-size:70%!important;background-repeat:no-repeat!important;background-color:#fff!important}
+  html body .proj-body{grid-column:2!important;grid-row:1!important;padding:0!important;display:flex!important;flex-direction:column!important;gap:2px!important;min-width:0!important}
+  html body .proj-title{font-size:.95rem!important;line-height:1.25!important;margin:0!important}
+  html body .proj-sub{font-size:.74rem!important;line-height:1.4!important;margin:0!important}
+  html body .proj-badge-row{margin-top:4px!important}
+  html body .r-award-badge{margin:4px 0 0!important;font-size:.64rem!important}
+  .m-date{display:block;font-size:.68rem;font-weight:700;color:#6b7280;margin-bottom:2px}
+  .m-more{display:inline-flex;align-items:center;gap:4px;align-self:flex-start;margin-top:8px;font:700 .72rem/1 -apple-system,BlinkMacSystemFont,'SF Pro Text',Arial,sans-serif;
+    color:#1c1d22;background:rgba(118,118,128,.12);border:0;border-radius:999px;padding:.38rem .75rem;cursor:pointer}
+  .m-more::after{content:'▾';transition:transform .2s}
+  .proj-card.m-open .m-more::after{transform:rotate(180deg)}
+  html body .proj-scrim{grid-column:1/-1!important;grid-row:2!important;display:none!important;position:static!important;inset:auto!important;opacity:1!important;
+    transform:none!important;background:transparent!important;backdrop-filter:none!important;padding:12px 2px 2px!important;margin:0!important;max-height:none!important;overflow:visible!important;pointer-events:auto!important}
+  html body .proj-card.m-open .proj-scrim{display:block!important}
+  html body .proj-scrim-title,html body .proj-scrim-date{display:none!important}
+  html body .proj-scrim .r-bullets li{font-size:.8rem!important;line-height:1.55!important}
+  /* contact buttons: wrap as pills instead of one per row */
+  html body .r-contact-row{display:flex!important;flex-wrap:wrap!important;gap:8px!important}
+  html body .r-contact-row a{width:auto!important;flex:0 0 auto!important;min-height:34px!important;padding:.3rem .8rem .3rem .45rem!important}
+}
 </style>
 </head>
 <body>
@@ -2706,7 +2737,7 @@ html body{background:#FACBC6!important}
       <div class="r-card-body">
         <div class="proj-grid">
           <div class="proj-card" style="cursor:default">
-            <div class="proj-thumb proj-thumb-logo" style="background-image:url('folderpic/c1.png');background-size:58%;background-repeat:no-repeat;background-position:center">
+            <div class="proj-thumb proj-thumb-logo" style="background-image:url('folderpic/C1.png');background-size:58%;background-repeat:no-repeat;background-position:center">
               <span class="proj-date-badge">Jun – Aug 2027</span>
             </div>
             <div class="proj-body">
@@ -3476,6 +3507,17 @@ document.addEventListener('click',e=>{
   document.body.appendChild(f);setTimeout(()=>f.remove(),900);
 });
 
+</script>
+<script>
+/* mobile: put the date in the card text and add a "details" toggle for the bullet points */
+document.querySelectorAll('.proj-card').forEach(c=>{
+  const body=c.querySelector('.proj-body'),badge=c.querySelector('.proj-date-badge'),scrim=c.querySelector('.proj-scrim');
+  if(!body)return;
+  if(badge){const d=document.createElement('span');d.className='m-date';d.textContent=badge.textContent;body.prepend(d)}
+  if(scrim&&scrim.querySelector('li')){const b=document.createElement('button');b.type='button';b.className='m-more';b.textContent='details ';
+    b.addEventListener('click',e=>{e.stopPropagation();c.classList.toggle('m-open')});body.appendChild(b)}
+  if(scrim)scrim.addEventListener('click',e=>{if(window.matchMedia('(max-width:680px)').matches&&!e.target.closest('a'))e.stopPropagation()});
+});
 </script>
 </body>
 </html>
