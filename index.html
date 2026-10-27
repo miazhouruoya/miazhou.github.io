@@ -195,6 +195,16 @@ p.txt b{color:var(--ink);font-weight:800}
 .hn-note{font-size:.72rem;color:var(--ios-muted,#6b7280);margin-top:2px}
 .hn-date{font-size:.7rem;font-weight:700;color:var(--ios-muted,#6b7280);white-space:nowrap;align-self:flex-start;margin-top:2px}
 
+/* see-more + socials */
+.see-more{display:inline-block;margin:2px 0 4px;font-size:.78rem;font-weight:800;color:var(--mc,var(--ink))}
+.see-more:hover{text-decoration:underline}
+.socials{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.soc{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--ios-card,#fff);border:1px solid rgba(255,255,255,.9);border-radius:14px;box-shadow:0 6px 18px rgba(80,90,110,.08);transition:transform .12s,box-shadow .12s}
+.soc:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(80,90,110,.14)}
+.soc-ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;flex-shrink:0}
+.soc b{display:block;font-size:.86rem;font-weight:800}
+.soc small{display:block;font-size:.7rem;color:var(--ios-muted,#6b7280);font-weight:600}
+
 /* ── PUBLICATIONS ── */
 .pub{padding:14px 16px;margin-bottom:12px;background:var(--ios-card,#fff);border:1px solid rgba(255,255,255,.9);border-radius:16px;box-shadow:0 6px 18px rgba(80,90,110,.08)}
 .pub-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
@@ -403,7 +413,7 @@ p.txt b{color:var(--ios-ink)}
         <button class="tab" data-p="pubs" style="--dot:var(--sky-d)">papers</button>
         <button class="tab" data-p="hack" style="--dot:var(--mint-d)">hacks</button>
         <button class="tab" data-p="life" style="--dot:var(--peach-d)">life</button>
-        <button class="tab" data-p="school" style="--dot:var(--lemon-d)">school</button>
+        <button class="tab" data-p="school" style="--dot:var(--lemon-d)">projects</button>
         <button class="tab" data-p="honors" style="--dot:var(--pink-d)">honors</button>
       </nav>
       <div class="pages">
@@ -537,7 +547,7 @@ p.txt b{color:var(--ios-ink)}
               <span class="hk-team">team of 2</span>
             </span>
           </a>
-          <div class="hint" style="color:var(--mint-d)">tap a card for the full story ♡</div>
+          <a class="see-more" href="resume.html#sec-hack" style="--mc:var(--mint-d)">see more on my résumé →</a>
         </article>
 
         <!-- LIFE -->
@@ -554,6 +564,12 @@ p.txt b{color:var(--ios-ink)}
             <a class="polaroid" href="Landing.html?dest=life.html&amp;title=my+life"><img src="life/ie.jpg" alt="Ireland"><span class="cap">Ireland</span></a>
             <a class="polaroid" href="Landing.html?dest=life.html&amp;title=my+life" style="display:flex;align-items:center;justify-content:center;aspect-ratio:auto;background:var(--peach)"><span style="font-size:.85rem;font-weight:700;text-align:center;line-height:1.3">full<br>album →</span></a>
           </div>
+          <div class="label" style="margin-top:20px">find me on</div>
+          <div class="socials">
+            <a class="soc" href="https://beliapp.co/profile/miaazhoou" target="_blank" rel="noopener"><span class="soc-ico" style="background:#e7f6ee;color:#1d9e75">🍽</span><span><b>Beli</b><small>Food Lovers</small></span></a>
+            <a class="soc" href="https://xhslink.cn/o/7dgpwBP1byX" target="_blank" rel="noopener"><span class="soc-ico" style="background:#ffe4e8;color:#ff2442">书</span><span><b>RedNote</b><small>Content Creator</small></span></a>
+          </div>
+          <div style="height:14px"></div>
           <div class="vlog"><video id="lifeVlog" src="life/vlog.mov" controls playsinline muted preload="metadata"></video></div>
           <div class="hint">psst, hover the left page for more photos ✿</div>
         </article>
@@ -561,8 +577,8 @@ p.txt b{color:var(--ios-ink)}
         <!-- HIGH SCHOOL -->
         <article class="page" id="p-school">
           <div class="pg-head">
-            <h1 class="pg-title"><span class="hl" style="--hlc:var(--lemon)">high school</span></h1>
-            <span class="stamp" style="--sb:var(--lemon);--sc:var(--lemon-d)">Singapore</span>
+            <h1 class="pg-title"><span class="hl" style="--hlc:var(--lemon)">projects</span></h1>
+            <span class="stamp" style="--sb:var(--lemon);--sc:var(--lemon-d)">research + IB</span>
           </div>
           <div class="label" style="margin-top:4px">research projects</div>
           <a class="hk" href="resume.html#sec-res">
@@ -574,7 +590,7 @@ p.txt b{color:var(--ios-ink)}
               <span class="hk-line">Robust optimization models for bond portfolios using alpha signals and market data, with automated backtesting.</span>
             </span>
           </a>
-          <a class="hk" href="Uni/BUSI_Mia2.pdf" target="_blank" rel="noopener">
+          <a class="hk" href="resume.html#sec-res">
             <img src="folderpic/thumbs/BUSI.jpg" alt="">
             <span class="hk-body">
               <span class="hk-top"><span class="hk-award" style="background:var(--lav)">Honors Thesis</span><span class="hk-date">Mar 2026 – now</span></span>
@@ -583,7 +599,7 @@ p.txt b{color:var(--ios-ink)}
               <span class="hk-line">A 6-state disease progression model across ARIC, CHS and FHS for 10-year cardiovascular risk.</span>
             </span>
           </a>
-          <a class="hk" href="Exp/abm-story-page-v2.html">
+          <a class="hk" href="resume.html#sec-res">
             <img src="folderpic/thumbs/Agent-Society.jpg" alt="">
             <span class="hk-body">
               <span class="hk-top"><span class="hk-award" style="background:var(--peach)">Financial AI Intern</span><span class="hk-date">May – Aug 2025</span></span>
@@ -592,7 +608,7 @@ p.txt b{color:var(--ios-ink)}
               <span class="hk-line">Infrastructure and prompts for 100 LLM agents running an economy in a virtual Beijing.</span>
             </span>
           </a>
-          <a class="hk" href="https://arxiv.org/abs/2604.22802" target="_blank" rel="noopener">
+          <a class="hk" href="resume.html#sec-res">
             <img src="folderpic/thumbs/NIH.jpg" alt="">
             <span class="hk-body">
               <span class="hk-top"><span class="hk-award" style="background:var(--pink)">Li Lab</span><span class="hk-date">Oct 2024 – now</span></span>
@@ -610,7 +626,7 @@ p.txt b{color:var(--ios-ink)}
               <span class="hk-line">Benchmarking 3 graph-learning frameworks (Seurat, Squidpy, Niches) on the Stimage-1K4M dataset.</span>
             </span>
           </a>
-          <a class="hk" href="Uni/eNet.pdf" target="_blank" rel="noopener">
+          <a class="hk" href="resume.html#sec-res">
             <img src="folderpic/thumbs/eNet.jpg" alt="">
             <span class="hk-body">
               <span class="hk-top"><span class="hk-award" style="background:var(--mint)">Huang Lab</span><span class="hk-date">Jun 2024 – now</span></span>
@@ -619,6 +635,47 @@ p.txt b{color:var(--ios-ink)}
               <span class="hk-line">Graph-based enhancer networks from 18K+ single cells to study gene regulation in leukemia.</span>
             </span>
           </a>
+
+          <a class="see-more" href="resume.html#sec-res" style="--mc:var(--lav-d)">see more on my résumé →</a>
+          <div class="label" style="margin-top:28px">projects</div>
+          <a class="hk" href="resume.html#sec-proj">
+            <img src="folderpic/thumbs/HerTime.jpg" alt="">
+            <span class="hk-body">
+              <span class="hk-top"><span class="hk-award" style="background:var(--peach)">Carolina Data Challenge</span><span class="hk-date">2026</span></span>
+              <span class="hk-title">HerTime</span>
+              <span class="hk-org">Data pipeline · Bayesian modeling · multi-agent AI</span>
+              <span class="hk-line">Merged 7 World Bank datasets (129K+ records) to model gender opportunity gaps, with a LightGBM early-warning model at 0.87 AUC.</span>
+            </span>
+          </a>
+          <a class="hk" href="resume.html#sec-proj">
+            <img src="folderpic/thumbs/Doople.jpg" alt="">
+            <span class="hk-body">
+              <span class="hk-top"><span class="hk-award" style="background:var(--mint)">Full Stack Developer</span><span class="hk-date">Jan – May 2026</span></span>
+              <span class="hk-title">Clinical Doppelgänger</span>
+              <span class="hk-org">EHR clinical decision support · CHIP 741</span>
+              <span class="hk-line">A SMART on FHIR app that finds similar patients and compares their outcomes over time.</span>
+            </span>
+          </a>
+          <a class="hk" href="resume.html#sec-proj">
+            <img src="folderpic/thumbs/tumor.jpg" alt="">
+            <span class="hk-body">
+              <span class="hk-top"><span class="hk-award" style="background:var(--lav)">Directed Reading Program</span><span class="hk-date">Apr 2026</span></span>
+              <span class="hk-title">Tumour–Immune Dynamics: ODE, PDE &amp; Control</span>
+              <span class="hk-org">UNC Mathematics</span>
+              <span class="hk-line">Simulated how tumors and immune cells interact, and found the thresholds where tumors are controlled, go dormant, or escape.</span>
+            </span>
+          </a>
+          <a class="hk" href="resume.html#sec-proj">
+            <img src="folderpic/thumbs/Neuromatch.jpg" alt="">
+            <span class="hk-body">
+              <span class="hk-top"><span class="hk-award" style="background:var(--sky)">NeuroMatch</span><span class="hk-date">Jun – Aug 2025</span></span>
+              <span class="hk-title">Neuromatch Neuron Simulation</span>
+              <span class="hk-org">Computational Neuroscience Program</span>
+              <span class="hk-line">Decoded decision-making from large-scale IBL neural recordings to study thalamocortical communication.</span>
+            </span>
+          </a>
+
+          <a class="see-more" href="resume.html#sec-proj" style="--mc:var(--mint-d)">see more on my résumé →</a>
 
           <div class="label" style="margin-top:28px">IB portfolio</div>
           <div class="me">
