@@ -2227,19 +2227,6 @@ body::before{
   -webkit-box-orient:vertical;
   overflow:hidden;
 }
-.proj-card[data-detail="cvd"] .proj-title{
-  display:block;
-  overflow:visible;
-  -webkit-line-clamp:unset;
-}
-.proj-card[data-detail="cvd"] .r-award-badge{
-  width:auto;
-  max-width:100%;
-  padding:.24rem .52rem!important;
-  font-size:.5rem!important;
-  letter-spacing:.025em!important;
-  white-space:nowrap;
-}
 .proj-sub{
   font-size:.74rem;
   font-weight:500;
@@ -2504,24 +2491,105 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
   color:var(--ink3);
 }
 
-/* ── MINI DIGITAL PROJECTS COLLAPSIBLE TAB ── */
-.uiux-tab{cursor:pointer;user-select:none}
-.uiux-tab:focus-visible{outline:2px solid var(--ios-line);outline-offset:2px}
-.uiux-chevron{width:16px;height:16px;margin-left:auto;color:var(--ios-muted);transition:transform .3s cubic-bezier(.2,.75,.25,1)}
-.uiux-tab.open .uiux-chevron{transform:rotate(90deg)}
-.uiux-panel{
-  display:grid;
-  grid-template-rows:0fr;
-  opacity:0;
-  overflow:hidden;
-  transition:grid-template-rows .42s cubic-bezier(.2,.75,.25,1),opacity .32s ease,padding .42s ease;
+/* ── AWARD BADGE ON ITS OWN ROW (was clipped by proj-title's
+   2-line clamp when the title itself wraps to 2 lines) ── */
+.proj-badge-row{margin-top:.15rem}
+.proj-badge-row .r-award-badge{margin-left:0!important}
+
+
+/* ── PAGE BACKGROUND ONLY: pink, everything else (glass cards,
+   fonts, layout) stays exactly as it was ── */
+body{
+  background:
+    radial-gradient(circle at 18% 8%,rgba(244,120,168,.5),transparent 42%),
+    radial-gradient(circle at 85% 18%,rgba(255,182,213,.4),transparent 35%),
+    linear-gradient(140deg,#ffeaf3,#ffd7e8 52%,#ffc3dc)!important;
 }
-.uiux-panel > .proj-grid{min-height:0;overflow:hidden}
-.uiux-panel.open{
-  grid-template-rows:1fr;
-  opacity:1;
+body::before{
+  background-image:radial-gradient(circle,rgba(150,40,90,.07) 1px,transparent 1px)!important;
 }
 
+/* ── BIGGER PROFILE PHOTO + HOVER EFFECT ── */
+.hero-photo{
+  width:172px!important;
+  height:172px!important;
+  cursor:pointer;
+  transition:transform .35s cubic-bezier(.2,.8,.25,1),box-shadow .35s ease;
+}
+.hero-photo:hover{
+  transform:scale(1.06) translateY(-3px);
+  box-shadow:0 20px 42px rgba(80,90,110,.32),0 0 0 1px var(--ios-line,rgba(120,128,145,.22));
+}
+@media(max-width:760px){
+  .hero-photo{width:128px!important;height:128px!important}
+}
+
+/* ── LANGUAGES & TOOLS SCROLLING STRIP ── */
+.skill-marquee-wrap{display:flex;flex-direction:column;gap:1.1rem;padding:.5rem 0}
+.skill-marquee-label{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ios-muted,#667085);padding:0 1.5rem}
+.skill-marquee{
+  overflow:hidden;position:relative;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+.skill-track{display:flex;gap:.7rem;width:max-content;animation:skillScroll 32s linear infinite;padding:0 1.5rem}
+.skill-track-rev{animation-direction:reverse;animation-duration:38s}
+.skill-marquee:hover .skill-track{animation-play-state:paused}
+@keyframes skillScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.skill-logo{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;
+  width:86px;flex-shrink:0;padding:.75rem .4rem;
+  background:rgba(255,255,255,.6);
+  border:1px solid var(--ios-line,rgba(120,128,145,.22));
+  border-radius:14px;
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+}
+.skill-logo:hover{transform:translateY(-3px);background:rgba(255,255,255,.9);box-shadow:0 10px 20px rgba(80,90,110,.16)}
+.skill-logo img{width:28px;height:28px;object-fit:contain;display:block}
+.skill-logo em{font-style:normal;font-size:.62rem;font-weight:600;color:var(--ios-ink,#1c1d22);text-align:center;line-height:1.2}
+.skill-logo-text{justify-content:center}
+.skill-logo-text em{font-size:.72rem;font-weight:800}
+@media(prefers-reduced-motion:reduce){
+  .skill-track{animation:none}
+}
+
+/* ── ACCEPTED STATUS BADGE: yellow, not amber ── */
+.r-pub-status-accepted{
+  background:#f5c518!important;
+  color:#4a3b00!important;
+}
+
+
+/* ── MATCH DESKTOP TEXT: system font, desktop weights/colors, award + status pills ── */
+html body,html body .r-name,html body .r-card-title,html body .tb-title,html body .proj-title,html body .proj-scrim-title,
+html body .r-role,html body .r-org,html body .sb-name,html body .sb-item,html body .r-sub,html body .r-org-line,html body .r-bullets li,
+html body .r-pub,html body .proj-sub,html body .r-date,html body .proj-date-badge,html body .proj-scrim-date,html body .r-stmt-label,
+html body .r-contact-row a,html body .r-lnk,html body .tb-back,html body .tb-clock,html body .sb-print,html body .r-statement p{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Helvetica Neue',Arial,sans-serif!important}
+html body .r-name{font-weight:800!important;letter-spacing:-.035em!important;color:#1c1d22!important}
+html body .r-card-title{font-weight:800!important;letter-spacing:-.015em!important;color:#1c1d22!important}
+html body .r-role,html body .proj-title,html body .proj-scrim-title,html body .r-org{font-weight:800!important;letter-spacing:-.01em!important;color:#1c1d22!important}
+html body .r-sub,html body .r-org-line,html body .r-bullets li,html body .r-pub,html body .proj-sub,html body .r-statement p{color:#4b5160!important}
+html body .r-date,html body .proj-scrim-date{font-weight:700!important;color:#6b7280!important}
+html body .r-stmt-label{font-size:.7rem!important;font-weight:700!important;letter-spacing:.08em!important;color:#6b7280!important}
+
+/* award badges = desktop hackathon award pill */
+html body .r-award-badge,html body .r-tag-amber{display:inline-flex!important;align-items:center!important;gap:.25rem!important;
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Arial,sans-serif!important;
+  font-size:.68rem!important;font-weight:800!important;letter-spacing:0!important;text-transform:none!important;line-height:1.3!important;
+  color:#1c1d22!important;background:#fff1a8!important;border:0!important;border-radius:999px!important;box-shadow:none!important;padding:.12rem .6rem!important}
+html body .r-award-badge::before,html body .r-tag-amber::before{content:'★'!important;width:auto!important;height:auto!important;
+  background:none!important;box-shadow:none!important;border-radius:0!important;font-size:.7rem!important;color:#1c1d22!important}
+
+/* Accepted / Submitted = desktop papers pills */
+html body .r-pub-status{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Arial,sans-serif!important;
+  font-size:.66rem!important;font-weight:700!important;letter-spacing:0!important;text-transform:none!important;
+  border:0!important;border-radius:999px!important;box-shadow:none!important;padding:.12rem .6rem!important;background:#e4d8f8!important;color:#3c3489!important}
+html body .r-pub-status-accepted{background:#b8f0d8!important;color:#085041!important}
+
+/* ── background color ── */
+html body{background:#FACBC6!important}
+@media print{html body{background:#fff!important}}
 </style>
 </head>
 <body>
@@ -2555,16 +2623,6 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
     <div class="sb-bar">Navigation</div>
     <div class="sb-profile">
       <div class="sb-name">Mia Zhou</div>
-      <div class="skill-pills" style="margin-top:.55rem">
-        <div class="skill-group-label">Languages</div>
-        <div style="display:flex;flex-wrap:wrap;gap:.2rem;margin-bottom:.5rem">
-          <span class="r-pill">Python</span><span class="r-pill">R</span><span class="r-pill">SAS</span><span class="r-pill">MATLAB</span><span class="r-pill">JavaScript</span><span class="r-pill">SQL</span>
-        </div>
-        <div class="skill-group-label">Tools / Frameworks</div>
-        <div style="display:flex;flex-wrap:wrap;gap:.2rem">
-          <span class="r-pill">Tableau</span><span class="r-pill">Linux&nbsp;/&nbsp;Unix</span><span class="r-pill">Azure</span><span class="r-pill">GitHub</span><span class="r-pill">GCP</span><span class="r-pill">XGBoost</span><span class="r-pill">PyTorch</span><span class="r-pill">Scikit-learn</span><span class="r-pill">Pandas</span><span class="r-pill">NumPy</span><span class="r-pill">p5.js</span><span class="r-pill">Node.js</span><span class="r-pill">REST&nbsp;API</span><span class="r-pill">React.js</span><span class="r-pill">Power&nbsp;BI</span><span class="r-pill">VM</span>
-        </div>
-      </div>
     </div>
     <nav class="sb-nav">
       <div class="sb-item on" data-sec="sec-header" onclick="navTo(this,'sec-header')">
@@ -2587,11 +2645,11 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
       <div class="sb-item" data-sec="sec-proj" onclick="navTo(this,'sec-proj')">
         <div class="sb-dot" style="background:#a78bfa"></div>Projects
       </div>
-      <div class="sb-item" data-sec="sec-uiux" onclick="navTo(this,'sec-uiux')">
-        <div class="sb-dot" style="background:#22d3ee"></div>UI/UX
-      </div>
       <div class="sb-item" data-sec="sec-lead" onclick="navTo(this,'sec-lead')">
         <div class="sb-dot" style="background:#34d399"></div>Leadership
+      </div>
+      <div class="sb-item" data-sec="sec-skills" onclick="navTo(this,'sec-skills')">
+        <div class="sb-dot" style="background:#5b8def"></div>Skills
       </div>
     </nav>
     <div class="sb-sep"></div>
@@ -2627,6 +2685,7 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
               <a href="tel:9193372313" title="919-337-2313"><svg viewBox="0 0 24 24"><path d="M8.5 5.7c-1.1-.8-2.2-.7-3 .2l-.9 1c-.8 1-.6 2.4.3 3.7 2.1 3 4.7 5.6 7.8 7.5 1.4.9 2.9.9 3.7-.1l.9-1c.8-.9.7-2.1-.4-2.7l-2-1.3c-.6-.4-1.4-.3-1.9.3l-.7.7c-1.5-1-2.7-2.4-3.5-3.9l.7-.7c.5-.5.6-1.3.2-1.9z"/></svg>Phone</a>
               <a href="https://linkedin.com/in/miaazhoou" target="_blank" title="linkedin.com/in/miaazhoou"><svg viewBox="0 0 24 24"><path d="M4.7 4.9c4.9-.7 9.7-.6 14.6.1.5 4.7.5 9.3 0 14.1-4.9.6-9.7.5-14.6-.1-.4-4.6-.4-9.3 0-14.1z"/><text x="12" y="16.5" font-family="'Segoe Print','Comic Sans MS',cursive" font-weight="700" font-size="10.5" fill="currentColor" stroke="none" text-anchor="middle">in</text></svg>LinkedIn</a>
               <a href="https://github.com/miazhouruoya" target="_blank" title="github.com/miazhouruoya"><svg viewBox="0 0 24 24"><path d="M12 4.6c3.3-.3 6.1 1.9 6.7 5 .5 2.6-.6 5.1-2.7 6.6.1 1.5.1 2.5-.7 3.3-1.7-.2-2-.9-2.1-2-1.4.2-2.9.2-4.3 0-.1 1.1-.4 1.8-2.1 2-.8-.8-.8-1.8-.7-3.3-2.1-1.5-3.2-4-2.7-6.6.6-3.1 3.4-5.3 6.6-5z"/><path d="M8.3 7.6l-1.6-2.3"/><path d="M15.7 7.6l1.6-2.3"/><circle cx="9.6" cy="12.2" r=".55" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.2" r=".55" fill="currentColor" stroke="none"/></svg>GitHub</a>
+              <a href="https://scholar.google.com/citations?user=FcFW3d4AAAAJ&hl=en" target="_blank" title="Google Scholar"><svg viewBox="0 0 24 24"><path d="M3.5 9.5l8.5-4 8.5 4-8.5 4-8.5-4z"/><path d="M7 11.3v4c0 1.3 2.2 2.4 5 2.4s5-1.1 5-2.4v-4"/><path d="M20 9.7v5.2"/></svg>Scholar</a>
             </div>
           </div>
         </div>
@@ -2646,6 +2705,24 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
       </div>
       <div class="r-card-body">
         <div class="proj-grid">
+          <div class="proj-card" style="cursor:default">
+            <div class="proj-thumb proj-thumb-logo" style="background-image:url('folderpic/c1.png');background-size:58%;background-repeat:no-repeat;background-position:center">
+              <span class="proj-date-badge">Jun – Aug 2027</span>
+            </div>
+            <div class="proj-body">
+              <div class="proj-title">Incoming Business Analyst Intern</div>
+              <div class="proj-sub">Capital One · McLean, VA</div>
+            </div>
+            <div class="proj-scrim">
+              <div class="proj-scrim-date">Jun — Aug 2027</div>
+              <div class="proj-scrim-title">Incoming Business Analyst Intern</div>
+              <ul class="r-bullets">
+                <li>Slated to engineer data-driven product strategies leveraging cloud-native financial data infrastructure.</li>
+                <li>Will utilize <strong>SQL</strong> and <strong>Python (Pandas)</strong> to query <strong>AWS Snowflake</strong> data warehouses and model user behavioral KPIs.</li>
+                <li>Prepared to translate machine learning insights and <strong>A/B test</strong> metrics into technical <strong>Agile/Jira</strong> backlogs.</li>
+              </ul>
+            </div>
+          </div>
           <div class="proj-card" onclick="window.open('http://34.58.86.171/','_blank')">
             <div class="proj-thumb proj-thumb-logo">
               <span class="proj-date-badge">Jul – Aug 2026</span>
@@ -2663,8 +2740,11 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             <div class="proj-scrim">
               <div class="proj-scrim-date">Jul — Aug 2026</div>
               <div class="proj-scrim-title">Software Engineer Intern</div>
-              <p class="proj-scrim-desc">Led a 4-person Agile team to develop an agentic AI application using Python, BigQuery (SQL), and GCP, analyzing 41 GTFS transit feeds to study educational accessibility for 2,400+ public schools across 100 counties.</p>
-              <p class="proj-scrim-desc">Designed a multi-agent RAG system using the Google ADK framework and Gemini 3.5 Flash model to generate policy recommendations and logistic regression risk-factor analysis.</p>
+              <ul class="r-bullets">
+                <li>Led a 4-person Agile team to develop an agentic AI application using <strong>Python, React/Vite, Google BigQuery (SQL), Gemini API,</strong> and <strong>GCP</strong>, analyzing 41 GTFS transit feeds to study educational accessibility for 2,400+ public schools across 100 counties.</li>
+                <li>Designed a <strong>RAG LLM workflow</strong> using the <strong>Google ADK</strong> framework and <strong>Gemini</strong> to generate policy recommendations, paired with <strong>logistic regression</strong> risk-factor analysis.</li>
+                <li>Built EduBridge, an application exploring factors contributing to educational disparities across North Carolina.</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -2678,13 +2758,17 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
         <span class="r-card-title">publications</span>
       </div>
       <div class="r-card-body">
-        <div class="r-pub">
-          Gao, Y., Chen, L., Wu, W., <strong>Zhou, M.</strong>, Wang, J., Ji, K., Guo, M., &amp; Chen, H. (2026). <em>Bit-flip attacks on vision-language-action models: Action-decoding architecture shapes the vulnerability.</em> <em>AAAI 2027 Conference.</em>
+        <div class="r-pub" data-idx="[1]">
+          <a class="r-pub-link" href="https://arxiv.org/abs/2604.22802" target="_blank">Shi, C.*, Han, S., Kusumanchi, S., <strong>Zhou, M.</strong>, &amp; Li, D. NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. <em>SLADS.</em></a>
+          <span class="r-pub-status r-pub-status-accepted">Accepted</span>
+        </div>
+        <div class="r-pub" data-idx="[2]">
+          <a class="r-pub-link" href="https://arxiv.org/html/2608.15475v1" target="_blank">Gao, Y.*, Chen, L.*, Wu, W.*, <strong>Zhou, M.</strong>, Wang, J., Ji, K., Guo, M., &amp; Chen, H. (2026). Bit-flip attacks on vision-language-action models: Action-decoding architecture shapes the vulnerability. <em>AAAI 2027 Conference Submission.</em></a>
           <span class="r-pub-status">Submitted</span>
         </div>
-        <div class="r-pub">
-          <a class="r-pub-link" href="https://arxiv.org/abs/2604.22802" target="_blank">Shi, C., Han, S., Kusumanchi, S., <strong>Zhou, M.</strong>, &amp; Li, D. (under review). NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science. <em>Manuscript submitted for publication.</em></a>
-          <span class="r-pub-status">Under Review</span>
+        <div class="r-pub" data-idx="[3]">
+          Gao, Y.*, Chen, L.*, Wu, W.*, <strong>Zhou, M.</strong>, Mao, X., Guo, M., &amp; Chen, H. &ldquo;Cooldown Landmines: Cross-Tenant Denial of Service via Shared Circuit-Breaker State in LLM Gateways.&rdquo; <em>ICLR 2027 Conference Submission.</em>
+          <span class="r-pub-status">Submitted</span>
         </div>
       </div>
     </div>
@@ -2698,6 +2782,44 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
       <div class="r-card-body">
         <div class="proj-grid">
 
+          <div class="proj-card" data-detail="cvd" onclick="window.open('Uni/BUSI_Mia2.pdf','_blank')">
+            <div class="proj-thumb" style="background-image:url('folderpic/thumbs/BUSI.jpg')"><span class="proj-date-badge">Mar 2026 – Present</span></div>
+            <div class="proj-body">
+              <div class="proj-title">Multi-State CVD Progression Modeling</div>
+              <div class="proj-sub">Honors Thesis · UNC Chapel Hill — Dept. of Biostatistics</div>
+              <div class="proj-badge-row"><span class="r-tag r-tag-amber r-award-badge">Honorable Mention @ BUSI Symposium 2026</span></div>
+            </div>
+            <div class="proj-scrim">
+              <div class="proj-scrim-date">Mar 2026 — Present</div>
+              <div class="proj-scrim-title">Multi-State CVD Progression Modeling</div>
+              <ul class="r-bullets">
+                <li>Built a 6-state disease progression model across <strong>ARIC, CHS and FHS</strong>, generating each 10-year cardiovascular risk predictions.</li>
+                <li>Automated quality-control workflows, resolving sparse-data bias and hidden preprocessing errors across 20 model evaluations.</li>
+                <li>Validated predictive performance using discrimination C-index and Calibration, achieving 78.5% HF discrimination and 82.7–87.2% for multi-stage disease prediction.</li>
+                <li>Presented the poster at Biostatistic Undergraduate Summer Internship Symposium and received Honorable Mention.</li>
+                <li>Writing manuscript and extending the thesis to develop and optimize survival prediction methods by integrating existing statistical approaches.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="proj-card" style="cursor:default">
+            <div class="proj-thumb proj-thumb-logo" style="background-image:url('folderpic/thumbs/NSF.png');background-size:58%;background-repeat:no-repeat;background-position:center">
+              <span class="proj-date-badge">Sep 2026 – Present</span>
+            </div>
+            <div class="proj-body">
+              <div class="proj-title">NSF Research Fellow (Quant Finance)</div>
+              <div class="proj-sub">UNC Undergraduate Research Training Group</div>
+            </div>
+            <div class="proj-scrim">
+              <div class="proj-scrim-date">Sep 2026 — Present</div>
+              <div class="proj-scrim-title">NSF Research Fellow (Quant Finance)</div>
+              <ul class="r-bullets">
+                <li>Developing robust optimization models for bond portfolio construction using alpha signals and market data.</li>
+                <li>Building automated data, modeling, and backtesting workflows to evaluate portfolio strategies, risk, and performance.</li>
+              </ul>
+            </div>
+          </div>
+
           <div class="proj-card" data-detail="nih" onclick="window.open('https://arxiv.org/abs/2604.22802','_blank')">
             <div class="proj-thumb" style="background-image:url('folderpic/thumbs/NIH.jpg')"><span class="proj-date-badge">Oct 2024 – Present</span></div>
             <div class="proj-body">
@@ -2707,14 +2829,16 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             <div class="proj-scrim">
               <div class="proj-scrim-date">Oct 2024 — Present</div>
               <div class="proj-scrim-title">Project 1 — NIH Network Analysis</div>
-              <p class="proj-scrim-desc">Read through 30,000+ NIH grant abstracts to see how research funding clusters by topic, and mapped how researchers collaborate with each other. Paper currently under review.</p>
+              <ul class="r-bullets">
+                <li>Engineered an <strong>NLP</strong> pipeline using <strong>BERTopic</strong> and <strong>BioSentVec</strong> to analyse 30k+ NIH grants and identify funding trends.</li>
+              </ul>
               <div class="r-links">
                 <a class="r-lnk" href="https://github.com/CuiranVivianShi/NIH_network" target="_blank" title="Code" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M8.6 6.6c-2.1 1.7-3.5 3.2-4.7 5.3 1.3 2 2.7 3.6 4.8 5.4"/><path d="M15.5 6.5c2 1.8 3.5 3.3 4.7 5.4-1.3 2-2.7 3.5-4.8 5.3"/><path d="M13.7 5.1c-1 4.5-2 9.1-3.2 13.7"/></svg><span class="r-lnk-label">Code</span></a>
               </div>
             </div>
           </div>
 
-          <div class="proj-card" data-detail="spatial" onclick="od('spatial')">
+          <div class="proj-card" data-detail="spatial" style="cursor:default">
             <div class="proj-thumb" style="background-image:url('folderpic/thumbs/project2.jpg')"><span class="proj-date-badge">Oct 2024 – Present</span></div>
             <div class="proj-body">
               <div class="proj-title">Project 2 — Spatial Transcriptomics</div>
@@ -2723,20 +2847,9 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             <div class="proj-scrim">
               <div class="proj-scrim-date">Oct 2024 — Present</div>
               <div class="proj-scrim-title">Project 2 — Spatial Transcriptomics</div>
-              <p class="proj-scrim-desc">Comparing a few different methods for mapping how cells are arranged in tissue, to see which one gives the most reliable results for studying gene activity.</p>
-            </div>
-          </div>
-
-          <div class="proj-card" data-detail="cvd" onclick="window.open('Uni/BUSI_Mia2.pdf','_blank')">
-            <div class="proj-thumb" style="background-image:url('folderpic/thumbs/BUSI.jpg')"><span class="proj-date-badge">Mar 2026 – Present</span></div>
-            <div class="proj-body">
-              <div class="proj-title">Multi-State CVD Progression Modeling<span class="r-tag r-tag-amber r-award-badge">BUSI 2026 · Honorable Mention</span></div>
-              <div class="proj-sub">Honors Thesis · UNC Chapel Hill — Dept. of Biostatistics</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-date">Mar 2026 — Present</div>
-              <div class="proj-scrim-title">Multi-State CVD Progression Modeling</div>
-              <p class="proj-scrim-desc">Building models that track how heart disease progresses over time — from diagnosis to stroke, heart failure, or other outcomes — using real patient health records.</p>
+              <ul class="r-bullets">
+                <li>Benchmarking 3 <strong>graph-learning frameworks</strong> (Seurat, Squidpy, Niches) for spatial transcriptomics, on Stimage-1K4M dataset to evaluate computational efficiency and downstream biological performance.</li>
+              </ul>
             </div>
           </div>
 
@@ -2749,14 +2862,18 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             <div class="proj-scrim">
               <div class="proj-scrim-date">Jun 2024 — Present</div>
               <div class="proj-scrim-title">eNet Enhancer Network</div>
-              <p class="proj-scrim-desc">Combined two types of single-cell data to map which DNA switches (enhancers) control which genes in leukemia, and pinpointed the genes most likely driving the disease.</p>
+              <ul class="r-bullets">
+                <li>Integrated single-cell transcriptomic and epigenomic datasets (<strong>18K+ cells</strong>) to construct graph-based enhancer networks and analyze gene regulatory relationships in leukemia.</li>
+                <li>Applied network analysis, correlation modeling, and co-accessibility metrics to identify regulatory modules for the Leukemia driver gene.</li>
+                <li>Analyzed enhancer topology and interaction patterns, discovering that modular enhancer networks (~8.4%) exhibited significantly stronger regulatory enrichment than non-modular networks.</li>
+              </ul>
               <div class="r-links">
                 <a class="r-lnk" href="Uni/eNet.pdf" target="_blank" title="Report" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M7 3.3c3.6-.4 7-.3 10.3.2.4 4.8.3 9.6-.2 14.7-3.6.5-7.1.4-10.6-.1-.3-4.9-.2-9.8.5-14.8z"/><path d="M9.3 9c2 .2 3.8.2 5.7 0"/><path d="M9.1 12.4c2.3.3 4.4.3 6.6 0"/><path d="M9 15.6c1.6.2 3 .2 4.6 0"/></svg><span class="r-lnk-label">Report</span></a>
               </div>
             </div>
           </div>
 
-          <div class="proj-card" data-detail="agent" onclick="od('agent')">
+          <div class="proj-card" data-detail="agent" onclick="window.open('Exp/abm-story-page-v2.html','_blank')">
             <div class="proj-thumb" style="background-image:url('folderpic/thumbs/Agent-Society.jpg')"><span class="proj-date-badge">May – Aug 2025</span></div>
             <div class="proj-body">
               <div class="proj-title">Agent-Based Economic Simulation</div>
@@ -2765,7 +2882,11 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             <div class="proj-scrim">
               <div class="proj-scrim-date">May — Aug 2025</div>
               <div class="proj-scrim-title">Agent-Based Economic Simulation</div>
-              <p class="proj-scrim-desc">Simulated a simplified economy where AI agents make spending decisions like real people — copying neighbors, reacting to trends — to see how that changes wealth inequality and market swings.</p>
+              <ul class="r-bullets">
+                <li>Built infra for an <strong>LLM-powered Agent Society</strong>, configuring remote Linux environments, SSH port forwarding, dependency management, and experiment workflows for large-scale simulations.</li>
+                <li>Customized prompts and structured outputs for 100 autonomous AI agents operating in a virtual Beijing environment, enabling coordinated economic decision-making within a behavioral RCK model.</li>
+                <li>Executed and analyzed reproducible multi-agent simulations, evaluating emergent business cycles, wealth inequality, and belief polarization using experiment tracking and sensitivity analysis.</li>
+              </ul>
               <div class="r-links">
                 <a class="r-lnk" href="Uni/ABM.pdf" target="_blank" title="PDF" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M7 3.3c3.6-.4 7-.3 10.3.2.4 4.8.3 9.6-.2 14.7-3.6.5-7.1.4-10.6-.1-.3-4.9-.2-9.8.5-14.8z"/><path d="M9.3 9c2 .2 3.8.2 5.7 0"/><path d="M9.1 12.4c2.3.3 4.4.3 6.6 0"/><path d="M9 15.6c1.6.2 3 .2 4.6 0"/></svg><span class="r-lnk-label">PDF</span></a>
                 <a class="r-lnk" href="https://github.com/miazhouruoya/agent-society-workplace" target="_blank" title="Code" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M8.6 6.6c-2.1 1.7-3.5 3.2-4.7 5.3 1.3 2 2.7 3.6 4.8 5.4"/><path d="M15.5 6.5c2 1.8 3.5 3.3 4.7 5.4-1.3 2-2.7 3.5-4.8 5.3"/><path d="M13.7 5.1c-1 4.5-2 9.1-3.2 13.7"/></svg><span class="r-lnk-label">Code</span></a>
@@ -2786,7 +2907,7 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
       <div class="r-card-body">
         <div class="proj-grid">
 
-          <div class="proj-card" data-detail="datafest" onclick="od('datafest')">
+          <div class="proj-card" data-detail="datafest" onclick="window.open('Exp/datafest-site/index.html','_blank')">
             <div class="proj-thumb" style="background-image:url('folderpic/thumbs/ASA.jpg')"><span class="proj-date-badge">Mar 2026</span></div>
             <div class="proj-body">
               <div class="proj-title">Duke ASA DataFest 2026<span class="r-tag r-tag-amber r-award-badge">Best Statistical Analysis</span></div>
@@ -2795,7 +2916,11 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             <div class="proj-scrim">
               <div class="proj-scrim-date">Mar 2026</div>
               <div class="proj-scrim-title">Duke ASA DataFest 2026</div>
-              <p class="proj-scrim-desc">In 48 hours, analyzed 10,000+ patient records to show how things like poverty and transportation access predict ER visits, then mapped out where a mobile clinic could help most.</p>
+              <ul class="r-bullets">
+                <li>Led EDA cleaning pipeline for a 4-person team using <strong>Python, R, Scikit-learn</strong> on 7M+ healthcare data over 8 social risk domains, and won the Best Statistical Analysis Award.</li>
+                <li>Identified high-risk diabetic populations using <strong>logistic regression</strong>, projecting an 18% reduction in avoidable ED visits.</li>
+                <li>Designed nearest-neighbor mobile clinic routing covering 32K+ high-risk patients within a 15-mile radius and built an interactive geospatial dashboard for healthcare planning.</li>
+              </ul>
               <div class="r-links">
                 <a class="r-lnk" href="Uni/Carolina_Correlation_DukeASA26.pdf" target="_blank" title="Slides" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M7 3.3c3.6-.4 7-.3 10.3.2.4 4.8.3 9.6-.2 14.7-3.6.5-7.1.4-10.6-.1-.3-4.9-.2-9.8.5-14.8z"/><path d="M9.3 9c2 .2 3.8.2 5.7 0"/><path d="M9.1 12.4c2.3.3 4.4.3 6.6 0"/><path d="M9 15.6c1.6.2 3 .2 4.6 0"/></svg><span class="r-lnk-label">Slides</span></a>
                 <a class="r-lnk" href="https://github.com/miazhouruoya/dukeasafest26" target="_blank" title="Code" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M8.6 6.6c-2.1 1.7-3.5 3.2-4.7 5.3 1.3 2 2.7 3.6 4.8 5.4"/><path d="M15.5 6.5c2 1.8 3.5 3.3 4.7 5.4-1.3 2-2.7 3.5-4.8 5.3"/><path d="M13.7 5.1c-1 4.5-2 9.1-3.2 13.7"/></svg><span class="r-lnk-label">Code</span></a>
@@ -2813,14 +2938,19 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             <div class="proj-scrim">
               <div class="proj-scrim-date">Mar 2026</div>
               <div class="proj-scrim-title">WageGuard</div>
-              <p class="proj-scrim-desc">Built a voice-based app that helps Latino workers check if they're being underpaid and walks them through what to do about it, in English or Spanish.</p>
+              <ul class="r-bullets">
+                <li>Led product design and front-end development for a bilingual, voice-first wage protection platform helping Latino workers identify wage theft, understand labor rights, and generate actionable complaints.</li>
+                <li>Built a 3-agent AI workflow using <strong>Gemini</strong> and <strong>ElevenLabs</strong> to convert natural-language voice input into structured wage claims, ask adaptive follow-up questions, and generate plain-language English or Spanish guidance.</li>
+                <li>Engineered an <strong>Express/TypeScript</strong> backend with <strong>Supabase</strong> authentication and a deterministic 50-state wage calculation engine, separating legal calculations from LLM reasoning to improve accuracy and reliability.</li>
+                <li>Won 1st Place at SolHacks after delivering the end-to-end product in 24 hours, including retaliation detection, evidence organization, downloadable case records, and complaint generation.</li>
+              </ul>
               <div class="r-links">
                 <a class="r-lnk" href="https://devpost.com/software/jornadajusta" target="_blank" title="Devpost" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M6.2 8.3c-.5 3.4-.6 6.3-.2 9.5 3.4.5 6.3.4 9.5-.1"/><path d="M9.6 14.3c3.1-3 5.7-5.6 8.9-8.3"/><path d="M13.7 5.5c1.8-.2 3.2-.2 4.9 0 .2 1.7.2 3.2 0 5"/></svg><span class="r-lnk-label">Devpost</span></a>
               </div>
             </div>
           </div>
 
-          <div class="proj-card" data-detail="datamini3" onclick="od('datamini3')">
+          <div class="proj-card" data-detail="datamini3" onclick="window.open('Exp/railroad-safety-site/index.html','_blank')">
             <div class="proj-thumb" style="background-image:url('folderpic/thumbs/DataMini.jpg')"><span class="proj-date-badge">Apr 2026</span></div>
             <div class="proj-body">
               <div class="proj-title">Duke Data Mini #3<span class="r-tag r-tag-amber r-award-badge">Best Statistical Analysis</span></div>
@@ -2829,7 +2959,11 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             <div class="proj-scrim">
               <div class="proj-scrim-date">Apr 2026</div>
               <div class="proj-scrim-title">Duke Data Mini #3</div>
-              <p class="proj-scrim-desc">Studied U.S. railroad accident data to find out who's most at risk and why — trespassing and drug use turned out to be the biggest predictors of fatal outcomes.</p>
+              <ul class="r-bullets">
+                <li>Built a two-model risk-analysis pipeline combining <strong>logistic regression</strong> and <strong>XGBoost</strong> on U.S. railroad incident records to identify fatality risk factors.</li>
+                <li>Found trespassing (33.85x odds) and positive drug tests (9.53x odds) were the dominant mortality drivers, explaining the bulk of the fatality gap.</li>
+                <li>Clustered fatal incidents into recurring behavioral archetypes (track-walkers, grade-crossing drivers, maintenance-zone workers) to point toward targeted interventions.</li>
+              </ul>
               <div class="r-links">
                 <a class="r-lnk" href="Uni/Duke%20Mini%233.pdf" target="_blank" title="Slides" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M7 3.3c3.6-.4 7-.3 10.3.2.4 4.8.3 9.6-.2 14.7-3.6.5-7.1.4-10.6-.1-.3-4.9-.2-9.8.5-14.8z"/><path d="M9.3 9c2 .2 3.8.2 5.7 0"/><path d="M9.1 12.4c2.3.3 4.4.3 6.6 0"/><path d="M9 15.6c1.6.2 3 .2 4.6 0"/></svg><span class="r-lnk-label">Slides</span></a>
               </div>
@@ -2849,7 +2983,27 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
       <div class="r-card-body">
         <div class="proj-grid">
 
-          <div class="proj-card" data-detail="app741" onclick="od('app741')">
+          <div class="proj-card" onclick="window.open('Exp/hertime-project/index.html','_blank')">
+            <div class="proj-thumb" style="background-image:url('folderpic/thumbs/HerTime.jpg')"></div>
+            <div class="proj-body">
+              <div class="proj-title">HerTime</div>
+              <div class="proj-sub">Carolina Data Challenge 2026</div>
+            </div>
+            <div class="proj-scrim">
+              <div class="proj-scrim-title">HerTime</div>
+              <ul class="r-bullets">
+                <li>Built a data pipeline in <strong>Python (pandas, NumPy)</strong> merging 7 World Bank datasets (129K+ records, 215 countries), and rebuilt missing rural-women data at r = 0.998 against 1,263 direct surveys.</li>
+                <li>Modeled gender opportunity gaps with a <strong>Bayesian model</strong> (Gibbs sampling, Kalman filter), finding rural women's jobs trail urban women's by a median of 21 years.</li>
+                <li>Built a <strong>LightGBM + SHAP</strong> early-warning predictive model predicting widening gaps at 0.87 AUC (vs 0.54 baseline), and delivered 2,050 findings to a <strong>LangGraph multi-agent AI</strong> assistant on the website.</li>
+              </ul>
+              <div class="r-links">
+                <a class="r-lnk" href="https://erhxyun.github.io/Carolina-Data-Challenge-2026/" target="_blank" title="Live Demo" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M6.2 8.3c-.5 3.4-.6 6.3-.2 9.5 3.4.5 6.3.4 9.5-.1"/><path d="M9.6 14.3c3.1-3 5.7-5.6 8.9-8.3"/><path d="M13.7 5.5c1.8-.2 3.2-.2 4.9 0 .2 1.7.2 3.2 0 5"/></svg><span class="r-lnk-label">Live Demo</span></a>
+                <a class="r-lnk" href="https://github.com/miazhouruoya/Carolina-Data-Challenge-2026" target="_blank" title="Code" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M8.6 6.6c-2.1 1.7-3.5 3.2-4.7 5.3 1.3 2 2.7 3.6 4.8 5.4"/><path d="M15.5 6.5c2 1.8 3.5 3.3 4.7 5.4-1.3 2-2.7 3.5-4.8 5.3"/><path d="M13.7 5.1c-1 4.5-2 9.1-3.2 13.7"/></svg><span class="r-lnk-label">Code</span></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="proj-card" data-detail="app741" onclick="window.open('Exp/clinical-doppelganger/index.html','_blank')">
             <div class="proj-thumb" style="background-image:url('folderpic/thumbs/Doople.jpg')"><span class="proj-date-badge">Jan – May 2026</span></div>
             <div class="proj-body">
               <div class="proj-title">Clinical Doppelgänger — EHR Clinical Decision Support</div>
@@ -2858,7 +3012,11 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             <div class="proj-scrim">
               <div class="proj-scrim-date">Jan — May 2026</div>
               <div class="proj-scrim-title">Clinical Doppelgänger</div>
-              <p class="proj-scrim-desc">Built a tool that helps doctors find patients with similar histories to the one in front of them, so they can see what treatments worked before — with clear visual explanations, not just a black-box score.</p>
+              <ul class="r-bullets">
+                <li>Built a <strong>SMART on FHIR</strong> web app that securely retrieves and continuously updates 5 types of patient health records, turning them into an interactive clinical timeline.</li>
+                <li>Developed a patient-matching pipeline using Propensity Score Matching, Kaplan–Meier analysis, and bootstrap CIs to identify similar patients and compare their outcomes over time.</li>
+                <li>Trained ML/predictive models on SMART sandbox patient data to generate personalized patient trajectories, combining historical "patients like me" patterns with continuously updated backend data for clinical decision support.</li>
+              </ul>
               <div class="r-links">
                 <a class="r-lnk" href="https://miazhouruoya.github.io/doppelganger/" target="_blank" title="Live Demo" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M6.2 8.3c-.5 3.4-.6 6.3-.2 9.5 3.4.5 6.3.4 9.5-.1"/><path d="M9.6 14.3c3.1-3 5.7-5.6 8.9-8.3"/><path d="M13.7 5.5c1.8-.2 3.2-.2 4.9 0 .2 1.7.2 3.2 0 5"/></svg><span class="r-lnk-label">Live Demo</span></a>
                 <a class="r-lnk" href="https://github.com/miazhouruoya/doppelganger" target="_blank" title="Code" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M8.6 6.6c-2.1 1.7-3.5 3.2-4.7 5.3 1.3 2 2.7 3.6 4.8 5.4"/><path d="M15.5 6.5c2 1.8 3.5 3.3 4.7 5.4-1.3 2-2.7 3.5-4.8 5.3"/><path d="M13.7 5.1c-1 4.5-2 9.1-3.2 13.7"/></svg><span class="r-lnk-label">Code</span></a>
@@ -2867,7 +3025,7 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             </div>
           </div>
 
-          <div class="proj-card" data-detail="math" onclick="od('math')">
+          <div class="proj-card" data-detail="math" onclick="window.open('Exp/tumour-immune-site/index.html','_blank')">
             <div class="proj-thumb" style="background-image:url('folderpic/thumbs/tumor.jpg')"><span class="proj-date-badge">Apr 2026</span></div>
             <div class="proj-body">
               <div class="proj-title">Tumour–Immune Dynamics: ODE, PDE &amp; Control</div>
@@ -2876,14 +3034,17 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             <div class="proj-scrim">
               <div class="proj-scrim-date">Apr 2026</div>
               <div class="proj-scrim-title">Tumour–Immune Dynamics: ODE, PDE &amp; Control</div>
-              <p class="proj-scrim-desc">Used math to model how a tumor and the immune system interact over time, showing when the immune system wins, when it stalls, and when treatment could tip the balance.</p>
+              <ul class="r-bullets">
+                <li>Built tumor–immune simulation models in <strong>Python and MATLAB</strong> to show how tumors and immune cells interact over time and when tumors are controlled, dormant, or escape.</li>
+                <li>Identified critical biological thresholds where small changes in immune response can shift the system from tumor control to progression using ODEs and bifurcation analysis. Developed an R Shiny Dashboard to explore different patient and treatment strategies.</li>
+              </ul>
               <div class="r-links">
                 <a class="r-lnk" href="Uni/tumour_immune.pdf" target="_blank" title="Report" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M7 3.3c3.6-.4 7-.3 10.3.2.4 4.8.3 9.6-.2 14.7-3.6.5-7.1.4-10.6-.1-.3-4.9-.2-9.8.5-14.8z"/><path d="M9.3 9c2 .2 3.8.2 5.7 0"/><path d="M9.1 12.4c2.3.3 4.4.3 6.6 0"/><path d="M9 15.6c1.6.2 3 .2 4.6 0"/></svg><span class="r-lnk-label">Report</span></a>
               </div>
             </div>
           </div>
 
-          <div class="proj-card" data-detail="neuro" onclick="od('neuro')">
+          <div class="proj-card" data-detail="neuro" onclick="window.open('Exp/neuromatch-site/index.html','_blank')">
             <div class="proj-thumb" style="background-image:url('folderpic/thumbs/Neuromatch.jpg')"><span class="proj-date-badge">Jun – Aug 2025</span></div>
             <div class="proj-body">
               <div class="proj-title">Neuromatch Neuron Simulation</div>
@@ -2892,7 +3053,11 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
             <div class="proj-scrim">
               <div class="proj-scrim-date">Jun — Aug 2025</div>
               <div class="proj-scrim-title">Neuromatch Neuron Simulation</div>
-              <p class="proj-scrim-desc">Studied recordings from mouse brains to understand how different brain regions talk to each other while the mouse makes decisions.</p>
+              <ul class="r-bullets">
+                <li>Analyzed large-scale IBL neural recording datasets to investigate thalamocortical communication flow and decision-making dynamics during visually guided behavioral tasks using neural decoding and latency analysis.</li>
+                <li>Built machine learning pipelines using pre-stimulus neural activity to decode internal bias and choice behavior, showing higher decoding accuracy under zero-contrast conditions.</li>
+                <li>Applied cross-correlation, PSTH analysis, PCA, and ensemble classifiers (Random Forest, XGBoost, SVM) to identify temporal hierarchy and region-specific neural representations.</li>
+              </ul>
               <div class="r-links">
                 <a class="r-lnk" href="Uni/slides.pdf" target="_blank" title="Slides" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M7 3.3c3.6-.4 7-.3 10.3.2.4 4.8.3 9.6-.2 14.7-3.6.5-7.1.4-10.6-.1-.3-4.9-.2-9.8.5-14.8z"/><path d="M9.3 9c2 .2 3.8.2 5.7 0"/><path d="M9.1 12.4c2.3.3 4.4.3 6.6 0"/><path d="M9 15.6c1.6.2 3 .2 4.6 0"/></svg><span class="r-lnk-label">Slides</span></a>
               </div>
@@ -2903,83 +3068,19 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
       </div>
     </div>
 
-    <!-- ── UI/UX PROJECTS ── -->
-    <div class="r-card" id="sec-uiux">
-      <div class="r-card-bar uiux-tab" id="uiuxBar" onclick="toggleUiux()" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleUiux();}">
-        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
-        <span class="r-card-title">mini digital projects</span>
-        <svg class="uiux-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
-      </div>
-      <div class="r-card-body uiux-panel" id="uiuxPanel">
-        <div class="proj-grid">
-
-          <div class="proj-card" data-detail="sakurasky" onclick="window.open('Design/vanta-birds-refined.html','_blank')">
-            <div class="proj-thumb proj-thumb-logo">
-              <span class="proj-thumb-tool">vanta.js</span>
-            </div>
-            <div class="proj-body">
-              <div class="proj-title">Sakura Sky</div>
-              <div class="proj-sub">UI/UX Project</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-title">Sakura Sky</div>
-              <p class="proj-scrim-desc">Built with Vanta.js.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="Design/vanta-birds-refined.html" target="_blank" title="Open" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M6.2 8.3c-.5 3.4-.6 6.3-.2 9.5 3.4.5 6.3.4 9.5-.1"/><path d="M9.6 14.3c3.1-3 5.7-5.6 8.9-8.3"/><path d="M13.7 5.5c1.8-.2 3.2-.2 4.9 0 .2 1.7.2 3.2 0 5"/></svg><span class="r-lnk-label">Open</span></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="proj-card" data-detail="tree" onclick="window.open('Design/tree.html','_blank')">
-            <div class="proj-thumb proj-thumb-logo">
-              <span class="proj-thumb-tool">vanta.js</span>
-            </div>
-            <div class="proj-body">
-              <div class="proj-title">Tree</div>
-              <div class="proj-sub">UI/UX Project</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-title">Tree</div>
-              <p class="proj-scrim-desc">Built with Vanta.js.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="Design/tree.html" target="_blank" title="Open" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M6.2 8.3c-.5 3.4-.6 6.3-.2 9.5 3.4.5 6.3.4 9.5-.1"/><path d="M9.6 14.3c3.1-3 5.7-5.6 8.9-8.3"/><path d="M13.7 5.5c1.8-.2 3.2-.2 4.9 0 .2 1.7.2 3.2 0 5"/></svg><span class="r-lnk-label">Open</span></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="proj-card" data-detail="streamofconsciousness" onclick="window.open('stream.html','_blank')">
-            <div class="proj-thumb proj-thumb-logo">
-              <span class="proj-thumb-tool">p5.js · sketch.js</span>
-            </div>
-            <div class="proj-body">
-              <div class="proj-title">Stream of Consciousness</div>
-              <div class="proj-sub">UI/UX Project</div>
-            </div>
-            <div class="proj-scrim">
-              <div class="proj-scrim-title">Stream of Consciousness</div>
-              <p class="proj-scrim-desc">Built with p5.js and sketch.js.</p>
-              <div class="r-links">
-                <a class="r-lnk" href="stream.html" target="_blank" title="Open" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M6.2 8.3c-.5 3.4-.6 6.3-.2 9.5 3.4.5 6.3.4 9.5-.1"/><path d="M9.6 14.3c3.1-3 5.7-5.6 8.9-8.3"/><path d="M13.7 5.5c1.8-.2 3.2-.2 4.9 0 .2 1.7.2 3.2 0 5"/></svg><span class="r-lnk-label">Open</span></a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
 
     <!-- ── LEADERSHIP ── -->
     <div class="r-card" id="sec-lead">
       <div class="r-card-bar">
         <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
-        <span class="r-card-title">leadership experience</span>
+        <span class="r-card-title">leadership / volunteer / honors</span>
       </div>
       <div class="r-card-body">
         <div class="r-entry">
           <div class="r-entry-head">
             <div>
-              <div class="r-role">Founder &amp; President — UNC Women in Data Science</div>
-              <div class="r-org-line">Women in Data Science Ambassador &nbsp;·&nbsp; <em>Worldwide WiDS Community</em></div>
+              <div class="r-role">UNC-Chapel Hill Women in Data Science</div>
+              <div class="r-org-line">Founder &amp; President &nbsp;·&nbsp; <em>Women in Data Science Ambassador, Worldwide WiDS Community</em></div>
             </div>
             <div class="r-date">2026 — Present</div>
           </div>
@@ -2992,10 +3093,94 @@ body,.r-name,.r-card-title,.tb-title,.proj-title,.proj-scrim-title,.r-role,.card
         <div class="r-entry">
           <div class="r-entry-head">
             <div>
-              <div class="r-role">Undergraduate Learning Assistant</div>
-              <div class="r-org-line">UNC Chapel Hill — Department of Mathematics &nbsp;·&nbsp; <em>MATH 523 Complex Analysis</em></div>
+              <div class="r-role">MATH 523 Complex Analysis</div>
+              <div class="r-org-line">Undergraduate Learning Assistant &nbsp;·&nbsp; <em>UNC Chapel Hill — Department of Mathematics</em></div>
             </div>
             <div class="r-date">Present</div>
+          </div>
+        </div>
+        <div class="r-entry">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">UNC Biostatistics Program</div>
+              <div class="r-org-line">Ambassador</div>
+            </div>
+            <div class="r-date"></div>
+          </div>
+        </div>
+        <div class="r-entry">
+          <div class="r-entry-head">
+            <div>
+              <div class="r-role">Phi Beta Kappa</div>
+              <div class="r-org-line">Member &nbsp;·&nbsp; <em>UNC Chapel Hill Academic Honor Society</em></div>
+            </div>
+            <div class="r-date">Sep 2026 — Present</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LANGUAGES & TOOLS ── -->
+    <div class="r-card" id="sec-skills">
+      <div class="r-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="r-card-title">languages &amp; tools</span>
+      </div>
+      <div class="r-card-body" style="padding-left:0;padding-right:0">
+        <div class="skill-marquee-wrap">
+          <div class="skill-marquee-label">Languages</div>
+          <div class="skill-marquee">
+            <div class="skill-track">
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/python" alt="" loading="lazy"><em>Python</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/r/276DC3" alt="" loading="lazy"><em>R</em></span>
+              <span class="skill-logo skill-logo-text"><em>SAS</em></span>
+              <span class="skill-logo skill-logo-text"><em>MATLAB</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/javascript" alt="" loading="lazy"><em>JavaScript</em></span>
+              <span class="skill-logo skill-logo-text"><em>SQL</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/python" alt="" loading="lazy"><em>Python</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/r/276DC3" alt="" loading="lazy"><em>R</em></span>
+              <span class="skill-logo skill-logo-text"><em>SAS</em></span>
+              <span class="skill-logo skill-logo-text"><em>MATLAB</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/javascript" alt="" loading="lazy"><em>JavaScript</em></span>
+              <span class="skill-logo skill-logo-text"><em>SQL</em></span>
+            </div>
+          </div>
+          <div class="skill-marquee-label">Tools &amp; Frameworks</div>
+          <div class="skill-marquee">
+            <div class="skill-track skill-track-rev">
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/tableau" alt="" loading="lazy"><em>Tableau</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/linux" alt="" loading="lazy"><em>Linux&nbsp;/&nbsp;Unix</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/microsoftazure" alt="" loading="lazy"><em>Azure</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/github" alt="" loading="lazy"><em>GitHub</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/googlecloud" alt="" loading="lazy"><em>GCP</em></span>
+              <span class="skill-logo skill-logo-text"><em>XGBoost</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/pytorch" alt="" loading="lazy"><em>PyTorch</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/scikitlearn" alt="" loading="lazy"><em>Scikit-learn</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/pandas" alt="" loading="lazy"><em>Pandas</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/numpy" alt="" loading="lazy"><em>NumPy</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/p5dotjs" alt="" loading="lazy"><em>p5.js</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/nodedotjs" alt="" loading="lazy"><em>Node.js</em></span>
+              <span class="skill-logo skill-logo-text"><em>REST&nbsp;API</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/react" alt="" loading="lazy"><em>React.js</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/powerbi" alt="" loading="lazy"><em>Power&nbsp;BI</em></span>
+              <span class="skill-logo skill-logo-text"><em>VM</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/tableau" alt="" loading="lazy"><em>Tableau</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/linux" alt="" loading="lazy"><em>Linux&nbsp;/&nbsp;Unix</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/microsoftazure" alt="" loading="lazy"><em>Azure</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/github" alt="" loading="lazy"><em>GitHub</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/googlecloud" alt="" loading="lazy"><em>GCP</em></span>
+              <span class="skill-logo skill-logo-text"><em>XGBoost</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/pytorch" alt="" loading="lazy"><em>PyTorch</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/scikitlearn" alt="" loading="lazy"><em>Scikit-learn</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/pandas" alt="" loading="lazy"><em>Pandas</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/numpy" alt="" loading="lazy"><em>NumPy</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/p5dotjs" alt="" loading="lazy"><em>p5.js</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/nodedotjs" alt="" loading="lazy"><em>Node.js</em></span>
+              <span class="skill-logo skill-logo-text"><em>REST&nbsp;API</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/react" alt="" loading="lazy"><em>React.js</em></span>
+              <span class="skill-logo"><img src="https://cdn.simpleicons.org/powerbi" alt="" loading="lazy"><em>Power&nbsp;BI</em></span>
+              <span class="skill-logo skill-logo-text"><em>VM</em></span>
+            </div>
           </div>
         </div>
       </div>
@@ -3041,18 +3226,18 @@ function uc(){const d=new Date();document.getElementById('clock').textContent=d.
 uc();setInterval(uc,12000);
 
 const DETAIL={
-  nih:{title:'NIH Network Analysis',cat:'UNC Biostatistics — Li Lab',pi:'PI: Prof. Didong Li',date:'Oct 2024 — Present',desc:`Working in the Li Lab at UNC Chapel Hill, I found myself operating across two very different scientific questions that shared an underlying methodological challenge: how do you find structure in data that's enormous, noisy, and high-dimensional?<br><br>The NLP project analyzed roughly 30,000 NIH grant abstracts to understand how biomedical research funding clusters thematically — what topics dominate, how they shift over time, and whether the patterns in the corpus reflect the stated priorities of the funding agency. I built a topic modeling pipeline combining BioSentVec, a biomedical embedding model trained on PubMed and clinical notes, with BERTopic, which uses density-based clustering over embedding space to identify coherent themes. The hard part wasn't running the model — it was validating it. I spent significant time evaluating robustness, checking whether discovered topics were stable across runs, and benchmarking the outputs against NIH's own documented priority areas. That work is currently being prepared as a manuscript for submission.`,bullets:['Used biomedical sentence embeddings so grant-topic similarity preserves scientific language instead of flattening abstracts into generic keywords.','Built weighted co-PI networks to separate investigator collaboration patterns from institutional funding concentration.','Generated manuscript-ready network statistics and visual summaries for an under-review NIH-MPINet dataset paper.'],ux:{goal:'Create a machine-readable map of NIH team science that exposes collaboration structure and funding inequality.',methods:'BERTopic, BioSentVec, metadata cleaning, PI disambiguation, weighted co-PI network construction.',visual:'Topic-by-funding maps, investigator collaboration graphs, centrality summaries, and manuscript tables.'},links:[{h:'https://github.com/CuiranVivianShi/NIH_network',l:'Code'}],img:'folderpic/thumbs/NIH.jpg'},
-  spatial:{title:'Spatial Transcriptomics',cat:'UNC Biostatistics — Li Lab',pi:'PI: Prof. Didong Li',date:'Oct 2024 — Present',desc:`Spatial transcriptomics is a technology that tells you not just which genes are expressed in which cells, but where those cells sit in physical tissue. My contribution here is on the representation side: how should you build a graph over tissue to best capture the relationships between cells?<br><br>I've been constructing and comparing graph structures using k-nearest neighbor approaches and spatial adjacency methods, evaluating each design choice using clustering performance metrics like Adjusted Rand Index. The technical work is done in Python using Scanpy and Squidpy. I've been benchmarking Seurat, Squidpy, and Niches graph-building frameworks on Stimage-1K4M to test how neighborhood definitions change spatial gene-expression model outputs. The deeper question is biological: how much does the structure you impose on the data shape the biological conclusions you draw from it?`,bullets:['Treats graph construction as the experimental variable before downstream biological claims are made.','Compares adjacency rules, spatial neighborhoods, output matrices, and loss behavior across frameworks.','Current work focuses on a reproducible benchmark table explaining when each framework is stable, sensitive, or interpretable.'],ux:{goal:'Test whether spatial transcriptomics conclusions change because of the graph constructor itself.',methods:'Seurat, Squidpy, Niches, Stimage-1K4M, graph topology comparison, loss-matrix analysis.',visual:'Framework comparison matrix showing topology, loss stability, and biological interpretability.'},links:[{h:'https://github.com/parkyunjin/stgraph',l:'Code'}],img:'folderpic/thumbs/project2.jpg'},
-  enet:{title:'eNet Enhancer Network',cat:'Xiamen University — Huang Lab',pi:'PI: Prof. Jialiang Huang',date:'Jun 2024 — Present',desc:`Leukemia is, at its core, a disease of gene regulation gone wrong. Cells that should stop dividing don't, and the reason often lies not in the genes themselves but in the regulatory machinery that controls when and how strongly those genes are expressed. Enhancers — stretches of DNA that boost gene activity — are central to that machinery, and understanding how they're organized in leukemia cells was the focus of my work in the Huang Lab at Xiamen University.<br><br>The challenge was that you can't understand enhancer regulation from a single data type. Gene expression tells you what's being produced; chromatin accessibility tells you which regulatory regions are physically open and potentially active. I used the eNet algorithm to jointly analyze scRNA-seq and scATAC-seq data — integrating these two modalities at the single-cell level to reconstruct enhancer interaction networks. Once those networks were built, I applied graph-theoretic methods to identify modular structure: which enhancers cluster together, which ones act as hubs, and which driver genes sit at the receiving end of the most regulatory input.<br><br>The finding that stuck with me was the concentration of regulatory influence. A relatively small subset of enhancer modules was responsible for controlling a disproportionately large share of key oncogene activity. It's the kind of result that suggests a biological principle — regulatory control in cancer isn't diffuse, it's concentrated — and also points toward a potential therapeutic logic: if you can identify and disrupt those hub modules, you might be able to shut down driver gene activity more efficiently than broad intervention would allow.<br><br>To ground the computational findings in experimental reality, I also contributed to wet lab validation work, performing RNA isolation and qPCR to confirm expression patterns identified in the single-cell data. That back-and-forth between computation and experiment is what made the work feel real.`,bullets:['Integrated chromatin accessibility and expression evidence so enhancer modules are modeled as regulatory neighborhoods.','Found rare modular topologies at 8.39% frequency and tested enrichment for disease-gene signal.','Prioritized WT1 and PADI3 with high-confidence enrichment evidence, including p < 1e-5 in strongest tests.'],ux:{goal:'Identify leukemia-relevant regulatory signals hidden across separate scATAC/scRNA views.',methods:'Single-cell multi-omics integration, enhancer-gene edge construction, topology detection, driver-gene enrichment.',visual:'Enhancer-gene network diagrams, topology summaries, and prioritized disease-gene tables.'},links:[{h:'Uni/eNet.pdf',l:'PDF'}],img:'folderpic/thumbs/eNet.jpg'},
-  agent:{title:'Agent-Based Economic Simulation',cat:'Tsinghua University — Financial AI Intern',pi:'PI: Prof. Yong Li',date:'May — Aug 2025',desc:`Traditional economic models often assume agents behave rationally, independently, and with complete information. Real human behavior rarely satisfies any of those assumptions. People imitate their peers, react emotionally to narratives, adapt under uncertainty, and make decisions using incomplete local information. This project explored whether large language model–driven agents could produce macroeconomic and social dynamics that differ meaningfully from classical rule-based simulations, and whether those differences reveal limitations in standard economic modeling assumptions.<br><br>Using the AgentSociety simulation platform, I constructed heterogeneous populations of interacting agents with varying behavioral parameters, network connectivity, and initial economic conditions. The system combined classical agent-based modeling with LLM-driven cognition layers, allowing certain agents to reason contextually about their environment, update beliefs dynamically, and modify decisions based on surrounding social narratives. Other agents followed deterministic or bounded-rational update rules, enabling controlled comparisons between traditional economic assumptions and adaptive language-model-based behavior.<br><br>At the core of the simulation framework was a behavioral RCK-style macroeconomic model integrating Cobb-Douglas production, Poisson-driven social imitation, and stochastic exploration dynamics. Savings behavior evolved through local network exposure, where agents probabilistically imitated high-consumption neighbors while balancing individual utility optimization against social influence. I implemented large-scale parameter sweeps to study how interaction frequency, network topology, and narrative sensitivity altered aggregate system behavior across time.<br><br>The resulting dynamics showed clear divergence between classical and LLM-driven populations. Simulations with LLM cognition layers produced more heterogeneous consumption trajectories, faster opinion polarization, stronger echo-chamber formation, and higher volatility in emergent macroeconomic patterns. Parameter sensitivity analysis revealed critical interaction thresholds where wealth distributions transitioned into bimodal regimes accompanied by persistent oscillatory dynamics. These findings suggest that incorporating adaptive narrative-driven reasoning into agent populations may fundamentally alter the large-scale behaviors predicted by traditional economic models.<br><br>To support reproducibility and large-scale experimentation, I integrated MLflow-based experiment tracking pipelines and analyzed simulation outputs using time-series analysis, frequency-domain decomposition, and network-level behavioral metrics. The broader implication of the project is methodological: if LLM-driven agents more closely approximate real human cognition under uncertainty and social influence, then many economic forecasting systems may be systematically misestimating collective behavior in environments shaped by narratives, imitation, and information cascades.`,bullets:['Built heterogeneous multi-agent economic simulations combining classical rule-based agents with LLM-driven adaptive cognition layers.','Embedded Cobb-Douglas production and behavioral savings updates into an RCK-style macroeconomic framework driven by Poisson social imitation dynamics.','Conducted large-scale parameter sweeps identifying critical interaction thresholds associated with bimodal wealth distributions and persistent oscillatory regimes.','Modeled narrative-driven preference formation and echo-chamber amplification through socially connected LLM-agent populations.','Integrated MLflow experiment tracking and reproducibility infrastructure for large-scale simulation benchmarking and behavioral comparison analysis.'],ux:{goal:'Study how local imitation, adaptive reasoning, and narrative-driven decision-making generate emergent inequality, polarization, and macroeconomic instability in multi-agent systems.',methods:'Agent-based modeling, AgentSociety platform, RCK dynamics, Cobb-Douglas production, Poisson imitation processes, stochastic exploration, LLM agents, network simulations, MLflow tracking, time-series analysis, frequency-domain decomposition.',visual:'Bimodal wealth distributions, interaction-threshold phase transitions, oscillatory macroeconomic regimes, heterogeneous consumption dynamics, and emergent echo-chamber polarization patterns across LLM-driven agent populations.'},links:[{h:'Uni/ABM.pdf',l:'PDF'},{h:'https://github.com/miazhouruoya/agent-society-workplace',l:'Code'}],img:'folderpic/thumbs/Agent-Society.jpg'},
-  app741:{title:'Clinical Doppelgänger — EHR Decision Support',cat:'Full Stack Developer — CHIP 741',pi:'UNC Chapel Hill',date:'Jan — May 2026',desc:`Clinical Doppelgänger was inspired by something physicians already do intuitively: when they encounter a difficult patient case, they mentally search for similar patients they've seen before and remember what happened to them. Most clinical AI systems skip that reasoning process entirely and output a risk score without context. We wanted to build something different — a system that could retrieve a patient's clinical near-twins, show what trajectories those similar patients followed, and expose the reasoning behind every recommendation instead of hiding it behind a black box.<br><br>The data plumbing came first. I implemented OAuth 2.0 authentication and integrated with SMART on FHIR APIs to pull structured clinical data — diagnoses, medications, lab values, procedures — across multiple resources in parallel. Once the data was in hand, the matching pipeline used cosine similarity over clinical feature vectors combined with propensity score matching to find patients who were genuinely comparable, controlling for the confounders that make naive similarity misleading.<br><br>Outputs aren't single-point predictions. I added bootstrap confidence estimation so every result comes with uncertainty bounds, because in clinical settings, knowing how confident the system is matters as much as what it says. Outcomes for matched patients are visualized through Kaplan-Meier survival curves rendered in interactive dashboards. I also implemented a Markov state transition framework to model how patients move between clinical states — stable, deteriorating, hospitalized, recovered — and to project probable trajectories forward. The design principle throughout was interpretability: every output traces back to the patients it's grounded in, every recommendation comes with its reasoning visible.`,sections:[{title:'What It Does',items:['<strong>FHIR-powered patient retrieval</strong> — queries structured EHR data across Patient, Condition, MedicationRequest, Observation, and Encounter resources through SMART on FHIR APIs','<strong>Parallel clinical ingestion pipeline</strong> — retrieves diagnoses, medications, labs, and encounters simultaneously to reduce dashboard latency','<strong>Similarity-learning engine</strong> — combines cosine similarity with propensity-score matching to identify clinically comparable patient cohorts rather than superficially similar records','<strong>Bootstrap confidence estimation</strong> — every cohort-level prediction includes uncertainty intervals instead of single-point outputs','<strong>Kaplan-Meier survival dashboards</strong> — visualizes how matched patients progressed longitudinally over time through interactive survival curves','<strong>Markov state-transition modeling</strong> — models patient movement across latent clinical states such as stable, deteriorating, hospitalized, and recovered','<strong>Clinical trajectory projection</strong> — estimates likely future progression paths based on historical trajectories of matched cohorts','<strong>Explainability-first interface</strong> — every prediction traces back to real matched patients, observable trajectories, and interpretable cohort evidence','<strong>Robust EHR handling</strong> — gracefully handles missing labs, incomplete bundles, malformed records, and OAuth/API failures without breaking workflows','<strong>Interactive dashboard system</strong> — clinicians inspect cohort balance, survival outcomes, uncertainty bounds, and progression reasoning directly inside the UI']},{title:'Tech Stack',stack:[{layer:'Frontend',tech:'HTML + JavaScript + Interactive Dashboards'},{layer:'Backend',tech:'Python + Clinical Similarity Pipeline'},{layer:'Clinical APIs',tech:'SMART on FHIR + OAuth 2.0 + FHIR R4'},{layer:'Matching Engine',tech:'Cosine Similarity + Propensity Score Matching'},{layer:'Statistical Inference',tech:'Bootstrap Confidence Intervals + Kaplan-Meier Survival Analysis'},{layer:'Trajectory Modeling',tech:'Markov State Transition Systems'},{layer:'Data Storage',tech:'JSON Cohort Simulation + Structured Clinical Features'}]},{title:'Challenges',items:['Clinical similarity is misleading without adjustment — naive nearest-neighbor retrieval matched patients with fundamentally different underlying risk profiles, so propensity-score balancing was added to control confounding','Healthcare data is incomplete by default — many patient records had missing observations, inconsistent encounters, or empty FHIR bundles requiring defensive parsing and fallback handling','Uncertainty matters as much as prediction — added bootstrap confidence estimation because clinicians need to understand reliability, not just outcomes','Trajectory modeling is temporal, not static — Markov transition systems were introduced because patient progression cannot be represented as a single binary prediction','Interpretability in healthcare is mandatory — every output had to remain inspectable, cohort-grounded, and clinically explainable rather than functioning as a black-box classifier']},{title:'Proud Of',items:['Built an end-to-end clinical retrieval pipeline connecting SMART on FHIR APIs directly to interpretable cohort-level outcome modeling','Combined similarity learning, survival analysis, uncertainty estimation, and trajectory modeling inside a single clinician-facing workflow','Created interactive Kaplan-Meier and state-transition dashboards allowing users to inspect longitudinal patient behavior visually','Designed a decision-support system where every recommendation remains traceable to observable matched-patient evidence','Engineered the system to remain stable under incomplete EHR records, missing labs, and intermittent API failures']},{title:'What We Learned',items:['Similarity in healthcare is fundamentally causal — patients can appear similar superficially while differing substantially in latent risk structure','Interpretability determines adoption — clinicians are significantly less likely to trust systems that cannot expose the reasoning behind predictions','Uncertainty communication is critical in clinical environments — confidence intervals often matter more than the raw estimate itself','Healthcare infrastructure engineering is messy — real-world EHR systems contain missing values, inconsistent schemas, and unreliable endpoints by default','Temporal disease progression requires state-based reasoning rather than static prediction frameworks']},{title:'What\'s Next',items:['Integrate real longitudinal hospital datasets instead of simulated cohort JSON structures','Add multimodal ingestion pipelines for imaging, physician notes, and laboratory trend sequences','Expand trajectory modeling using hidden Markov models and sequential deep-learning architectures','Build clinician feedback loops allowing physicians to validate or reject matched cohorts interactively','Add retrieval-augmented clinical summarization so matched-patient evidence can be translated into physician-readable explanations automatically']}],links:[{h:'https://miazhouruoya.github.io/doppelganger/',l:'Clinical Dashboard',embed:true},{h:'https://github.com/miazhouruoya/doppelganger',l:'GitHub'},{h:'Uni/Chip741.pdf',l:'Slides'}],img:'folderpic/thumbs/Doople.jpg'},
-  math:{title:'Tumour–Immune Dynamics: ODE, PDE & Control',cat:'UNC Mathematics — Directed Reading Program',pi:'Nonlinear Dynamics',date:'Apr 2026',desc:`There's something almost philosophical about the way differential equations describe biological systems. A tumor doesn't "know" the immune system is attacking it; immune cells don't "decide" to mobilize. And yet the interaction between them follows dynamics that mathematics can describe precisely — equilibria, oscillations, tipping points, collapse. This project was about learning to read those dynamics fluently.<br><br>I implemented coupled nonlinear ODE systems that jointly describe tumor cell proliferation and immune response activation. The math is straightforward to write down but rich to analyze. I began with equilibrium analysis: what are the fixed points of the system, and what do they represent biologically? A stable equilibrium where tumor burden is low corresponds to a functioning immune response; an equilibrium where tumor burden is high represents failure. The Jacobian matrix at each fixed point, and the signs of its eigenvalues, tell you which regime you're in and how robust it is to perturbation.<br><br>Phase plane analysis revealed the system's geometry — the trajectories traced by different initial conditions, the separatrices that divide basins of attraction, and in some parameter regimes, limit cycles indicating sustained oscillations where neither tumor nor immune response wins definitively. Sensitivity analysis mapped how outcomes shift as biological parameters vary: what happens to the system's behavior if immune activation rate increases by 10%? If tumor growth rate is slower? These aren't just mathematical questions — they correspond to real biological variation and potential therapeutic intervention points.<br><br>The bifurcation analysis was where it got most interesting: identifying the parameter values at which the qualitative behavior of the system changes entirely, from immune containment to immune escape. Those transitions are the mathematical analog of a patient's prognosis flipping from manageable to critical.`,bullets:['Tracked equilibria and stability changes as immune recruitment and tumour-growth parameters vary.','Compared spatial spread, chemotaxis, noise, immune lag, and treatment pressure across model families.','Interpreted transcritical, saddle-node, and Hopf bifurcations as signatures of dormancy, escape, oscillation, and resistance.'],ux:{goal:'Connect nonlinear tumour-immune mathematics to clinically meaningful regimes.',methods:'Stability analysis, bifurcation tracking, PDEs, chemotaxis, Langevin noise, delays, optimal control.',visual:'Phase portraits, bifurcation diagrams, spatial sketches, and treatment-control trajectories.'},links:[{h:'Uni/tumour_immune.pdf',l:'Report'},{h:'#',l:'Link Coming Soon'}],img:'folderpic/thumbs/tumor.jpg'},
-  neuro:{title:'Neuromatch Neuron Simulation',cat:'NeuroMatch Program',pi:'Computational Neuroscience',date:'Jun — Aug 2025',desc:`The brain generates data at a scale and complexity that makes most other biological systems look simple. A recording from even a small population of neurons produces high-dimensional time-series data that's noisy, non-stationary, and structured in ways that aren't immediately visible. Learning to work with that kind of data — rigorously, without over-claiming — was the core skill this project developed.<br><br>I implemented a set of computational models in Python designed to extract interpretable structure from neural population activity recordings. The methods I applied — dimensionality reduction to find the latent subspace in which neural dynamics actually live, latent variable models to infer hidden states driving observed activity, decoding analyses to ask how much information about behavior or stimulus is encoded in population patterns — are standard in systems neuroscience, but applying them well requires constant vigilance about what you're actually measuring versus what you're imposing on the data.<br><br>I evaluated multiple modeling approaches against each other, using held-out prediction accuracy as one benchmark and biological interpretability as another. Those two criteria don't always agree, and navigating that tension carefully is something the project pushed me to develop. A model that predicts well but whose latent variables correspond to nothing biologically meaningful is less useful, in this context, than one that's slightly noisier but legible.<br><br>What I came away with, beyond the technical fluency, was an instinct for high-dimensional noisy data more broadly — for the kinds of artifacts that emerge when you reduce dimensionality aggressively, for the difference between structure that's in the data and structure that's in the method. That instinct has transferred directly into every other project I've done since that involves biological data at scale.`,bullets:['Analyzed large-scale IBL neural recording datasets to investigate thalamocortical communication flow and decision-making dynamics during visually guided behavioral tasks using neural decoding and latency analysis.','Built machine learning pipelines using pre-stimulus neural activity to decode internal bias and choice behavior, showing higher decoding accuracy under zero-contrast conditions where decisions relied on prior expectations.','Applied cross-correlation, PSTH analysis, PCA, and ensemble classifiers (Random Forest, XGBoost, SVM) to identify temporal hierarchy and region-specific neural representations across cortical and thalamic visual areas.','Interpreted neural population dynamics through biologically grounded modeling and statistical inference, contributing evidence for directional information flow between LGd and VISa regions under uncertainty.'],ux:{goal:'Characterize how thalamocortical circuits encode prior expectations and directional information flow under perceptual uncertainty during visually guided decision-making.',methods:'IBL dataset analysis, cross-correlation, PSTH, latency analysis, PCA, ensemble classifiers (Random Forest, XGBoost, SVM), pre-stimulus population decoding.',visual:'Temporal hierarchy diagrams, region-specific decoding accuracy panels, zero-contrast vs. low-contrast comparisons, and LGd-VISa directional flow evidence.'},links:[{h:'Uni/slides.pdf',l:'Slides'}],img:'folderpic/thumbs/Neuromatch.jpg'},
+  nih:{title:'NIH Network Analysis',cat:'UNC Biostatistics — Li Lab',pi:'PI: Prof. Didong Li',date:'Oct 2024 — Present',desc:`NIH funds thousands of grants a year, but there's no easy way to see how that funding clusters by research topic or how it lines up with collaboration patterns between investigators. I built a topic-modeling and network-analysis pipeline to answer both questions, working with about 30,000 NIH grant abstracts in the Li Lab at UNC Chapel Hill.<br><br>I combined BioSentVec, a biomedical sentence-embedding model, with BERTopic to cluster abstracts into coherent topics, then validated topic stability across repeated runs and checked the results against NIH's own documented priority areas. In parallel, I built weighted co-PI collaboration networks from grant metadata to separate investigator collaboration patterns from institutional funding concentration.<br><br>The output is a manuscript-ready dataset (NIH-MPINet) with topic-by-funding maps, collaboration graphs, and centrality statistics, now being prepared for submission.`,bullets:['Used biomedical sentence embeddings so grant-topic similarity preserves scientific language instead of flattening abstracts into generic keywords.','Built weighted co-PI networks to separate investigator collaboration patterns from institutional funding concentration.','Generated manuscript-ready network statistics and visual summaries for an under-review NIH-MPINet dataset paper.'],ux:{goal:'Create a machine-readable map of NIH team science that exposes collaboration structure and funding inequality.',methods:'BERTopic, BioSentVec, metadata cleaning, PI disambiguation, weighted co-PI network construction.',visual:'Topic-by-funding maps, investigator collaboration graphs, centrality summaries, and manuscript tables.'},links:[{h:'https://github.com/CuiranVivianShi/NIH_network',l:'Code'}],img:'folderpic/thumbs/NIH.jpg'},
+  spatial:{title:'Spatial Transcriptomics',cat:'UNC Biostatistics — Li Lab',pi:'PI: Prof. Didong Li',date:'Oct 2024 — Present',desc:`Spatial transcriptomics measures gene expression in cells while preserving where those cells sit in tissue. A key design choice in analyzing this data is how you build the graph connecting cells — and that choice can change the biological conclusions you draw.<br><br>I built and compared graph construction methods (k-nearest neighbor and spatial adjacency) in Python using Scanpy and Squidpy, evaluating each with clustering metrics like Adjusted Rand Index. I benchmarked three graph-building frameworks — Seurat, Squidpy, and Niches — on the Stimage-1K4M dataset to test how different neighborhood definitions change spatial gene-expression outputs.<br><br>The project is building toward a reproducible benchmark table showing when each framework is stable, sensitive, or interpretable.`,bullets:['Treats graph construction as the experimental variable before downstream biological claims are made.','Compares adjacency rules, spatial neighborhoods, output matrices, and loss behavior across frameworks.','Current work focuses on a reproducible benchmark table explaining when each framework is stable, sensitive, or interpretable.'],ux:{goal:'Test whether spatial transcriptomics conclusions change because of the graph constructor itself.',methods:'Seurat, Squidpy, Niches, Stimage-1K4M, graph topology comparison, loss-matrix analysis.',visual:'Framework comparison matrix showing topology, loss stability, and biological interpretability.'},links:[{h:'https://github.com/parkyunjin/stgraph',l:'Code'}],img:'folderpic/thumbs/project2.jpg'},
+  enet:{title:'eNet Enhancer Network',cat:'Xiamen University — Huang Lab',pi:'PI: Prof. Jialiang Huang',date:'Jun 2024 — Present',desc:`Leukemia is often driven by errors in gene regulation rather than the genes themselves. Enhancers — DNA regions that boost gene activity — are central to that regulation, and my project mapped how they're organized in leukemia cells in the Huang Lab at Xiamen University.<br><br>I used the eNet algorithm to jointly analyze single-cell RNA-seq and ATAC-seq data, integrating gene expression with chromatin accessibility to reconstruct enhancer interaction networks. I then applied graph-theoretic methods to find modular structure — which enhancers cluster together and which act as regulatory hubs feeding into driver genes.<br><br>A small subset of enhancer modules (8.39% frequency) controlled a disproportionate share of key oncogene activity, and I prioritized WT1 and PADI3 as high-confidence driver genes (p < 1e-5). I validated select findings experimentally through RNA isolation and qPCR.`,bullets:['Integrated chromatin accessibility and expression evidence so enhancer modules are modeled as regulatory neighborhoods.','Found rare modular topologies at 8.39% frequency and tested enrichment for disease-gene signal.','Prioritized WT1 and PADI3 with high-confidence enrichment evidence, including p < 1e-5 in strongest tests.'],ux:{goal:'Identify leukemia-relevant regulatory signals hidden across separate scATAC/scRNA views.',methods:'Single-cell multi-omics integration, enhancer-gene edge construction, topology detection, driver-gene enrichment.',visual:'Enhancer-gene network diagrams, topology summaries, and prioritized disease-gene tables.'},links:[{h:'Uni/eNet.pdf',l:'PDF'}],img:'folderpic/thumbs/eNet.jpg'},
+  agent:{title:'Agent-Based Economic Simulation',cat:'Tsinghua University — Financial AI Intern',pi:'PI: Prof. Yong Li',date:'May — Aug 2025',desc:`Traditional economic models assume agents behave rationally and independently. Real people imitate peers, react to narratives, and act on incomplete information. This project tested whether LLM-driven agents produce macroeconomic dynamics that differ from classical rule-based simulations.<br><br>Using the AgentSociety platform, I built heterogeneous populations of agents with varying behavioral parameters and network structure. Some agents used LLM-driven reasoning to update beliefs and react to social narratives; others followed deterministic, bounded-rational rules, enabling direct comparison. The simulation core was a behavioral RCK-style macroeconomic model combining Cobb-Douglas production with Poisson-driven social imitation, where agents probabilistically imitated high-consumption neighbors.<br><br>I ran large-scale parameter sweeps varying interaction frequency and network topology, tracked with MLflow for reproducibility, and analyzed outputs with time-series and frequency-domain methods. LLM-driven populations showed more heterogeneous consumption trajectories, faster opinion polarization, and stronger echo-chamber effects than rule-based populations, with wealth distributions shifting into bimodal, oscillatory regimes past certain interaction thresholds.`,bullets:['Built heterogeneous multi-agent economic simulations combining classical rule-based agents with LLM-driven adaptive cognition layers.','Embedded Cobb-Douglas production and behavioral savings updates into an RCK-style macroeconomic framework driven by Poisson social imitation dynamics.','Conducted large-scale parameter sweeps identifying critical interaction thresholds associated with bimodal wealth distributions and persistent oscillatory regimes.','Modeled narrative-driven preference formation and echo-chamber amplification through socially connected LLM-agent populations.','Integrated MLflow experiment tracking and reproducibility infrastructure for large-scale simulation benchmarking and behavioral comparison analysis.'],ux:{goal:'Study how local imitation, adaptive reasoning, and narrative-driven decision-making generate emergent inequality, polarization, and macroeconomic instability in multi-agent systems.',methods:'Agent-based modeling, AgentSociety platform, RCK dynamics, Cobb-Douglas production, Poisson imitation processes, stochastic exploration, LLM agents, network simulations, MLflow tracking, time-series analysis, frequency-domain decomposition.',visual:'Bimodal wealth distributions, interaction-threshold phase transitions, oscillatory macroeconomic regimes, heterogeneous consumption dynamics, and emergent echo-chamber polarization patterns across LLM-driven agent populations.'},links:[{h:'Uni/ABM.pdf',l:'PDF'},{h:'https://github.com/miazhouruoya/agent-society-workplace',l:'Code'}],img:'folderpic/thumbs/Agent-Society.jpg'},
+  app741:{title:'Clinical Doppelgänger — EHR Decision Support',cat:'Full Stack Developer — CHIP 741',pi:'UNC Chapel Hill',date:'Jan — May 2026',desc:`Clinicians often reason by analogy — recalling similar past patients to inform a difficult case. Most clinical AI systems skip that reasoning and just output a risk score with no context. Clinical Doppelgänger retrieves a patient's clinical near-twins, shows their outcomes, and exposes the reasoning behind every recommendation.<br><br>I implemented OAuth 2.0 and SMART on FHIR integration to pull structured clinical data (diagnoses, medications, labs, procedures) across multiple resources in parallel. The matching pipeline uses cosine similarity over clinical feature vectors combined with propensity score matching to control for the confounders that make naive similarity misleading.<br><br>Every output includes bootstrap confidence intervals, Kaplan-Meier survival curves for matched-patient outcomes, and a Markov state-transition model projecting how patients move between clinical states (stable, deteriorating, hospitalized, recovered). Every recommendation traces back to the real matched patients behind it.`,sections:[{title:'What It Does',items:['<strong>FHIR-powered patient retrieval</strong> — queries structured EHR data across Patient, Condition, MedicationRequest, Observation, and Encounter resources through SMART on FHIR APIs','<strong>Parallel clinical ingestion pipeline</strong> — retrieves diagnoses, medications, labs, and encounters simultaneously to reduce dashboard latency','<strong>Similarity-learning engine</strong> — combines cosine similarity with propensity-score matching to identify clinically comparable patient cohorts rather than superficially similar records','<strong>Bootstrap confidence estimation</strong> — every cohort-level prediction includes uncertainty intervals instead of single-point outputs','<strong>Kaplan-Meier survival dashboards</strong> — visualizes how matched patients progressed longitudinally over time through interactive survival curves','<strong>Markov state-transition modeling</strong> — models patient movement across latent clinical states such as stable, deteriorating, hospitalized, and recovered','<strong>Clinical trajectory projection</strong> — estimates likely future progression paths based on historical trajectories of matched cohorts','<strong>Explainability-first interface</strong> — every prediction traces back to real matched patients, observable trajectories, and interpretable cohort evidence','<strong>Robust EHR handling</strong> — gracefully handles missing labs, incomplete bundles, malformed records, and OAuth/API failures without breaking workflows','<strong>Interactive dashboard system</strong> — clinicians inspect cohort balance, survival outcomes, uncertainty bounds, and progression reasoning directly inside the UI']},{title:'Tech Stack',stack:[{layer:'Frontend',tech:'HTML + JavaScript + Interactive Dashboards'},{layer:'Backend',tech:'Python + Clinical Similarity Pipeline'},{layer:'Clinical APIs',tech:'SMART on FHIR + OAuth 2.0 + FHIR R4'},{layer:'Matching Engine',tech:'Cosine Similarity + Propensity Score Matching'},{layer:'Statistical Inference',tech:'Bootstrap Confidence Intervals + Kaplan-Meier Survival Analysis'},{layer:'Trajectory Modeling',tech:'Markov State Transition Systems'},{layer:'Data Storage',tech:'JSON Cohort Simulation + Structured Clinical Features'}]},{title:'Challenges',items:['Clinical similarity is misleading without adjustment — naive nearest-neighbor retrieval matched patients with fundamentally different underlying risk profiles, so propensity-score balancing was added to control confounding','Healthcare data is incomplete by default — many patient records had missing observations, inconsistent encounters, or empty FHIR bundles requiring defensive parsing and fallback handling','Uncertainty matters as much as prediction — added bootstrap confidence estimation because clinicians need to understand reliability, not just outcomes','Trajectory modeling is temporal, not static — Markov transition systems were introduced because patient progression cannot be represented as a single binary prediction','Interpretability in healthcare is mandatory — every output had to remain inspectable, cohort-grounded, and clinically explainable rather than functioning as a black-box classifier']},{title:'Proud Of',items:['Built an end-to-end clinical retrieval pipeline connecting SMART on FHIR APIs directly to interpretable cohort-level outcome modeling','Combined similarity learning, survival analysis, uncertainty estimation, and trajectory modeling inside a single clinician-facing workflow','Created interactive Kaplan-Meier and state-transition dashboards allowing users to inspect longitudinal patient behavior visually','Designed a decision-support system where every recommendation remains traceable to observable matched-patient evidence','Engineered the system to remain stable under incomplete EHR records, missing labs, and intermittent API failures']},{title:'What We Learned',items:['Similarity in healthcare is fundamentally causal — patients can appear similar superficially while differing substantially in latent risk structure','Interpretability determines adoption — clinicians are significantly less likely to trust systems that cannot expose the reasoning behind predictions','Uncertainty communication is critical in clinical environments — confidence intervals often matter more than the raw estimate itself','Healthcare infrastructure engineering is messy — real-world EHR systems contain missing values, inconsistent schemas, and unreliable endpoints by default','Temporal disease progression requires state-based reasoning rather than static prediction frameworks']},{title:'What\'s Next',items:['Integrate real longitudinal hospital datasets instead of simulated cohort JSON structures','Add multimodal ingestion pipelines for imaging, physician notes, and laboratory trend sequences','Expand trajectory modeling using hidden Markov models and sequential deep-learning architectures','Build clinician feedback loops allowing physicians to validate or reject matched cohorts interactively','Add retrieval-augmented clinical summarization so matched-patient evidence can be translated into physician-readable explanations automatically']}],links:[{h:'https://miazhouruoya.github.io/doppelganger/',l:'Clinical Dashboard',embed:true},{h:'https://github.com/miazhouruoya/doppelganger',l:'GitHub'},{h:'Uni/Chip741.pdf',l:'Slides'}],img:'folderpic/thumbs/Doople.jpg'},
+  math:{title:'Tumour–Immune Dynamics: ODE, PDE & Control',cat:'UNC Mathematics — Directed Reading Program',pi:'Nonlinear Dynamics',date:'Apr 2026',desc:`Tumor-immune interactions can be described precisely with differential equations — equilibria, oscillations, tipping points — even though neither cell population is making a conscious decision. This project analyzed those dynamics using coupled nonlinear ODE systems for tumor proliferation and immune response.<br><br>I ran equilibrium and stability analysis, using the Jacobian and its eigenvalues at each fixed point to classify outcomes as immune containment or immune escape. Phase-plane analysis mapped trajectories, basins of attraction, and limit cycles, and sensitivity analysis showed how outcomes shift with parameters like immune activation rate and tumor growth rate.<br><br>Bifurcation analysis identified the exact parameter values where the system's behavior flips from immune containment to immune escape — the mathematical equivalent of a patient's prognosis turning from manageable to critical.`,bullets:['Tracked equilibria and stability changes as immune recruitment and tumour-growth parameters vary.','Compared spatial spread, chemotaxis, noise, immune lag, and treatment pressure across model families.','Interpreted transcritical, saddle-node, and Hopf bifurcations as signatures of dormancy, escape, oscillation, and resistance.'],ux:{goal:'Connect nonlinear tumour-immune mathematics to clinically meaningful regimes.',methods:'Stability analysis, bifurcation tracking, PDEs, chemotaxis, Langevin noise, delays, optimal control.',visual:'Phase portraits, bifurcation diagrams, spatial sketches, and treatment-control trajectories.'},links:[{h:'Uni/tumour_immune.pdf',l:'Report'},{h:'#',l:'Link Coming Soon'}],img:'folderpic/thumbs/tumor.jpg'},
+  neuro:{title:'Neuromatch Neuron Simulation',cat:'NeuroMatch Program',pi:'Computational Neuroscience',date:'Jun — Aug 2025',desc:`Neural population recordings are high-dimensional, noisy, and non-stationary, which makes extracting meaningful structure difficult without over-claiming. This project analyzed large-scale IBL neural recordings to study thalamocortical communication during visually guided decision-making.<br><br>I used dimensionality reduction and latent variable models to find the low-dimensional structure underlying neural activity, and decoding analyses to measure how much behavioral information is encoded in population activity. I built ML pipelines using pre-stimulus activity to decode internal bias and choice, and applied cross-correlation, PSTH analysis, PCA, and ensemble classifiers (Random Forest, XGBoost, SVM) to identify temporal hierarchy and region-specific representations.<br><br>Decoding accuracy was higher under zero-contrast conditions, where decisions relied more on prior expectations — evidence for directional information flow between the LGd and VISa regions under perceptual uncertainty.`,bullets:['Analyzed large-scale IBL neural recording datasets to investigate thalamocortical communication flow and decision-making dynamics during visually guided behavioral tasks using neural decoding and latency analysis.','Built machine learning pipelines using pre-stimulus neural activity to decode internal bias and choice behavior, showing higher decoding accuracy under zero-contrast conditions where decisions relied on prior expectations.','Applied cross-correlation, PSTH analysis, PCA, and ensemble classifiers (Random Forest, XGBoost, SVM) to identify temporal hierarchy and region-specific neural representations across cortical and thalamic visual areas.','Interpreted neural population dynamics through biologically grounded modeling and statistical inference, contributing evidence for directional information flow between LGd and VISa regions under uncertainty.'],ux:{goal:'Characterize how thalamocortical circuits encode prior expectations and directional information flow under perceptual uncertainty during visually guided decision-making.',methods:'IBL dataset analysis, cross-correlation, PSTH, latency analysis, PCA, ensemble classifiers (Random Forest, XGBoost, SVM), pre-stimulus population decoding.',visual:'Temporal hierarchy diagrams, region-specific decoding accuracy panels, zero-contrast vs. low-contrast comparisons, and LGd-VISa directional flow evidence.'},links:[{h:'Uni/slides.pdf',l:'Slides'}],img:'folderpic/thumbs/Neuromatch.jpg'},
   wids:{title:'Founder & President — UNC Women in Data Science',cat:'Leadership — WiDS Worldwide + UNC-Chapel Hill',pi:'Women in Data Science Ambassador',date:'2026 — Present',desc:'Founded and lead the UNC-Chapel Hill WiDS chapter while serving as a Women in Data Science Ambassador in the worldwide community.',bullets:['Founder and president of the UNC-Chapel Hill WiDS chapter, connected to the global Women in Data Science network.','Planning workshops, speaker series, and hackathon/community-build programming across statistics, AI, health, and social impact.','The chapter vision is an AI + data space where students can build technical confidence and portfolio-ready work.'],links:[],img:'folderpic/thumbs/WiDS.jpg'},
-  datafest:{title:'Duke ASA DataFest 2026',cat:'Duke University — American Statistical Association · DataFest 2026',pi:'Best Statistical Analysis',date:'Mar 2026',desc:`It started with a question that felt almost too big to answer in 48 hours: why do some patients repeatedly show up in emergency rooms while others, just as sick, never do? At Duke's ASA DataFest, my team of four was handed a sprawling dataset of roughly 10,000 patients drawn from electronic health records and social determinants of health surveys — messy, multi-source, and full of signal waiting to be pulled out.<br><br>I designed the analytical pipeline from the ground up. Before touching any model, I spent time thinking about what "care irregularity" actually means longitudinally — not just whether someone missed an appointment, but the pattern of gaps, the clustering of crises, the absence of consistent touch points over time. I engineered those features by hand, building metrics that captured how erratic or consistent each patient's care history had been. From there, I used K-means clustering to segment the patient population into behaviorally and socially distinct groups, then fit logistic regression models to quantify ED overuse risk across those segments.<br><br>What emerged was striking. The correlation between social risk factors and healthcare utilization came out at approximately r = 0.82 — not a whisper of a relationship, but a structural one. Poverty, transportation barriers, unstable housing: these weren't background noise. They were the story. I then ran intervention simulations — counterfactual analyses asking what happens to predicted risk if you systematically remove financial barriers, or solve the transportation problem. The numbers shifted meaningfully.<br><br>The final piece was translating all of this into something actionable. I built a geospatial mobile clinic routing plan, mapping where concentrated need intersected with access gaps, producing coverage recommendations for over 30,000 patients. The judges awarded us Best Statistical Analysis — not just for the rigor of the methods, but for the coherence of the argument: from raw data, to insight, to a plan someone could actually use.`,bullets:['Engineered visit-gap sequences and cv_gap to quantify irregular care continuity from longitudinal EHR records.','Clustered SDOH risk across 8 domains and simulated a 16.6pp risk reduction under structural-barrier removal.','Built a geospatial mobile-clinic route covering 32,686 patients across 15 stops.'],ux:{goal:'Show how irregular care access and social barriers create avoidable ED risk.',methods:'Feature engineering, K-Means, counterfactual simulation, Markov comorbidity network, MLP scoring, routing.',visual:'Mobile-clinic map, SDOH clusters, comorbidity network, and risk-reduction dashboard.'},links:[{h:'Uni/Carolina_Correlation_DukeASA26.pdf',l:'Slides'},{h:'https://github.com/miazhouruoya/dukeasafest26',l:'Code'},{h:'https://miazhouruoya.github.io/kansasmobile/',l:'Map'}],img:'folderpic/thumbs/ASA.jpg'},
-  wageguard:{title:'WageGuard — Bilingual AI Wage Protection',cat:'SolHacks 2026 (MLH)',pi:'1st Place Culture Track',date:'Mar 2026',desc:`Many Latino workers in the US are underpaid, overworked, and unaware that what's happening to them is illegal. Wage theft is the most common form of theft in America — over $50 billion stolen annually — yet the workers most affected are the least equipped to navigate the systems designed to protect them. Language barriers, fear of retaliation, and lack of legal knowledge keep most cases unreported. We wanted to build something that removes every one of those barriers.`,sections:[{title:'What It Does',items:['<strong>Voice-first AI intake</strong> — workers describe their situation out loud; Gemini agent extracts a full structured wage claim automatically','<strong>Smart follow-up agent</strong> — identifies the single most important missing piece and asks one targeted question at a time','<strong>Deterministic wage analysis</strong> — compares pay against actual state labor law (all 50 states) and calculates the exact dollar gap','<strong>Plain-language explanation</strong> — translates legal output into simple English or Spanish: what happened, what it means, what to do next','<strong>Downloadable record card</strong> — formatted PDF the worker can take to a lawyer or agency','<strong>Complaint generation</strong> — drafts a complete complaint email and links directly to the official DOL filing page','<strong>Retaliation detector</strong> — workers check off what changed since they complained; system assesses risk and provides direct reporting lines','<strong>Evidence organizer</strong> — drag-and-drop uploads auto-sorted into hours proof, pay proof, employer messages, and timeline evidence','<strong>Full account system</strong> — magic-link auth via Supabase; every conversation and wage record stored and accessible','<strong>Night mode</strong> — because many workers are doing this after a long shift']},{title:'Tech Stack',stack:[{layer:'Frontend',tech:'React + Vite'},{layer:'Backend',tech:'Express + TypeScript'},{layer:'Database & Auth',tech:'Supabase (magic link, row-level security)'},{layer:'AI Agents',tech:'Google Gemini 2.5 Flash'},{layer:'Voice',tech:'ElevenLabs Scribe'},{layer:'Wage Logic',tech:'Deterministic engine — hard-coded state labor law'}]},{title:'Challenges',items:['Keeping AI honest on math — separated the calculation layer entirely: Gemini handles language, a deterministic engine handles every dollar amount','Structured output from free speech — careful prompt engineering with XML output tags and multi-turn accumulation','Bilingual consistency — agent always responds in the user\'s language, preserves tone across English and Spanish','Rate limits on the free tier — built a throttle queue, response cache, and local regex fallback for graceful degradation','Retaliation sensitivity — every message framed to feel supportive, not alarming, while remaining legally accurate']},{title:'Proud Of',items:['Three coordinated AI agents handing off seamlessly — intake, follow-up, and explanation — within a single conversation flow','Voice-to-claim pipeline end to end: speak naturally, form fills, analysis runs, explanation appears — under 30 seconds','Fully bilingual product where every component, every agent response, every UI element works in both languages','Built the entire frontend design system from scratch in 24 hours, matching the SolHacks visual identity','The app works even without an API key — local regex and fallback explanations mean the core flow never breaks']},{title:'What We Learned',items:['Prompt engineering for structured parseable output is a discipline of its own — small prompt changes have large effects on reliability','Separation between AI and deterministic logic is critical when accuracy matters','Designing for users with high anxiety and low institutional trust requires different UX decisions — every word, error message, and button label matters','Supabase row-level security makes building secure multi-user apps significantly faster than rolling auth from scratch']},{title:'What\'s Next',items:['Connect the evidence organizer to Supabase storage for persistent legal file management','Add a document reader — upload a pay stub photo and extract hours, rate, and deductions automatically','Expand the wage engine to cover tip credit rules, piece-rate work, and agricultural exemptions','Partner with worker centers and legal aid clinics to route high-risk cases directly to human advocates','Add push notifications reminding workers to log hours weekly before memories fade']}],links:[{h:'https://devpost.com/software/jornadajusta',l:'Devpost',embed:true}],img:'folderpic/wageguard.png'},
-  cvd:{title:'Multi-State CVD Progression Modeling',cat:'UNC Chapel Hill — Department of Biostatistics',pi:'PI: Dr. Ming Ding',date:'Mar 2026 — Present',desc:`Cardiovascular disease rarely arrives as a single event. A patient's path from diagnosis to outcome typically passes through a sequence of states — coronary heart disease, stroke, heart failure, and ultimately mortality — each transition shaped by a different combination of risk factors, time horizons, and competing events. Modeling that sequence faithfully requires something more than a standard binary prediction: it demands a framework that treats disease as a process unfolding through time.<br><br>My honors thesis, supervised by Dr. Ming Ding in the UNC Department of Biostatistics, builds multi-state survival models on longitudinal cohort data to characterize these transitions explicitly. The central challenge is that the transitions are competing: a patient who experiences stroke cannot simultaneously experience heart failure as a first event. Ignoring that structure produces biased estimates. The competing-risk framework I'm implementing accounts for this directly, estimating cause-specific hazards for each transition separately while preserving the joint interpretation of the full disease trajectory.<br><br>The modeling pipeline integrates cause-specific Cox models, Kaplan–Meier estimation, and pooled logistic regression within a coherent multi-state framework. Each approach captures a different feature of the data: Cox models give interpretable hazard ratios for covariate effects on each transition; Kaplan–Meier provides nonparametric baseline survival curves that don't assume a distributional form; pooled logistic regression approximates discrete-time hazards and handles time-varying covariates flexibly. Together they form a layered analysis where assumptions can be tested at each stage.<br><br>The goal is precision CVD risk prediction — not a single risk score, but an estimate of which trajectory a patient is on and when transitions are most likely, conditioned on the covariates that matter. This kind of output is directly actionable for clinical decision-making and population health planning in a way that aggregate risk scores are not.`,bullets:['Developing multi-state cardiovascular disease progression models using longitudinal cohort data to predict transitions between CHD, stroke, heart failure, and mortality outcomes through survival analysis and cause-specific Cox modeling.','Implementing time-to-event and competing-risk pipelines using pooled logistic regression, Kaplan–Meier estimation, and multi-state survival frameworks for precision CVD risk prediction.'],ux:{goal:'Characterize patient-level CVD progression trajectories by modeling transitions between disease states under competing risks.',methods:'Multi-state survival analysis, cause-specific Cox modeling, Kaplan–Meier estimation, pooled logistic regression, competing-risk frameworks, longitudinal cohort data.',visual:'State-transition hazard curves, competing-risk cumulative incidence functions, covariate-adjusted transition probability surfaces, and patient trajectory projections.'},links:[],img:'folderpic/thumbs/BUSI.jpg'},
-  datamini3:{title:'Duke Data Mini #3',cat:'Duke University — Data Mini #3',pi:'Best Statistical Analysis',date:'Apr 2026',desc:`Railroad fatalities in the United States are rarely random. Behind each incident is a pattern — behavioral, environmental, and structural — that repeats across geography, time, and demographic context. The goal of this project was to find those patterns and turn them into something a policymaker could actually use: not just a predictive model, but an argument about where and how to intervene.<br><br>I built a two-model risk analysis pipeline combining logistic regression and XGBoost on U.S. railroad incident records. The pairing was deliberate. Logistic regression surfaces interpretable odds ratios — exact multipliers that let you say trespassing carries 33.85x the fatality odds of ordinary incidents. XGBoost captures the nonlinear interaction effects that a linear model misses, revealing which behavioral and environmental factors compound in ways that simple coefficients can't represent. Running both in parallel created a richer picture than either could alone.<br><br>Positive drug test status emerged as the second-largest mortality driver after trespassing, with 9.53x odds. Taken together, these two variables explained the bulk of the mortality gap — not infrastructure failures or equipment failures, but behavioral patterns with known antecedents and intervention points. The model was predictively strong, but the point was never accuracy for its own sake.<br><br>The more important output was archetype discovery. I clustered fatal incidents into recurring behavioral and situational profiles — track-walkers struck by trains, grade-crossing drivers making catastrophic misjudgments, workers caught in maintenance zones. Each archetype represents a structurally different kind of risk, which means each one points toward a different class of preventive intervention. Collapsing them into a single "railroad fatality" category misses the underlying heterogeneity completely.<br><br>The project won Best Statistical Analysis at Duke Data Mini. The judges noted the combination of strong modeling performance with interpretable, prevention-oriented outputs — the work made a legible argument, not just a model, and that distinction was the whole point.`,sections:[{title:'What It Does',items:['<strong>Fatality risk modeling</strong> — predicts fatal vs. nonfatal railroad incidents using interpretable statistical and machine learning pipelines','<strong>Odds-ratio estimation</strong> — quantifies direct mortality risk contributions for behavioral and environmental variables','<strong>Nonlinear risk detection</strong> — uses XGBoost to capture interaction effects missed by linear statistical models','<strong>Archetype discovery</strong> — clusters fatal incidents into recurring behavioral and situational profiles','<strong>Risk-driver visualization</strong> — surfaces interpretable feature importance and high-risk behavioral signatures','<strong>Intervention-oriented profiling</strong> — transforms model outputs into prevention-ready accident archetypes','<strong>Classification diagnostics</strong> — evaluates predictive reliability through AUC, confusion matrices, and performance diagnostics','<strong>Behavioral pattern analysis</strong> — studies how trespassing, substance use, and crossing behavior interact with mortality risk','<strong>Interpretability-first modeling</strong> — balances predictive performance with policy-level explainability','<strong>Statistical storytelling</strong> — translates technical model findings into understandable transportation safety insights']},{title:'Overview',cards:[{key:'Methods',val:'Logistic regression, XGBoost, odds-ratio analysis, classification modeling, archetype profiling, clustering analysis, AUC diagnostics, feature importance analysis, behavioral risk modeling.'},{key:'Results',val:'Odds-ratio risk panels, nonlinear feature-importance diagnostics, fatality archetype clustering, AUC performance analysis, and intervention-oriented transportation risk profiles.'}]},{title:'Challenges',items:['Linear models alone missed behavioral interaction effects — XGBoost was added to capture nonlinear relationships hidden inside incident patterns','High predictive accuracy was not sufficient — the system also needed interpretable outputs usable for transportation policy discussions','Fatality populations were heterogeneous — clustering and archetype profiling were introduced to separate structurally different incident types','Rare but high-impact variables distorted simple interpretations — odds-ratio analysis was paired with broader model diagnostics to avoid misleading conclusions','Translating technical outputs into prevention strategies required balancing statistical rigor with actionable storytelling']},{title:'Proud Of',items:['Combined interpretable statistical inference with nonlinear machine learning inside a single unified risk-analysis framework','Identified trespasser status and positive drug tests as dominant mortality drivers with extremely elevated fatality odds','Built intervention-ready fatality archetypes instead of treating railroad incidents as a single undifferentiated population','Translated predictive models into interpretable transportation safety narratives understandable to nontechnical audiences','Won Best Statistical Analysis at Duke Data Mini for combining strong modeling performance with interpretable public-risk analysis']}],links:[{h:'Uni/Duke%20Mini%233.pdf',l:'Slides'}],img:'folderpic/thumbs/DataMini.jpg'}};
+  datafest:{title:'Duke ASA DataFest 2026',cat:'Duke University — American Statistical Association · DataFest 2026',pi:'Best Statistical Analysis',date:'Mar 2026',desc:`At Duke's ASA DataFest, my team of four had 48 hours and a dataset of roughly 10,000 patients combining electronic health records with social determinants of health (SDOH) surveys, to explain why some patients repeatedly return to the ER while others don't.<br><br>I designed the analysis pipeline. I engineered features capturing care irregularity over time — the pattern and clustering of gaps in care, not just missed appointments — then used K-means clustering to segment patients into behaviorally and socially distinct groups, and fit logistic regression models to quantify ED overuse risk by segment. Social risk factors correlated with healthcare utilization at r ≈ 0.82. I ran counterfactual simulations testing how predicted risk changes if financial or transportation barriers are removed.<br><br>I then built a geospatial mobile clinic routing plan covering over 30,000 patients, mapping where need and access gaps overlapped. The project won Best Statistical Analysis.`,bullets:['Led EDA cleaning pipeline for a 4-person team using Python, R, Scikit-learn on 7M+ healthcare data over 8 social risk domains, and won the Best Statistical Analysis Award.','Identified high-risk diabetic populations using logistic regression, projecting an 18% reduction in avoidable ED visits.','Designed nearest-neighbor mobile clinic routing covering 32K+ high-risk patients within a 15-mile radius and built an interactive geospatial dashboard for healthcare planning.'],ux:{goal:'Show how irregular care access and social barriers create avoidable ED risk.',methods:'Feature engineering, K-Means, counterfactual simulation, Markov comorbidity network, MLP scoring, routing.',visual:'Mobile-clinic map, SDOH clusters, comorbidity network, and risk-reduction dashboard.'},links:[{h:'Uni/Carolina_Correlation_DukeASA26.pdf',l:'Slides'},{h:'https://github.com/miazhouruoya/dukeasafest26',l:'Code'},{h:'https://miazhouruoya.github.io/kansasmobile/',l:'Map'}],img:'folderpic/thumbs/ASA.jpg'},
+  wageguard:{title:'WageGuard — Bilingual AI Wage Protection',cat:'SolHacks 2026 (MLH)',pi:'1st Place Culture Track',date:'Mar 2026',desc:`Wage theft is the most common form of theft in America — over $50 billion stolen annually — and the workers most affected, often Latino and non-English-speaking, are the least equipped to fight it. Language barriers, fear of retaliation, and lack of legal knowledge keep most cases unreported. WageGuard removes those barriers with a bilingual AI system that turns a spoken complaint into a documented, actionable wage claim.`,sections:[{title:'What It Does',items:['<strong>Voice-first AI intake</strong> — workers describe their situation out loud; Gemini agent extracts a full structured wage claim automatically','<strong>Smart follow-up agent</strong> — identifies the single most important missing piece and asks one targeted question at a time','<strong>Deterministic wage analysis</strong> — compares pay against actual state labor law (all 50 states) and calculates the exact dollar gap','<strong>Plain-language explanation</strong> — translates legal output into simple English or Spanish: what happened, what it means, what to do next','<strong>Downloadable record card</strong> — formatted PDF the worker can take to a lawyer or agency','<strong>Complaint generation</strong> — drafts a complete complaint email and links directly to the official DOL filing page','<strong>Retaliation detector</strong> — workers check off what changed since they complained; system assesses risk and provides direct reporting lines','<strong>Evidence organizer</strong> — drag-and-drop uploads auto-sorted into hours proof, pay proof, employer messages, and timeline evidence','<strong>Full account system</strong> — magic-link auth via Supabase; every conversation and wage record stored and accessible','<strong>Night mode</strong> — because many workers are doing this after a long shift']},{title:'Tech Stack',stack:[{layer:'Frontend',tech:'React + Vite'},{layer:'Backend',tech:'Express + TypeScript'},{layer:'Database & Auth',tech:'Supabase (magic link, row-level security)'},{layer:'AI Agents',tech:'Google Gemini 2.5 Flash'},{layer:'Voice',tech:'ElevenLabs Scribe'},{layer:'Wage Logic',tech:'Deterministic engine — hard-coded state labor law'}]},{title:'Challenges',items:['Keeping AI honest on math — separated the calculation layer entirely: Gemini handles language, a deterministic engine handles every dollar amount','Structured output from free speech — careful prompt engineering with XML output tags and multi-turn accumulation','Bilingual consistency — agent always responds in the user\'s language, preserves tone across English and Spanish','Rate limits on the free tier — built a throttle queue, response cache, and local regex fallback for graceful degradation','Retaliation sensitivity — every message framed to feel supportive, not alarming, while remaining legally accurate']},{title:'Proud Of',items:['Three coordinated AI agents handing off seamlessly — intake, follow-up, and explanation — within a single conversation flow','Voice-to-claim pipeline end to end: speak naturally, form fills, analysis runs, explanation appears — under 30 seconds','Fully bilingual product where every component, every agent response, every UI element works in both languages','Built the entire frontend design system from scratch in 24 hours, matching the SolHacks visual identity','The app works even without an API key — local regex and fallback explanations mean the core flow never breaks']},{title:'What We Learned',items:['Prompt engineering for structured parseable output is a discipline of its own — small prompt changes have large effects on reliability','Separation between AI and deterministic logic is critical when accuracy matters','Designing for users with high anxiety and low institutional trust requires different UX decisions — every word, error message, and button label matters','Supabase row-level security makes building secure multi-user apps significantly faster than rolling auth from scratch']},{title:'What\'s Next',items:['Connect the evidence organizer to Supabase storage for persistent legal file management','Add a document reader — upload a pay stub photo and extract hours, rate, and deductions automatically','Expand the wage engine to cover tip credit rules, piece-rate work, and agricultural exemptions','Partner with worker centers and legal aid clinics to route high-risk cases directly to human advocates','Add push notifications reminding workers to log hours weekly before memories fade']}],links:[{h:'https://devpost.com/software/jornadajusta',l:'Devpost',embed:true}],img:'folderpic/wageguard.png'},
+  cvd:{title:'Multi-State CVD Progression Modeling',cat:'UNC Chapel Hill — Department of Biostatistics',pi:'PI: Dr. Ming Ding',date:'Mar 2026 — Present',desc:`Cardiovascular disease typically progresses through a sequence of states — CHD, stroke, heart failure, death — each transition shaped by different risk factors and competing events. My honors thesis builds multi-state survival models on longitudinal cohort data to characterize these transitions explicitly, supervised by Dr. Ming Ding in the UNC Department of Biostatistics.<br><br>The core challenge is that transitions compete: a patient who has a stroke can't simultaneously have heart failure as a first event, and ignoring that structure biases estimates. I'm implementing a competing-risks framework combining cause-specific Cox models, Kaplan–Meier estimation, and pooled logistic regression — giving interpretable hazard ratios, nonparametric survival curves, and flexible handling of time-varying covariates respectively.<br><br>The goal is precision CVD risk prediction: not a single risk score, but an estimate of which trajectory a patient is on and when transitions are most likely — output that's directly usable for clinical decision-making.`,bullets:['Developing multi-state cardiovascular disease progression models using longitudinal cohort data to predict transitions between CHD, stroke, heart failure, and mortality outcomes through survival analysis and cause-specific Cox modeling.','Implementing time-to-event and competing-risk pipelines using pooled logistic regression, Kaplan–Meier estimation, and multi-state survival frameworks for precision CVD risk prediction.'],ux:{goal:'Characterize patient-level CVD progression trajectories by modeling transitions between disease states under competing risks.',methods:'Multi-state survival analysis, cause-specific Cox modeling, Kaplan–Meier estimation, pooled logistic regression, competing-risk frameworks, longitudinal cohort data.',visual:'State-transition hazard curves, competing-risk cumulative incidence functions, covariate-adjusted transition probability surfaces, and patient trajectory projections.'},links:[],img:'folderpic/thumbs/BUSI.jpg'},
+  datamini3:{title:'Duke Data Mini #3',cat:'Duke University — Data Mini #3',pi:'Best Statistical Analysis',date:'Apr 2026',desc:`Railroad fatalities follow patterns — behavioral, environmental, and structural — that repeat across geography and time. This project built a two-model risk pipeline (logistic regression + XGBoost) on U.S. railroad incident records to find those patterns and turn them into policy-usable interventions.<br><br>Logistic regression gave interpretable odds ratios: trespassing carries 33.85x the fatality odds of ordinary incidents, and a positive drug test carries 9.53x odds — together explaining most of the mortality gap. XGBoost captured the nonlinear interaction effects the linear model missed.<br><br>I then clustered fatal incidents into recurring archetypes — track-walkers struck by trains, grade-crossing misjudgments, workers in maintenance zones — since each points to a different type of intervention. The project won Best Statistical Analysis at Duke Data Mini for combining strong model performance with interpretable, prevention-oriented findings.`,sections:[{title:'What It Does',items:['<strong>Fatality risk modeling</strong> — predicts fatal vs. nonfatal railroad incidents using interpretable statistical and machine learning pipelines','<strong>Odds-ratio estimation</strong> — quantifies direct mortality risk contributions for behavioral and environmental variables','<strong>Nonlinear risk detection</strong> — uses XGBoost to capture interaction effects missed by linear statistical models','<strong>Archetype discovery</strong> — clusters fatal incidents into recurring behavioral and situational profiles','<strong>Risk-driver visualization</strong> — surfaces interpretable feature importance and high-risk behavioral signatures','<strong>Intervention-oriented profiling</strong> — transforms model outputs into prevention-ready accident archetypes','<strong>Classification diagnostics</strong> — evaluates predictive reliability through AUC, confusion matrices, and performance diagnostics','<strong>Behavioral pattern analysis</strong> — studies how trespassing, substance use, and crossing behavior interact with mortality risk','<strong>Interpretability-first modeling</strong> — balances predictive performance with policy-level explainability','<strong>Statistical storytelling</strong> — translates technical model findings into understandable transportation safety insights']},{title:'Overview',cards:[{key:'Methods',val:'Logistic regression, XGBoost, odds-ratio analysis, classification modeling, archetype profiling, clustering analysis, AUC diagnostics, feature importance analysis, behavioral risk modeling.'},{key:'Results',val:'Odds-ratio risk panels, nonlinear feature-importance diagnostics, fatality archetype clustering, AUC performance analysis, and intervention-oriented transportation risk profiles.'}]},{title:'Challenges',items:['Linear models alone missed behavioral interaction effects — XGBoost was added to capture nonlinear relationships hidden inside incident patterns','High predictive accuracy was not sufficient — the system also needed interpretable outputs usable for transportation policy discussions','Fatality populations were heterogeneous — clustering and archetype profiling were introduced to separate structurally different incident types','Rare but high-impact variables distorted simple interpretations — odds-ratio analysis was paired with broader model diagnostics to avoid misleading conclusions','Translating technical outputs into prevention strategies required balancing statistical rigor with actionable storytelling']},{title:'Proud Of',items:['Combined interpretable statistical inference with nonlinear machine learning inside a single unified risk-analysis framework','Identified trespasser status and positive drug tests as dominant mortality drivers with extremely elevated fatality odds','Built intervention-ready fatality archetypes instead of treating railroad incidents as a single undifferentiated population','Translated predictive models into interpretable transportation safety narratives understandable to nontechnical audiences','Won Best Statistical Analysis at Duke Data Mini for combining strong modeling performance with interpretable public-risk analysis']}],links:[{h:'Uni/Duke%20Mini%233.pdf',l:'Slides'}],img:'folderpic/thumbs/DataMini.jpg'}};
 
 function isDoc(h){return /\.pdf($|\?)/i.test(h)}
 function showDetail(html){
@@ -3193,19 +3378,9 @@ function navTo(el,id){
   el.classList.add('on');
   const sec=document.getElementById(id);
   if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'});
-  if(id==='sec-uiux')openUiux();
 }
-function openUiux(){
-  const bar=document.getElementById('uiuxBar');
-  const panel=document.getElementById('uiuxPanel');
-  if(!bar||!panel)return;
-  bar.classList.add('open');
-  panel.classList.add('open');
-  bar.setAttribute('aria-expanded','true');
-}
-if(window.location.hash==='#sec-uiux')window.addEventListener('DOMContentLoaded',openUiux);
 /* highlight active section on scroll */
-const sections=['sec-header','sec-intern','sec-pub','sec-res','sec-hack','sec-proj','sec-uiux','sec-lead'];
+const sections=['sec-header','sec-intern','sec-pub','sec-res','sec-hack','sec-proj','sec-lead','sec-skills'];
 let navRAF=false,scrolling=false,scrollTimer=0;
 function updateActiveNav(){
   navRAF=false;
@@ -3300,16 +3475,6 @@ document.addEventListener('click',e=>{
   f.style.cssText=`left:${e.clientX+(Math.random()*28-14)}px;top:${e.clientY+(Math.random()*14-7)}px;color:${SC[~~(Math.random()*SC.length)]};font-size:.5rem`;
   document.body.appendChild(f);setTimeout(()=>f.remove(),900);
 });
-
-/* mini digital projects — collapsible tab */
-function toggleUiux(){
-  const bar=document.getElementById('uiuxBar');
-  const panel=document.getElementById('uiuxPanel');
-  if(!bar||!panel)return;
-  const open=bar.classList.toggle('open');
-  panel.classList.toggle('open',open);
-  bar.setAttribute('aria-expanded',open?'true':'false');
-}
 
 </script>
 </body>

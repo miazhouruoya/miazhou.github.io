@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Life — Mia Zhou</title>
+<style>
+:root{
+  --ct:#f0edea;--cm:#d8d4cf;--cbr:#b0aca6;
+  --ink:#1a1714;--ink2:#5a5650;--ink3:#9a9590;--ink4:#c8c4be;
+  --wall1:#f0e4f8;--wall2:#e4eef8;--wall3:#f8eee4;
+  /* album colors */
+  --album-cream:#fdf8f0;--album-edge:#e8dcc8;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wall3) 100%);min-height:100vh;-webkit-font-smoothing:antialiased;cursor:none;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(circle,rgba(255,255,255,.22) 1px,transparent 1px);background-size:20px 20px}
+
+/* cursor */
+#cur{position:fixed;width:16px;height:16px;pointer-events:none;z-index:99999;top:0;left:0}
+#cur svg{display:block}
+@media(hover:none){#cur{display:none}body{cursor:auto}}
+.sp{position:fixed;pointer-events:none;z-index:99997;animation:spF .5s ease-out forwards;border-radius:0}
+@keyframes spF{0%{opacity:.9}100%{opacity:0;transform:scale(0)}}
+.fl{position:fixed;pointer-events:none;z-index:99998;animation:flU .95s ease-out forwards;font-weight:700;line-height:1}
+@keyframes flU{0%{opacity:1;transform:translate(-50%,-50%) scale(.7)}100%{opacity:0;transform:translate(-50%,calc(-50% - 44px)) scale(1)}}
+
+/* ── TOPBAR ── */
+#topbar{position:sticky;top:0;z-index:200;height:34px;background:linear-gradient(180deg,var(--ct) 0%,var(--cm) 100%);border-bottom:1px solid var(--cbr);display:flex;align-items:center;justify-content:space-between;padding:0 14px}
+.tb-l{display:flex;align-items:center;gap:6px}
+.tls{display:flex;gap:5px;align-items:center}
+.tl{width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.18);position:relative;flex-shrink:0;cursor:pointer}
+.tl::after{content:'';position:absolute;inset:0;border-radius:50%;opacity:0;transition:opacity .1s;background-size:7px 7px;background-position:center;background-repeat:no-repeat}
+.tls:hover .tl::after{opacity:1}
+.tl-r{background:#ff5f56}.tl-r::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Cpath d='M1 1l5 5M6 1L1 6' stroke='%23820005' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.tl-y{background:#febc2e}.tl-y::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Cpath d='M1.5 3.5h4' stroke='%23985700' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.tl-g{background:#28c840}.tl-g::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='7' height='7'%3E%3Cpath d='M1.5 3.5h4M3.5 1.5v4' stroke='%23006500' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.tb-title{font-size:.66rem;font-weight:700;color:var(--ink2);margin-left:8px}
+.tb-r{display:flex;align-items:center;gap:8px}
+.tb-back{font-size:.58rem;font-weight:700;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);background:#fff;color:var(--ink);padding:.14rem .5rem;cursor:pointer;display:inline-flex;align-items:center;gap:.22rem;text-decoration:none;transition:transform .07s,box-shadow .07s}
+.tb-back:hover{background:var(--ink);color:#fff}
+.tb-back:active{transform:translate(2px,2px);box-shadow:none}
+.tb-back svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}
+.tb-clock{font-size:.58rem;font-weight:700;color:var(--ink2);font-family:'Courier New',monospace}
+
+/* ── PAGE WRAPPER ── */
+.page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:1.5rem 1rem 4rem}
+
+/* ── ALBUM COVER ── */
+.album-cover{
+  position:relative;
+  background:var(--album-cream);
+  border:2px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink),9px 9px 0 rgba(0,0,0,.08);
+  margin-bottom:2rem;overflow:hidden;cursor:pointer;
+  transition:transform .1s,box-shadow .1s;
+}
+.album-cover:hover{transform:translateY(-2px);box-shadow:6px 6px 0 var(--ink),11px 11px 0 rgba(0,0,0,.1)}
+.album-cover:active{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--ink)}
+/* cover spine */
+.album-spine{
+  position:absolute;left:0;top:0;bottom:0;width:12px;
+  background:repeating-linear-gradient(0deg,var(--album-edge) 0px,var(--album-edge) 4px,var(--album-cream) 4px,var(--album-cream) 8px);
+  border-right:1px solid var(--ink);z-index:2;
+}
+/* cover content */
+.album-cover-inner{
+  padding:2.5rem 2rem 2rem 1.8rem;
+  margin-left:12px;
+  display:flex;align-items:center;gap:1.5rem;
+  min-height:160px;
+}
+.album-cover-img{
+  width:110px;height:110px;flex-shrink:0;
+  border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);
+  object-fit:cover;
+}
+.album-cover-img-fb{
+  width:110px;height:110px;flex-shrink:0;
+  border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);
+  background:linear-gradient(135deg,#ffd6f0,#ddd0ff);
+  display:flex;align-items:center;justify-content:center;
+}
+.album-cover-text{}
+.album-label{font-size:.48rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-family:'Courier New',monospace;margin-bottom:.3rem}
+.album-title{font-size:1.5rem;font-weight:700;color:var(--ink);line-height:1.08;margin-bottom:.2rem;letter-spacing:-.02em}
+.album-sub{font-size:.72rem;color:var(--ink2);line-height:1.6;margin-bottom:.7rem;max-width:320px}
+.album-hint{font-size:.54rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);display:flex;align-items:center;gap:.3rem;font-family:'Courier New',monospace}
+.album-hint svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+
+/* record decoration in corner */
+.album-record{
+  position:absolute;right:-18px;top:50%;transform:translateY(-50%);
+  width:100px;height:100px;border-radius:50%;
+  background:repeating-conic-gradient(#2a2020 0deg 5deg,#1a1414 5deg 10deg);
+  border:2px solid var(--ink);opacity:.12;pointer-events:none;
+}
+.album-record::after{content:'';position:absolute;inset:34px;border-radius:50%;background:var(--album-cream);border:1px solid var(--ink);opacity:1}
+
+/* ── ALBUM CONTENT (hidden until opened) ── */
+.album-content{
+  display:none;
+  background:var(--album-cream);
+  border:2px solid var(--ink);
+  border-top:none;
+  box-shadow:5px 5px 0 var(--ink),9px 9px 0 rgba(0,0,0,.08);
+  margin-top:-2px;
+  overflow:hidden;
+}
+.album-content.open{display:block}
+
+/* album tabs */
+.album-tabs{
+  display:flex;align-items:center;
+  border-bottom:2px solid var(--ink);
+  background:linear-gradient(180deg,var(--ct) 0%,var(--cm) 100%);
+  overflow-x:auto;scrollbar-width:none;
+}
+.album-tabs::-webkit-scrollbar{display:none}
+.album-tab{
+  font-size:.58rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:.35rem .8rem;border-right:1px solid var(--cbr);
+  background:transparent;color:var(--ink2);cursor:pointer;
+  white-space:nowrap;flex-shrink:0;border-top:none;border-bottom:none;border-left:none;
+  transition:background .1s;font-family:Arial,Helvetica,sans-serif;
+}
+.album-tab:hover{background:rgba(0,0,0,.07)}
+.album-tab.on{background:var(--album-cream);color:var(--ink);border-bottom:2px solid var(--album-cream);margin-bottom:-2px;font-weight:800}
+
+/* album pages */
+.album-page{display:none;padding:1.2rem 1.4rem 1.6rem}
+.album-page.on{display:block}
+
+/* ── JOURNEY PATH ── */
+.journey-wrap{margin-bottom:1.4rem}
+.journey-title{font-size:.5rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-family:'Courier New',monospace;margin-bottom:.7rem}
+.journey-path{display:flex;align-items:stretch;gap:0;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--ink4) transparent;padding-bottom:.4rem}
+.journey-path::-webkit-scrollbar{height:3px}
+.journey-path::-webkit-scrollbar-thumb{background:var(--ink4)}
+.jstop{display:flex;flex-direction:column;align-items:center;min-width:80px;position:relative}
+.jstop::after{content:'';position:absolute;top:11px;left:50%;right:-50%;height:1.5px;background:var(--ink4);z-index:0}
+.jstop:last-child::after{display:none}
+.jdot{width:10px;height:10px;border-radius:50%;border:2px solid var(--ink);background:#fff;z-index:1;flex-shrink:0;margin-bottom:.3rem}
+.jname{font-size:.6rem;font-weight:700;color:var(--ink);text-align:center;line-height:1.2;margin-bottom:.12rem}
+.jyear{font-size:.5rem;color:var(--ink3);font-family:'Courier New',monospace;text-align:center}
+
+/* country pills */
+.cpills{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:1rem}
+.cp{
+  font-size:.6rem;font-weight:700;
+  border:2px solid var(--ink);box-shadow:1.5px 1.5px 0 var(--ink);
+  padding:.1rem .45rem;background:#fff;color:var(--ink);
+  cursor:pointer;transition:transform .08s,box-shadow .08s;display:inline-flex;align-items:center;gap:.2rem;
+}
+.cp:hover{transform:translateY(-2px)}
+.cp.on{background:var(--ink);color:#fff}
+.cp.dim{opacity:.35}
+
+/* ── PHOTO GRID ── */
+.photo-grid{columns:3;column-gap:8px}
+@media(max-width:560px){.photo-grid{columns:2}}
+.photo-item{break-inside:avoid;margin-bottom:8px;cursor:pointer;position:relative;overflow:hidden;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.photo-item:hover{transform:translateY(-3px) rotate(.4deg);box-shadow:3px 3px 0 var(--ink)}
+.photo-item.dim{opacity:.25;pointer-events:none}
+.photo-item img{width:100%;display:block;object-fit:cover}
+/* polaroid caption */
+.photo-item .pcap{font-size:.48rem;font-weight:700;color:var(--ink2);text-align:center;padding:.2rem .3rem .3rem;background:var(--album-cream);font-family:'Courier New',monospace;letter-spacing:.04em;border-top:1px solid var(--ink4)}
+
+/* ── LIGHTBOX ── */
+.lb{position:fixed;inset:0;z-index:8000;background:rgba(10,6,4,.88);display:none;align-items:center;justify-content:center;padding:1.5rem;backdrop-filter:blur(8px)}
+.lb.open{display:flex}
+.lb-inner{position:relative;max-width:88vw;max-height:88vh}
+.lb img{max-width:88vw;max-height:88vh;object-fit:contain;border:2px solid rgba(255,255,255,.2);display:block}
+.lb-x{position:absolute;top:-14px;right:-14px;width:28px;height:28px;background:var(--ink);border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.lb-x svg{width:10px;height:10px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;background:rgba(26,23,20,.7);border:1.5px solid rgba(255,255,255,.3);border-radius:0;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.lb-prev{left:-44px}.lb-next{right:-44px}
+.lb-nav svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round}
+.lb-cap{position:absolute;bottom:-26px;left:0;right:0;text-align:center;font-size:.56rem;color:rgba(255,255,255,.55);font-family:'Courier New',monospace;letter-spacing:.06em}
+
+/* ── ABOUT MINI ── */
+.about-mini{display:flex;gap:.8rem;align-items:flex-start;padding:.8rem;background:#fff;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);margin-bottom:.8rem}
+.about-mini img{width:52px;height:52px;object-fit:cover;border:2px solid var(--ink);flex-shrink:0}
+.about-mini-text .am-name{font-size:.9rem;font-weight:700;color:var(--ink);line-height:1.1;margin-bottom:.1rem}
+.about-mini-text .am-role{font-size:.62rem;color:var(--ink2);line-height:1.4}
+.about-mini-text .am-desc{font-size:.7rem;color:var(--ink2);line-height:1.65;margin-top:.35rem}
+
+/* ── FOOTER ── */
+footer{border-top:2px solid var(--ink);background:linear-gradient(180deg,var(--ct) 0%,var(--cm) 100%);padding:.7rem 1rem;text-align:center}
+footer p{font-size:.56rem;font-weight:700;color:var(--ink2);font-family:'Courier New',monospace;letter-spacing:.05em}
+footer a{color:var(--ink);text-decoration:underline}
+</style>
+</head>
+<body>
+
+<div id="cur"><svg width="16" height="16" viewBox="0 0 16 16"><polygon points="2,2 2,14 5,10 7,15 9,14 7,9.5 11,9.5" fill="#1a1714" stroke="#fff" stroke-width=".8" stroke-linejoin="round"/></svg></div>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div class="tb-l">
+    <div class="tls">
+      <div class="tl tl-r" onclick="window.location='index.html'" title="Back to Desktop" style="cursor:pointer"></div>
+      <div class="tl tl-y"></div>
+      <div class="tl tl-g"></div>
+    </div>
+    <span class="tb-title">My Life — Mia Zhou</span>
+  </div>
+  <div class="tb-r">
+    <a class="tb-back" href="index.html">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Desktop
+    </a>
+    <span class="tb-clock" id="clock">00:00</span>
+  </div>
+</div>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- ═══ ALBUM COVER ═══ -->
+  <div class="album-cover" id="albumCover" onclick="toggleAlbum()">
+    <div class="album-spine"></div>
+    <div class="album-record"></div>
+    <div class="album-cover-inner">
+      <img class="album-cover-img" src="life/bj.jpg" alt="Mia Zhou"
+        onerror="this.outerHTML='<div class=\'album-cover-img-fb\'><svg width=\'40\' height=\'40\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#9a9590\' stroke-width=\'1.5\' stroke-linecap=\'round\'><circle cx=\'12\' cy=\'8\' r=\'4\'/><path d=\'M4 20c0-4 3.6-7 8-7s8 3 8 7\'/></svg></div>'">
+      <div class="album-cover-text">
+        <div class="album-label">Photo Album · 2000 — 2026</div>
+        <div class="album-title">My Life</div>
+        <div class="album-sub">Places I've lived, countries I've wandered, moments that made me who I am. China · Singapore · USA · beyond.</div>
+        <div class="album-hint">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          Click to open album
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ALBUM CONTENT ═══ -->
+  <div class="album-content" id="albumContent">
+
+    <!-- tabs -->
+    <div class="album-tabs" id="albumTabs">
+      <button class="album-tab on" data-tab="journey">Journey</button>
+      <button class="album-tab" data-tab="photos">Photos</button>
+      <button class="album-tab" data-tab="about">About</button>
+    </div>
+
+    <!-- ── PAGE: JOURNEY ── -->
+    <div class="album-page on" id="page-journey">
+      <div class="journey-wrap">
+        <div class="journey-title">✦ growing up path</div>
+        <div class="journey-path">
+          <div class="jstop"><div class="jdot" style="background:#ffd6f0;border-color:#c8683a"></div><div class="jname">New York</div><div class="jyear">Birthplace</div></div>
+          <div class="jstop"><div class="jdot" style="background:#ffd6f0;border-color:#c9922a"></div><div class="jname">Boston</div><div class="jyear">Early years</div></div>
+          <div class="jstop"><div class="jdot" style="background:#c0eeff;border-color:#2a8a7a"></div><div class="jname">Xiamen</div><div class="jyear">Childhood · MS</div></div>
+          <div class="jstop"><div class="jdot" style="background:#ddd0ff;border-color:#6050a0"></div><div class="jname">Singapore</div><div class="jyear">High school · IB</div></div>
+          <div class="jstop"><div class="jdot" style="background:#aaffd8;border-color:#2a8a7a"></div><div class="jname">Ireland</div><div class="jyear">Study abroad</div></div>
+          <div class="jstop"><div class="jdot" style="background:#ffe8a0;border-color:#c9922a"></div><div class="jname">Chapel Hill</div><div class="jyear">Now · UNC</div></div>
+        </div>
+      </div>
+
+      <div class="journey-title" style="margin-bottom:.5rem">✦ countries visited</div>
+      <div class="cpills" id="cpills">
+        <span class="cp on" data-c="all">All</span>
+        <span class="cp" data-c="us">USA</span>
+        <span class="cp" data-c="china">China</span>
+        <span class="cp" data-c="singapore">Singapore</span>
+        <span class="cp" data-c="japan">Japan</span>
+        <span class="cp" data-c="korea">Korea</span>
+        <span class="cp" data-c="ireland">Ireland</span>
+        <span class="cp" data-c="italy">Italy</span>
+        <span class="cp" data-c="spain">Spain</span>
+        <span class="cp" data-c="portugal">Portugal</span>
+        <span class="cp" data-c="uk">UK</span>
+      </div>
+      <div class="photo-grid" id="photoGrid">
+        <div class="photo-item" data-c="us"><img src="life/bostonchild.jpg" alt="Boston childhood"/><div class="pcap">Boston · Childhood</div></div>
+        <div class="photo-item" data-c="us"><img src="life/sea.jpg" alt="Seattle"/><div class="pcap">Seattle / Sea</div></div>
+        <div class="photo-item" data-c="us"><img src="life/alas.jpg" alt="Alaska"/><div class="pcap">Alaska, US</div></div>
+        <div class="photo-item" data-c="us"><img src="life/bos.jpg" alt="Boston"/><div class="pcap">Boston, MA</div></div>
+        <div class="photo-item" data-c="us"><img src="life/blu.jpg" alt="USA"/><div class="pcap">USA</div></div>
+        <div class="photo-item" data-c="us"><img src="life/nc.jpg" alt="Chapel Hill"/><div class="pcap">Chapel Hill, NC</div></div>
+        <div class="photo-item" data-c="us"><img src="life/la.jpg" alt="LA"/><div class="pcap">Los Angeles, CA</div></div>
+        <div class="photo-item" data-c="us"><img src="life/ha.jpg" alt="USA"/><div class="pcap">USA</div></div>
+        <div class="photo-item" data-c="japan"><img src="life/we.jpg" alt="Japan"/><div class="pcap">Japan</div></div>
+        <div class="photo-item" data-c="japan"><img src="life/fuj.jpg" alt="Fuji"/><div class="pcap">Mt. Fuji</div></div>
+        <div class="photo-item" data-c="japan"><img src="life/jp.jpg" alt="Japan"/><div class="pcap">Japan</div></div>
+        <div class="photo-item" data-c="china"><img src="life/bj.jpg" alt="Beijing"/><div class="pcap">Beijing</div></div>
+        <div class="photo-item" data-c="china"><img src="life/cq.jpg" alt="Chongqing"/><div class="pcap">Chongqing</div></div>
+        <div class="photo-item" data-c="singapore"><img src="life/grad1.jpg" alt="Grad"/><div class="pcap">Singapore · Graduation</div></div>
+        <div class="photo-item" data-c="singapore"><img src="life/grad2.jpg" alt="Grad 2"/><div class="pcap">Singapore · IB</div></div>
+        <div class="photo-item" data-c="singapore"><img src="life/crys.jpg" alt="Singapore"/><div class="pcap">Singapore</div></div>
+        <div class="photo-item" data-c="korea"><img src="life/kor.jpg" alt="Korea"/><div class="pcap">Korea</div></div>
+        <div class="photo-item" data-c="ireland"><img src="life/ir.jpg" alt="Cliffs of Moher"/><div class="pcap">Cliffs of Moher</div></div>
+        <div class="photo-item" data-c="ireland"><img src="life/ie.jpg" alt="Ireland"/><div class="pcap">Ireland</div></div>
+        <div class="photo-item" data-c="italy"><img src="life/it.jpg" alt="Italy"/><div class="pcap">Italy</div></div>
+        <div class="photo-item" data-c="portugal"><img src="life/por.jpg" alt="Portugal"/><div class="pcap">Portugal</div></div>
+        <div class="photo-item" data-c="uk"><img src="life/not.jpg" alt="UK"/><div class="pcap">UK</div></div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: PHOTOS (same grid, no filter, all photos) ── -->
+    <div class="album-page" id="page-photos">
+      <div class="photo-grid">
+        <div class="photo-item" onclick="openLb(this)"><img src="life/bostonchild.jpg" alt="Boston childhood"/><div class="pcap">Boston · Childhood</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/sea.jpg" alt="Seattle"/><div class="pcap">Seattle / Sea</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/alas.jpg" alt="Alaska"/><div class="pcap">Alaska, US</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/bj.jpg" alt="Beijing"/><div class="pcap">Beijing</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/grad1.jpg" alt="Grad"/><div class="pcap">Singapore · Graduation</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/fuj.jpg" alt="Fuji"/><div class="pcap">Mt. Fuji</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/bos.jpg" alt="Boston"/><div class="pcap">Boston, MA</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/ir.jpg" alt="Ireland"/><div class="pcap">Cliffs of Moher</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/cq.jpg" alt="Chongqing"/><div class="pcap">Chongqing</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/grad2.jpg" alt="Grad 2"/><div class="pcap">Singapore · IB</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/nc.jpg" alt="Chapel Hill"/><div class="pcap">Chapel Hill</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/jp.jpg" alt="Japan"/><div class="pcap">Japan</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/it.jpg" alt="Italy"/><div class="pcap">Italy</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/crys.jpg" alt="Singapore"/><div class="pcap">Singapore</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/la.jpg" alt="LA"/><div class="pcap">Los Angeles</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/we.jpg" alt="Japan"/><div class="pcap">Japan</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/kor.jpg" alt="Korea"/><div class="pcap">Korea</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/ie.jpg" alt="Ireland"/><div class="pcap">Ireland</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/por.jpg" alt="Portugal"/><div class="pcap">Portugal</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/blu.jpg" alt="USA"/><div class="pcap">USA</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/ha.jpg" alt="USA"/><div class="pcap">USA</div></div>
+        <div class="photo-item" onclick="openLb(this)"><img src="life/not.jpg" alt="UK"/><div class="pcap">UK</div></div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: ABOUT ── -->
+    <div class="album-page" id="page-about">
+      <div class="about-mini">
+        <img src="life/bj.jpg" alt="Mia" onerror="this.style.display='none'">
+        <div class="about-mini-text">
+          <div class="am-name">Mia Zhou</div>
+          <div class="am-role">Mathematics &amp; Biostatistics · UNC Chapel Hill · Neuroscience minor</div>
+          <div class="am-desc">Born in New York, early years in Boston, grew up in Xiamen (China), high school in Singapore (IB 2023), studied abroad in Ireland, now at UNC Chapel Hill. Research in computational neuroscience, biostatistics, and quantitative finance. Dean's List all semesters.</div>
+        </div>
+      </div>
+      <div style="font-size:.48rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-family:'Courier New',monospace;margin-bottom:.5rem">✦ interests</div>
+      <div style="display:flex;flex-wrap:wrap;gap:.25rem;margin-bottom:1rem">
+        <span style="font-size:.58rem;font-weight:700;border:1.5px solid var(--ink);padding:.06rem .35rem;background:#fff">travelling</span>
+        <span style="font-size:.58rem;font-weight:700;border:1.5px solid var(--ink);padding:.06rem .35rem;background:#fff">mathematics</span>
+        <span style="font-size:.58rem;font-weight:700;border:1.5px solid var(--ink);padding:.06rem .35rem;background:#fff">neuroscience</span>
+        <span style="font-size:.58rem;font-weight:700;border:1.5px solid var(--ink);padding:.06rem .35rem;background:#fff">photography</span>
+        <span style="font-size:.58rem;font-weight:700;border:1.5px solid var(--ink);padding:.06rem .35rem;background:#fff">music</span>
+        <span style="font-size:.58rem;font-weight:700;border:1.5px solid var(--ink);padding:.06rem .35rem;background:#fff">food</span>
+        <span style="font-size:.58rem;font-weight:700;border:1.5px solid var(--ink);padding:.06rem .35rem;background:#fff">languages</span>
+      </div>
+      <div style="font-size:.48rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-family:'Courier New',monospace;margin-bottom:.5rem">✦ links</div>
+      <div style="display:flex;gap:.35rem;flex-wrap:wrap">
+        <a style="font-size:.58rem;font-weight:700;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);background:#fff;color:var(--ink);padding:.14rem .44rem;display:inline-flex;align-items:center;gap:.2rem;text-decoration:none" href="https://github.com/miazhouruoya" target="_blank">GitHub</a>
+        <a style="font-size:.58rem;font-weight:700;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);background:#fff;color:var(--ink);padding:.14rem .44rem;display:inline-flex;align-items:center;gap:.2rem;text-decoration:none" href="https://linkedin.com/in/miaazhoou" target="_blank">LinkedIn</a>
+        <a style="font-size:.58rem;font-weight:700;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);background:#fff;color:var(--ink);padding:.14rem .44rem;display:inline-flex;align-items:center;gap:.2rem;text-decoration:none" href="mailto:zhoumia@ad.unc.edu">Email</a>
+        <a style="font-size:.58rem;font-weight:700;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);background:#fff;color:var(--ink);padding:.14rem .44rem;display:inline-flex;align-items:center;gap:.2rem;text-decoration:none" href="index.html">Portfolio</a>
+      </div>
+    </div>
+
+  </div><!-- /album-content -->
+
+</div><!-- /page -->
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb">
+  <div class="lb-inner">
+    <div class="lb-x" onclick="closeLb()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+    <div class="lb-nav lb-prev" onclick="navLb(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></div>
+    <div class="lb-nav lb-next" onclick="navLb(1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    <img id="lbImg" src="" alt="">
+    <div class="lb-cap" id="lbCap"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Made with ♥ by Mia Zhou &nbsp;·&nbsp; <a href="mailto:zhoumia@ad.unc.edu">zhoumia@ad.unc.edu</a> &nbsp;·&nbsp; <a href="index.html">Back to Desktop</a></p>
+</footer>
+
+<script>
+/* ── cursor ── */
+const cur=document.getElementById('cur');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+
+/* ── sparkles ── */
+const SC=['#7ec8c8','#a78bfa','#f9a8d4','#fcd34d','#6ee7b7','#7dd3fc'];
+document.addEventListener('mousemove',e=>{
+  if(Math.random()>.89)return;
+  const s=document.createElement('div');s.className='sp';const sz=2+Math.random()*3;
+  s.style.cssText=`left:${e.clientX+(Math.random()*7-3.5)}px;top:${e.clientY+(Math.random()*7-3.5)}px;width:${sz}px;height:${sz}px;background:${SC[~~(Math.random()*SC.length)]}`;
+  document.body.appendChild(s);setTimeout(()=>s.remove(),520);
+});
+const FS=['✦','✧','+','×','·'];
+document.addEventListener('click',e=>{
+  if(e.target.closest('a,button,.lb'))return;
+  const f=document.createElement('div');f.className='fl';
+  f.textContent=FS[~~(Math.random()*FS.length)];
+  f.style.cssText=`left:${e.clientX+(Math.random()*32-16)}px;top:${e.clientY+(Math.random()*16-8)}px;color:${SC[~~(Math.random()*SC.length)]};font-size:${.55+Math.random()*.5}rem`;
+  document.body.appendChild(f);setTimeout(()=>f.remove(),950);
+});
+
+/* ── clock ── */
+function uc(){const d=new Date();document.getElementById('clock').textContent=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')}
+uc();setInterval(uc,12000);
+
+/* ── album toggle ── */
+function toggleAlbum(){
+  const c=document.getElementById('albumContent');
+  const hint=document.querySelector('.album-hint');
+  const open=c.classList.toggle('open');
+  hint.innerHTML=open
+    ?'<svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg> Click to close'
+    :'<svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg> Click to open album';
+  if(open)document.getElementById('albumContent').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+/* ── album tabs ── */
+document.getElementById('albumTabs').addEventListener('click',e=>{
+  const t=e.target.closest('.album-tab');if(!t)return;
+  document.querySelectorAll('.album-tab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.album-page').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on');
+  document.getElementById('page-'+t.dataset.tab).classList.add('on');
+});
+
+/* ── country filter ── */
+let activeC='all';
+const photoGrid=document.getElementById('photoGrid');
+const originalPhotoOrder=[...photoGrid.querySelectorAll('.photo-item')];
+document.getElementById('cpills').addEventListener('click',e=>{
+  const p=e.target.closest('.cp');if(!p)return;
+  activeC=p.dataset.c;
+  document.querySelectorAll('.cp').forEach(x=>{
+    x.classList.toggle('on',x.dataset.c===activeC);
+    x.classList.toggle('dim',x.dataset.c!==activeC&&activeC!=='all');
+  });
+  const items=activeC==='all'
+    ? originalPhotoOrder
+    : [
+      ...originalPhotoOrder.filter(item=>item.dataset.c===activeC),
+      ...originalPhotoOrder.filter(item=>item.dataset.c!==activeC)
+    ];
+  items.forEach(item=>photoGrid.appendChild(item));
+  document.querySelectorAll('#photoGrid .photo-item').forEach(item=>{
+    item.classList.toggle('dim',activeC!=='all'&&item.dataset.c!==activeC);
+  });
+  photoGrid.scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+/* ── lightbox ── */
+let lbItems=[],lbIdx=0;
+function openLb(el){
+  lbItems=[...el.closest('.photo-grid').querySelectorAll('.photo-item')];
+  lbIdx=lbItems.indexOf(el);
+  showLb();
+  document.getElementById('lb').classList.add('open');
+}
+function showLb(){
+  const img=lbItems[lbIdx].querySelector('img');
+  const cap=lbItems[lbIdx].querySelector('.pcap');
+  document.getElementById('lbImg').src=img.src;
+  document.getElementById('lbCap').textContent=cap?cap.textContent:'';
+}
+function navLb(dir){lbIdx=(lbIdx+dir+lbItems.length)%lbItems.length;showLb()}
+function closeLb(){document.getElementById('lb').classList.remove('open')}
+document.getElementById('lb').addEventListener('click',e=>{if(e.target===document.getElementById('lb'))closeLb()});
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('lb').classList.contains('open'))return;
+  if(e.key==='Escape')closeLb();
+  if(e.key==='ArrowLeft')navLb(-1);
+  if(e.key==='ArrowRight')navLb(1);
+});
+
+/* journey page photo clicks open lightbox */
+document.getElementById('photoGrid').addEventListener('click',e=>{
+  const item=e.target.closest('.photo-item');
+  if(item&&!item.classList.contains('dim'))openLb(item);
+});
+</script>
+</body>
+</html>

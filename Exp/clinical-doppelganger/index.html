@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clinical Doppelgänger | SMART on FHIR clinical decision support</title>
+<meta name="description" content="A SMART on FHIR decision-support app that finds clinically comparable patients and shows what happened to them. Built at UNC Chapel Hill, January to May 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap">
+<style>
+:root{
+  --bg:#F4F8F8; --surface:#FFFFFF; --ink:#0F2A33; --muted:#4D626A; --line:#D2DEE0; --line-strong:#9CB1B6;
+  --teal:#0F766E; --teal-text:#0B6660; --teal-lt:#DCF0EC; --amber:#B45309; --rose:#B42318; --live:#2E9E5B;
+  --btn-bg:#0F766E; --btn-ink:#FFFFFF; --focus:#0F766E; --scrim:rgba(9,30,36,.52);
+  --font-display:"Schibsted Grotesk","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --font-body:"Source Serif 4","Iowan Old Style","Georgia",serif;
+  --measure:64ch;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C1B20; --surface:#12272E; --ink:#E6F0F1; --muted:#A0B5BB; --line:#22383F; --line-strong:#47626B;
+    --teal:#4FD1C0; --teal-text:#5FDACB; --teal-lt:#123A3B; --amber:#F0A24A; --rose:#F08A80; --live:#5CD08A;
+    --btn-bg:#4FD1C0; --btn-ink:#062B28; --focus:#5FDACB; --scrim:rgba(3,12,15,.62);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1B20; --surface:#12272E; --ink:#E6F0F1; --muted:#A0B5BB; --line:#22383F; --line-strong:#47626B;
+  --teal:#4FD1C0; --teal-text:#5FDACB; --teal-lt:#123A3B; --amber:#F0A24A; --rose:#F08A80; --live:#5CD08A;
+  --btn-bg:#4FD1C0; --btn-ink:#062B28; --focus:#5FDACB; --scrim:rgba(3,12,15,.62);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 4.5rem);-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:1.125rem;line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--font-display);margin:0;letter-spacing:-.025em;line-height:1.1;font-weight:700}
+p{margin:0 0 1em;max-width:var(--measure)}
+a{color:var(--teal-text);text-underline-offset:.2em}
+img{max-width:100%}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:3px}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(1.25rem,4vw,3rem)}
+.sec{padding-top:clamp(4.5rem,9vw,7.5rem)}
+.sec-title{font-size:clamp(1.9rem,3.8vw,3rem);max-width:22ch;text-wrap:balance}
+.sec-lead{margin-top:1.1rem;color:var(--muted);max-width:60ch}
+
+/* ---------- Top bar ---------- */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:color-mix(in srgb,var(--bg) 92%,transparent);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar-in{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:3.5rem}
+.brand{font:700 1.05rem var(--font-display);letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+.bar nav{display:flex;align-items:center;gap:1.6rem}
+.bar nav a{font:500 .95rem var(--font-display);color:var(--muted);text-decoration:none}
+.bar nav a:hover{color:var(--ink)}
+.bar nav a.btn{padding:.5rem .95rem;font-size:.92rem;margin:0;color:var(--btn-ink)}
+@media (max-width:760px){.bar nav a:not(.btn){display:none}}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:.55rem;padding:.8rem 1.3rem;border-radius:8px;background:var(--btn-bg);color:var(--btn-ink);
+  font:700 1rem/1.2 var(--font-display);text-decoration:none;border:2px solid var(--btn-bg)}
+.btn:hover{filter:brightness(1.08)}
+.btn svg{width:1em;height:1em;flex:none}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+.btn.ghost:hover{border-color:var(--ink);filter:none}
+.btn-row{display:flex;flex-wrap:wrap;gap:.75rem}
+
+/* ---------- Hero ---------- */
+.hero{padding-top:clamp(2rem,4.5vw,3.75rem)}
+.hero-top{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(1.5rem,4vw,3.5rem);align-items:end}
+.hero-side{padding-bottom:.6rem}
+@media (max-width:1020px){.hero-top{grid-template-columns:1fr;align-items:start}.hero-side{padding-bottom:0}}
+.wordmark{position:relative;isolation:isolate;display:inline-block;margin:0;font-weight:800;font-size:clamp(2.7rem,11.2vw,6.1rem);line-height:.98;letter-spacing:-.045em}
+.wordmark .solid{display:block;color:var(--ink)}
+.wordmark .echo{position:absolute;left:0;top:0;z-index:-1;display:block;color:transparent;-webkit-text-stroke:.018em var(--teal);
+  transform:translate(.05em,.055em);pointer-events:none;user-select:none}
+.hero-sub{margin:0;font-size:clamp(1.12rem,1.6vw,1.3rem);line-height:1.5;max-width:38ch}
+.hero .btn-row{margin-top:1.4rem}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.25rem 2rem;margin:0;padding:1.4rem 0 0;border-top:1px solid var(--line-strong)}
+.facts div{display:flex;flex-direction:column-reverse;justify-content:flex-end;gap:.15rem}
+.facts dt{font:500 .85rem/1.3 var(--font-display);color:var(--muted)}
+.facts dd{margin:0;font-size:1rem;line-height:1.45}
+@media (max-width:900px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.facts{grid-template-columns:1fr}}
+.hero-shot{position:relative;display:block;margin-top:clamp(1.75rem,3vw,2.5rem);border:1px solid var(--line-strong);border-radius:10px 10px 0 0;border-bottom:0;
+  overflow:hidden;aspect-ratio:1280/640;background:var(--surface);text-decoration:none}
+.hero-shot img{display:block;width:100%;height:auto}
+.hero-shot::after{content:"";position:absolute;inset:auto 0 0 0;height:30%;background:linear-gradient(to bottom,transparent,var(--bg))}
+.hero .facts{margin-top:.5rem}
+.hero-shot .open{position:absolute;z-index:2;right:1rem;bottom:1.2rem;display:inline-flex;align-items:center;gap:.5rem;padding:.55rem .95rem;border-radius:999px;
+  background:var(--ink);color:var(--bg);font:700 .92rem var(--font-display)}
+.hero-shot .open svg{width:.95em;height:.95em}
+@media (max-width:640px){.hero-shot{aspect-ratio:1/1.1}.hero-shot img{width:175%;max-width:none;margin-left:-40%}}
+
+/* ---------- Idea ---------- */
+.idea{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:clamp(2rem,5vw,4.5rem);align-items:start}
+.idea h2{font-size:clamp(1.9rem,4vw,3.1rem);max-width:17ch;text-wrap:balance}
+.flow{list-style:none;margin:clamp(2.5rem,5vw,3.5rem) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+.flow li{position:relative;padding:1.1rem 1.5rem 0 0;border-top:3px solid var(--teal)}
+.flow li + li{padding-left:1.5rem}
+.flow li:not(:last-child)::after{content:"";position:absolute;right:.15rem;top:-6px;width:10px;height:10px;border-top:3px solid var(--teal);border-right:3px solid var(--teal);transform:rotate(45deg)}
+.flow b{display:block;font:800 1.55rem var(--font-display);letter-spacing:-.03em}
+.flow span{display:block;margin-top:.2rem;color:var(--muted);font-size:1.02rem;line-height:1.5}
+@media (max-width:820px){.idea{grid-template-columns:1fr}.flow{grid-template-columns:1fr;gap:1.25rem}.flow li,.flow li + li{padding-left:0}}
+
+/* ---------- App tour ---------- */
+.tabs{display:flex;gap:.15rem;margin:2.25rem 0 0;border-bottom:1px solid var(--line-strong);overflow-x:auto;scrollbar-width:thin}
+.tab{flex:none;padding:.85rem 1.15rem;background:none;border:0;border-bottom:4px solid transparent;margin-bottom:-1px;font:700 1.02rem var(--font-display);color:var(--muted);cursor:pointer;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--teal)}
+.tab.live::before{content:"";display:inline-block;width:.5rem;height:.5rem;border-radius:50%;background:var(--live);margin-right:.55rem;vertical-align:.12em}
+.pane[hidden]{display:none}
+.pane-head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(1.5rem,4vw,3.5rem);margin:2.25rem 0 1.75rem;align-items:start}
+.pane-head h3{font-size:clamp(1.5rem,2.6vw,2.1rem);margin-bottom:1rem;max-width:20ch;text-wrap:balance}
+.pane-head p{font-size:1.05rem}
+.panels{list-style:none;margin:0;padding:0;display:grid;gap:.3rem}
+.panel-btn{display:grid;gap:.2rem;width:100%;text-align:left;padding:.7rem 1rem;border:0;border-left:4px solid var(--line);background:transparent;color:var(--ink);font:inherit;cursor:pointer;border-radius:0 8px 8px 0}
+.panel-btn:hover{background:color-mix(in srgb,var(--teal-lt) 55%,transparent)}
+.panel-btn[aria-pressed="true"]{border-left-color:var(--teal);background:var(--teal-lt)}
+.panel-title{font:700 1.02rem var(--font-display);letter-spacing:-.01em}
+.panel-desc{font-size:.96rem;line-height:1.45;color:var(--muted)}
+.panel-btn[aria-pressed="true"] .panel-desc{color:var(--ink)}
+@media (max-width:860px){.pane-head{grid-template-columns:1fr}}
+
+.appwin{border:1px solid var(--line-strong);border-radius:10px;overflow:hidden;background:var(--surface)}
+.appwin-bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.55rem .9rem;border-bottom:1px solid var(--line);background:var(--surface);font:500 .85rem var(--font-display);color:var(--muted)}
+.appwin-bar .url{padding:.2rem .7rem;border-radius:999px;background:var(--bg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.appwin-bar a{font-weight:700;white-space:nowrap}
+.appwin-scroll{max-height:min(74vh,760px);overflow:auto;background:#EEEAE1}
+.shot{position:relative;overflow:hidden;min-width:820px}
+.shot img{display:block;width:100%;height:auto}
+.spot{position:absolute;border-radius:12px;pointer-events:none;box-shadow:0 0 0 3px var(--teal),0 0 0 100vmax var(--scrim)}
+.spot[hidden]{display:none}
+@media (prefers-reduced-motion:no-preference){.spot{transition:left .35s ease,top .35s ease,width .35s ease,height .35s ease}}
+.shot-note{margin:.85rem 0 0;font-size:.92rem;color:var(--muted);max-width:none}
+.live-stage{position:relative;height:min(74vh,720px);display:grid;place-items:center;background:var(--bg)}
+.live-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.live-card{max-width:34rem;padding:2rem;text-align:left}
+.live-card h4{font-size:1.5rem;margin-bottom:.7rem}
+.live-card p{font-size:1.02rem}
+.live-card[hidden]{display:none}
+
+/* ---------- Design choices ---------- */
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(2rem,5vw,4.5rem);margin:2.5rem 0 0}
+.choices div{padding:1.15rem 0 1.4rem;border-top:1px solid var(--line-strong)}
+.choices dt{font:700 1.2rem var(--font-display);letter-spacing:-.02em;margin-bottom:.4rem}
+.choices dd{margin:0;font-size:1.05rem;line-height:1.6;color:var(--muted);max-width:52ch}
+@media (max-width:760px){.choices{grid-template-columns:1fr}}
+
+/* ---------- How it works ---------- */
+.chap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(1.5rem,4vw,3.5rem);align-items:start;margin-top:clamp(3.25rem,6vw,5rem)}
+.chap.first{margin-top:2.75rem}
+.chap h3{font-size:clamp(1.45rem,2.4vw,1.9rem);margin-bottom:1rem;display:flex;gap:.75rem;align-items:baseline}
+.chap h3 .n{flex:none;font-size:.95em;color:var(--teal-text);min-width:1.1em}
+.chap p{font-size:1.06rem}
+.chap.wide{grid-template-columns:1fr}
+@media (max-width:820px){.chap{grid-template-columns:1fr}}
+.fig{margin:0}
+.fig .zoom{display:block;width:100%;padding:0;margin:0;border:1px solid var(--line-strong);border-radius:8px;background:#fff;overflow:hidden;cursor:zoom-in;position:relative}
+.fig .zoom img{display:block;width:100%;height:auto}
+.fig .zoom .hint{position:absolute;right:.6rem;bottom:.6rem;padding:.3rem .65rem;border-radius:999px;background:var(--ink);color:var(--bg);font:700 .8rem var(--font-display);opacity:.94}
+@media (hover:hover){.fig .zoom .hint{opacity:0;transition:opacity .15s}.fig .zoom:hover .hint,.fig .zoom:focus-visible .hint{opacity:1}}
+.fig figcaption{margin-top:.75rem;font-size:.94rem;line-height:1.5;color:var(--muted);max-width:66ch}
+.fig figcaption b{color:var(--ink)}
+
+/* ---------- Lessons ---------- */
+.lessons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1.5rem,3.5vw,3rem);margin-top:2.75rem}
+.lessons > div{padding-top:1.1rem;border-top:3px solid var(--teal)}
+.lessons h3{font-size:1.35rem;margin-bottom:.7rem;text-wrap:balance}
+.lessons p{font-size:1.04rem;line-height:1.6}
+@media (max-width:900px){.lessons{grid-template-columns:1fr}}
+.proud{margin:clamp(3.5rem,7vw,5.5rem) 0 0;max-width:30ch;font:700 clamp(1.7rem,3.6vw,2.7rem)/1.15 var(--font-display);letter-spacing:-.03em;text-wrap:balance}
+.proud-more{margin-top:1.5rem;font-size:1.1rem;max-width:var(--measure)}
+
+/* ---------- Next ---------- */
+.next{list-style:none;margin:2.25rem 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(2rem,5vw,4.5rem)}
+.next li{padding:1.1rem 0 1.3rem;border-top:1px solid var(--line-strong);font-size:1.06rem;line-height:1.55}
+.next b{display:block;font:700 1.15rem var(--font-display);letter-spacing:-.02em;margin-bottom:.25rem}
+@media (max-width:760px){.next{grid-template-columns:1fr}}
+
+footer{margin-top:clamp(4.5rem,9vw,7rem);padding:2rem 0 clamp(3rem,6vw,4.5rem);border-top:1px solid var(--line-strong);font-size:.98rem;color:var(--muted)}
+footer p{max-width:none;margin:0 0 .5rem}
+footer .links{display:flex;flex-wrap:wrap;gap:.4rem 1.5rem;margin-top:.9rem}
+
+/* ---------- Lightbox ---------- */
+dialog#lb{border:0;padding:0;background:transparent;width:100%;height:100%;max-width:100vw;max-height:100vh;color:#fff}
+dialog#lb::backdrop{background:rgba(4,12,15,.92)}
+.lb-shell{display:grid;grid-template-rows:auto 1fr auto;height:100%;padding:max(1rem,env(safe-area-inset-top,0px)) 1rem max(1rem,env(safe-area-inset-bottom,0px))}
+.lb-bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;font:500 .92rem var(--font-display)}
+.lb-btn{display:inline-grid;place-items:center;min-width:2.75rem;height:2.75rem;padding:0 .95rem;border:1px solid rgba(255,255,255,.35);border-radius:8px;background:rgba(255,255,255,.08);color:#fff;font:700 .95rem var(--font-display);cursor:pointer}
+.lb-btn:hover{background:rgba(255,255,255,.2)}
+.lb-btn:focus-visible{outline-color:#fff}
+.lb-stage{display:flex;align-items:center;justify-content:center;gap:.75rem;min-height:0;padding-block:.75rem}
+.lb-stage img{max-width:100%;max-height:100%;min-width:0;object-fit:contain;background:#fff;border-radius:4px}
+.lb-cap{max-width:70ch;margin:0 auto;text-align:center;font:400 .98rem/1.5 var(--font-display);color:#dbe8ea}
+@media (max-width:640px){.lb-stage{flex-wrap:wrap}.lb-stage img{order:-1;flex-basis:100%}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <a class="brand" href="#top">Clinical Doppelgänger</a>
+    <nav aria-label="Sections">
+      <a href="#app">The app</a>
+      <a href="#how">How it works</a>
+      <a href="#lessons">Lessons</a>
+      <a href="#next">What's next</a>
+      <a class="btn" href="https://miazhouruoya.github.io/doppelganger/" target="_blank" rel="noopener">Launch app
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg></a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <h1 class="wordmark" aria-label="Clinical Doppelgänger">
+        <span class="solid" aria-hidden="true">Clinical<br>Doppelgänger</span>
+        <span class="echo" aria-hidden="true">Clinical<br>Doppelgänger</span>
+      </h1>
+      <div class="hero-side">
+        <p class="hero-sub">A SMART on FHIR decision-support app that finds clinically comparable patients, shows what happened to them over time, and exposes the evidence behind each recommendation.</p>
+        <div class="btn-row">
+          <a class="btn" href="https://miazhouruoya.github.io/doppelganger/" target="_blank" rel="noopener">Launch the live app
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg></a>
+          <a class="btn ghost" href="#app">Take the tour</a>
+        </div>
+      </div>
+    </div>
+
+    <a class="hero-shot" href="https://miazhouruoya.github.io/doppelganger/" target="_blank" rel="noopener" aria-label="Open the live Clinical Doppelgänger app in a new tab">
+      <img id="img-overview" src="images/overview.webp" width="1280" height="1296" alt="The Clinical Doppelgänger Overview tab for patient Eleanor Voss: patient chart, fingerprint cards, match quality check, similar-case outcomes and adjusted outcome signal.">
+      <span class="open">Open the live app
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg></span>
+    </a>
+
+    <dl class="facts">
+      <div><dt>Built at</dt><dd>UNC Chapel Hill, Gillings School of Global Public Health</dd></div>
+      <div><dt>When</dt><dd>January to May 2026</dd></div>
+      <div><dt>Authors</dt><dd>Mia Zhou and Yutong Wu</dd></div>
+      <div><dt>Stack</dt><dd>SMART on FHIR, OAuth 2.0, Python, HTML and JavaScript</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ===== Idea ===== -->
+<section class="sec" id="idea" aria-labelledby="h-idea">
+  <div class="wrap">
+    <div class="idea">
+      <h2 id="h-idea">Clinicians reason by analogy. Most clinical AI reduces that to one score.</h2>
+      <div>
+        <p>Clinical decision-making often relies on analogy: when clinicians face a difficult case, they naturally think about similar patients they have seen before, how those patients progressed, and which treatments or outcomes followed. Many clinical AI systems abstract that process into a single risk score, which can make the result difficult to interpret or trust.</p>
+        <p>I built Clinical Doppelgänger around a different idea: instead of only predicting an outcome, the system retrieves clinically comparable patients, shows what happened to them over time, and exposes the evidence behind each recommendation.</p>
+        <p>The problem it addresses: traditional dashboards show isolated data such as labs, medications, and diagnoses, but they do not always connect those data points to comparable patient outcomes.</p>
+      </div>
+    </div>
+    <ol class="flow" aria-label="How the app works in three steps">
+      <li><b>EHR</b><span>Start from one patient chart.</span></li>
+      <li><b>Match</b><span>Find past patients who looked clinically similar.</span></li>
+      <li><b>Outcome</b><span>See what happened next.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ===== App tour ===== -->
+<section class="sec" id="app" aria-labelledby="h-app">
+  <div class="wrap">
+    <h2 class="sec-title" id="h-app">Walk through the app</h2>
+    <p class="sec-lead">These are screenshots of the running app. Pick a tab, then select a panel to spotlight it. The last tab runs the live app inside this page.</p>
+
+    <div class="tabs" role="tablist" aria-label="App tabs" id="tourtabs">
+      <button class="tab" role="tab" id="t-overview" aria-controls="p-overview" aria-selected="true" tabindex="0">Overview</button>
+      <button class="tab" role="tab" id="t-survival" aria-controls="p-survival" aria-selected="false" tabindex="-1">Survival</button>
+      <button class="tab" role="tab" id="t-analytics" aria-controls="p-analytics" aria-selected="false" tabindex="-1">Analytics</button>
+      <button class="tab" role="tab" id="t-matches" aria-controls="p-matches" aria-selected="false" tabindex="-1">Matches</button>
+      <button class="tab live" role="tab" id="t-live" aria-controls="p-live" aria-selected="false" tabindex="-1">Live demo</button>
+    </div>
+
+    <!-- Overview -->
+    <div class="pane" role="tabpanel" id="p-overview" aria-labelledby="t-overview">
+      <div class="pane-head">
+        <div>
+          <h3>Check the comparison before you trust the outcome</h3>
+          <p>Instead of returning only a point estimate, cohort-level predictions include bootstrap confidence intervals so users can see how stable or uncertain an estimate is.</p>
+          <p>The Overview's guide puts match quality first. You confirm the chart, check whether the matched group is balanced, and only then read what happened to similar patients.</p>
+        </div>
+        <ul class="panels">
+          <li><button class="panel-btn" type="button" data-rect="20.23,6.77,77.50,12.07" aria-pressed="false"><span class="panel-title">Patient chart</span><span class="panel-desc">Conditions, medications, vitals and labs assembled from the FHIR record.</span></button></li>
+          <li><button class="panel-btn" type="button" data-rect="21.80,34.48,74.38,13.95" aria-pressed="false"><span class="panel-title">Clinical fingerprint</span><span class="panel-desc">The features used for matching: HbA1c, systolic blood pressure, medication, diagnosis and encounter counts, and metformin use.</span></button></li>
+          <li><button class="panel-btn" type="button" data-rect="21.80,48.58,29.15,23.08" aria-pressed="false" data-default><span class="panel-title">Match quality check</span><span class="panel-desc">Matched cases and standardized mean difference after propensity-score matching. Weak balance is labeled "Use with caution".</span></button></li>
+          <li><button class="panel-btn" type="button" data-rect="51.10,48.58,45.07,23.08" aria-pressed="false"><span class="panel-title">Similar-case outcomes</span><span class="panel-desc">Improved, hospitalized or deteriorated, each with a bootstrap 95% confidence interval.</span></button></li>
+          <li><button class="panel-btn" type="button" data-rect="21.80,71.82,74.38,22.08" aria-pressed="false"><span class="panel-title">Adjusted outcome signal</span><span class="panel-desc">The raw improvement rate next to an adjusted one, framed as a comparison rather than a prediction.</span></button></li>
+        </ul>
+      </div>
+      <div class="appwin">
+        <div class="appwin-bar"><span class="url">miazhouruoya.github.io/doppelganger</span><a href="https://miazhouruoya.github.io/doppelganger/" target="_blank" rel="noopener">Open live</a></div>
+        <div class="appwin-scroll" tabindex="0" role="region" aria-label="Overview tab screenshot, scrollable">
+          <div class="shot"><img data-src-from="img-overview" width="1280" height="1296" alt="Overview tab of the app."><div class="spot" hidden></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Survival -->
+    <div class="pane" role="tabpanel" id="p-survival" aria-labelledby="t-survival" hidden>
+      <div class="pane-head">
+        <div>
+          <h3>See when similar patients changed course, not just where they ended up</h3>
+          <p>I implemented Kaplan-Meier survival analysis to show how matched patients progressed longitudinally over time. Through the interactive dashboard, a clinician can inspect survival curves and compare outcome trajectories rather than relying on a single summary statistic.</p>
+          <p>I wanted the system to represent disease progression as a temporal process rather than a static classification problem, so I added a Markov state-transition model.</p>
+        </div>
+        <ul class="panels">
+          <li><button class="panel-btn" type="button" data-rect="21.80,49.98,38.04,47.51" aria-pressed="false" data-default><span class="panel-title">Event-free timeline</span><span class="panel-desc">A Kaplan-Meier style curve of time until hospitalization or deterioration, for all matched patients and for the improved and worsening subgroups.</span></button></li>
+          <li><button class="panel-btn" type="button" data-rect="59.99,49.98,36.18,47.51" aria-pressed="false"><span class="panel-title">Likely state transitions</span><span class="panel-desc">A Markov network of clinical states. Node size shows involvement, arrows show likely moves, and nodes can be dragged to rearrange.</span></button></li>
+        </ul>
+      </div>
+      <div class="appwin">
+        <div class="appwin-bar"><span class="url">miazhouruoya.github.io/doppelganger</span><a href="https://miazhouruoya.github.io/doppelganger/" target="_blank" rel="noopener">Open live</a></div>
+        <div class="appwin-scroll" tabindex="0" role="region" aria-label="Survival tab screenshot, scrollable">
+          <div class="shot"><img src="images/survival.webp" width="1280" height="894" alt="Survival tab of the app: event-free timeline and a state-transition network."><div class="spot" hidden></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics -->
+    <div class="pane" role="tabpanel" id="p-analytics" aria-labelledby="t-analytics" hidden>
+      <div class="pane-head">
+        <div>
+          <h3>Decide which facts to verify first</h3>
+          <p>This tab turns the matched cohort into a short review list: the clearest risk drivers, the dominant trajectories among similar patients, and where this patient differs from the comparison group.</p>
+          <p>It is built for checking the cohort before opening individual cases.</p>
+        </div>
+        <ul class="panels">
+          <li><button class="panel-btn" type="button" data-rect="21.80,28.05,74.38,31.63" aria-pressed="false" data-default><span class="panel-title">Risk drivers to review</span><span class="panel-desc">Glycemic control, blood pressure, care pattern and medication burden, each scored and flagged "review first" or "watch closely".</span></button></li>
+          <li><button class="panel-btn" type="button" data-rect="21.80,59.81,37.11,38.78" aria-pressed="false"><span class="panel-title">Similar-patient patterns</span><span class="panel-desc">Which paths dominate among matched cases, such as stable to recovery versus gradual deterioration.</span></button></li>
+          <li><button class="panel-btn" type="button" data-rect="59.06,59.81,37.11,38.78" aria-pressed="false"><span class="panel-title">Patient vs similar cohort</span><span class="panel-desc">Feature by feature, where this patient matches the comparison group and where they differ.</span></button></li>
+        </ul>
+      </div>
+      <div class="appwin">
+        <div class="appwin-bar"><span class="url">miazhouruoya.github.io/doppelganger</span><a href="https://miazhouruoya.github.io/doppelganger/" target="_blank" rel="noopener">Open live</a></div>
+        <div class="appwin-scroll" tabindex="0" role="region" aria-label="Analytics tab screenshot, scrollable">
+          <div class="shot"><img src="images/analytics.webp" width="1280" height="1593" alt="Analytics tab of the app: risk drivers, similar-patient patterns and patient versus cohort comparison."><div class="spot" hidden></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Matches -->
+    <div class="pane" role="tabpanel" id="p-matches" aria-labelledby="t-matches" hidden>
+      <div class="pane-head">
+        <div>
+          <h3>Every estimate traces back to real cases</h3>
+          <p>Every prediction remains connected to the underlying matched cohort. Users can inspect which patients contributed to an estimate, whether the matched groups are reasonably balanced, how outcomes evolved over time, and how uncertainty changes across the cohort.</p>
+          <p>The system therefore acts less like a black-box classifier and more like an evidence-retrieval and reasoning layer built on top of the EHR.</p>
+        </div>
+        <ul class="panels">
+          <li><button class="panel-btn" type="button" data-rect="21.80,36.14,74.38,4.33" aria-pressed="false"><span class="panel-title">Outcome filter</span><span class="panel-desc">Narrow the list to improved, hospitalized or deteriorated cases.</span></button></li>
+          <li><button class="panel-btn" type="button" data-rect="21.80,41.80,74.38,34.96" aria-pressed="false" data-default><span class="panel-title">Case story</span><span class="panel-desc">Similarity, outcome and days to event, plus why the case matched, its trajectory over time, and the turning point.</span></button></li>
+          <li><button class="panel-btn" type="button" data-rect="21.80,41.80,74.38,56.34" aria-pressed="false"><span class="panel-title">Ranked matches</span><span class="panel-desc">Historical cases ordered by cosine similarity, highest match first.</span></button></li>
+        </ul>
+      </div>
+      <div class="appwin">
+        <div class="appwin-bar"><span class="url">miazhouruoya.github.io/doppelganger</span><a href="https://miazhouruoya.github.io/doppelganger/" target="_blank" rel="noopener">Open live</a></div>
+        <div class="appwin-scroll" tabindex="0" role="region" aria-label="Matches tab screenshot, scrollable">
+          <div class="shot"><img src="images/matches.webp" width="1280" height="1201" alt="Matches tab of the app: outcome filter and ranked matched patient cases with an expanded case story."><div class="spot" hidden></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live -->
+    <div class="pane" role="tabpanel" id="p-live" aria-labelledby="t-live" hidden>
+      <div class="pane-head">
+        <div>
+          <h3>Run it yourself</h3>
+          <p>The hosted demo runs entirely in your browser. It opens with synthetic patients, and you can replay the built-in tour from the sidebar.</p>
+          <p>Without the Python matcher, the hosted version falls back to a small built-in cohort, so match counts differ from the screenshots in the other tabs.</p>
+        </div>
+        <div class="btn-row" style="align-self:center">
+          <a class="btn" href="https://miazhouruoya.github.io/doppelganger/" target="_blank" rel="noopener">Open in a new tab
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg></a>
+          <a class="btn ghost" href="https://github.com/miazhouruoya/doppelganger" target="_blank" rel="noopener">Read the source</a>
+        </div>
+      </div>
+      <div class="appwin">
+        <div class="appwin-bar"><span class="url">miazhouruoya.github.io/doppelganger</span><a href="https://miazhouruoya.github.io/doppelganger/" target="_blank" rel="noopener">Open live</a></div>
+        <div class="live-stage" id="livestage">
+          <div class="live-card" id="livecard">
+            <h4>Load the app in this page</h4>
+            <p>This starts the real app. If the frame stays blank, your browser or this page's host is blocking embeds. Use "Open in a new tab" instead.</p>
+            <button class="btn" type="button" id="loadlive">Load the live app</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="shot-note" id="shotnote">Screenshots were captured from the app with the Python matcher running against the 12-case simulated cohort. The patient shown, Eleanor Voss, is synthetic.</p>
+  </div>
+</section>
+
+<!-- ===== Design choices ===== -->
+<section class="sec" id="choices" aria-labelledby="h-choices">
+  <div class="wrap">
+    <h2 class="sec-title" id="h-choices">Design choices that keep the clinician in charge</h2>
+    <dl class="choices">
+      <div><dt>Match quality comes before outcomes</dt><dd>The Overview tells you to check whether the matched group is balanced before you read what happened to similar patients.</dd></div>
+      <div><dt>Weak evidence is labeled, not hidden</dt><dd>When balance is poor, the app says "Use with caution" and tells you to read outcomes as exploratory.</dd></div>
+      <div><dt>Uncertainty stays next to the outcomes</dt><dd>Outcome percentages carry bootstrap confidence intervals, so a small cohort looks like a small cohort.</dd></div>
+      <div><dt>Trajectories, not predictions</dt><dd>The first-run tour calls it a reference tool for chart review, not a prediction engine, and the Overview repeats the reminder.</dd></div>
+      <div><dt>Help lives where the question comes up</dt><dd>A nine-step first-run tour, a "How to use this tab" strip on every tab, and a Guide button on each analysis panel.</dd></div>
+      <div><dt>Every estimate stays tied to real cases</dt><dd>The matched patients, why each one matched, and the turning point in their story are one tab away.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ===== How it works ===== -->
+<section class="sec" id="how" aria-labelledby="h-how">
+  <div class="wrap">
+    <h2 class="sec-title" id="h-how">How it works</h2>
+    <p class="sec-lead">I developed the project at UNC Chapel Hill from January to May 2026 as an end-to-end clinical decision-support prototype integrating electronic health records, statistical matching, survival analysis, and longitudinal disease modeling.</p>
+
+    <div class="chap wide first">
+      <div>
+        <p>From an engineering perspective, the project connected several components that are often treated separately: SMART on FHIR integration, OAuth 2.0 authentication, parallel clinical data ingestion, feature engineering, similarity search, propensity score matching, bootstrap inference, Kaplan-Meier survival analysis, Markov trajectory modeling, and interactive visualization. I built the frontend in HTML and JavaScript and the similarity-matching backend in Python.</p>
+      </div>
+      <figure class="fig">
+        <button class="zoom" type="button" data-zoom><img src="images/sys.jpg" width="1536" height="1024" alt="System pipeline diagram: SMART on FHIR data source, JavaScript frontend, Python backend, cohort matching, and visualization."><span class="hint">Enlarge</span></button>
+        <figcaption><b>The pipeline at a glance.</b> Patient data comes in through SMART on FHIR, the JavaScript frontend posts it to a Python backend, the backend matches it against the historical cohort, and the results come back as survival, outcome and match views.</figcaption>
+      </figure>
+    </div>
+
+    <div class="chap">
+      <div>
+        <h3><span class="n">1</span>Get clinical data in, even when it is messy</h3>
+        <p>The first challenge was accessing and organizing real clinical data. I implemented SMART on FHIR authentication using OAuth 2.0 and built a retrieval pipeline across multiple FHIR R4 resources, including Patient, Condition, MedicationRequest, Observation, and Encounter.</p>
+        <p>Rather than requesting each source sequentially, the system retrieves diagnoses, medications, laboratory results, procedures, and encounter histories in parallel to reduce dashboard latency. I also added defensive parsing and fallback logic because clinical records are rarely complete: observations may be missing, bundles may be empty, schemas can vary across resources, and API calls can fail midway through a workflow.</p>
+      </div>
+      <figure class="fig">
+        <button class="zoom" type="button" data-zoom><img src="images/front.jpg" width="2002" height="1011" alt="SMART on FHIR launch flow beside JavaScript that requests Patient, Condition, MedicationRequest, Observation and Encounter resources in parallel."><span class="hint">Enlarge</span></button>
+        <figcaption><b>SMART launch, then parallel requests.</b> OAuth 2.0 hands the frontend a patient context, and five FHIR requests run together before the results go to the backend.</figcaption>
+      </figure>
+    </div>
+
+    <div class="chap">
+      <div>
+        <h3><span class="n">2</span>Turn a chart into a fingerprint</h3>
+        <p>Once the patient record is assembled, the system converts structured clinical information into a feature representation used to search for similar historical patients.</p>
+      </div>
+      <figure class="fig">
+        <button class="zoom" type="button" data-zoom><img src="images/vec.jpg" width="1044" height="672" alt="Python function that turns a patient into a numeric vector of diagnosis flags and normalized HbA1c, blood pressure, medication count and diagnosis count."><span class="hint">Enlarge</span></button>
+        <figcaption><b>Feature extraction in Python.</b> Diagnosis flags plus normalized HbA1c, blood pressure, medication count and diagnosis count, so patients can be compared numerically.</figcaption>
+      </figure>
+    </div>
+
+    <div class="chap">
+      <div>
+        <h3><span class="n">3</span>Match on comparability, not just closeness</h3>
+        <p>A naive nearest-neighbor approach initially produced matches that looked similar numerically but could differ substantially in baseline clinical risk. To address this, I combined cosine similarity with propensity score matching.</p>
+        <p>Cosine similarity identifies patients with comparable clinical feature patterns, while propensity-score adjustment helps balance important observed confounders across the comparison cohort. The goal was not simply to find the closest records, but to construct a cohort that was more clinically comparable before drawing conclusions from its outcomes.</p>
+      </div>
+      <figure class="fig">
+        <button class="zoom" type="button" data-zoom><img src="images/match.jpg" width="1536" height="1024" alt="Matching engine diagram: clinical feature vector, cosine similarity steps with an example calculation, and the data stored for each matched cohort patient."><span class="hint">Enlarge</span></button>
+        <figcaption><b>The matching engine.</b> A feature vector per patient, cosine similarity to rank the historical cohort, and an outcome story stored with every match: outcome, days to event, match reasons, turning point and timeline.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Lessons ===== -->
+<section class="sec" id="lessons" aria-labelledby="h-lessons">
+  <div class="wrap">
+    <h2 class="sec-title" id="h-lessons">What building it taught me</h2>
+    <div class="lessons">
+      <div>
+        <h3>Similarity alone is not enough</h3>
+        <p>A major challenge was recognizing that "similarity" alone is not enough in healthcare. Two patients may appear close in a feature space while differing in age, disease severity, treatment history, or other variables that strongly affect outcomes. That pushed me to think more carefully about confounding, cohort construction, and the distinction between finding nearby observations and identifying meaningful clinical comparators.</p>
+      </div>
+      <div>
+        <h3>Reliability matters as much as the estimate</h3>
+        <p>In many machine-learning applications, the model's prediction is treated as the final output. In clinical decision support, however, the reliability of that prediction can be just as important as the estimate itself. Adding bootstrap confidence intervals and cohort-level survival curves allowed the system to communicate both expected outcomes and how much confidence should be placed in them.</p>
+      </div>
+      <div>
+        <h3>A patient's journey is a sequence</h3>
+        <p>A binary outcome such as "hospitalized" or "not hospitalized" loses much of the structure of a patient's journey. By introducing state-transition modeling, I could represent progression as a sequence of possible states and transitions, which is much closer to how chronic disease actually unfolds.</p>
+      </div>
+    </div>
+
+    <p class="proud">What I am most proud of is that Clinical Doppelgänger connects the full workflow from raw EHR retrieval to interpretable clinical evidence.</p>
+    <p class="proud-more">A patient record enters through SMART on FHIR, is transformed into a structured feature representation, matched against a comparable cohort, evaluated using survival and uncertainty estimates, and then translated into an interactive view of possible clinical trajectories.</p>
+    <p class="proud-more">The project reinforced my interest in clinical AI and statistical modeling because it sits directly at the intersection of software infrastructure, causal-aware cohort design, survival analysis, and decision support. It also taught me that building useful healthcare AI is not only about improving predictive accuracy. A system also needs to handle messy clinical data, communicate uncertainty, remain transparent about how evidence was constructed, and give clinicians enough context to evaluate the recommendation for themselves.</p>
+  </div>
+</section>
+
+<!-- ===== Next ===== -->
+<section class="sec" id="next" aria-labelledby="h-next">
+  <div class="wrap">
+    <h2 class="sec-title" id="h-next">What's next</h2>
+    <p class="sec-lead">The demo runs on a simulated cohort. Here is where I would take it next.</p>
+    <ul class="next">
+      <li><b>Real longitudinal data</b>Move from simulated cohort JSON data toward real longitudinal hospital datasets.</li>
+      <li><b>More modalities</b>Incorporate physician notes, imaging, and laboratory time series.</li>
+      <li><b>Flexible sequence models</b>Explore more flexible sequential models such as hidden Markov models.</li>
+      <li><b>Clinician feedback</b>Let users accept or reject proposed matched cohorts.</li>
+      <li><b>Readable explanations</b>Integrate retrieval-augmented summarization that converts cohort-level evidence into concise, physician-readable explanations.</li>
+    </ul>
+
+    <footer>
+      <p>Clinical Doppelgänger by Mia Zhou and Yutong Wu. UNC Chapel Hill, Gillings School of Global Public Health, January to May 2026.</p>
+      <div class="links">
+        <a href="https://miazhouruoya.github.io/doppelganger/" target="_blank" rel="noopener">Live app</a>
+        <a href="https://github.com/miazhouruoya/doppelganger" target="_blank" rel="noopener">Source code</a>
+      </div>
+    </footer>
+  </div>
+</section>
+
+</main>
+
+<dialog id="lb" aria-label="Enlarged figure">
+  <div class="lb-shell">
+    <div class="lb-bar"><span id="lb-count" aria-live="polite"></span><button class="lb-btn" type="button" id="lb-close">Close</button></div>
+    <div class="lb-stage">
+      <button class="lb-btn" type="button" id="lb-prev" aria-label="Previous figure">Prev</button>
+      <img id="lb-img" alt="">
+      <button class="lb-btn" type="button" id="lb-next" aria-label="Next figure">Next</button>
+    </div>
+    <p class="lb-cap" id="lb-cap"></p>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Reuse the Overview screenshot in the tour without embedding it twice */
+  document.querySelectorAll('[data-src-from]').forEach(function(el){
+    var src=document.getElementById(el.getAttribute('data-src-from'));
+    if(src) el.src=src.src;
+  });
+
+  /* ---------- Tour tabs ---------- */
+  var tabs=[].slice.call(document.querySelectorAll('#tourtabs [role=tab]'));
+  function selectTab(i,focus){
+    tabs.forEach(function(t,j){
+      var on=i===j;
+      t.setAttribute('aria-selected',on);
+      t.tabIndex=on?0:-1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden=!on;
+    });
+    if(focus) tabs[i].focus();
+    var pane=document.getElementById(tabs[i].getAttribute('aria-controls'));
+    var pressed=pane.querySelector('.panel-btn[aria-pressed="true"]');
+    if(pressed && window.__reveal) window.__reveal(pane,pressed.getAttribute('data-rect').split(',').map(parseFloat),false,true);
+    var shotnote=document.getElementById('shotnote');
+    if(shotnote) shotnote.hidden = (tabs[i].id==='t-live');
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){selectTab(i,false)});
+    t.addEventListener('keydown',function(e){
+      var n=tabs.length,k=e.key;
+      if(k==='ArrowRight'){e.preventDefault();selectTab((i+1)%n,true)}
+      else if(k==='ArrowLeft'){e.preventDefault();selectTab((i-1+n)%n,true)}
+      else if(k==='Home'){e.preventDefault();selectTab(0,true)}
+      else if(k==='End'){e.preventDefault();selectTab(n-1,true)}
+    });
+  });
+
+  /* ---------- Spotlight ---------- */
+  function place(pane,btn){
+    var spot=pane.querySelector('.spot');
+    var r=btn.getAttribute('data-rect').split(',').map(parseFloat);
+    spot.hidden=false;
+    spot.style.left=r[0]+'%'; spot.style.top=r[1]+'%'; spot.style.width=r[2]+'%'; spot.style.height=r[3]+'%';
+    return r;
+  }
+  window.__reveal=null;
+  function reveal(pane,r,userInitiated,instant){
+    var sc=pane.querySelector('.appwin-scroll'), shot=pane.querySelector('.shot');
+    if(!sc.clientHeight) return;
+    var H=shot.offsetHeight,W=shot.offsetWidth;
+    var top=H*r[1]/100,h=H*r[3]/100,left=W*r[0]/100,w=W*r[2]/100;
+    sc.scrollTo({top:Math.max(0,top-Math.max(16,(sc.clientHeight-h)/2)),left:Math.max(0,left-(sc.clientWidth-w)/2),behavior:(reduce||instant)?'auto':'smooth'});
+    if(userInitiated){
+      var f=pane.querySelector('.appwin').getBoundingClientRect();
+      if(f.top>window.innerHeight*0.55||f.bottom<window.innerHeight*0.25){
+        window.scrollBy({top:f.top-72,behavior:reduce?'auto':'smooth'});
+      }
+    }
+  }
+  window.__reveal=reveal;
+  document.querySelectorAll('.pane').forEach(function(pane){
+    var btns=[].slice.call(pane.querySelectorAll('.panel-btn'));
+    if(!btns.length) return;
+    function press(b){btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')})}
+    var def=pane.querySelector('.panel-btn[data-default]')||btns[0];
+    press(def); place(pane,def);
+    btns.forEach(function(b){
+      b.addEventListener('click',function(){
+        var spot=pane.querySelector('.spot');
+        if(b.getAttribute('aria-pressed')==='true'){ press(null); spot.hidden=true; return; }
+        press(b); var r=place(pane,b); reveal(pane,r,true);
+      });
+    });
+  });
+
+  function initialReveal(){
+    var pane=document.getElementById('p-overview');
+    var b=pane.querySelector('.panel-btn[aria-pressed="true"]');
+    if(b) reveal(pane,b.getAttribute('data-rect').split(',').map(parseFloat),false,true);
+  }
+  window.addEventListener('load',initialReveal);
+
+  /* ---------- Live embed ---------- */
+  var loadBtn=document.getElementById('loadlive');
+  loadBtn.addEventListener('click',function(){
+    var stage=document.getElementById('livestage');
+    var f=document.createElement('iframe');
+    f.src='https://miazhouruoya.github.io/doppelganger/';
+    f.title='Clinical Doppelgänger live app';
+    f.setAttribute('loading','lazy');
+    stage.appendChild(f);
+    document.getElementById('livecard').hidden=true;
+  });
+
+  /* ---------- Lightbox ---------- */
+  var zooms=[].slice.call(document.querySelectorAll('[data-zoom]'));
+  var dlg=document.getElementById('lb'),lbImg=document.getElementById('lb-img'),lbCap=document.getElementById('lb-cap'),lbCount=document.getElementById('lb-count');
+  var idx=0,opener=null;
+  function show(i){
+    idx=(i+zooms.length)%zooms.length;
+    var img=zooms[idx].querySelector('img'),cap=zooms[idx].parentNode.querySelector('figcaption');
+    lbImg.src=img.src; lbImg.alt=img.alt;
+    lbCap.textContent=cap?cap.textContent:'';
+    lbCount.textContent='Figure '+(idx+1)+' of '+zooms.length;
+  }
+  zooms.forEach(function(z,i){
+    z.addEventListener('click',function(){
+      opener=z; show(i);
+      if(typeof dlg.showModal==='function') dlg.showModal(); else dlg.setAttribute('open','');
+    });
+  });
+  document.getElementById('lb-close').addEventListener('click',function(){dlg.close()});
+  document.getElementById('lb-prev').addEventListener('click',function(){show(idx-1)});
+  document.getElementById('lb-next').addEventListener('click',function(){show(idx+1)});
+  dlg.addEventListener('click',function(e){ if(e.target===dlg||e.target.classList.contains('lb-shell')||e.target.classList.contains('lb-stage')) dlg.close(); });
+  dlg.addEventListener('keydown',function(e){
+    if(e.key==='ArrowLeft'){e.preventDefault();show(idx-1)}
+    else if(e.key==='ArrowRight'){e.preventDefault();show(idx+1)}
+  });
+  dlg.addEventListener('close',function(){ if(opener) opener.focus(); });
+})();
+</script>
+</body>
+</html>
