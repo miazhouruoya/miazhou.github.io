@@ -100,20 +100,6 @@ section{margin-bottom:28px}
 .stop[data-f=""]{cursor:default}
 .stop[data-f=""]:hover .dot{transform:none}
 
-/* ── FEATURED CAROUSEL ── */
-.feat{padding:26px 0 26px 30px;overflow:hidden}
-.feat .sec-head{margin-right:30px}
-.arrows{display:flex;gap:8px}
-.arrow{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.85);box-shadow:0 4px 12px rgba(80,90,110,.12);display:flex;align-items:center;justify-content:center;transition:transform .15s}
-.arrow:hover{transform:scale(1.08)}
-.arrow svg{width:16px;height:16px;stroke:var(--ink);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.rail{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 30px 10px 0;scrollbar-width:none;scroll-behavior:smooth}
-.rail::-webkit-scrollbar{display:none}
-.slide{flex:0 0 min(440px,78vw);aspect-ratio:4/3;border-radius:22px;overflow:hidden;scroll-snap-align:start;position:relative;box-shadow:0 10px 26px rgba(80,90,110,.16);transition:transform .3s}
-.slide:hover{transform:translateY(-4px)}
-.slide img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
-.slide:hover img{transform:scale(1.05)}
-
 /* ── GALLERY ── */
 .gal{padding:26px 26px 30px}
 .filters{position:sticky;top:58px;z-index:20;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:8px;margin:0 -8px 16px;border-radius:18px;
@@ -193,6 +179,14 @@ footer a{color:var(--ink);text-decoration:underline}
   .bar{padding:10px 14px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+
+/* socials */
+.socials{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:18px}
+.socials .eyebrow{margin-right:4px}
+.soc{display:inline-flex;align-items:center;gap:8px;font-size:.84rem;font-weight:700;padding:.32rem .9rem .32rem .35rem;border-radius:999px;
+  background:rgba(255,255,255,.85);box-shadow:0 6px 16px rgba(80,90,110,.1);transition:transform .15s}
+.soc:hover{transform:translateY(-2px)}
+.soc-ico{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800}
 </style>
 </head>
 <body>
@@ -222,6 +216,11 @@ footer a{color:var(--ink);text-decoration:underline}
         <a class="btn" href="#gallery">explore the album ↓</a>
         <button class="btn soft" id="playAll">▶ slideshow</button>
       </div>
+      <div class="socials">
+        <span class="eyebrow">find me on</span>
+        <a class="soc" href="https://beliapp.co/profile/miaazhoou" target="_blank" rel="noopener"><span class="soc-ico" style="background:#e7f6ee;color:#1d9e75">🍽</span>Beli</a>
+        <a class="soc" href="https://xhslink.cn/o/7dgpwBP1byX" target="_blank" rel="noopener"><span class="soc-ico" style="background:#ffe4e8;color:#ff2442">书</span>RedNote</a>
+      </div>
     </div>
     <div class="stack" id="stack">
       <div class="stack-hint">hover to fan · click to shuffle ✦</div>
@@ -233,25 +232,13 @@ footer a{color:var(--ink);text-decoration:underline}
     <div class="sec-head"><div><div class="eyebrow">growing up path</div><div class="h2">where I've called home</div></div></div>
     <div class="track">
       <div class="track-fill"></div>
-      <button class="stop" data-f=""><span class="dot" style="--c:var(--pink-d)">NY</span><b>New York</b><span>birthplace</span></button>
+      <button class="stop" data-f=""><span class="dot"><img src="Mia.jpg" alt=""></span><b>New York</b><span>birthplace</span></button>
       <button class="stop" data-f="us"><span class="dot"><img src="life/bostonchild.jpg" alt=""></span><b>Boston</b><span>early years</span></button>
       <button class="stop" data-f="china"><span class="dot"><img src="life/bj.jpg" alt=""></span><b>Xiamen</b><span>childhood · MS</span></button>
       <button class="stop" data-f="singapore"><span class="dot"><img src="life/grad1.jpg" alt=""></span><b>Singapore</b><span>high school · IB</span></button>
       <button class="stop" data-f="ireland"><span class="dot"><img src="life/ir.jpg" alt=""></span><b>Ireland</b><span>study abroad</span></button>
       <button class="stop" data-f="unc"><span class="dot"><img src="life/chapel.jpg" alt=""></span><b>Chapel Hill</b><span>now · UNC</span></button>
     </div>
-  </section>
-
-  <!-- FEATURED -->
-  <section class="glass feat rv">
-    <div class="sec-head">
-      <div><div class="eyebrow">featured</div><div class="h2">graduation day ♡</div></div>
-      <div class="arrows">
-        <button class="arrow" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-        <button class="arrow" data-dir="1" aria-label="Next"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
-      </div>
-    </div>
-    <div class="rail" id="rail"></div>
   </section>
 
   <!-- GALLERY -->
@@ -344,22 +331,6 @@ drawStack();
 function countUp(el){const n=+el.dataset.count,t0=performance.now();
   (function f(t){const k=Math.min(1,(t-t0)/1100),e=1-Math.pow(1-k,3);el.textContent=Math.round(n*e);if(k<1)requestAnimationFrame(f)})(t0)}
 
-/* ── FEATURED RAIL ── */
-const rail=document.getElementById('rail');
-P.filter(p=>/UNC[1-9]\./.test(p.src)).forEach(p=>{
-  const a=document.createElement('button');a.className='slide';
-  a.innerHTML=`<img src="${p.src}" alt="${p.cap}" loading="lazy"><span class="cap">${p.cap}<small>${PLACES[p.place]}</small></span>`;
-  a.addEventListener('click',()=>openLb(P.indexOf(p),P.filter(q=>/UNC[1-9]\./.test(q.src))));
-  rail.appendChild(a);
-});
-document.querySelectorAll('.arrow').forEach(b=>b.addEventListener('click',()=>{pc();rail.scrollBy({left:+b.dataset.dir*(rail.firstElementChild.offsetWidth+14),behavior:'smooth'})}));
-// drag to scroll
-let rd=false,rx=0,rs=0,moved=false;
-rail.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;rd=true;moved=false;rx=e.clientX;rs=rail.scrollLeft;rail.style.scrollSnapType='none';rail.style.scrollBehavior='auto'});
-window.addEventListener('pointermove',e=>{if(!rd)return;const dx=e.clientX-rx;if(Math.abs(dx)>4)moved=true;rail.scrollLeft=rs-dx});
-window.addEventListener('pointerup',()=>{if(!rd)return;rd=false;rail.style.scrollSnapType='';rail.style.scrollBehavior=''});
-rail.addEventListener('click',e=>{if(moved){e.stopPropagation();e.preventDefault();moved=false}},true);
-
 /* ── GALLERY ── */
 const grid=document.getElementById('grid'),filters=document.getElementById('filters');
 let order=(()=>{const g={};P.forEach((p,i)=>(g[p.place]=g[p.place]||[]).push(i));const out=[],ks=Object.keys(g);
@@ -419,8 +390,9 @@ lb.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Ma
 document.getElementById('playAll').addEventListener('click',()=>{openLb(0,P);play()});
 
 /* ── REVEAL + COUNTERS ── */
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');e.target.querySelectorAll('[data-count]').forEach(countUp);io.unobserve(e.target)}}),{threshold:.12});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');e.target.querySelectorAll('[data-count]').forEach(countUp);io.unobserve(e.target)}}),{threshold:0,rootMargin:'0px 0px -60px 0px'});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+setTimeout(()=>document.querySelectorAll('.rv:not(.in)').forEach(el=>{el.classList.add('in');el.querySelectorAll('[data-count]').forEach(countUp)}),2500);
 
 /* ── CURSOR + SPARKLES ── */
 const curEl=document.getElementById('cur');let cx=0,cy=0,cr=false,last=0;
