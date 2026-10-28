@@ -205,6 +205,21 @@ p.txt b{color:var(--ink);font-weight:800}
 .soc b{display:block;font-size:.86rem;font-weight:800}
 .soc small{display:block;font-size:.7rem;color:var(--ios-muted,#6b7280);font-weight:600}
 
+/* projects tab: polaroid rows like the IB portfolio */
+.era{display:flex;align-items:baseline;gap:8px;margin:22px 0 4px;padding-top:14px;border-top:1px solid var(--ios-line,rgba(120,128,145,.2));font-size:1.25rem;font-weight:800;letter-spacing:-.02em}
+.era:first-of-type{border-top:0;padding-top:0;margin-top:4px}
+.era span{font-size:.74rem;font-weight:600;color:var(--ios-muted,#6b7280);letter-spacing:0}
+.pj{margin:6px 0 16px;padding:6px 4px;border-radius:16px;transition:background .15s}
+.pj:hover{background:rgba(255,255,255,.7)}
+.pj .polaroid{flex-shrink:0}
+.pj-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pj-body .me-name{font-size:1.02rem;line-height:1.25}
+.pj-body .me-role{margin-top:0}
+.pj-line{font-size:.78rem;line-height:1.5;color:var(--ink2);margin-top:4px}
+.pj-pill,.pj-award{align-self:flex-start;font-size:.66rem;font-weight:800;border-radius:999px;padding:.1rem .55rem;margin-bottom:3px;background:rgba(118,118,128,.12)}
+.pj-award{background:var(--lemon)}
+@media(max-width:600px){.pj .polaroid{width:96px!important}}
+
 /* ── PUBLICATIONS ── */
 .pub{padding:14px 16px;margin-bottom:12px;background:var(--ios-card,#fff);border:1px solid rgba(255,255,255,.9);border-radius:16px;box-shadow:0 6px 18px rgba(80,90,110,.08)}
 .pub-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
@@ -411,7 +426,6 @@ p.txt b{color:var(--ios-ink)}
         <button class="tab on" data-p="about" style="--dot:var(--pink-d)">about</button>
         <button class="tab" data-p="resume" style="--dot:var(--lav-d)">résumé</button>
         <button class="tab" data-p="pubs" style="--dot:var(--sky-d)">papers</button>
-        <button class="tab" data-p="hack" style="--dot:var(--mint-d)">hacks</button>
         <button class="tab" data-p="life" style="--dot:var(--peach-d)">life</button>
         <button class="tab" data-p="school" style="--dot:var(--lemon-d)">projects</button>
         <button class="tab" data-p="honors" style="--dot:var(--pink-d)">honors</button>
@@ -511,44 +525,6 @@ p.txt b{color:var(--ios-ink)}
           <div class="btns"><a class="sticker" style="--bgc:var(--sky)" href="https://scholar.google.com/citations?user=FcFW3d4AAAAJ&amp;hl=en" target="_blank">Google Scholar →</a></div>
         </article>
 
-        <!-- HACKATHONS -->
-        <article class="page" id="p-hack">
-          <div class="pg-head">
-            <h1 class="pg-title"><span class="hl" style="--hlc:var(--mint)">hackathons</span></h1>
-            <span class="stamp" style="--sb:var(--mint);--sc:var(--mint-d)">3 wins</span>
-          </div>
-          <a class="hk" href="resume.html#sec-hack">
-            <img src="folderpic/thumbs/DataMini.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award">★ Best Statistical Analysis</span><span class="hk-date">Apr 2026</span></span>
-              <span class="hk-title">Duke Data Mini #3</span>
-              <span class="hk-org">Duke University · railroad fatality datathon</span>
-              <span class="hk-line">Two-model risk pipeline (logistic regression + XGBoost) to find what drives railroad fatalities.</span>
-              
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-hack">
-            <img src="folderpic/thumbs/ASA.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award">★ Best Statistical Analysis</span><span class="hk-date">Mar 2026</span></span>
-              <span class="hk-title">Duke ASA DataFest 2026</span>
-              <span class="hk-org">Duke University · American Statistical Association</span>
-              <span class="hk-line">Led EDA on 7M+ healthcare records and designed mobile clinic routing for 32K+ high-risk patients.</span>
-              <span class="hk-team">team of 5</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-hack">
-            <img src="folderpic/thumbs/Solhacks.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award">★ 1st Place · Culture Track</span><span class="hk-date">Mar 2026</span></span>
-              <span class="hk-title">WageGuard</span>
-              <span class="hk-org">SolHacks 2026 (MLH) · PM + full stack dev</span>
-              <span class="hk-line">A bilingual, voice-first wage protection platform for Latino workers, built in 24 hours.</span>
-              <span class="hk-team">team of 2</span>
-            </span>
-          </a>
-          <a class="see-more" href="resume.html#sec-hack" style="--mc:var(--mint-d)">see more on my résumé →</a>
-        </article>
 
         <!-- LIFE -->
         <article class="page" id="p-life">
@@ -578,106 +554,73 @@ p.txt b{color:var(--ios-ink)}
         <article class="page" id="p-school">
           <div class="pg-head">
             <h1 class="pg-title"><span class="hl" style="--hlc:var(--lemon)">projects</span></h1>
-            <span class="stamp" style="--sb:var(--lemon);--sc:var(--lemon-d)">research + IB</span>
+            <span class="stamp" style="--sb:var(--lemon);--sc:var(--lemon-d)">college + high school</span>
           </div>
-          <div class="label" style="margin-top:4px">research projects</div>
-          <a class="hk" href="resume.html#sec-res">
-            <img src="folderpic/thumbs/NSF.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--sky)">NSF Research Fellow</span><span class="hk-date">Sep 2026 – now</span></span>
-              <span class="hk-title">Quant Finance Portfolio Optimization</span>
-              <span class="hk-org">UNC Undergraduate Research Training Group</span>
-              <span class="hk-line">Robust optimization models for bond portfolios using alpha signals and market data, with automated backtesting.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-res">
-            <img src="folderpic/thumbs/BUSI.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--lav)">Honors Thesis</span><span class="hk-date">Mar 2026 – now</span></span>
-              <span class="hk-title">Multi-State CVD Progression Modeling</span>
-              <span class="hk-org">UNC Biostatistics · honorable mention @ BUSI Symposium</span>
-              <span class="hk-line">A 6-state disease progression model across ARIC, CHS and FHS for 10-year cardiovascular risk.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-res">
-            <img src="folderpic/thumbs/Agent-Society.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--peach)">Financial AI Intern</span><span class="hk-date">May – Aug 2025</span></span>
-              <span class="hk-title">Agent-Based Economic Simulation</span>
-              <span class="hk-org">Tsinghua University</span>
-              <span class="hk-line">Infrastructure and prompts for 100 LLM agents running an economy in a virtual Beijing.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-res">
-            <img src="folderpic/thumbs/NIH.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--pink)">Li Lab</span><span class="hk-date">Oct 2024 – now</span></span>
-              <span class="hk-title">NIH Network Analysis</span>
-              <span class="hk-org">UNC Biostatistics · Project Assistant</span>
-              <span class="hk-line">An NLP pipeline (BERTopic + BioSentVec) analyzing 30k+ NIH grants to map funding trends.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-res">
-            <img src="folderpic/thumbs/project2.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--pink)">Li Lab</span><span class="hk-date">Oct 2024 – now</span></span>
-              <span class="hk-title">Spatial Transcriptomics</span>
-              <span class="hk-org">UNC Biostatistics · Project Assistant</span>
-              <span class="hk-line">Benchmarking 3 graph-learning frameworks (Seurat, Squidpy, Niches) on the Stimage-1K4M dataset.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-res">
-            <img src="folderpic/thumbs/eNet.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--mint)">Huang Lab</span><span class="hk-date">Jun 2024 – now</span></span>
-              <span class="hk-title">eNet Enhancer Network</span>
-              <span class="hk-org">Xiamen University · Research Intern</span>
-              <span class="hk-line">Graph-based enhancer networks from 18K+ single cells to study gene regulation in leukemia.</span>
-            </span>
-          </a>
 
+          <div class="era">college <span>UNC Chapel Hill</span></div>
+          <div class="label">research</div>
+          <a class="me pj" href="resume.html#sec-res">
+            <span class="polaroid" style="width:120px;transform:rotate(-3deg)"><img src="folderpic/thumbs/NSF.jpg" alt=""><span class="cap">NSF</span></span>
+            <span class="pj-body"><span class="pj-pill">NSF Research Fellow</span><span class="me-name">Quant Finance Portfolio Optimization</span><span class="me-role">UNC Undergraduate Research Training Group · Sep 2026 – now</span><span class="pj-line">Robust optimization models for bond portfolios using alpha signals and market data, with automated backtesting.</span></span>
+          </a>
+          <a class="me pj" href="resume.html#sec-res">
+            <span class="polaroid" style="width:120px;transform:rotate(3deg)"><img src="folderpic/thumbs/BUSI.jpg" alt=""><span class="cap">thesis</span></span>
+            <span class="pj-body"><span class="pj-pill">Honors Thesis</span><span class="me-name">Multi-State CVD Progression Modeling</span><span class="me-role">UNC Biostatistics · honorable mention @ BUSI Symposium · Mar 2026 – now</span><span class="pj-line">A 6-state disease progression model across ARIC, CHS and FHS for 10-year cardiovascular risk.</span></span>
+          </a>
+          <a class="me pj" href="resume.html#sec-res">
+            <span class="polaroid" style="width:120px;transform:rotate(-3deg)"><img src="folderpic/thumbs/Agent-Society.jpg" alt=""><span class="cap">Tsinghua</span></span>
+            <span class="pj-body"><span class="pj-pill">Financial AI Intern</span><span class="me-name">Agent-Based Economic Simulation</span><span class="me-role">Tsinghua University · May – Aug 2025</span><span class="pj-line">Infrastructure and prompts for 100 LLM agents running an economy in a virtual Beijing.</span></span>
+          </a>
+          <a class="me pj" href="resume.html#sec-res">
+            <span class="polaroid" style="width:120px;transform:rotate(3deg)"><img src="folderpic/thumbs/NIH.jpg" alt=""><span class="cap">Li Lab</span></span>
+            <span class="pj-body"><span class="pj-pill">Li Lab</span><span class="me-name">NIH Network Analysis</span><span class="me-role">UNC Biostatistics · Project Assistant · Oct 2024 – now</span><span class="pj-line">An NLP pipeline (BERTopic + BioSentVec) analyzing 30k+ NIH grants to map funding trends.</span></span>
+          </a>
+          <a class="me pj" href="resume.html#sec-res">
+            <span class="polaroid" style="width:120px;transform:rotate(-3deg)"><img src="folderpic/thumbs/project2.jpg" alt=""><span class="cap">Li Lab</span></span>
+            <span class="pj-body"><span class="pj-pill">Li Lab</span><span class="me-name">Spatial Transcriptomics</span><span class="me-role">UNC Biostatistics · Project Assistant · Oct 2024 – now</span><span class="pj-line">Benchmarking 3 graph-learning frameworks (Seurat, Squidpy, Niches) on the Stimage-1K4M dataset.</span></span>
+          </a>
+          <a class="me pj" href="resume.html#sec-res">
+            <span class="polaroid" style="width:120px;transform:rotate(3deg)"><img src="folderpic/thumbs/eNet.jpg" alt=""><span class="cap">Huang Lab</span></span>
+            <span class="pj-body"><span class="pj-pill">Huang Lab</span><span class="me-name">eNet Enhancer Network</span><span class="me-role">Xiamen University · Research Intern · Jun 2024 – now</span><span class="pj-line">Graph-based enhancer networks from 18K+ single cells to study gene regulation in leukemia.</span></span>
+          </a>
           <a class="see-more" href="resume.html#sec-res" style="--mc:var(--lav-d)">see more on my résumé →</a>
-          <div class="label" style="margin-top:28px">projects</div>
-          <a class="hk" href="resume.html#sec-proj">
-            <img src="folderpic/thumbs/HerTime.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--peach)">Carolina Data Challenge</span><span class="hk-date">2026</span></span>
-              <span class="hk-title">HerTime</span>
-              <span class="hk-org">Data pipeline · Bayesian modeling · multi-agent AI</span>
-              <span class="hk-line">Merged 7 World Bank datasets (129K+ records) to model gender opportunity gaps, with a LightGBM early-warning model at 0.87 AUC.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-proj">
-            <img src="folderpic/thumbs/Doople.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--mint)">Full Stack Developer</span><span class="hk-date">Jan – May 2026</span></span>
-              <span class="hk-title">Clinical Doppelgänger</span>
-              <span class="hk-org">EHR clinical decision support · CHIP 741</span>
-              <span class="hk-line">A SMART on FHIR app that finds similar patients and compares their outcomes over time.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-proj">
-            <img src="folderpic/thumbs/tumor.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--lav)">Directed Reading Program</span><span class="hk-date">Apr 2026</span></span>
-              <span class="hk-title">Tumour–Immune Dynamics: ODE, PDE &amp; Control</span>
-              <span class="hk-org">UNC Mathematics</span>
-              <span class="hk-line">Simulated how tumors and immune cells interact, and found the thresholds where tumors are controlled, go dormant, or escape.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-proj">
-            <img src="folderpic/thumbs/Neuromatch.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--sky)">NeuroMatch</span><span class="hk-date">Jun – Aug 2025</span></span>
-              <span class="hk-title">Neuromatch Neuron Simulation</span>
-              <span class="hk-org">Computational Neuroscience Program</span>
-              <span class="hk-line">Decoded decision-making from large-scale IBL neural recordings to study thalamocortical communication.</span>
-            </span>
-          </a>
 
+          <div class="label">projects</div>
+          <a class="me pj" href="resume.html#sec-proj">
+            <span class="polaroid" style="width:120px;transform:rotate(-3deg)"><img src="folderpic/thumbs/HerTime.jpg" alt=""><span class="cap">HerTime</span></span>
+            <span class="pj-body"><span class="pj-pill">Carolina Data Challenge</span><span class="me-name">HerTime</span><span class="me-role">Data pipeline · Bayesian modeling · multi-agent AI · 2026</span><span class="pj-line">Merged 7 World Bank datasets (129K+ records) to model gender opportunity gaps, with a LightGBM early-warning model at 0.87 AUC.</span></span>
+          </a>
+          <a class="me pj" href="resume.html#sec-proj">
+            <span class="polaroid" style="width:120px;transform:rotate(3deg)"><img src="folderpic/thumbs/Doople.jpg" alt=""><span class="cap">CHIP 741</span></span>
+            <span class="pj-body"><span class="pj-pill">Full Stack Developer</span><span class="me-name">Clinical Doppelgänger</span><span class="me-role">EHR clinical decision support · CHIP 741 · Jan – May 2026</span><span class="pj-line">A SMART on FHIR app that finds similar patients and compares their outcomes over time.</span></span>
+          </a>
+          <a class="me pj" href="resume.html#sec-proj">
+            <span class="polaroid" style="width:120px;transform:rotate(-3deg)"><img src="folderpic/thumbs/tumor.jpg" alt=""><span class="cap">DRP</span></span>
+            <span class="pj-body"><span class="pj-pill">Directed Reading Program</span><span class="me-name">Tumour–Immune Dynamics: ODE, PDE &amp; Control</span><span class="me-role">UNC Mathematics · Apr 2026</span><span class="pj-line">Simulated how tumors and immune cells interact, and found the thresholds where tumors are controlled, go dormant, or escape.</span></span>
+          </a>
+          <a class="me pj" href="resume.html#sec-proj">
+            <span class="polaroid" style="width:120px;transform:rotate(3deg)"><img src="folderpic/thumbs/Neuromatch.jpg" alt=""><span class="cap">NeuroMatch</span></span>
+            <span class="pj-body"><span class="pj-pill">NeuroMatch</span><span class="me-name">Neuromatch Neuron Simulation</span><span class="me-role">Computational Neuroscience Program · Jun – Aug 2025</span><span class="pj-line">Decoded decision-making from large-scale IBL neural recordings to study thalamocortical communication.</span></span>
+          </a>
           <a class="see-more" href="resume.html#sec-proj" style="--mc:var(--mint-d)">see more on my résumé →</a>
 
-          <div class="label" style="margin-top:28px">IB portfolio</div>
+          <div class="label">hackathons</div>
+          <a class="me pj" href="resume.html#sec-hack">
+            <span class="polaroid" style="width:120px;transform:rotate(-3deg)"><img src="folderpic/thumbs/DataMini.jpg" alt=""><span class="cap">★ winner</span></span>
+            <span class="pj-body"><span class="pj-award">★ Best Statistical Analysis</span><span class="me-name">Duke Data Mini #3</span><span class="me-role">Duke University · railroad fatality datathon · Apr 2026</span><span class="pj-line">Two-model risk pipeline (logistic regression + XGBoost) to find what drives railroad fatalities.</span></span>
+          </a>
+          <a class="me pj" href="resume.html#sec-hack">
+            <span class="polaroid" style="width:120px;transform:rotate(3deg)"><img src="folderpic/thumbs/ASA.jpg" alt=""><span class="cap">★ winner</span></span>
+            <span class="pj-body"><span class="pj-award">★ Best Statistical Analysis</span><span class="me-name">Duke ASA DataFest 2026</span><span class="me-role">Duke University · American Statistical Association · Mar 2026 · team of 5</span><span class="pj-line">Led EDA on 7M+ healthcare records and designed mobile clinic routing for 32K+ high-risk patients.</span></span>
+          </a>
+          <a class="me pj" href="resume.html#sec-hack">
+            <span class="polaroid" style="width:120px;transform:rotate(-3deg)"><img src="folderpic/thumbs/Solhacks.jpg" alt=""><span class="cap">★ winner</span></span>
+            <span class="pj-body"><span class="pj-award">★ 1st Place · Culture Track</span><span class="me-name">WageGuard</span><span class="me-role">SolHacks 2026 (MLH) · PM + full stack dev · Mar 2026 · team of 2</span><span class="pj-line">A bilingual, voice-first wage protection platform for Latino workers, built in 24 hours.</span></span>
+          </a>
+          <a class="see-more" href="resume.html#sec-hack" style="--mc:var(--peach-d)">see more on my résumé →</a>
+
+          <div class="era">high school <span>Singapore</span></div>
+          <div class="label">IB portfolio</div>
           <div class="me">
             <span class="polaroid" style="width:120px"><img src="life/sging.jpg" alt="Singapore"><span class="cap">SG</span></span>
             <div>
@@ -741,9 +684,10 @@ let _ac=null;
 function pc(){try{if(!_ac)_ac=new(window.AudioContext||window.webkitAudioContext)();const t=_ac.currentTime,o=_ac.createOscillator(),g=_ac.createGain(),f=_ac.createBiquadFilter();o.type='square';o.frequency.setValueAtTime(1760,t);o.frequency.exponentialRampToValueAtTime(2960,t+.018);f.type='highpass';f.frequency.value=900;o.connect(f);f.connect(g);g.connect(_ac.destination);g.gain.setValueAtTime(.11,t);g.gain.exponentialRampToValueAtTime(.001,t+.055);o.start(t);o.stop(t+.06)}catch(e){}}
 
 /* ── TABS ── */
-const PAGES=['about','resume','pubs','hack','life','school','honors'];
+const PAGES=['about','resume','pubs','life','school','honors'];
 function show(p,silent){
   if(p==='experience')p='resume';
+  if(p==='hack')p='school';
   if(!PAGES.includes(p))p='about';
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.p===p));
   document.querySelectorAll('.page').forEach(pg=>pg.classList.toggle('on',pg.id==='p-'+p));
@@ -899,7 +843,7 @@ document.querySelectorAll('.fchip').forEach(c=>c.addEventListener('click',()=>{
 
 /* ── KEYBOARD: cmd/ctrl + 1–4 flips tabs ── */
 document.addEventListener('keydown',e=>{
-  if((e.metaKey||e.ctrlKey)&&/^[1-7]$/.test(e.key)){e.preventDefault();show(PAGES[+e.key-1])}
+  if((e.metaKey||e.ctrlKey)&&/^[1-6]$/.test(e.key)){e.preventDefault();show(PAGES[+e.key-1])}
 });
 </script>
 </body>
