@@ -220,32 +220,36 @@ p.txt b{color:var(--ink);font-weight:800}
 .pj-award{background:var(--lemon)}
 @media(max-width:600px){.pj .polaroid{width:96px!important}}
 
-/* ── life map (Leaflet, tilted 3D) ── */
-.globe-wrap{position:relative;height:300px;border-radius:20px;overflow:hidden;perspective:900px;perspective-origin:50% 0%;
-  background:linear-gradient(180deg,#f3ecfa 0%,#e7f0fa 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 6px 18px rgba(80,90,110,.08)}
-.globe{position:absolute!important;inset:0;width:100%;height:100%;border-radius:20px;background:#dcebf8!important;
-  transform:rotateX(30deg) scale(1.12) translateY(10px);transform-origin:50% 70%;transition:transform .45s cubic-bezier(.2,.8,.2,1);
-  box-shadow:0 30px 40px rgba(80,90,110,.25)}
-.globe-wrap.flat .globe{transform:none}
-.globe-wrap::after{content:'';position:absolute;left:0;right:0;top:0;height:70px;pointer-events:none;z-index:500;
-  background:linear-gradient(180deg,#f3ecfa 10%,rgba(243,236,250,0));transition:opacity .45s}
-.globe-wrap.flat::after{opacity:0}
-.globe-hint{position:absolute;left:12px;bottom:10px;z-index:600;font-size:.68rem;font-weight:700;color:#6b7280;background:rgba(255,255,255,.85);border-radius:999px;padding:.2rem .6rem;pointer-events:none}
-.mpin{width:15px;height:15px;border-radius:50%;background:#d4537e;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(212,83,126,.5);cursor:pointer;transition:transform .15s}
+/* ── life globe (satellite) + timeline ── */
+.globe-wrap{position:relative;height:320px;border-radius:20px;overflow:hidden;
+  background:radial-gradient(circle at 50% 50%,#1b2550 0,#0b1226 60%,#070b18 100%);box-shadow:0 10px 26px rgba(20,24,60,.25)}
+.globe,.globe.maplibregl-map{position:absolute!important;inset:0;width:100%;height:100%}
+.globe-wrap::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(1px 1px at 12% 20%,#fff,transparent),radial-gradient(1px 1px at 80% 12%,#fff,transparent),radial-gradient(1.2px 1.2px at 64% 80%,#fff,transparent),radial-gradient(1px 1px at 28% 74%,#fff,transparent),radial-gradient(1px 1px at 90% 58%,#fff,transparent),radial-gradient(1px 1px at 45% 8%,#fff,transparent);opacity:.7}
+.globe-hint{position:absolute;left:12px;bottom:10px;z-index:3;font-size:.68rem;font-weight:700;color:#fff;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);border-radius:999px;padding:.2rem .6rem;pointer-events:none}
+.mpin{width:14px;height:14px;border-radius:50%;background:#ff7eb3;border:2.5px solid #fff;box-shadow:0 0 0 4px rgba(255,126,179,.25),0 2px 8px rgba(0,0,0,.4);cursor:pointer;transition:transform .15s}
 .mpin:hover{transform:scale(1.35)}
-.mpin.home{background:#7f77dd;box-shadow:0 2px 8px rgba(127,119,221,.5)}
-.leaflet-popup-content-wrapper{border-radius:16px!important;padding:0!important;box-shadow:0 12px 30px rgba(40,40,70,.22)!important}
-.leaflet-popup-content{margin:6px!important;font-family:var(--sys)}
-.leaflet-popup-tip{box-shadow:none!important}
-.leaflet-container a.leaflet-popup-close-button{color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5);top:6px;right:6px}
-.leaflet-control-zoom{border:0!important;box-shadow:0 4px 12px rgba(80,90,110,.15)!important;border-radius:12px!important;overflow:hidden}
-.leaflet-control-zoom a{border:0!important;color:#1c1d22!important}
-.leaflet-control-attribution{font-size:9px!important;background:rgba(255,255,255,.7)!important;border-radius:8px 0 0 0}
+.mpin.home{background:#a99bff;box-shadow:0 0 0 4px rgba(169,155,255,.28),0 2px 8px rgba(0,0,0,.4)}
+.maplibregl-popup-content{border-radius:16px!important;padding:6px!important;box-shadow:0 12px 30px rgba(0,0,0,.35)!important;font-family:var(--sys)}
+.maplibregl-popup-tip{display:none}
+.maplibregl-popup-close-button{font-size:16px;right:6px!important;top:4px!important;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.maplibregl-ctrl-attrib{font-size:9px!important;background:rgba(255,255,255,.55)!important}
+.maplibregl-ctrl-group{border-radius:12px!important;overflow:hidden}
 .gpop img{width:160px;height:84px;object-fit:cover;border-radius:12px;display:block}
 .gpop b{display:block;font-size:.84rem;margin:6px 4px 0}
 .gpop span{display:block;font-size:.72rem;color:#6b7280;margin:0 4px}
 .gpop a:focus{outline:none}
-.gpop a{display:inline-block;font-size:.74rem;font-weight:800;color:#d4537e!important;margin:4px 4px 2px}
+.gpop a{display:inline-block;font-size:.74rem;font-weight:800;color:#d4537e;margin:4px 4px 2px}
+.ltl{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:2px;margin:6px 0 4px}
+.ltl::before{content:'';position:absolute;left:8%;right:8%;top:26px;height:3px;border-radius:3px;background:linear-gradient(90deg,#d4537e,#7f77dd,#3f86c6,#1d9e75)}
+.lt-stop{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:0 2px}
+.lt-stop .dot{width:52px;height:52px;border-radius:50%;border:3px solid #fff;overflow:hidden;box-shadow:0 6px 14px rgba(80,90,110,.2);transition:transform .2s cubic-bezier(.3,1.5,.5,1)}
+.lt-stop .dot img{width:100%;height:100%;object-fit:cover}
+.lt-stop:hover .dot{transform:scale(1.1) translateY(-3px)}
+.lt-stop.on .dot{box-shadow:0 0 0 3px #1c1d22,0 6px 14px rgba(80,90,110,.25)}
+.lt-stop b{font-size:.74rem;font-weight:800;line-height:1.15}
+.lt-stop span{font-size:.62rem;font-weight:600;color:var(--ios-muted,#6b7280);line-height:1.2;margin-top:-2px}
+@media(max-width:600px){.ltl{display:flex;overflow-x:auto;gap:4px}.ltl::before{display:none}.lt-stop{flex:0 0 74px}}
 .gstats{display:flex;gap:10px;margin-top:12px}
 .gstats div{flex:1;background:var(--ios-card,#fff);border-radius:14px;padding:10px 12px;box-shadow:0 6px 18px rgba(80,90,110,.08)}
 .gstats b{display:block;font-size:1.35rem;font-weight:800;letter-spacing:-.02em}
@@ -564,8 +568,17 @@ p.txt b{color:var(--ios-ink)}
             <span class="stamp" style="--sb:var(--peach);--sc:var(--peach-d)">12 countries</span>
           </div>
           <div class="globe-wrap">
-            <div id="lifeGlobe" class="globe" aria-label="Interactive map of places Mia has been"></div>
-            <div class="globe-hint">hover to explore · click a pin ✦</div>
+            <div id="lifeGlobe" class="globe" aria-label="Interactive satellite globe of places Mia has been"></div>
+            <div class="globe-hint">drag to spin · click a pin ✦</div>
+          </div>
+          <div class="label" style="margin-top:16px">my timeline</div>
+          <div class="ltl">
+            <button class="lt-stop" data-lng="-74.0" data-lat="40.71"><span class="dot"><img src="Mia.jpg" alt=""></span><b>New York</b><span>birthplace</span></button>
+            <button class="lt-stop" data-lng="-71.06" data-lat="42.36"><span class="dot"><img src="life/bostonchild.jpg" alt=""></span><b>Boston</b><span>early years</span></button>
+            <button class="lt-stop" data-lng="118.09" data-lat="24.48"><span class="dot"><img src="life/bj.jpg" alt=""></span><b>Xiamen</b><span>childhood · MS</span></button>
+            <button class="lt-stop" data-lng="103.85" data-lat="1.29"><span class="dot"><img src="life/grad1.jpg" alt=""></span><b>Singapore</b><span>high school · IB</span></button>
+            <button class="lt-stop" data-lng="-9.05" data-lat="53.27"><span class="dot"><img src="life/ir.jpg" alt=""></span><b>Ireland</b><span>study abroad</span></button>
+            <button class="lt-stop" data-lng="-79.05" data-lat="35.91"><span class="dot"><img src="life/chapel.jpg" alt=""></span><b>Chapel Hill</b><span>now · UNC</span></button>
           </div>
           <div class="gstats">
             <div><b>12</b><span>countries</span></div>
@@ -714,7 +727,7 @@ function moveThumb(){
 window.addEventListener('resize',moveThumb);
 document.fonts?.ready.then(moveThumb);
 
-/* ── LIFE MAP (Leaflet, tilted 3D view; loaded only when the life tab opens) ── */
+/* ── LIFE GLOBE (MapLibre 3D globe + Esri satellite imagery, no API key; loads when the life tab opens) ── */
 const GLOBE_PINS=[
  ['New York','birthplace',null,-74.0,40.71,'Mia.jpg',1],
  ['Chapel Hill','home now · UNC','unc',-79.05,35.91,'life/chapel.jpg',1],
@@ -742,40 +755,58 @@ const GLOBE_PINS=[
  ['Dominican Republic','Caribbean','caribbean',-69.9,18.47,'life/Dominican.jpg']
 ];
 const GLOBE_COUNTS={unc:20,us:23,china:4,singapore:6,japan:4,korea:4,ireland:4,italy:2,spain:1,portugal:1,uk:1,caribbean:2};
-var lifeMap=null,globeLoading=false;
-function loadLeaflet(cb){
-  if(window.L&&window.L.map)return cb();
-  const l=document.createElement('link');l.rel='stylesheet';l.href=window.LEAFLET_CSS||'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.appendChild(l);
-  const sc=document.createElement('script');sc.src=window.LEAFLET_JS||'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';sc.onload=cb;document.head.appendChild(sc);
+var lifeMap=null,globeLoading=false,globeSpin=true;
+function loadMapLib(cb){
+  if(window.maplibregl)return cb();
+  const l=document.createElement('link');l.rel='stylesheet';l.href=window.MAPLIBRE_CSS||'https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css';document.head.appendChild(l);
+  const sc=document.createElement('script');sc.src=window.MAPLIBRE_JS||'https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js';sc.onload=cb;document.head.appendChild(sc);
+}
+function flyGlobe(lng,lat,z){
+  if(!lifeMap)return;globeSpin=false;
+  lifeMap.flyTo({center:[lng,lat],zoom:z||Math.max(lifeMap.getZoom(),3),speed:.9,curve:1.6,offset:[0,70],essential:true});
 }
 function initLifeMap(){
-  if(lifeMap){lifeMap.invalidateSize();return}
+  if(lifeMap){lifeMap.resize();return}
   if(globeLoading)return;globeLoading=true;
-  loadLeaflet(()=>{
-    lifeMap=L.map('lifeGlobe',{zoomControl:false,worldCopyJump:true,zoomSnap:.25,minZoom:.5,maxZoom:10,scrollWheelZoom:false,attributionControl:true})
-      .fitBounds([[-5,-155],[64,145]],{padding:[10,10]});
-    L.control.zoom({position:'topright'}).addTo(lifeMap);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,
-      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'}).addTo(lifeMap);
-    fetch('life/world-map.json').then(r=>r.json()).then(g=>{
-      L.geoJSON(g,{filter:f=>f.properties.v===1,interactive:false,style:{color:'#d4537e',weight:1,opacity:.6,fillColor:'#f4a7c5',fillOpacity:.35}}).addTo(lifeMap);
-    }).catch(()=>{});
+  loadMapLib(()=>{
+    lifeMap=new maplibregl.Map({
+      container:'lifeGlobe',attributionControl:{compact:true},
+      center:[-40,28],zoom:1.05,minZoom:0.6,maxZoom:17,
+      style:{version:8,projection:{type:'globe'},
+        sky:{'atmosphere-blend':['interpolate',['linear'],['zoom'],0,1,5,1,7,0]},
+        sources:{
+          sat:{type:'raster',tileSize:256,maxzoom:19,
+            tiles:['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+            attribution:'Imagery &copy; Esri, Maxar, Earthstar Geographics'},
+          world:{type:'geojson',data:'life/world-map.json'}},
+        layers:[
+          {id:'space',type:'background',paint:{'background-color':'#0b1226'}},
+          {id:'sat',type:'raster',source:'sat',paint:{'raster-fade-duration':200}},
+          {id:'visited',type:'fill',source:'world',filter:['==',['get','v'],1],paint:{'fill-color':'#f4a7c5','fill-opacity':['interpolate',['linear'],['zoom'],1,.28,5,.08]}},
+          {id:'visited-line',type:'line',source:'world',filter:['==',['get','v'],1],paint:{'line-color':'#ffd1e3','line-width':1.2,'line-opacity':.9}}
+        ]}
+    });
+    lifeMap.scrollZoom.disable();
+    lifeMap.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');
     GLOBE_PINS.forEach(([name,sub,place,lng,lat,img,home])=>{
+      const el=document.createElement('div');el.className='mpin'+(home?' home':'');el.title=name;
       const cnt=place?` · ${GLOBE_COUNTS[place]} photos`:'';
       const link=place?`life.html?place=${place}#gallery`:'life.html';
-      const icon=L.divIcon({className:'',html:`<div class="mpin${home?' home':''}" title="${name}"></div>`,iconSize:[19,19],iconAnchor:[9.5,9.5]});
-      L.marker([lat,lng],{icon,title:name,riseOnHover:true}).addTo(lifeMap)
-        .bindPopup(`<div class="gpop"><img src="${img}" alt=""><b>${name}</b><span>${sub}${cnt}</span><a href="${link}">see photos →</a></div>`,{maxWidth:190,minWidth:160,offset:[0,-4],autoPanPadding:[20,20]})
-        .on('click',()=>{const z=Math.max(lifeMap.getZoom(),4);lifeMap.flyTo(lifeMap.unproject(lifeMap.project([lat,lng],z).subtract([0,95]),z),z,{duration:.8})});
+      const pop=new maplibregl.Popup({offset:12,anchor:'bottom',maxWidth:'190px'}).setLngLat([lng,lat])
+        .setHTML(`<div class="gpop"><img src="${img}" alt=""><b>${name}</b><span>${sub}${cnt}</span><a href="${link}">see photos →</a></div>`);
+      el.addEventListener('click',e=>{e.stopPropagation();
+        document.querySelectorAll('.maplibregl-popup').forEach(x=>x.remove());
+        flyGlobe(lng,lat);pop.addTo(lifeMap)});
+      new maplibregl.Marker({element:el}).setLngLat([lng,lat]).addTo(lifeMap);
     });
-    // 3D tilt: map rests tilted like it's lying on a table, and lays flat while you use it
-    const wrap=document.querySelector('.globe-wrap');
-    const flat=()=>{wrap.classList.add('flat');setTimeout(()=>lifeMap.invalidateSize(),420)};
-    wrap.addEventListener('mouseenter',flat);wrap.addEventListener('touchstart',flat,{passive:true});
-    wrap.addEventListener('mouseleave',()=>{if(!lifeMap._popup||!lifeMap.hasLayer(lifeMap._popup))wrap.classList.remove('flat')});
-    lifeMap.on('popupclose',()=>{if(!wrap.matches(':hover'))wrap.classList.remove('flat')});
+    globeSpin=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+    ['mousedown','touchstart','wheel'].forEach(ev=>lifeMap.on(ev,()=>{globeSpin=false}));
+    (function spin(){if(globeSpin&&!lifeMap.isMoving()){const c=lifeMap.getCenter();c.lng-=0.1;lifeMap.jumpTo({center:c})}requestAnimationFrame(spin)})();
   });
 }
+document.addEventListener('click',e=>{const s=e.target.closest('.lt-stop');if(!s)return;
+  document.querySelectorAll('.lt-stop').forEach(x=>x.classList.toggle('on',x===s));
+  flyGlobe(+s.dataset.lng,+s.dataset.lat,4)});
 
 /* ── CURSOR ── */
 const cur=document.getElementById('cur');
