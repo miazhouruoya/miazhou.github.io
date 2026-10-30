@@ -426,6 +426,11 @@ p.txt b{color:var(--ios-ink)}
   .tab::before{display:none}
   .pages{padding:16px 16px 22px}
 }
+
+/* ── ONE BUTTON COLOUR (blush pink) ── */
+:root{--btn:#F8C8D8;--btn-ink:#1c1d22}
+.sticker,.sticker.big,.sticker[style],.sticker.big[style]{background:var(--btn)!important;color:var(--btn-ink)!important;border-color:transparent!important}
+.sticker:hover,.sticker.big:hover,.res-bar:hover .sticker{background:var(--btn-ink)!important;color:#fff!important}
 </style>
 </head>
 <body>
@@ -570,15 +575,6 @@ p.txt b{color:var(--ios-ink)}
           <div class="globe-wrap">
             <div id="lifeGlobe" class="globe" aria-label="Interactive satellite globe of places Mia has been"></div>
             <div class="globe-hint">drag to spin · click a pin ✦</div>
-          </div>
-          <div class="label" style="margin-top:16px">my timeline</div>
-          <div class="ltl">
-            <button class="lt-stop" data-lng="-74.0" data-lat="40.71"><span class="dot"><img src="Mia.jpg" alt=""></span><b>New York</b><span>birthplace</span></button>
-            <button class="lt-stop" data-lng="-71.06" data-lat="42.36"><span class="dot"><img src="life/bostonchild.jpg" alt=""></span><b>Boston</b><span>early years</span></button>
-            <button class="lt-stop" data-lng="118.09" data-lat="24.48"><span class="dot"><img src="life/bj.jpg" alt=""></span><b>Xiamen</b><span>childhood · MS</span></button>
-            <button class="lt-stop" data-lng="103.85" data-lat="1.29"><span class="dot"><img src="life/grad1.jpg" alt=""></span><b>Singapore</b><span>high school · IB</span></button>
-            <button class="lt-stop" data-lng="-9.05" data-lat="53.27"><span class="dot"><img src="life/ir.jpg" alt=""></span><b>Ireland</b><span>study abroad</span></button>
-            <button class="lt-stop" data-lng="-79.05" data-lat="35.91"><span class="dot"><img src="life/chapel.jpg" alt=""></span><b>Chapel Hill</b><span>now · UNC</span></button>
           </div>
           <div class="gstats">
             <div><b>12</b><span>countries</span></div>
