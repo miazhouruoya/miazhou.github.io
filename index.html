@@ -220,26 +220,36 @@ p.txt b{color:var(--ink);font-weight:800}
 .pj-award{background:var(--lemon)}
 @media(max-width:600px){.pj .polaroid{width:96px!important}}
 
-/* ── life globe ── */
-.globe-wrap{position:relative;height:300px;border-radius:20px;overflow:hidden;background:radial-gradient(circle at 50% 45%,#eaf3fb 0,#dcebf8 55%,#f3ecfa 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 6px 18px rgba(80,90,110,.08)}
-.globe,.globe.maplibregl-map{position:absolute!important;inset:0;width:100%;height:100%}
-.globe-hint{position:absolute;left:12px;bottom:10px;font-size:.68rem;font-weight:700;color:#6b7280;background:rgba(255,255,255,.8);border-radius:999px;padding:.2rem .6rem;pointer-events:none}
-.mpin{width:14px;height:14px;border-radius:50%;background:#d4537e;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(212,83,126,.45);cursor:pointer;transition:transform .15s}
+/* ── life map (Leaflet, tilted 3D) ── */
+.globe-wrap{position:relative;height:300px;border-radius:20px;overflow:hidden;perspective:900px;perspective-origin:50% 0%;
+  background:linear-gradient(180deg,#f3ecfa 0%,#e7f0fa 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 6px 18px rgba(80,90,110,.08)}
+.globe{position:absolute!important;inset:0;width:100%;height:100%;border-radius:20px;background:#dcebf8!important;
+  transform:rotateX(30deg) scale(1.12) translateY(10px);transform-origin:50% 70%;transition:transform .45s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 30px 40px rgba(80,90,110,.25)}
+.globe-wrap.flat .globe{transform:none}
+.globe-wrap::after{content:'';position:absolute;left:0;right:0;top:0;height:70px;pointer-events:none;z-index:500;
+  background:linear-gradient(180deg,#f3ecfa 10%,rgba(243,236,250,0));transition:opacity .45s}
+.globe-wrap.flat::after{opacity:0}
+.globe-hint{position:absolute;left:12px;bottom:10px;z-index:600;font-size:.68rem;font-weight:700;color:#6b7280;background:rgba(255,255,255,.85);border-radius:999px;padding:.2rem .6rem;pointer-events:none}
+.mpin{width:15px;height:15px;border-radius:50%;background:#d4537e;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(212,83,126,.5);cursor:pointer;transition:transform .15s}
 .mpin:hover{transform:scale(1.35)}
-.mpin.home{background:#7f77dd;box-shadow:0 2px 8px rgba(127,119,221,.45)}
-.maplibregl-popup-content{border-radius:16px!important;padding:6px!important;box-shadow:0 12px 30px rgba(40,40,70,.22)!important;font-family:var(--sys)}
-.maplibregl-popup-tip{display:none}
-.maplibregl-popup-close-button{font-size:16px;right:6px!important;top:4px!important;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.mpin.home{background:#7f77dd;box-shadow:0 2px 8px rgba(127,119,221,.5)}
+.leaflet-popup-content-wrapper{border-radius:16px!important;padding:0!important;box-shadow:0 12px 30px rgba(40,40,70,.22)!important}
+.leaflet-popup-content{margin:6px!important;font-family:var(--sys)}
+.leaflet-popup-tip{box-shadow:none!important}
+.leaflet-container a.leaflet-popup-close-button{color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5);top:6px;right:6px}
+.leaflet-control-zoom{border:0!important;box-shadow:0 4px 12px rgba(80,90,110,.15)!important;border-radius:12px!important;overflow:hidden}
+.leaflet-control-zoom a{border:0!important;color:#1c1d22!important}
+.leaflet-control-attribution{font-size:9px!important;background:rgba(255,255,255,.7)!important;border-radius:8px 0 0 0}
 .gpop img{width:160px;height:84px;object-fit:cover;border-radius:12px;display:block}
 .gpop b{display:block;font-size:.84rem;margin:6px 4px 0}
 .gpop span{display:block;font-size:.72rem;color:#6b7280;margin:0 4px}
 .gpop a:focus{outline:none}
-.gpop a{display:inline-block;font-size:.74rem;font-weight:800;color:#d4537e;margin:4px 4px 2px}
+.gpop a{display:inline-block;font-size:.74rem;font-weight:800;color:#d4537e!important;margin:4px 4px 2px}
 .gstats{display:flex;gap:10px;margin-top:12px}
 .gstats div{flex:1;background:var(--ios-card,#fff);border-radius:14px;padding:10px 12px;box-shadow:0 6px 18px rgba(80,90,110,.08)}
 .gstats b{display:block;font-size:1.35rem;font-weight:800;letter-spacing:-.02em}
 .gstats span{font-size:.72rem;font-weight:600;color:var(--ios-muted,#6b7280)}
-.maplibregl-ctrl-attrib{font-size:9px!important;background:rgba(255,255,255,.6)!important}
 
 /* ── PUBLICATIONS ── */
 .pub{padding:14px 16px;margin-bottom:12px;background:var(--ios-card,#fff);border:1px solid rgba(255,255,255,.9);border-radius:16px;box-shadow:0 6px 18px rgba(80,90,110,.08)}
@@ -554,8 +564,8 @@ p.txt b{color:var(--ios-ink)}
             <span class="stamp" style="--sb:var(--peach);--sc:var(--peach-d)">12 countries</span>
           </div>
           <div class="globe-wrap">
-            <div id="lifeGlobe" class="globe" aria-label="Interactive globe of places Mia has been"></div>
-            <div class="globe-hint">drag to spin · click a pin ✦</div>
+            <div id="lifeGlobe" class="globe" aria-label="Interactive map of places Mia has been"></div>
+            <div class="globe-hint">hover to explore · click a pin ✦</div>
           </div>
           <div class="gstats">
             <div><b>12</b><span>countries</span></div>
@@ -704,7 +714,7 @@ function moveThumb(){
 window.addEventListener('resize',moveThumb);
 document.fonts?.ready.then(moveThumb);
 
-/* ── LIFE GLOBE (MapLibre, loaded only when the life tab opens) ── */
+/* ── LIFE MAP (Leaflet, tilted 3D view; loaded only when the life tab opens) ── */
 const GLOBE_PINS=[
  ['New York','birthplace',null,-74.0,40.71,'Mia.jpg',1],
  ['Chapel Hill','home now · UNC','unc',-79.05,35.91,'life/chapel.jpg',1],
@@ -733,44 +743,37 @@ const GLOBE_PINS=[
 ];
 const GLOBE_COUNTS={unc:20,us:23,china:4,singapore:6,japan:4,korea:4,ireland:4,italy:2,spain:1,portugal:1,uk:1,caribbean:2};
 var lifeMap=null,globeLoading=false;
-function loadMapLib(cb){
-  if(window.maplibregl)return cb();
-  const l=document.createElement('link');l.rel='stylesheet';l.href=window.MAPLIBRE_CSS||'https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css';document.head.appendChild(l);
-  const sc=document.createElement('script');sc.src=window.MAPLIBRE_JS||'https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js';sc.onload=cb;document.head.appendChild(sc);
+function loadLeaflet(cb){
+  if(window.L&&window.L.map)return cb();
+  const l=document.createElement('link');l.rel='stylesheet';l.href=window.LEAFLET_CSS||'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';document.head.appendChild(l);
+  const sc=document.createElement('script');sc.src=window.LEAFLET_JS||'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';sc.onload=cb;document.head.appendChild(sc);
 }
 function initLifeMap(){
-  if(lifeMap){lifeMap.resize();return}
+  if(lifeMap){lifeMap.invalidateSize();return}
   if(globeLoading)return;globeLoading=true;
-  loadMapLib(()=>{
-    lifeMap=new maplibregl.Map({
-      container:'lifeGlobe',attributionControl:{compact:true,customAttribution:'Natural Earth'},
-      center:[-20,30],zoom:1.15,minZoom:0.6,maxZoom:6,
-      style:{version:8,projection:{type:'globe'},
-        sources:{world:{type:'geojson',data:'life/world-map.json'}},
-        layers:[
-          {id:'bg',type:'background',paint:{'background-color':'#cfe4f6'}},
-          {id:'land',type:'fill',source:'world',paint:{'fill-color':['case',['==',['get','v'],1],'#f6c1d4','#fbf7f1']}},
-          {id:'border',type:'line',source:'world',paint:{'line-color':'#e3d6c8','line-width':0.6}}
-        ]}
-    });
-    lifeMap.scrollZoom.disable();
-    lifeMap.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');
+  loadLeaflet(()=>{
+    lifeMap=L.map('lifeGlobe',{zoomControl:false,worldCopyJump:true,zoomSnap:.25,minZoom:.5,maxZoom:10,scrollWheelZoom:false,attributionControl:true})
+      .fitBounds([[-5,-155],[64,145]],{padding:[10,10]});
+    L.control.zoom({position:'topright'}).addTo(lifeMap);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'}).addTo(lifeMap);
+    fetch('life/world-map.json').then(r=>r.json()).then(g=>{
+      L.geoJSON(g,{filter:f=>f.properties.v===1,interactive:false,style:{color:'#d4537e',weight:1,opacity:.6,fillColor:'#f4a7c5',fillOpacity:.35}}).addTo(lifeMap);
+    }).catch(()=>{});
     GLOBE_PINS.forEach(([name,sub,place,lng,lat,img,home])=>{
-      const el=document.createElement('div');el.className='mpin'+(home?' home':'');el.title=name;
       const cnt=place?` · ${GLOBE_COUNTS[place]} photos`:'';
       const link=place?`life.html?place=${place}#gallery`:'life.html';
-      const pop=new maplibregl.Popup({offset:12,anchor:'bottom',maxWidth:'190px'}).setHTML(`<div class="gpop"><img src="${img}" alt=""><b>${name}</b><span>${sub}${cnt}</span><a href="${link}">see photos →</a></div>`);
-      pop.setLngLat([lng,lat]);
-      el.addEventListener('click',e=>{e.stopPropagation();spinning=false;
-        document.querySelectorAll('.maplibregl-popup').forEach(x=>x.remove());
-        lifeMap.flyTo({center:[lng,lat],zoom:Math.max(lifeMap.getZoom(),2.4),speed:.8,offset:[0,95]});pop.addTo(lifeMap)});
-      new maplibregl.Marker({element:el}).setLngLat([lng,lat]).addTo(lifeMap);
+      const icon=L.divIcon({className:'',html:`<div class="mpin${home?' home':''}" title="${name}"></div>`,iconSize:[19,19],iconAnchor:[9.5,9.5]});
+      L.marker([lat,lng],{icon,title:name,riseOnHover:true}).addTo(lifeMap)
+        .bindPopup(`<div class="gpop"><img src="${img}" alt=""><b>${name}</b><span>${sub}${cnt}</span><a href="${link}">see photos →</a></div>`,{maxWidth:190,minWidth:160,offset:[0,-4],autoPanPadding:[20,20]})
+        .on('click',()=>{const z=Math.max(lifeMap.getZoom(),4);lifeMap.flyTo(lifeMap.unproject(lifeMap.project([lat,lng],z).subtract([0,95]),z),z,{duration:.8})});
     });
-    // gentle auto-spin until someone touches the globe
-    let spinning=!matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const stop=()=>{spinning=false};
-    ['mousedown','touchstart','wheel','dragstart'].forEach(ev=>lifeMap.on(ev,stop));
-    (function spin(){if(spinning&&lifeMap&&!lifeMap.isMoving()){const c=lifeMap.getCenter();c.lng-=0.12;lifeMap.jumpTo({center:c})}requestAnimationFrame(spin)})();
+    // 3D tilt: map rests tilted like it's lying on a table, and lays flat while you use it
+    const wrap=document.querySelector('.globe-wrap');
+    const flat=()=>{wrap.classList.add('flat');setTimeout(()=>lifeMap.invalidateSize(),420)};
+    wrap.addEventListener('mouseenter',flat);wrap.addEventListener('touchstart',flat,{passive:true});
+    wrap.addEventListener('mouseleave',()=>{if(!lifeMap._popup||!lifeMap.hasLayer(lifeMap._popup))wrap.classList.remove('flat')});
+    lifeMap.on('popupclose',()=>{if(!wrap.matches(':hover'))wrap.classList.remove('flat')});
   });
 }
 
