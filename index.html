@@ -205,6 +205,42 @@ p.txt b{color:var(--ink);font-weight:800}
 .soc b{display:block;font-size:.86rem;font-weight:800}
 .soc small{display:block;font-size:.7rem;color:var(--ios-muted,#6b7280);font-weight:600}
 
+/* projects tab: polaroid rows like the IB portfolio */
+.era{display:flex;align-items:baseline;gap:8px;margin:22px 0 4px;padding-top:14px;border-top:1px solid var(--ios-line,rgba(120,128,145,.2));font-size:1.25rem;font-weight:800;letter-spacing:-.02em}
+.era:first-of-type{border-top:0;padding-top:0;margin-top:4px}
+.era span{font-size:.74rem;font-weight:600;color:var(--ios-muted,#6b7280);letter-spacing:0}
+.pj{margin:6px 0 16px;padding:6px 4px;border-radius:16px;transition:background .15s}
+.pj:hover{background:rgba(255,255,255,.7)}
+.pj .polaroid{flex-shrink:0}
+.pj-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pj-body .me-name{font-size:1.02rem;line-height:1.25}
+.pj-body .me-role{margin-top:0}
+.pj-line{font-size:.78rem;line-height:1.5;color:var(--ink2);margin-top:4px}
+.pj-pill,.pj-award{align-self:flex-start;font-size:.66rem;font-weight:800;border-radius:999px;padding:.1rem .55rem;margin-bottom:3px;background:rgba(118,118,128,.12)}
+.pj-award{background:var(--lemon)}
+@media(max-width:600px){.pj .polaroid{width:96px!important}}
+
+/* ── life globe ── */
+.globe-wrap{position:relative;height:300px;border-radius:20px;overflow:hidden;background:radial-gradient(circle at 50% 45%,#eaf3fb 0,#dcebf8 55%,#f3ecfa 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 6px 18px rgba(80,90,110,.08)}
+.globe,.globe.maplibregl-map{position:absolute!important;inset:0;width:100%;height:100%}
+.globe-hint{position:absolute;left:12px;bottom:10px;font-size:.68rem;font-weight:700;color:#6b7280;background:rgba(255,255,255,.8);border-radius:999px;padding:.2rem .6rem;pointer-events:none}
+.mpin{width:14px;height:14px;border-radius:50%;background:#d4537e;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(212,83,126,.45);cursor:pointer;transition:transform .15s}
+.mpin:hover{transform:scale(1.35)}
+.mpin.home{background:#7f77dd;box-shadow:0 2px 8px rgba(127,119,221,.45)}
+.maplibregl-popup-content{border-radius:16px!important;padding:6px!important;box-shadow:0 12px 30px rgba(40,40,70,.22)!important;font-family:var(--sys)}
+.maplibregl-popup-tip{display:none}
+.maplibregl-popup-close-button{font-size:16px;right:6px!important;top:4px!important;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.gpop img{width:160px;height:84px;object-fit:cover;border-radius:12px;display:block}
+.gpop b{display:block;font-size:.84rem;margin:6px 4px 0}
+.gpop span{display:block;font-size:.72rem;color:#6b7280;margin:0 4px}
+.gpop a:focus{outline:none}
+.gpop a{display:inline-block;font-size:.74rem;font-weight:800;color:#d4537e;margin:4px 4px 2px}
+.gstats{display:flex;gap:10px;margin-top:12px}
+.gstats div{flex:1;background:var(--ios-card,#fff);border-radius:14px;padding:10px 12px;box-shadow:0 6px 18px rgba(80,90,110,.08)}
+.gstats b{display:block;font-size:1.35rem;font-weight:800;letter-spacing:-.02em}
+.gstats span{font-size:.72rem;font-weight:600;color:var(--ios-muted,#6b7280)}
+.maplibregl-ctrl-attrib{font-size:9px!important;background:rgba(255,255,255,.6)!important}
+
 /* ── PUBLICATIONS ── */
 .pub{padding:14px 16px;margin-bottom:12px;background:var(--ios-card,#fff);border:1px solid rgba(255,255,255,.9);border-radius:16px;box-shadow:0 6px 18px rgba(80,90,110,.08)}
 .pub-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
@@ -411,7 +447,6 @@ p.txt b{color:var(--ios-ink)}
         <button class="tab on" data-p="about" style="--dot:var(--pink-d)">about</button>
         <button class="tab" data-p="resume" style="--dot:var(--lav-d)">résumé</button>
         <button class="tab" data-p="pubs" style="--dot:var(--sky-d)">papers</button>
-        <button class="tab" data-p="hack" style="--dot:var(--mint-d)">hacks</button>
         <button class="tab" data-p="life" style="--dot:var(--peach-d)">life</button>
         <button class="tab" data-p="school" style="--dot:var(--lemon-d)">projects</button>
         <button class="tab" data-p="honors" style="--dot:var(--pink-d)">honors</button>
@@ -511,173 +546,73 @@ p.txt b{color:var(--ios-ink)}
           <div class="btns"><a class="sticker" style="--bgc:var(--sky)" href="https://scholar.google.com/citations?user=FcFW3d4AAAAJ&amp;hl=en" target="_blank">Google Scholar →</a></div>
         </article>
 
-        <!-- HACKATHONS -->
-        <article class="page" id="p-hack">
-          <div class="pg-head">
-            <h1 class="pg-title"><span class="hl" style="--hlc:var(--mint)">hackathons</span></h1>
-            <span class="stamp" style="--sb:var(--mint);--sc:var(--mint-d)">3 wins</span>
-          </div>
-          <a class="hk" href="resume.html#sec-hack">
-            <img src="folderpic/thumbs/DataMini.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award">★ Best Statistical Analysis</span><span class="hk-date">Apr 2026</span></span>
-              <span class="hk-title">Duke Data Mini #3</span>
-              <span class="hk-org">Duke University · railroad fatality datathon</span>
-              <span class="hk-line">Two-model risk pipeline (logistic regression + XGBoost) to find what drives railroad fatalities.</span>
-              
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-hack">
-            <img src="folderpic/thumbs/ASA.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award">★ Best Statistical Analysis</span><span class="hk-date">Mar 2026</span></span>
-              <span class="hk-title">Duke ASA DataFest 2026</span>
-              <span class="hk-org">Duke University · American Statistical Association</span>
-              <span class="hk-line">Led EDA on 7M+ healthcare records and designed mobile clinic routing for 32K+ high-risk patients.</span>
-              <span class="hk-team">team of 5</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-hack">
-            <img src="folderpic/thumbs/Solhacks.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award">★ 1st Place · Culture Track</span><span class="hk-date">Mar 2026</span></span>
-              <span class="hk-title">WageGuard</span>
-              <span class="hk-org">SolHacks 2026 (MLH) · PM + full stack dev</span>
-              <span class="hk-line">A bilingual, voice-first wage protection platform for Latino workers, built in 24 hours.</span>
-              <span class="hk-team">team of 2</span>
-            </span>
-          </a>
-          <a class="see-more" href="resume.html#sec-hack" style="--mc:var(--mint-d)">see more on my résumé →</a>
-        </article>
 
         <!-- LIFE -->
         <article class="page" id="p-life">
           <div class="pg-head">
             <h1 class="pg-title"><span class="hl" style="--hlc:var(--peach)">life</span></h1>
-            <span class="stamp" style="--sb:var(--peach);--sc:var(--peach-d)">5 places</span>
+            <span class="stamp" style="--sb:var(--peach);--sc:var(--peach-d)">12 countries</span>
           </div>
-          <div class="life-grid">
-            <a class="polaroid" href="Landing.html?dest=life.html&amp;title=my+life"><img src="life/bj.jpg" alt="China"><span class="cap">China</span></a>
-            <a class="polaroid" href="Landing.html?dest=life.html&amp;title=my+life"><img src="life/bostonchild.jpg" alt="Boston"><span class="cap">Boston</span></a>
-            <a class="polaroid" href="Landing.html?dest=life.html&amp;title=my+life"><img src="life/ChapelHillKaren.jpg" alt="Chapel Hill"><span class="cap">Chapel Hill</span></a>
-            <a class="polaroid" href="Landing.html?dest=life.html&amp;title=my+life"><img src="life/sging.jpg" alt="Singapore"><span class="cap">Singapore</span></a>
-            <a class="polaroid" href="Landing.html?dest=life.html&amp;title=my+life"><img src="life/ie.jpg" alt="Ireland"><span class="cap">Ireland</span></a>
-            <a class="polaroid" href="Landing.html?dest=life.html&amp;title=my+life" style="display:flex;align-items:center;justify-content:center;aspect-ratio:auto;background:var(--peach)"><span style="font-size:.85rem;font-weight:700;text-align:center;line-height:1.3">full<br>album →</span></a>
+          <div class="globe-wrap">
+            <div id="lifeGlobe" class="globe" aria-label="Interactive globe of places Mia has been"></div>
+            <div class="globe-hint">drag to spin · click a pin ✦</div>
           </div>
+          <div class="gstats">
+            <div><b>12</b><span>countries</span></div>
+            <div><b>6</b><span>homes</span></div>
+            <div><b>72</b><span>photos</span></div>
+          </div>
+          <div class="btns" style="margin:12px 0 4px"><a class="sticker big" style="--bgc:var(--peach)" href="Landing.html?dest=life.html&amp;title=my+life">open full album →</a></div>
           <div class="label" style="margin-top:20px">find me on</div>
           <div class="socials">
             <a class="soc" href="https://beliapp.co/profile/miaazhoou" target="_blank" rel="noopener"><span class="soc-ico" style="background:#e7f6ee;color:#1d9e75">🍽</span><span><b>Beli</b><small>Food Lovers</small></span></a>
             <a class="soc" href="https://xhslink.cn/o/7dgpwBP1byX" target="_blank" rel="noopener"><span class="soc-ico" style="background:#ffe4e8;color:#ff2442">书</span><span><b>RedNote</b><small>Content Creator</small></span></a>
           </div>
-          <div style="height:14px"></div>
-          <div class="vlog"><video id="lifeVlog" src="life/vlog.mov" controls playsinline muted preload="metadata"></video></div>
-          <div class="hint">psst, hover the left page for more photos ✿</div>
-        </article>
+</article>
 
         <!-- HIGH SCHOOL -->
         <article class="page" id="p-school">
           <div class="pg-head">
             <h1 class="pg-title"><span class="hl" style="--hlc:var(--lemon)">projects</span></h1>
-            <span class="stamp" style="--sb:var(--lemon);--sc:var(--lemon-d)">research + IB</span>
+            <span class="stamp" style="--sb:var(--lemon);--sc:var(--lemon-d)">4 sections</span>
           </div>
-          <div class="label" style="margin-top:4px">research projects</div>
-          <a class="hk" href="resume.html#sec-res">
-            <img src="folderpic/thumbs/NSF.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--sky)">NSF Research Fellow</span><span class="hk-date">Sep 2026 – now</span></span>
-              <span class="hk-title">Quant Finance Portfolio Optimization</span>
-              <span class="hk-org">UNC Undergraduate Research Training Group</span>
-              <span class="hk-line">Robust optimization models for bond portfolios using alpha signals and market data, with automated backtesting.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-res">
-            <img src="folderpic/thumbs/BUSI.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--lav)">Honors Thesis</span><span class="hk-date">Mar 2026 – now</span></span>
-              <span class="hk-title">Multi-State CVD Progression Modeling</span>
-              <span class="hk-org">UNC Biostatistics · honorable mention @ BUSI Symposium</span>
-              <span class="hk-line">A 6-state disease progression model across ARIC, CHS and FHS for 10-year cardiovascular risk.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-res">
-            <img src="folderpic/thumbs/Agent-Society.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--peach)">Financial AI Intern</span><span class="hk-date">May – Aug 2025</span></span>
-              <span class="hk-title">Agent-Based Economic Simulation</span>
-              <span class="hk-org">Tsinghua University</span>
-              <span class="hk-line">Infrastructure and prompts for 100 LLM agents running an economy in a virtual Beijing.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-res">
-            <img src="folderpic/thumbs/NIH.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--pink)">Li Lab</span><span class="hk-date">Oct 2024 – now</span></span>
-              <span class="hk-title">NIH Network Analysis</span>
-              <span class="hk-org">UNC Biostatistics · Project Assistant</span>
-              <span class="hk-line">An NLP pipeline (BERTopic + BioSentVec) analyzing 30k+ NIH grants to map funding trends.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-res">
-            <img src="folderpic/thumbs/project2.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--pink)">Li Lab</span><span class="hk-date">Oct 2024 – now</span></span>
-              <span class="hk-title">Spatial Transcriptomics</span>
-              <span class="hk-org">UNC Biostatistics · Project Assistant</span>
-              <span class="hk-line">Benchmarking 3 graph-learning frameworks (Seurat, Squidpy, Niches) on the Stimage-1K4M dataset.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-res">
-            <img src="folderpic/thumbs/eNet.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--mint)">Huang Lab</span><span class="hk-date">Jun 2024 – now</span></span>
-              <span class="hk-title">eNet Enhancer Network</span>
-              <span class="hk-org">Xiamen University · Research Intern</span>
-              <span class="hk-line">Graph-based enhancer networks from 18K+ single cells to study gene regulation in leukemia.</span>
-            </span>
-          </a>
+          <div class="label">research</div>
+          <div class="me">
+            <span class="polaroid" style="width:120px;transform:rotate(-3deg)"><img src="folderpic/thumbs/BUSI.jpg" alt="research"><span class="cap">6 labs</span></span>
+            <div>
+              <div class="me-name" style="font-size:1.1rem">Research</div>
+              <div class="me-role">Six research roles across UNC, Xiamen University and Tsinghua: heart-disease progression models, NIH grant networks, spatial transcriptomics, leukemia enhancer networks, LLM agent economies and quant portfolio optimization.</div>
+            </div>
+          </div>
+          <div class="btns" style="margin-bottom:26px">
+            <a class="sticker big" style="--bgc:var(--lav)" href="resume.html#sec-res">see all research →</a>
+          </div>
 
-          <a class="see-more" href="resume.html#sec-res" style="--mc:var(--lav-d)">see more on my résumé →</a>
-          <div class="label" style="margin-top:28px">projects</div>
-          <a class="hk" href="resume.html#sec-proj">
-            <img src="folderpic/thumbs/HerTime.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--peach)">Carolina Data Challenge</span><span class="hk-date">2026</span></span>
-              <span class="hk-title">HerTime</span>
-              <span class="hk-org">Data pipeline · Bayesian modeling · multi-agent AI</span>
-              <span class="hk-line">Merged 7 World Bank datasets (129K+ records) to model gender opportunity gaps, with a LightGBM early-warning model at 0.87 AUC.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-proj">
-            <img src="folderpic/thumbs/Doople.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--mint)">Full Stack Developer</span><span class="hk-date">Jan – May 2026</span></span>
-              <span class="hk-title">Clinical Doppelgänger</span>
-              <span class="hk-org">EHR clinical decision support · CHIP 741</span>
-              <span class="hk-line">A SMART on FHIR app that finds similar patients and compares their outcomes over time.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-proj">
-            <img src="folderpic/thumbs/tumor.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--lav)">Directed Reading Program</span><span class="hk-date">Apr 2026</span></span>
-              <span class="hk-title">Tumour–Immune Dynamics: ODE, PDE &amp; Control</span>
-              <span class="hk-org">UNC Mathematics</span>
-              <span class="hk-line">Simulated how tumors and immune cells interact, and found the thresholds where tumors are controlled, go dormant, or escape.</span>
-            </span>
-          </a>
-          <a class="hk" href="resume.html#sec-proj">
-            <img src="folderpic/thumbs/Neuromatch.jpg" alt="">
-            <span class="hk-body">
-              <span class="hk-top"><span class="hk-award" style="background:var(--sky)">NeuroMatch</span><span class="hk-date">Jun – Aug 2025</span></span>
-              <span class="hk-title">Neuromatch Neuron Simulation</span>
-              <span class="hk-org">Computational Neuroscience Program</span>
-              <span class="hk-line">Decoded decision-making from large-scale IBL neural recordings to study thalamocortical communication.</span>
-            </span>
-          </a>
+          <div class="label">projects</div>
+          <div class="me">
+            <span class="polaroid" style="width:120px;transform:rotate(3deg)"><img src="folderpic/thumbs/HerTime.jpg" alt="projects"><span class="cap">4 projects</span></span>
+            <div>
+              <div class="me-name" style="font-size:1.1rem">Projects</div>
+              <div class="me-role">HerTime, Clinical Doppelgänger, tumour–immune dynamics and Neuromatch: data pipelines, a full-stack health app and math and neuroscience models.</div>
+            </div>
+          </div>
+          <div class="btns" style="margin-bottom:26px">
+            <a class="sticker big" style="--bgc:var(--mint)" href="resume.html#sec-proj">see all projects →</a>
+          </div>
 
-          <a class="see-more" href="resume.html#sec-proj" style="--mc:var(--mint-d)">see more on my résumé →</a>
+          <div class="label">hackathons</div>
+          <div class="me">
+            <span class="polaroid" style="width:120px;transform:rotate(-3deg)"><img src="folderpic/thumbs/Solhacks.jpg" alt="hackathons"><span class="cap">3 wins</span></span>
+            <div>
+              <div class="me-name" style="font-size:1.1rem">Hackathons</div>
+              <div class="me-role">Best Statistical Analysis at Duke ASA DataFest and Duke Data Mini #3, plus 1st place (Culture Track) at SolHacks with WageGuard.</div>
+            </div>
+          </div>
+          <div class="btns" style="margin-bottom:26px">
+            <a class="sticker big" style="--bgc:var(--peach)" href="resume.html#sec-hack">see all hackathons →</a>
+          </div>
 
-          <div class="label" style="margin-top:28px">IB portfolio</div>
+          <div class="label">IB portfolio</div>
           <div class="me">
             <span class="polaroid" style="width:120px"><img src="life/sging.jpg" alt="Singapore"><span class="cap">SG</span></span>
             <div>
@@ -741,14 +676,16 @@ let _ac=null;
 function pc(){try{if(!_ac)_ac=new(window.AudioContext||window.webkitAudioContext)();const t=_ac.currentTime,o=_ac.createOscillator(),g=_ac.createGain(),f=_ac.createBiquadFilter();o.type='square';o.frequency.setValueAtTime(1760,t);o.frequency.exponentialRampToValueAtTime(2960,t+.018);f.type='highpass';f.frequency.value=900;o.connect(f);f.connect(g);g.connect(_ac.destination);g.gain.setValueAtTime(.11,t);g.gain.exponentialRampToValueAtTime(.001,t+.055);o.start(t);o.stop(t+.06)}catch(e){}}
 
 /* ── TABS ── */
-const PAGES=['about','resume','pubs','hack','life','school','honors'];
+const PAGES=['about','resume','pubs','life','school','honors'];
 function show(p,silent){
   if(p==='experience')p='resume';
+  if(p==='hack')p='school';
   if(!PAGES.includes(p))p='about';
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.p===p));
   document.querySelectorAll('.page').forEach(pg=>pg.classList.toggle('on',pg.id==='p-'+p));
   document.querySelector('.pages').scrollTop=0;
   moveThumb();
+  if(p==='life')setTimeout(initLifeMap,0);
   const v=document.getElementById('lifeVlog');
   if(v){if(p==='life')v.play?.().catch(()=>{});else v.pause?.()}
   if(!silent){pc();history.replaceState(null,'','#'+p)}
@@ -766,6 +703,76 @@ function moveThumb(){
 }
 window.addEventListener('resize',moveThumb);
 document.fonts?.ready.then(moveThumb);
+
+/* ── LIFE GLOBE (MapLibre, loaded only when the life tab opens) ── */
+const GLOBE_PINS=[
+ ['New York','birthplace',null,-74.0,40.71,'Mia.jpg',1],
+ ['Chapel Hill','home now · UNC','unc',-79.05,35.91,'life/chapel.jpg',1],
+ ['Boston','early years','us',-71.06,42.36,'life/bos.jpg',1],
+ ['Seattle','USA','us',-122.33,47.61,'life/sea.jpg'],
+ ['Los Angeles','USA','us',-118.24,34.05,'life/LABeach.jpg'],
+ ['Alaska','USA','us',-149.9,61.22,'life/Alaskadog.jpg'],
+ ['Madison, WI','USA','us',-89.4,43.07,'life/Madison.jpg'],
+ ['Wilmington','USA','us',-77.89,34.21,'life/willingtonbeach.jpg'],
+ ['Beijing','China','china',116.4,39.9,'life/bj.jpg'],
+ ['Chongqing','China','china',106.55,29.56,'life/chogq.jpg'],
+ ['Quanzhou','China','china',118.68,24.87,'life/quanzhou.jpg'],
+ ['Singapore','high school · IB','singapore',103.85,1.29,'life/Singapore.jpg',1],
+ ['Tokyo','Japan','japan',139.69,35.68,'life/jp.jpg'],
+ ['Mt. Fuji','Japan','japan',138.73,35.36,'life/fuj.jpg'],
+ ['Seoul · Yonsei','Korea','korea',126.98,37.57,'life/Yonsei.jpg'],
+ ['Busan','Korea','korea',129.08,35.18,'life/busan.jpg'],
+ ['Galway','study abroad · Ireland','ireland',-9.05,53.27,'life/galway.jpg',1],
+ ['Cliffs of Moher','Ireland','ireland',-9.43,52.97,'life/ir.jpg'],
+ ['Milan','Italy','italy',9.19,45.46,'life/Italy.jpg'],
+ ['Barcelona','Spain','spain',2.17,41.39,'life/bace.jpg'],
+ ['Portugal','Portugal','portugal',-9.14,38.72,'life/por.jpg'],
+ ['UK','United Kingdom','uk',-1.15,52.95,'life/not.jpg'],
+ ['Bahamas','Caribbean','caribbean',-77.4,25.03,'life/Bahamas.jpg'],
+ ['Dominican Republic','Caribbean','caribbean',-69.9,18.47,'life/Dominican.jpg']
+];
+const GLOBE_COUNTS={unc:20,us:23,china:4,singapore:6,japan:4,korea:4,ireland:4,italy:2,spain:1,portugal:1,uk:1,caribbean:2};
+var lifeMap=null,globeLoading=false;
+function loadMapLib(cb){
+  if(window.maplibregl)return cb();
+  const l=document.createElement('link');l.rel='stylesheet';l.href=window.MAPLIBRE_CSS||'https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css';document.head.appendChild(l);
+  const sc=document.createElement('script');sc.src=window.MAPLIBRE_JS||'https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js';sc.onload=cb;document.head.appendChild(sc);
+}
+function initLifeMap(){
+  if(lifeMap){lifeMap.resize();return}
+  if(globeLoading)return;globeLoading=true;
+  loadMapLib(()=>{
+    lifeMap=new maplibregl.Map({
+      container:'lifeGlobe',attributionControl:{compact:true,customAttribution:'Natural Earth'},
+      center:[-20,30],zoom:1.15,minZoom:0.6,maxZoom:6,
+      style:{version:8,projection:{type:'globe'},
+        sources:{world:{type:'geojson',data:'life/world-map.json'}},
+        layers:[
+          {id:'bg',type:'background',paint:{'background-color':'#cfe4f6'}},
+          {id:'land',type:'fill',source:'world',paint:{'fill-color':['case',['==',['get','v'],1],'#f6c1d4','#fbf7f1']}},
+          {id:'border',type:'line',source:'world',paint:{'line-color':'#e3d6c8','line-width':0.6}}
+        ]}
+    });
+    lifeMap.scrollZoom.disable();
+    lifeMap.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');
+    GLOBE_PINS.forEach(([name,sub,place,lng,lat,img,home])=>{
+      const el=document.createElement('div');el.className='mpin'+(home?' home':'');el.title=name;
+      const cnt=place?` · ${GLOBE_COUNTS[place]} photos`:'';
+      const link=place?`life.html?place=${place}#gallery`:'life.html';
+      const pop=new maplibregl.Popup({offset:12,anchor:'bottom',maxWidth:'190px'}).setHTML(`<div class="gpop"><img src="${img}" alt=""><b>${name}</b><span>${sub}${cnt}</span><a href="${link}">see photos →</a></div>`);
+      pop.setLngLat([lng,lat]);
+      el.addEventListener('click',e=>{e.stopPropagation();spinning=false;
+        document.querySelectorAll('.maplibregl-popup').forEach(x=>x.remove());
+        lifeMap.flyTo({center:[lng,lat],zoom:Math.max(lifeMap.getZoom(),2.4),speed:.8,offset:[0,95]});pop.addTo(lifeMap)});
+      new maplibregl.Marker({element:el}).setLngLat([lng,lat]).addTo(lifeMap);
+    });
+    // gentle auto-spin until someone touches the globe
+    let spinning=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const stop=()=>{spinning=false};
+    ['mousedown','touchstart','wheel','dragstart'].forEach(ev=>lifeMap.on(ev,stop));
+    (function spin(){if(spinning&&lifeMap&&!lifeMap.isMoving()){const c=lifeMap.getCenter();c.lng-=0.12;lifeMap.jumpTo({center:c})}requestAnimationFrame(spin)})();
+  });
+}
 
 /* ── CURSOR ── */
 const cur=document.getElementById('cur');
@@ -805,7 +812,8 @@ const lifePhotos=[
   'life/crys.jpg','life/fuj.jpg','life/grad1.jpg','life/grad2.jpg','life/ha.jpg',
   'life/ie.jpg','life/ir.jpg','life/ireland.jpg','life/it.jpg','life/Italy.jpg','life/jp.jpg',
   'life/kor.jpg','life/korsea.jpg','life/la.jpg','life/mt.jpg','life/nc.jpg',
-  'life/not.jpg','life/por.jpg','life/SC.jpg','life/sea.jpg','life/sging.jpg','life/we.jpg'
+  'life/not.jpg','life/por.jpg','life/SC.jpg','life/sea.jpg','life/sging.jpg','life/we.jpg',
+  'life/UNCholymoly.jpg','life/Friendsch.jpg','life/NCfreinds.jpg','life/meandkaren.jpg','life/Halloween25.jpg','life/673df2806c465e4030219e94dee3f86b.jpg','life/Google.jpg','life/google1.jpg','life/Alaskadog.jpg','life/Alaskagla.jpg','life/alaska.jpg','life/snow.jpg','life/California.jpg','life/LABeach.jpg','life/LAnature.jpg','life/lasculpture.jpg','life/Madison.jpg','life/wiscon.jpg','life/Wisconsin.jpg','life/willingtonbeach.jpg','life/chogq.jpg','life/quanzhou.jpg','life/Singapore.jpg','life/prom.jpg','life/Yonsei.jpg','life/galway.jpg'
 ];
 const lifeCache=new Map();
 function preloadLife(src){if(lifeCache.has(src))return;const img=new Image();img.decoding='async';img.src=src;lifeCache.set(src,img)}
@@ -899,7 +907,7 @@ document.querySelectorAll('.fchip').forEach(c=>c.addEventListener('click',()=>{
 
 /* ── KEYBOARD: cmd/ctrl + 1–4 flips tabs ── */
 document.addEventListener('keydown',e=>{
-  if((e.metaKey||e.ctrlKey)&&/^[1-7]$/.test(e.key)){e.preventDefault();show(PAGES[+e.key-1])}
+  if((e.metaKey||e.ctrlKey)&&/^[1-6]$/.test(e.key)){e.preventDefault();show(PAGES[+e.key-1])}
 });
 </script>
 </body>
