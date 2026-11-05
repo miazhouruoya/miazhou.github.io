@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="locked">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Mia Zhou</title>
+<link rel="preload" as="image" href="life/UNC3.jpg">
 <link rel="icon" type="image/png" href="icon.png">
 <style>
 :root{
@@ -2662,9 +2663,36 @@ html body::before{background-image:radial-gradient(circle,rgba(255,255,255,.45) 
 .lalbum:hover{background:#1c1d22;color:#fff}
 @media(max-width:780px){.life-grid2{grid-template-columns:1fr}.globe-wrap{min-height:300px}.globe-hint{display:none}}
 @media print{#sec-life{display:none}}
+
+/* ── LOCK SCREEN (React) ── */
+#lock{position:fixed;inset:0;z-index:99000;overflow:hidden;color:#fff;user-select:none;-webkit-user-select:none;touch-action:none;
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Arial,sans-serif;
+  background:#2a2430 url(life/UNC3.jpg) center 40%/cover no-repeat;transition:transform .7s cubic-bezier(.7,0,.2,1),opacity .7s ease}
+#lock::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(30,20,50,.38) 0%,rgba(30,20,50,.05) 42%,rgba(30,20,50,.45) 100%);pointer-events:none}
+#lock.gone{transform:translateY(-100%);opacity:.2;pointer-events:none}
+html.locked,html.locked body{overflow:hidden!important}
+.lk-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center}
+.lk-date{margin-top:clamp(48px,9vh,90px);font-size:clamp(1rem,1.6vw,1.35rem);font-weight:600;text-shadow:0 1px 12px rgba(0,0,0,.25)}
+.lk-time{font-size:clamp(5rem,11vw,8.6rem);font-weight:700;letter-spacing:-.045em;line-height:1;text-shadow:0 4px 30px rgba(0,0,0,.22);font-variant-numeric:tabular-nums}
+.lk-wid{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;justify-content:center;padding:0 16px}
+.lk-wid span{background:rgba(255,255,255,.2);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:16px;padding:7px 14px;font-size:.86rem;font-weight:600}
+.lk-note{position:absolute;left:50%;bottom:clamp(96px,15vh,150px);transform:translateX(-50%);width:min(380px,calc(100% - 32px));
+  display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.72);backdrop-filter:blur(30px) saturate(1.5);-webkit-backdrop-filter:blur(30px) saturate(1.5);
+  color:#1c1d22;border-radius:22px;padding:12px 14px;box-shadow:0 10px 30px rgba(0,0,0,.18);animation:lkPop .6s .5s both cubic-bezier(.2,1.3,.4,1)}
+.lk-note i{font-style:normal;width:38px;height:38px;border-radius:10px;background:#F8C8D8;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.lk-note b{display:block;font-size:.88rem}.lk-note span{font-size:.8rem;color:#4b5160}
+.lk-note small{margin-left:auto;align-self:flex-start;font-size:.7rem;color:#6b7280;white-space:nowrap}
+.lk-hint{position:absolute;bottom:42px;left:0;right:0;text-align:center;font-size:.86rem;font-weight:600;opacity:.9;animation:lkBob 2s ease-in-out infinite;text-shadow:0 1px 8px rgba(0,0,0,.3)}
+.lk-bar{position:absolute;bottom:20px;left:50%;width:140px;height:5px;margin-left:-70px;border-radius:3px;background:#fff;opacity:.9}
+@keyframes lkPop{from{opacity:0;transform:translate(-50%,16px) scale(.96)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes lkBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media(max-width:700px){#lock{background-position:70% center}}
+@media(prefers-reduced-motion:reduce){#lock{transition:opacity .3s}#lock.gone{transform:none;opacity:0}.lk-hint,.lk-note{animation:none}}
+@media print{#lock{display:none!important}}
 </style>
 </head>
 <body>
+<div id="lock" role="button" tabindex="0" aria-label="Lock screen. Click or swipe up to enter Mia's site"></div>
 
 <div id="scrollbar"><div id="scrollbarFill"></div></div>
 <div id="cur"><svg width="16" height="16" viewBox="0 0 16 16"><polygon points="2,2 2,14 5,10 7,15 9,14 7,9.5 11,9.5" fill="#1a1714" stroke="#fff" stroke-width=".8" stroke-linejoin="round"/></svg></div>
@@ -3674,6 +3702,46 @@ document.addEventListener('click',e=>{const s=e.target.closest('.lt-stop');if(!s
 (function(){const t=document.getElementById('sec-life');if(!t)return;
   if(!('IntersectionObserver' in window)){initLifeMap();return}
   const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();initLifeMap()}},{rootMargin:'400px 0px'});io.observe(t)})();
+</script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+<script>
+/* ── LOCK SCREEN: React component; click, swipe up, scroll or press a key to unlock ── */
+(function(){
+  const root=document.getElementById('lock');if(!root)return;
+  function finish(){root.classList.add('gone');document.documentElement.classList.remove('locked');setTimeout(()=>root.remove(),800)}
+  if(!window.React||!window.ReactDOM){root.addEventListener('click',finish);return}   // fallback if the CDN is blocked
+  const h=React.createElement,{useState,useEffect,useRef}=React;
+  const fmtT=d=>d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}).replace(/\s?[AP]M/i,'');
+  const fmtD=d=>d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  function LockScreen(){
+    const [now,setNow]=useState(new Date());
+    const [dy,setDy]=useState(0);
+    const start=useRef(null),done=useRef(false);
+    useEffect(()=>{const t=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(t)},[]);
+    const unlock=()=>{if(done.current)return;done.current=true;root.style.transform='';finish()};
+    useEffect(()=>{
+      const key=e=>{if(!e.metaKey&&!e.ctrlKey)unlock()};
+      const wheel=e=>{if(e.deltaY>8)unlock()};
+      const down=e=>{start.current=e.clientY;root.style.transition='none'};
+      const move=e=>{if(start.current==null)return;const d=Math.min(0,e.clientY-start.current);setDy(d);root.style.transform=`translateY(${d}px)`};
+      const up=e=>{if(start.current==null)return;const d=e.clientY-start.current;start.current=null;root.style.transition='';
+        if(d<-90||Math.abs(d)<6)unlock();else{root.style.transform='';setDy(0)}};
+      root.addEventListener('pointerdown',down);addEventListener('pointermove',move);addEventListener('pointerup',up);
+      addEventListener('keydown',key);root.addEventListener('wheel',wheel,{passive:true});root.focus();
+      return()=>{root.removeEventListener('pointerdown',down);removeEventListener('pointermove',move);removeEventListener('pointerup',up);removeEventListener('keydown',key)}
+    },[]);
+    return h('div',{className:'lk-in',style:{opacity:1+dy/400}},
+      h('div',{className:'lk-date'},fmtD(now)),
+      h('div',{className:'lk-time'},fmtT(now)),
+      h('div',{className:'lk-wid'},h('span',null,'📍 Chapel Hill'),h('span',null,'🎓 UNC ’27'),h('span',null,'✦ Mia Zhou')),
+      h('div',{className:'lk-note'},h('i',null,'👋'),
+        h('div',null,h('b',null,'Mia Zhou'),h('span',null,'hi! welcome to my page — come on in ✦')),h('small',null,'now')),
+      h('div',{className:'lk-hint'},matchMedia('(hover:none)').matches?'swipe up to open ↑':'click or swipe up to open ↑'),
+      h('div',{className:'lk-bar'}));
+  }
+  ReactDOM.createRoot(root).render(h(LockScreen));
+})();
 </script>
 </body>
 </html>
