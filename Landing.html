@@ -47,7 +47,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 </div>
 <div class="skip" onclick="goNow()">skip ></div>
 <script>
-const params=new URLSearchParams(location.search);const DEST=params.get('dest')||'resume.html';const TITLE=params.get('title')||'portfolio';document.getElementById('panelTitle').textContent='opening '+TITLE+'.app';
+const params=new URLSearchParams(location.search);const DEST=params.get('dest')||'index.html';const TITLE=params.get('title')||'portfolio';document.getElementById('panelTitle').textContent='opening '+TITLE+'.app';
 const cur=document.getElementById('cur');document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
 function uc(){const d=new Date();document.getElementById('clock').textContent=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')}uc();setInterval(uc,12000);
 const poses=['sprite_1.png','sprite_2.png','sprite_3.png','sprite_4.png'];poses.forEach(s=>{const i=new Image();i.src=s});let pi=0;setInterval(()=>{pi=(pi+1)%poses.length;document.getElementById('runnerImg').src=poses[pi]},120);

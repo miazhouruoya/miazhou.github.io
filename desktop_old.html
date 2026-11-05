@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mia Zhou</title>
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+:root{
+  --paper:#fffdf7;--paper-l:#fbf6f3;--grid:#e8eef8;
+  --ink:#2a2622;--ink2:#6b625b;--ink3:#a39a92;--line:#e9e1da;
+  --pink:#f8c8d8;--pink-d:#d4537e;
+  --lav:#e4d8f8;--lav-d:#7f77dd;
+  --mint:#b8f0d8;--mint-d:#1d9e75;
+  --peach:#f8e0b8;--peach-d:#d0803a;
+  --lemon:#fff1a8;--lemon-d:#b89400;
+  --sky:#d4e8fa;--sky-d:#3f86c6;
+  --wall1:#f0e4f8;--wall2:#e4eef8;--wall3:#f8eee4;
+  --hand:'Caveat',cursive;
+  --body:'Nunito',Arial,Helvetica,sans-serif;
+  --mono:'Courier New',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%}
+body{
+  font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased;
+  background:linear-gradient(140deg,var(--wall1) 0%,var(--wall2) 55%,var(--wall3) 100%);
+  overflow:hidden;cursor:none;
+}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.45) 1px,transparent 1px);background-size:20px 20px}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:none}
+
+/* cursor + sparkles */
+#cur{position:fixed;width:16px;height:16px;pointer-events:none;z-index:99999;top:0;left:0}
+#cur svg{display:block}
+@media(hover:none){#cur{display:none}body,button{cursor:auto}}
+.sp{position:fixed;pointer-events:none;z-index:99997;animation:spF .5s ease-out forwards}
+@keyframes spF{0%{opacity:.9}100%{opacity:0;transform:scale(0)}}
+.fl{position:fixed;pointer-events:none;z-index:99998;animation:flU .95s ease-out forwards;font-weight:700;line-height:1}
+@keyframes flU{0%{opacity:1;transform:translate(-50%,-50%) scale(.7)}100%{opacity:0;transform:translate(-50%,calc(-50% - 46px)) scale(1)}}
+.star{position:absolute;pointer-events:none;animation:twk 3s ease-in-out infinite;color:rgba(212,83,126,.35);font-size:.8rem;z-index:1}
+@keyframes twk{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:.8;transform:scale(1.25)}}
+
+/* ── TOP STRIP (replaces menubar) ── */
+#top{position:fixed;top:0;left:0;right:0;height:44px;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 22px;pointer-events:none}
+.brand{font-family:var(--hand);font-size:1.55rem;font-weight:700;color:var(--ink);pointer-events:auto}
+.brand span{color:var(--pink-d)}
+.top-r{display:flex;align-items:center;gap:10px;pointer-events:auto}
+.datestamp{font-size:.74rem;font-weight:800;color:var(--ink);background:#fff;border:1.5px solid var(--ink);border-radius:999px;padding:.16rem .65rem}
+#clock{font-size:.74rem;font-weight:800;color:var(--ink);background:var(--pink);border:1.5px solid var(--ink);border-radius:999px;padding:.16rem .65rem}
+
+/* ── STAGE ── */
+#stage{position:fixed;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;padding:52px 60px 24px 24px}
+.life-hover-field{position:absolute;inset:0;z-index:0}
+.life-float-photo{position:fixed;left:0;top:0;width:200px;aspect-ratio:4/3;object-fit:cover;opacity:0;pointer-events:none;
+  transform:translate3d(-50%,-50%,0);border:6px solid #fff;border-bottom-width:20px;box-shadow:0 14px 26px rgba(42,38,34,.18);
+  transition:opacity .18s ease;z-index:65}
+body.life-wall-on .life-float-photo{opacity:.95}
+
+/* ── NOTEBOOK ── */
+.book{
+  position:relative;z-index:3;display:flex;
+  width:min(1240px,100%);height:min(calc(100vh - 92px),700px);
+  background:var(--paper);border:2px solid var(--ink);border-radius:16px;
+  box-shadow:5px 5px 0 var(--ink),10px 10px 0 rgba(42,38,34,.08);
+}
+.pg{position:relative;min-width:0;overflow:hidden}
+.pg-left{flex:1;background:var(--paper-l);border-radius:14px 0 0 14px;display:flex;align-items:center;justify-content:center}
+.pg-left img{width:100%;height:100%;object-fit:contain;display:block}
+.tape{position:absolute;width:86px;height:24px;background:rgba(248,200,216,.75);z-index:2;
+  background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.35) 0 6px,transparent 6px 12px)}
+.tape.t1{top:10px;left:-14px;transform:rotate(-28deg)}
+.tape.t2{bottom:12px;right:-12px;transform:rotate(-24deg);background-color:rgba(184,240,216,.8)}
+
+/* binder rings in the gutter */
+.rings{width:30px;flex-shrink:0;display:flex;flex-direction:column;justify-content:space-evenly;align-items:center;
+  background:linear-gradient(90deg,rgba(42,38,34,.06),transparent 40%,transparent 60%,rgba(42,38,34,.06));
+  border-left:1.5px solid var(--line);border-right:1.5px solid var(--line)}
+.rings i{width:22px;height:10px;border:2px solid var(--ink);border-radius:999px;background:#fff}
+
+.pg-right{width:clamp(340px,34%,440px);flex-shrink:0;border-radius:0 14px 14px 0;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:18px 18px;display:flex;flex-direction:column}
+.pages{flex:1;overflow-y:auto;padding:26px 28px 30px;scrollbar-width:thin;scrollbar-color:var(--ink3) transparent}
+.page{display:none;animation:pgIn .28s ease-out}
+.page.on{display:block}
+@keyframes pgIn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+
+/* ── DIVIDER TABS (replace dock + folders) ── */
+.tabs{position:absolute;top:30px;display:flex;flex-direction:column;gap:6px;z-index:4}
+.tab{width:38px;height:100px;border:2px solid var(--ink);border-left:0;border-radius:0 12px 12px 0;
+  writing-mode:vertical-rl;font-family:var(--hand);font-size:1.12rem;font-weight:700;color:var(--ink);
+  display:flex;align-items:center;justify-content:center;transition:transform .15s,width .15s;box-shadow:2px 2px 0 var(--ink)}
+.tab:hover{transform:translateX(3px)}
+.tab.on{width:46px;transform:none}
+.tabs{right:-46px}
+.tab[data-p=about]{background:var(--pink)}
+.tab[data-p=resume]{background:var(--lav)}
+.tab[data-p=hack]{background:var(--mint);height:124px}
+@media(max-width:860px){.tab[data-p=hack]{height:auto}}
+.tab[data-p=life]{background:var(--peach)}
+.tab[data-p=school]{background:var(--lemon)}
+
+/* ── PAGE TYPOGRAPHY ── */
+.pg-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:18px}
+.pg-title{font-family:var(--hand);font-size:2.5rem;font-weight:700;line-height:.95;color:var(--ink)}
+.hl{background:linear-gradient(transparent 55%,var(--hlc,var(--pink)) 55%,var(--hlc,var(--pink)) 92%,transparent 92%);padding:0 .15em}
+.stamp{font-size:.72rem;font-weight:800;color:var(--ink);background:var(--sb,var(--pink));border:1.5px solid var(--ink);
+  padding:.2rem .65rem;border-radius:999px;white-space:nowrap;margin-top:8px}
+.stamp::before{content:'♡ ';color:var(--sc,var(--pink-d))}
+.label{font-family:var(--hand);font-size:1.3rem;font-weight:700;color:var(--ink2);margin:14px 0 4px}
+p.txt{font-size:.86rem;line-height:1.72;color:var(--ink2);margin-bottom:.6rem}
+p.txt b{color:var(--ink);font-weight:800}
+
+.polaroid{background:#fff;padding:6px 6px 22px;border:1px solid var(--line);box-shadow:0 6px 14px rgba(42,38,34,.1);position:relative;display:block}
+.polaroid img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.polaroid .cap{position:absolute;left:0;right:0;bottom:2px;text-align:center;font-family:var(--hand);font-size:1.05rem;font-weight:700;color:var(--ink2)}
+.polaroid::before{content:'';position:absolute;top:-8px;left:50%;width:44px;height:14px;transform:translateX(-50%) rotate(-4deg);background:rgba(248,224,184,.85)}
+
+.me{display:flex;gap:16px;align-items:center;margin-bottom:6px}
+.me .polaroid{width:96px;flex-shrink:0;transform:rotate(-4deg)}
+.me-name{font-size:1.3rem;font-weight:800;line-height:1.1}
+.me-role{font-size:.78rem;color:var(--ink2);line-height:1.5;margin-top:4px}
+
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.sticker{display:inline-flex;align-items:center;gap:5px;font-size:.76rem;font-weight:800;color:var(--ink);background:#fff;
+  border:2px solid var(--ink);border-radius:999px;padding:.3rem .75rem;box-shadow:2px 2px 0 var(--ink);transition:transform .08s,box-shadow .08s,background .12s}
+.sticker:hover{background:var(--bgc,var(--pink))}
+.sticker:active{transform:translate(2px,2px);box-shadow:none}
+.sticker svg{width:12px;height:12px;flex-shrink:0}
+.sticker.big{font-size:.9rem;padding:.55rem 1.1rem;background:var(--bgc,var(--mint))}
+.sticker.big:hover{background:#fff}
+
+/* ── TIMELINE ── */
+.res-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;margin-bottom:16px;
+  background:rgba(255,255,255,.9);border:2px solid var(--ink);border-radius:14px;box-shadow:3px 3px 0 var(--ink)}
+.res-bar b{font-size:.88rem;font-weight:800}
+.res-bar small{font-size:.74rem;color:var(--ink2)}
+.res-bar .sticker.big{font-size:.8rem;padding:.4rem .85rem;white-space:nowrap}
+.res-bar:hover .sticker{background:#fff}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.fchip{font-size:.72rem;font-weight:800;padding:.22rem .7rem;border-radius:999px;border:1.5px solid var(--ink);background:#fff;transition:transform .1s}
+.fchip:hover{transform:translateY(-1px)}
+.fchip.on{background:var(--ink);color:#fff}
+.c-work{--cc:var(--pink);--cd:var(--pink-d)}
+.c-research{--cc:var(--lav);--cd:var(--lav-d)}
+.c-award{--cc:var(--lemon);--cd:var(--lemon-d)}
+.c-project{--cc:var(--mint);--cd:var(--mint-d)}
+.c-lead{--cc:var(--peach);--cd:var(--peach-d)}
+.fchip[class*=c-]:not(.on){background:var(--cc)}
+.yr{display:flex;align-items:center;gap:10px;margin:18px 0 6px}
+.yr span{font-family:var(--hand);font-size:1.7rem;font-weight:700;line-height:1;color:var(--ink)}
+.yr::after{content:'';flex:1;height:2px;background:var(--line);border-radius:2px}
+.yr.empty{display:none}
+.evs{position:relative}
+.ev{display:grid;grid-template-columns:66px 1fr;gap:26px;position:relative;padding:7px 0}
+.ev.hide{display:none}
+.ev-date{font-size:.7rem;font-weight:800;color:var(--ink3);text-align:right;padding-top:5px;white-space:nowrap}
+.ev-body{position:relative;display:block;padding:8px 12px 9px;border-radius:12px;background:rgba(255,255,255,.88);border:1.5px solid var(--line);transition:border-color .12s,transform .12s}
+.ev:hover .ev-body{border-color:var(--ink);transform:translateX(2px)}
+.ev-body::before{content:'';position:absolute;left:-14px;top:-7px;bottom:-9px;width:2px;background:var(--line)}
+.ev-body::after{content:'';position:absolute;left:-19px;top:11px;width:12px;height:12px;border-radius:50%;background:var(--cc);border:2px solid var(--cd)}
+.ev-title{display:block;font-size:.9rem;font-weight:800;line-height:1.25;color:var(--ink);margin-top:3px}
+.ev-org{display:block;font-size:.75rem;color:var(--ink2);line-height:1.4}
+.ev-note{font-size:.72rem;color:var(--cd);font-weight:700;margin-top:2px}
+.chip{display:inline-block;font-size:.62rem;font-weight:800;padding:.05rem .5rem;border-radius:999px;background:var(--cc);color:var(--ink)}
+
+/* ── HACKATHON CARDS ── */
+.hk{display:flex;gap:14px;padding:12px;margin-bottom:12px;background:rgba(255,255,255,.9);border:1.5px solid var(--line);border-radius:14px;transition:border-color .12s,transform .12s}
+.hk:hover{border-color:var(--ink);transform:translateY(-2px)}
+.hk img{width:78px;height:78px;object-fit:cover;border-radius:10px;border:1.5px solid var(--ink);flex-shrink:0}
+.hk-body{display:flex;flex-direction:column;min-width:0}
+.hk-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.hk-award{font-size:.66rem;font-weight:800;background:var(--lemon);border-radius:999px;padding:.08rem .55rem;white-space:nowrap}
+.hk-date{font-size:.68rem;font-weight:800;color:var(--ink3);white-space:nowrap}
+.hk-title{font-size:.95rem;font-weight:800;margin-top:5px;line-height:1.2}
+.hk-org{font-size:.74rem;color:var(--ink2);line-height:1.4}
+.hk-line{font-size:.78rem;color:var(--ink2);line-height:1.5;margin-top:5px}
+.hk-team{font-size:.68rem;font-weight:800;color:var(--mint-d);margin-top:4px}
+
+/* ── HONORS ── */
+.hn{display:flex;align-items:center;gap:14px;padding:13px 16px;margin-bottom:10px;background:var(--ios-card,#fff);border:1px solid rgba(255,255,255,.9);border-radius:16px;box-shadow:0 6px 18px rgba(80,90,110,.08);transition:transform .12s,box-shadow .12s}
+.hn:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(80,90,110,.14)}
+.hn-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.hn-body{display:flex;flex-direction:column;min-width:0;flex:1}
+.hn-title{font-size:.92rem;font-weight:800;line-height:1.25}
+.hn-role{font-size:.78rem;font-weight:600;color:var(--ink2)}
+.hn-note{font-size:.72rem;color:var(--ios-muted,#6b7280);margin-top:2px}
+.hn-date{font-size:.7rem;font-weight:700;color:var(--ios-muted,#6b7280);white-space:nowrap;align-self:flex-start;margin-top:2px}
+
+/* see-more + socials */
+.see-more{display:inline-block;margin:2px 0 4px;font-size:.78rem;font-weight:800;color:var(--mc,var(--ink))}
+.see-more:hover{text-decoration:underline}
+.socials{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.soc{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--ios-card,#fff);border:1px solid rgba(255,255,255,.9);border-radius:14px;box-shadow:0 6px 18px rgba(80,90,110,.08);transition:transform .12s,box-shadow .12s}
+.soc:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(80,90,110,.14)}
+.soc-ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;flex-shrink:0}
+.soc b{display:block;font-size:.86rem;font-weight:800}
+.soc small{display:block;font-size:.7rem;color:var(--ios-muted,#6b7280);font-weight:600}
+
+/* projects tab: polaroid rows like the IB portfolio */
+.era{display:flex;align-items:baseline;gap:8px;margin:22px 0 4px;padding-top:14px;border-top:1px solid var(--ios-line,rgba(120,128,145,.2));font-size:1.25rem;font-weight:800;letter-spacing:-.02em}
+.era:first-of-type{border-top:0;padding-top:0;margin-top:4px}
+.era span{font-size:.74rem;font-weight:600;color:var(--ios-muted,#6b7280);letter-spacing:0}
+.pj{margin:6px 0 16px;padding:6px 4px;border-radius:16px;transition:background .15s}
+.pj:hover{background:rgba(255,255,255,.7)}
+.pj .polaroid{flex-shrink:0}
+.pj-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pj-body .me-name{font-size:1.02rem;line-height:1.25}
+.pj-body .me-role{margin-top:0}
+.pj-line{font-size:.78rem;line-height:1.5;color:var(--ink2);margin-top:4px}
+.pj-pill,.pj-award{align-self:flex-start;font-size:.66rem;font-weight:800;border-radius:999px;padding:.1rem .55rem;margin-bottom:3px;background:rgba(118,118,128,.12)}
+.pj-award{background:var(--lemon)}
+@media(max-width:600px){.pj .polaroid{width:96px!important}}
+
+/* ── life globe (satellite) + timeline ── */
+.globe-wrap{position:relative;height:320px;border-radius:20px;overflow:hidden;
+  background:radial-gradient(circle at 50% 50%,#1b2550 0,#0b1226 60%,#070b18 100%);box-shadow:0 10px 26px rgba(20,24,60,.25)}
+.globe,.globe.maplibregl-map{position:absolute!important;inset:0;width:100%;height:100%}
+.globe-wrap::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(1px 1px at 12% 20%,#fff,transparent),radial-gradient(1px 1px at 80% 12%,#fff,transparent),radial-gradient(1.2px 1.2px at 64% 80%,#fff,transparent),radial-gradient(1px 1px at 28% 74%,#fff,transparent),radial-gradient(1px 1px at 90% 58%,#fff,transparent),radial-gradient(1px 1px at 45% 8%,#fff,transparent);opacity:.7}
+.globe-hint{position:absolute;left:12px;bottom:10px;z-index:3;font-size:.68rem;font-weight:700;color:#fff;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);border-radius:999px;padding:.2rem .6rem;pointer-events:none}
+.mpin{width:14px;height:14px;border-radius:50%;background:#ff7eb3;border:2.5px solid #fff;box-shadow:0 0 0 4px rgba(255,126,179,.25),0 2px 8px rgba(0,0,0,.4);cursor:pointer;transition:transform .15s}
+.mpin:hover{transform:scale(1.35)}
+.mpin.home{background:#a99bff;box-shadow:0 0 0 4px rgba(169,155,255,.28),0 2px 8px rgba(0,0,0,.4)}
+.maplibregl-popup-content{border-radius:16px!important;padding:6px!important;box-shadow:0 12px 30px rgba(0,0,0,.35)!important;font-family:var(--sys)}
+.maplibregl-popup-tip{display:none}
+.maplibregl-popup-close-button{font-size:16px;right:6px!important;top:4px!important;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.maplibregl-ctrl-attrib{font-size:9px!important;background:rgba(255,255,255,.55)!important}
+.maplibregl-ctrl-group{border-radius:12px!important;overflow:hidden}
+.gpop img{width:160px;height:84px;object-fit:cover;border-radius:12px;display:block}
+.gpop b{display:block;font-size:.84rem;margin:6px 4px 0}
+.gpop span{display:block;font-size:.72rem;color:#6b7280;margin:0 4px}
+.gpop a:focus{outline:none}
+.gpop a{display:inline-block;font-size:.74rem;font-weight:800;color:#d4537e;margin:4px 4px 2px}
+.ltl{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:2px;margin:6px 0 4px}
+.ltl::before{content:'';position:absolute;left:8%;right:8%;top:26px;height:3px;border-radius:3px;background:linear-gradient(90deg,#d4537e,#7f77dd,#3f86c6,#1d9e75)}
+.lt-stop{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:0 2px}
+.lt-stop .dot{width:52px;height:52px;border-radius:50%;border:3px solid #fff;overflow:hidden;box-shadow:0 6px 14px rgba(80,90,110,.2);transition:transform .2s cubic-bezier(.3,1.5,.5,1)}
+.lt-stop .dot img{width:100%;height:100%;object-fit:cover}
+.lt-stop:hover .dot{transform:scale(1.1) translateY(-3px)}
+.lt-stop.on .dot{box-shadow:0 0 0 3px #1c1d22,0 6px 14px rgba(80,90,110,.25)}
+.lt-stop b{font-size:.74rem;font-weight:800;line-height:1.15}
+.lt-stop span{font-size:.62rem;font-weight:600;color:var(--ios-muted,#6b7280);line-height:1.2;margin-top:-2px}
+@media(max-width:600px){.ltl{display:flex;overflow-x:auto;gap:4px}.ltl::before{display:none}.lt-stop{flex:0 0 74px}}
+.gstats{display:flex;gap:10px;margin-top:12px}
+.gstats div{flex:1;background:var(--ios-card,#fff);border-radius:14px;padding:10px 12px;box-shadow:0 6px 18px rgba(80,90,110,.08)}
+.gstats b{display:block;font-size:1.35rem;font-weight:800;letter-spacing:-.02em}
+.gstats span{font-size:.72rem;font-weight:600;color:var(--ios-muted,#6b7280)}
+
+/* ── PUBLICATIONS ── */
+.pub{padding:14px 16px;margin-bottom:12px;background:var(--ios-card,#fff);border:1px solid rgba(255,255,255,.9);border-radius:16px;box-shadow:0 6px 18px rgba(80,90,110,.08)}
+.pub-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.pub-n{font-size:.72rem;font-weight:800;color:var(--sky-d)}
+.pub-st{font-size:.66rem;font-weight:700;border-radius:999px;padding:.12rem .6rem}
+.pub-st.acc{background:var(--mint);color:#085041}
+.pub-st.sub{background:var(--lav);color:#3c3489}
+.pub-title{font-size:.92rem;font-weight:800;line-height:1.35;letter-spacing:-.005em}
+.pub-auth{font-size:.74rem;color:var(--ios-muted,#6b7280);line-height:1.5;margin-top:6px}
+.pub-auth b{color:var(--ink);font-weight:800;background:linear-gradient(transparent 60%,var(--pink) 60%)}
+.pub-venue{font-size:.74rem;font-weight:700;font-style:italic;color:var(--ink2);margin-top:3px}
+.pub-link{display:inline-block;margin-top:8px;font-size:.74rem;font-weight:800;color:var(--sky-d)}
+.pub-link:hover{text-decoration:underline}
+.pub-link.muted{color:var(--ink3);font-weight:600}
+
+/* ribbon bookmark */
+.ribbon{position:absolute;top:-6px;left:50%;width:22px;height:74px;background:var(--pink-d);z-index:5;
+  clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%);box-shadow:none}
+.ribbon::before{content:'';position:absolute;inset:0 0 auto 0;height:8px;background:rgba(0,0,0,.12)}
+
+/* life grid */
+.life-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 12px;margin-top:6px}
+.life-grid .polaroid{padding:5px 5px 20px;transition:transform .15s}
+.life-grid .polaroid:nth-child(odd){transform:rotate(-3deg)}
+.life-grid .polaroid:nth-child(even){transform:rotate(2.5deg)}
+.life-grid .polaroid:hover{transform:rotate(0) scale(1.06);z-index:2}
+.life-grid .polaroid .cap{font-size:.95rem}
+.vlog{margin-top:18px;border:2px solid var(--ink);border-radius:12px;overflow:hidden;box-shadow:3px 3px 0 var(--ink);background:#111}
+.vlog video{width:100%;display:block;aspect-ratio:16/9;object-fit:cover}
+.hint{font-family:var(--hand);font-size:1.1rem;color:var(--peach-d);margin-top:12px;text-align:center}
+
+/* ── PIXEL AVATAR ── */
+#avWrap{position:fixed;left:14px;bottom:6px;z-index:7000;display:flex;flex-direction:column;align-items:center;cursor:grab;user-select:none;touch-action:none}
+#avWrap.dragging{cursor:grabbing}
+#pixelAvatar{width:88px;filter:drop-shadow(2px 4px 0 rgba(0,0,0,.35));transition:transform .15s}
+#avWrap:hover #pixelAvatar{transform:scale(1.08) translateY(-5px)}
+#avWrap:active #pixelAvatar{transform:scale(.93)}
+#pixelAvatar img{width:88px;image-rendering:pixelated;display:block}
+#avBubble{position:absolute;bottom:calc(100% + 6px);left:10px;transform:scale(0);transform-origin:bottom left;
+  background:#fff;border:2px solid var(--ink);border-radius:14px 14px 14px 2px;box-shadow:2px 2px 0 var(--ink);
+  padding:.5rem .75rem;width:210px;font-size:.74rem;font-weight:800;color:var(--ink);line-height:1.35;
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+#avBubble.show{transform:scale(1);pointer-events:all}
+#avBubble a{display:flex;align-items:center;gap:.35rem}
+#avBubble a:hover{text-decoration:underline}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){.pg-right{width:clamp(320px,42%,420px)}}
+@media(max-width:860px){
+  body{overflow:auto}
+  #stage{position:relative;inset:auto;display:block;padding:56px 14px 140px}
+  .life-hover-field{display:none}
+  .book{flex-direction:column;height:auto;width:100%}
+  .pg-left{border-radius:14px 14px 0 0;aspect-ratio:3/2}
+  .rings{display:none}
+  .ribbon{display:none}
+  .ev{grid-template-columns:56px 1fr;gap:24px}
+  .res-bar{flex-direction:column;align-items:flex-start}
+  .pg-right{width:100%;border-radius:0 0 14px 14px}
+  .pages{overflow:visible;padding:20px 18px 26px}
+  .tabs{position:static;flex-direction:row;flex-wrap:wrap;gap:6px;padding:14px 14px 0;border-bottom:2px solid var(--ink)}
+  .tab,.tab.on{writing-mode:horizontal-tb;width:auto;height:auto;padding:.2rem .8rem;border:2px solid var(--ink);border-bottom:0;border-radius:12px 12px 0 0;box-shadow:none;font-size:1.15rem}
+  .tab:hover{transform:translateY(-2px)}
+  .tab.on{transform:translateY(0);padding-bottom:.35rem}
+  .tape.t1{left:-6px}
+  #top{position:absolute}
+  .datestamp{display:none}
+  #avWrap{left:auto;right:6px;bottom:4px}
+  #pixelAvatar,#pixelAvatar img{width:54px}
+  #avBubble{left:auto;right:10px;transform-origin:bottom right;border-radius:14px 14px 2px 14px}
+}
+
+/* ══════════════════════════════════════════════
+   iOS GLASS PASS — frosted panels, soft shadows,
+   segmented tabs (from the previous desktop's iOS windows)
+   ══════════════════════════════════════════════ */
+:root{
+  --ios-line:rgba(120,128,145,.2);
+  --ios-glass:rgba(255,255,255,.55);
+  --ios-card:rgba(255,255,255,.86);
+  --ios-ink:#1c1d22;--ios-muted:#6b7280;
+  --sys:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Nunito','Helvetica Neue',Arial,sans-serif;
+}
+body{font-family:var(--sys);color:var(--ios-ink)}
+body::before{opacity:.6}
+
+/* status bar */
+.brand{font-family:var(--sys);font-size:1.02rem;font-weight:700;letter-spacing:-.01em}
+.datestamp,#clock{font-family:var(--sys);font-weight:600;font-size:.74rem;border:1px solid rgba(255,255,255,.8);
+  background:rgba(255,255,255,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--ios-ink);
+  box-shadow:0 4px 14px rgba(80,90,110,.1);padding:.22rem .7rem}
+
+/* the notebook becomes a glass device */
+.book{background:var(--ios-glass);backdrop-filter:blur(28px) saturate(1.35);-webkit-backdrop-filter:blur(28px) saturate(1.35);
+  border:1px solid rgba(255,255,255,.75);border-radius:30px;padding:12px;gap:12px;
+  box-shadow:0 30px 80px rgba(80,90,110,.22),inset 0 1px 0 rgba(255,255,255,.8)}
+.pg-left{border-radius:22px;background:#fbf6f3;box-shadow:0 1px 0 rgba(255,255,255,.9),0 10px 30px rgba(80,90,110,.08)}
+.pg-right{width:clamp(420px,40%,530px);border-radius:22px;background:rgba(255,255,255,.78);background-image:none;
+  box-shadow:0 10px 30px rgba(80,90,110,.08)}
+
+/* segmented control */
+.tabs{position:relative;top:auto;right:auto;flex-direction:row;gap:0;margin:16px 18px 0;padding:3px;
+  background:rgba(118,118,128,.12);border-radius:12px;z-index:2}
+.seg-thumb{position:absolute;top:3px;bottom:3px;left:3px;width:0;background:#fff;border-radius:9px;
+  box-shadow:0 3px 8px rgba(0,0,0,.12),0 1px 1px rgba(0,0,0,.04);transition:transform .28s cubic-bezier(.3,1.3,.5,1),width .28s}
+.tab,.tab.on,.tab:not(.on){position:relative;z-index:1;flex:1;width:auto;height:auto;writing-mode:horizontal-tb;
+  font-family:var(--sys);font-size:.76rem;font-weight:600;color:var(--ios-muted);background:transparent!important;
+  border:0;border-radius:9px;box-shadow:none;padding:.42rem .2rem;transform:none;display:flex;align-items:center;justify-content:center;gap:5px}
+.tab::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--dot);opacity:.55;transition:opacity .2s}
+.tab.on{color:var(--ios-ink)}
+.tab.on::before{opacity:1}
+.tab:hover{transform:none;color:var(--ios-ink)}
+
+/* page type: iOS large titles */
+.pages{padding:20px 22px 26px}
+.pg-title{font-family:var(--sys);font-size:1.9rem;font-weight:800;letter-spacing:-.025em;line-height:1.1}
+.hl{background:none;padding:0}
+.stamp{font-family:var(--sys);font-weight:600;font-size:.7rem;border:0;background:var(--sb,var(--pink));
+  color:var(--ios-ink);padding:.25rem .7rem;margin-top:8px}
+.label{font-family:var(--sys);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ios-muted);margin:18px 0 6px}
+p.txt{font-size:.86rem;color:#3d4451}
+p.txt b{color:var(--ios-ink)}
+.hint{font-family:var(--sys);font-size:.78rem;font-weight:600}
+
+/* cards: no ink borders, soft shadows */
+.ev-body,.hk,.res-bar{background:var(--ios-card);border:1px solid rgba(255,255,255,.9);border-radius:16px;
+  box-shadow:0 6px 18px rgba(80,90,110,.08)}
+.ev:hover .ev-body,.hk:hover{border-color:rgba(255,255,255,.9);transform:translateY(-2px);box-shadow:0 14px 28px rgba(80,90,110,.14)}
+.res-bar:hover{box-shadow:0 14px 28px rgba(80,90,110,.14)}
+.ev-body::before{background:rgba(120,128,145,.18)}
+.ev-body::after{border-width:2px;border-color:#fff;background:var(--cd);box-shadow:0 0 0 1px var(--ios-line)}
+.yr span{font-family:var(--sys);font-size:1.15rem;font-weight:800;letter-spacing:-.01em}
+.yr::after{height:1px;background:var(--ios-line)}
+.ev-date{font-weight:600;color:var(--ios-muted)}
+.hk img{border:0;border-radius:12px;box-shadow:0 4px 10px rgba(80,90,110,.12)}
+
+/* buttons + chips: soft pills */
+.sticker,.sticker.big{border:1px solid var(--ios-line);box-shadow:0 2px 6px rgba(80,90,110,.08);font-weight:700;background:rgba(255,255,255,.9)}
+.sticker.big{background:var(--bgc,var(--mint));border-color:transparent}
+.sticker:hover{background:var(--ios-ink);color:#fff}
+.sticker:active{transform:scale(.97);box-shadow:none}
+.fchip{border:0;background:rgba(118,118,128,.12);font-weight:700;color:var(--ios-ink)}
+.fchip[class*=c-]:not(.on){background:var(--cc)}
+.fchip.on{background:var(--ios-ink);color:#fff}
+
+/* photos: rounded instead of taped polaroids */
+.polaroid{border:0;border-radius:16px;padding:5px 5px 22px;box-shadow:0 8px 20px rgba(80,90,110,.12)}
+.polaroid img{border-radius:12px}
+.polaroid::before{display:none}
+.polaroid .cap{font-family:var(--sys);font-size:.72rem;font-weight:700;bottom:4px;color:var(--ios-ink)}
+.life-grid .polaroid .cap{font-size:.7rem}
+.vlog{border:0;border-radius:18px;box-shadow:0 10px 26px rgba(80,90,110,.16)}
+.life-float-photo{border:0;border-radius:16px;box-shadow:0 18px 40px rgba(42,38,34,.25)}
+
+/* speech bubble */
+#avBubble{border:1px solid var(--ios-line);border-radius:18px;background:rgba(255,255,255,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 14px 30px rgba(80,90,110,.22);font-family:var(--sys);font-weight:600}
+
+.hk-top{flex-wrap:wrap;row-gap:3px}
+.life-grid .polaroid:nth-child(odd){transform:rotate(-1.5deg)}
+.life-grid .polaroid:nth-child(even){transform:rotate(1.5deg)}
+.life-grid .polaroid:hover{transform:scale(1.05)}
+@media(max-width:860px){
+  .book{padding:8px;gap:8px;border-radius:24px}
+  .pg-left{border-radius:18px;aspect-ratio:3/2}
+  .pg-right{width:100%;border-radius:18px}
+  .tabs{position:relative;flex-wrap:nowrap;margin:12px 12px 0;padding:3px;border-bottom:0}
+  .tab,.tab.on{border:0;border-radius:9px;padding:.42rem 0;font-size:.68rem}
+  .tab::before{display:none}
+  .pages{padding:16px 16px 22px}
+}
+
+/* ── ONE BUTTON COLOUR (blush pink) ── */
+:root{--btn:#F8C8D8;--btn-ink:#1c1d22}
+.sticker,.sticker.big,.sticker[style],.sticker.big[style]{background:var(--btn)!important;color:var(--btn-ink)!important;border-color:transparent!important}
+.sticker:hover,.sticker.big:hover,.res-bar:hover .sticker{background:var(--btn-ink)!important;color:#fff!important}
+</style>
+</head>
+<body>
+
+<div id="cur"><svg width="16" height="16" viewBox="0 0 16 16"><polygon points="2,2 2,14 5,10 7,15 9,14 7,9.5 11,9.5" fill="#2a2622" stroke="#fff" stroke-width=".8" stroke-linejoin="round"/></svg></div>
+
+<!-- TOP STRIP -->
+<header id="top">
+  <div class="brand">Mia's planner <span>✿</span></div>
+  <div class="top-r">
+    <span class="datestamp" id="datestamp">today</span>
+    <span id="clock">00:00</span>
+  </div>
+</header>
+
+<main id="stage">
+  <div class="life-hover-field" id="lifeHoverField" aria-hidden="true"></div>
+  <span class="star" style="top:12%;left:4%;animation-delay:.5s">✦</span>
+  <span class="star" style="top:70%;left:2.5%;animation-delay:1.6s;font-size:.6rem">✦</span>
+  <span class="star" style="bottom:4%;right:12%;animation-delay:.9s">✦</span>
+  <span class="star" style="top:6%;right:30%;animation-delay:2.1s;font-size:.6rem">✦</span>
+
+  <div class="book">
+    <!-- LEFT PAGE: welcome collage -->
+    <section class="pg pg-left">
+      <img src="wallpaper.png" alt="Welcome to Mia's page">
+    </section>
+
+    <!-- RIGHT PAGE -->
+    <section class="pg pg-right">
+      <nav class="tabs" aria-label="Sections">
+        <span class="seg-thumb" aria-hidden="true"></span>
+        <button class="tab on" data-p="about" style="--dot:var(--pink-d)">about</button>
+        <button class="tab" data-p="resume" style="--dot:var(--lav-d)">résumé</button>
+        <button class="tab" data-p="pubs" style="--dot:var(--sky-d)">papers</button>
+        <button class="tab" data-p="life" style="--dot:var(--peach-d)">life</button>
+        <button class="tab" data-p="school" style="--dot:var(--lemon-d)">projects</button>
+        <button class="tab" data-p="honors" style="--dot:var(--pink-d)">honors</button>
+      </nav>
+      <div class="pages">
+
+        <!-- ABOUT -->
+        <article class="page on" id="p-about">
+          <div class="pg-head">
+            <h1 class="pg-title"><span class="hl">about me</span></h1>
+            <span class="stamp">UNC '27</span>
+          </div>
+          <div class="me">
+            <span class="polaroid"><img src="life/bj.jpg" alt="Mia Zhou" onerror="this.src='Mia.jpg'"><span class="cap">hi!</span></span>
+            <div>
+              <div class="me-name">Mia Zhou</div>
+              <div class="me-role">Mathematics &amp; Biostatistics (B.S./B.S.P.H)<br>UNC Chapel Hill · Neuroscience minor</div>
+            </div>
+          </div>
+          <p class="txt" style="margin-top:14px">Grew up in China, went to high school in Singapore, and now studying <b>Mathematics and Biostatistics</b> at UNC Chapel Hill.</p>
+          <div class="label">✎ a little about me</div>
+          <p class="txt">I'm curious about the intersection of <b>AI, data science, and business</b>, with interests in computational modeling, healthcare AI, and product development. I love turning ideas into something useful and exploring how technology can solve real-world problems.</p>
+          <p class="txt">I'm exploring careers in <b>Product Management, Data Science, and Applied Science</b>, with a long-term dream of entrepreneurship. Always looking for opportunities to learn, grow, and connect with interesting people!</p>
+          <p class="txt">Outside of work, I love painting, photography, traveling, and grabbing boba with friends. Always up for a new adventure or a good conversation! 🧋</p>
+          <div class="btns">
+            <a class="sticker" href="https://github.com/miazhouruoya" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a>
+            <a class="sticker" style="--bgc:var(--lav)" href="https://linkedin.com/in/miaazhoou" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+            <a class="sticker" style="--bgc:var(--mint)" href="mailto:zhoumia@ad.unc.edu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email</a>
+          </div>
+        </article>
+
+        <!-- RESUME + EXPERIENCE TIMELINE -->
+        <article class="page" id="p-resume">
+          <div class="pg-head">
+            <h1 class="pg-title"><span class="hl" style="--hlc:var(--lav)">my timeline</span></h1>
+            <span class="stamp" style="--sb:var(--lav);--sc:var(--lav-d)">résumé</span>
+          </div>
+          <a class="res-bar" href="Landing.html?dest=resume.html&amp;title=resume">
+            <span><b>want the formal version?</b><br><small>3 papers · 1 accepted, 2 submitted</small></span>
+            <span class="sticker big" style="--bgc:var(--lav)">open résumé →</span>
+          </a>
+          <div class="filters" role="group" aria-label="Filter timeline">
+            <button class="fchip on" data-f="all">all</button>
+            <button class="fchip c-work" data-f="work">work</button>
+            <button class="fchip c-research" data-f="research">research</button>
+          </div>
+          <div class="timeline">
+          <div class="yr"><span>2027</span></div>
+          <div class="evs">
+            <a class="ev c-work" data-c="work" href="resume.html#sec-intern"><span class="ev-date">Jun – Aug</span><span class="ev-body"><span class="chip c-work">work</span><span class="ev-title">Business Analyst Intern</span><span class="ev-org">Capital One · McLean, VA</span><div class="ev-note">incoming ✦</div></span></a>
+          </div>
+          <div class="yr"><span>2026</span></div>
+          <div class="evs">
+            <a class="ev c-research" data-c="research" href="resume.html#sec-res"><span class="ev-date">Sep – now</span><span class="ev-body"><span class="chip c-research">research</span><span class="ev-title">NSF Research Fellow</span><span class="ev-org">UNC Research Training Group · quant finance</span></span></a>
+            <a class="ev c-work" data-c="work" href="resume.html#sec-intern"><span class="ev-date">Jul – Aug</span><span class="ev-body"><span class="chip c-work">work</span><span class="ev-title">Software Engineer Intern</span><span class="ev-org">Google · Break Through Tech Sprinternship</span><div class="ev-note">built EduBridge, an agentic AI app</div></span></a>
+            <a class="ev c-research" data-c="research" href="resume.html#sec-res"><span class="ev-date">Mar – now</span><span class="ev-body"><span class="chip c-research">research</span><span class="ev-title">Honors Thesis · CVD Modeling</span><span class="ev-org">UNC Biostatistics</span><div class="ev-note">honorable mention @ BUSI Symposium</div></span></a>
+          </div>
+          <div class="yr"><span>2025</span></div>
+          <div class="evs">
+            <a class="ev c-research" data-c="research" href="resume.html#sec-res"><span class="ev-date">May – Aug</span><span class="ev-body"><span class="chip c-research">research</span><span class="ev-title">Financial AI Intern</span><span class="ev-org">Tsinghua University · agent-based simulation</span></span></a>
+          </div>
+          <div class="yr"><span>2024</span></div>
+          <div class="evs">
+            <a class="ev c-research" data-c="research" href="resume.html#sec-res"><span class="ev-date">Oct – now</span><span class="ev-body"><span class="chip c-research">research</span><span class="ev-title">Project Assistant</span><span class="ev-org">UNC Biostatistics · Li Lab</span><div class="ev-note">NIH network analysis + spatial transcriptomics</div></span></a>
+            <a class="ev c-research" data-c="research" href="resume.html#sec-res"><span class="ev-date">Jun – now</span><span class="ev-body"><span class="chip c-research">research</span><span class="ev-title">Research Intern</span><span class="ev-org">Xiamen University · Huang Lab</span><div class="ev-note">eNet enhancer network</div></span></a>
+          </div>
+          </div>
+        </article>
+
+        <!-- PUBLICATIONS -->
+        <article class="page" id="p-pubs">
+          <div class="pg-head">
+            <h1 class="pg-title">publications</h1>
+            <span class="stamp" style="--sb:var(--sky);--sc:var(--sky-d)">3 papers</span>
+          </div>
+          <div class="pub">
+            <div class="pub-top"><span class="pub-n">01</span><span class="pub-st acc">Accepted</span></div>
+            <div class="pub-title">NIH-MPINet: A Large-Scale Feature-Rich Network Dataset for Mapping the Frontiers of Team Science</div>
+            <div class="pub-auth">Shi, C.*, Han, S., Kusumanchi, S., <b>Zhou, M.</b>, &amp; Li, D.</div>
+            <div class="pub-venue">SLADS</div>
+            <a class="pub-link" href="https://arxiv.org/abs/2604.22802" target="_blank" rel="noopener">read on arXiv →</a>
+          </div>
+          <div class="pub">
+            <div class="pub-top"><span class="pub-n">02</span><span class="pub-st sub">Submitted</span></div>
+            <div class="pub-title">Bit-flip attacks on vision-language-action models: Action-decoding architecture shapes the vulnerability</div>
+            <div class="pub-auth">Gao, Y.*, Chen, L.*, Wu, W.*, <b>Zhou, M.</b>, Wang, J., Ji, K., Guo, M., &amp; Chen, H. (2026)</div>
+            <div class="pub-venue">AAAI 2027 · conference submission</div>
+            <a class="pub-link" href="https://arxiv.org/html/2608.15475v1" target="_blank" rel="noopener">read on arXiv →</a>
+          </div>
+          <div class="pub">
+            <div class="pub-top"><span class="pub-n">03</span><span class="pub-st sub">Submitted</span></div>
+            <div class="pub-title">Cooldown Landmines: Cross-Tenant Denial of Service via Shared Circuit-Breaker State in LLM Gateways</div>
+            <div class="pub-auth">Gao, Y.*, Chen, L.*, Wu, W.*, <b>Zhou, M.</b>, Mao, X., Guo, M., &amp; Chen, H.</div>
+            <div class="pub-venue">ICLR 2027 · conference submission</div>
+            <span class="pub-link muted">preprint coming soon</span>
+          </div>
+          <div class="hint" style="color:var(--sky-d)">* equal contribution</div>
+          <div class="btns"><a class="sticker" style="--bgc:var(--sky)" href="https://scholar.google.com/citations?user=FcFW3d4AAAAJ&amp;hl=en" target="_blank">Google Scholar →</a></div>
+        </article>
+
+
+        <!-- LIFE -->
+        <article class="page" id="p-life">
+          <div class="pg-head">
+            <h1 class="pg-title"><span class="hl" style="--hlc:var(--peach)">life</span></h1>
+            <span class="stamp" style="--sb:var(--peach);--sc:var(--peach-d)">12 countries</span>
+          </div>
+          <div class="globe-wrap">
+            <div id="lifeGlobe" class="globe" aria-label="Interactive satellite globe of places Mia has been"></div>
+            <div class="globe-hint">drag to spin · click a pin ✦</div>
+          </div>
+          <div class="gstats">
+            <div><b>12</b><span>countries</span></div>
+            <div><b>6</b><span>homes</span></div>
+            <div><b>72</b><span>photos</span></div>
+          </div>
+          <div class="btns" style="margin:12px 0 4px"><a class="sticker big" style="--bgc:var(--peach)" href="Landing.html?dest=life.html&amp;title=my+life">open full album →</a></div>
+          <div class="label" style="margin-top:20px">find me on</div>
+          <div class="socials">
+            <a class="soc" href="https://beliapp.co/profile/miaazhoou" target="_blank" rel="noopener"><span class="soc-ico" style="background:#e7f6ee;color:#1d9e75">🍽</span><span><b>Beli</b><small>Food Lovers</small></span></a>
+            <a class="soc" href="https://xhslink.cn/o/7dgpwBP1byX" target="_blank" rel="noopener"><span class="soc-ico" style="background:#ffe4e8;color:#ff2442">书</span><span><b>RedNote</b><small>Content Creator</small></span></a>
+          </div>
+</article>
+
+        <!-- HIGH SCHOOL -->
+        <article class="page" id="p-school">
+          <div class="pg-head">
+            <h1 class="pg-title"><span class="hl" style="--hlc:var(--lemon)">projects</span></h1>
+            <span class="stamp" style="--sb:var(--lemon);--sc:var(--lemon-d)">4 sections</span>
+          </div>
+          <div class="label">research</div>
+          <div class="me">
+            <span class="polaroid" style="width:120px;transform:rotate(-3deg)"><img src="folderpic/thumbs/BUSI.jpg" alt="research"><span class="cap">6 labs</span></span>
+            <div>
+              <div class="me-name" style="font-size:1.1rem">Research</div>
+              <div class="me-role">Six research roles across UNC, Xiamen University and Tsinghua: heart-disease progression models, NIH grant networks, spatial transcriptomics, leukemia enhancer networks, LLM agent economies and quant portfolio optimization.</div>
+            </div>
+          </div>
+          <div class="btns" style="margin-bottom:26px">
+            <a class="sticker big" style="--bgc:var(--lav)" href="resume.html#sec-res">see all research →</a>
+          </div>
+
+          <div class="label">projects</div>
+          <div class="me">
+            <span class="polaroid" style="width:120px;transform:rotate(3deg)"><img src="folderpic/thumbs/HerTime.jpg" alt="projects"><span class="cap">4 projects</span></span>
+            <div>
+              <div class="me-name" style="font-size:1.1rem">Projects</div>
+              <div class="me-role">HerTime, Clinical Doppelgänger, tumour–immune dynamics and Neuromatch: data pipelines, a full-stack health app and math and neuroscience models.</div>
+            </div>
+          </div>
+          <div class="btns" style="margin-bottom:26px">
+            <a class="sticker big" style="--bgc:var(--mint)" href="resume.html#sec-proj">see all projects →</a>
+          </div>
+
+          <div class="label">hackathons</div>
+          <div class="me">
+            <span class="polaroid" style="width:120px;transform:rotate(-3deg)"><img src="folderpic/thumbs/Solhacks.jpg" alt="hackathons"><span class="cap">3 wins</span></span>
+            <div>
+              <div class="me-name" style="font-size:1.1rem">Hackathons</div>
+              <div class="me-role">Best Statistical Analysis at Duke ASA DataFest and Duke Data Mini #3, plus 1st place (Culture Track) at SolHacks with WageGuard.</div>
+            </div>
+          </div>
+          <div class="btns" style="margin-bottom:26px">
+            <a class="sticker big" style="--bgc:var(--peach)" href="resume.html#sec-hack">see all hackathons →</a>
+          </div>
+
+          <div class="label">IB portfolio</div>
+          <div class="me">
+            <span class="polaroid" style="width:120px"><img src="life/sging.jpg" alt="Singapore"><span class="cap">SG</span></span>
+            <div>
+              <div class="me-name" style="font-size:1.1rem">IB portfolio</div>
+              <div class="me-role">a collection of academic work from my high school years in Singapore</div>
+            </div>
+          </div>
+          <div class="btns">
+            <a class="sticker big" style="--bgc:var(--lemon)" href="Landing.html?dest=ib.html&amp;title=ib+portfolio">open IB portfolio →</a>
+          </div>
+        </article>
+
+        <!-- HONORS / VOLUNTEER -->
+        <article class="page" id="p-honors">
+          <div class="pg-head">
+            <h1 class="pg-title">awards &amp; volunteer</h1>
+            <span class="stamp" style="--sb:var(--pink);--sc:var(--pink-d)">4 roles</span>
+          </div>
+          <a class="hn" href="resume.html#sec-lead">
+            <span class="hn-ico" style="background:var(--pink)">✦</span>
+            <span class="hn-body"><span class="hn-title">UNC-Chapel Hill Women in Data Science</span><span class="hn-role">Founder &amp; President</span><span class="hn-note">also a Women in Data Science Ambassador, worldwide WiDS community</span></span>
+            <span class="hn-date">2026 – now</span>
+          </a>
+          <a class="hn" href="resume.html#sec-lead">
+            <span class="hn-ico" style="background:var(--lav)">✦</span>
+            <span class="hn-body"><span class="hn-title">MATH 523 Complex Analysis</span><span class="hn-role">Undergraduate Learning Assistant</span></span>
+            <span class="hn-date">now</span>
+          </a>
+          <a class="hn" href="resume.html#sec-lead">
+            <span class="hn-ico" style="background:var(--mint)">✦</span>
+            <span class="hn-body"><span class="hn-title">UNC Biostatistics Program</span><span class="hn-role">Ambassador</span></span>
+            
+          </a>
+          <a class="hn" href="resume.html#sec-lead">
+            <span class="hn-ico" style="background:var(--lemon)">✦</span>
+            <span class="hn-body"><span class="hn-title">Phi Beta Kappa</span><span class="hn-role">Member</span><span class="hn-note">academic honor society</span></span>
+            <span class="hn-date">Sep 2026 – now</span>
+          </a>
+        </article>
+
+
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- PIXEL AVATAR -->
+<div id="avWrap" onclick="cycleAvatar()">
+  <div id="avBubble">
+    <a href="Landing.html?dest=resume.html&amp;title=resume" onclick="event.stopPropagation()">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      hi! want my full résumé? click here ✦
+    </a>
+  </div>
+  <div id="pixelAvatar"><img id="avImg" src="sprite_1.png" alt="Mia"></div>
+</div>
+
+<script>
+/* ── AUDIO ── */
+let _ac=null;
+function pc(){try{if(!_ac)_ac=new(window.AudioContext||window.webkitAudioContext)();const t=_ac.currentTime,o=_ac.createOscillator(),g=_ac.createGain(),f=_ac.createBiquadFilter();o.type='square';o.frequency.setValueAtTime(1760,t);o.frequency.exponentialRampToValueAtTime(2960,t+.018);f.type='highpass';f.frequency.value=900;o.connect(f);f.connect(g);g.connect(_ac.destination);g.gain.setValueAtTime(.11,t);g.gain.exponentialRampToValueAtTime(.001,t+.055);o.start(t);o.stop(t+.06)}catch(e){}}
+
+/* ── TABS ── */
+const PAGES=['about','resume','pubs','life','school','honors'];
+function show(p,silent){
+  if(p==='experience')p='resume';
+  if(p==='hack')p='school';
+  if(!PAGES.includes(p))p='about';
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.p===p));
+  document.querySelectorAll('.page').forEach(pg=>pg.classList.toggle('on',pg.id==='p-'+p));
+  document.querySelector('.pages').scrollTop=0;
+  moveThumb();
+  if(p==='life')setTimeout(initLifeMap,0);
+  const v=document.getElementById('lifeVlog');
+  if(v){if(p==='life')v.play?.().catch(()=>{});else v.pause?.()}
+  if(!silent){pc();history.replaceState(null,'','#'+p)}
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',e=>{
+  show(t.dataset.p);
+  const r=t.getBoundingClientRect();sf(r.left+r.width/2,r.top+r.height/2,2);
+}));
+show(location.hash.slice(1)||'about',true);
+
+function moveThumb(){
+  const on=document.querySelector('.tab.on'),th=document.querySelector('.seg-thumb');
+  if(!on||!th)return;
+  th.style.width=on.offsetWidth+'px';th.style.transform=`translateX(${on.offsetLeft-3}px)`;
+}
+window.addEventListener('resize',moveThumb);
+document.fonts?.ready.then(moveThumb);
+
+/* ── LIFE GLOBE (MapLibre 3D globe + Esri satellite imagery, no API key; loads when the life tab opens) ── */
+const GLOBE_PINS=[
+ ['New York','birthplace',null,-74.0,40.71,'Mia.jpg',1],
+ ['Chapel Hill','home now · UNC','unc',-79.05,35.91,'life/chapel.jpg',1],
+ ['Boston','early years','us',-71.06,42.36,'life/bos.jpg',1],
+ ['Seattle','USA','us',-122.33,47.61,'life/sea.jpg'],
+ ['Los Angeles','USA','us',-118.24,34.05,'life/LABeach.jpg'],
+ ['Alaska','USA','us',-149.9,61.22,'life/Alaskadog.jpg'],
+ ['Madison, WI','USA','us',-89.4,43.07,'life/Madison.jpg'],
+ ['Wilmington','USA','us',-77.89,34.21,'life/willingtonbeach.jpg'],
+ ['Beijing','China','china',116.4,39.9,'life/bj.jpg'],
+ ['Chongqing','China','china',106.55,29.56,'life/chogq.jpg'],
+ ['Quanzhou','China','china',118.68,24.87,'life/quanzhou.jpg'],
+ ['Singapore','high school · IB','singapore',103.85,1.29,'life/Singapore.jpg',1],
+ ['Tokyo','Japan','japan',139.69,35.68,'life/jp.jpg'],
+ ['Mt. Fuji','Japan','japan',138.73,35.36,'life/fuj.jpg'],
+ ['Seoul · Yonsei','Korea','korea',126.98,37.57,'life/Yonsei.jpg'],
+ ['Busan','Korea','korea',129.08,35.18,'life/busan.jpg'],
+ ['Galway','study abroad · Ireland','ireland',-9.05,53.27,'life/galway.jpg',1],
+ ['Cliffs of Moher','Ireland','ireland',-9.43,52.97,'life/ir.jpg'],
+ ['Milan','Italy','italy',9.19,45.46,'life/Italy.jpg'],
+ ['Barcelona','Spain','spain',2.17,41.39,'life/bace.jpg'],
+ ['Portugal','Portugal','portugal',-9.14,38.72,'life/por.jpg'],
+ ['UK','United Kingdom','uk',-1.15,52.95,'life/not.jpg'],
+ ['Bahamas','Caribbean','caribbean',-77.4,25.03,'life/Bahamas.jpg'],
+ ['Dominican Republic','Caribbean','caribbean',-69.9,18.47,'life/Dominican.jpg']
+];
+const GLOBE_COUNTS={unc:20,us:23,china:4,singapore:6,japan:4,korea:4,ireland:4,italy:2,spain:1,portugal:1,uk:1,caribbean:2};
+var lifeMap=null,globeLoading=false,globeSpin=true;
+function loadMapLib(cb){
+  if(window.maplibregl)return cb();
+  const l=document.createElement('link');l.rel='stylesheet';l.href=window.MAPLIBRE_CSS||'https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css';document.head.appendChild(l);
+  const sc=document.createElement('script');sc.src=window.MAPLIBRE_JS||'https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js';sc.onload=cb;document.head.appendChild(sc);
+}
+function flyGlobe(lng,lat,z){
+  if(!lifeMap)return;globeSpin=false;
+  lifeMap.flyTo({center:[lng,lat],zoom:z||Math.max(lifeMap.getZoom(),3),speed:.9,curve:1.6,offset:[0,70],essential:true});
+}
+function initLifeMap(){
+  if(lifeMap){lifeMap.resize();return}
+  if(globeLoading)return;globeLoading=true;
+  loadMapLib(()=>{
+    lifeMap=new maplibregl.Map({
+      container:'lifeGlobe',attributionControl:{compact:true},
+      center:[-40,28],zoom:1.05,minZoom:0.6,maxZoom:17,
+      style:{version:8,projection:{type:'globe'},
+        sky:{'atmosphere-blend':['interpolate',['linear'],['zoom'],0,1,5,1,7,0]},
+        sources:{
+          sat:{type:'raster',tileSize:256,maxzoom:19,
+            tiles:['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+            attribution:'Imagery &copy; Esri, Maxar, Earthstar Geographics'},
+          world:{type:'geojson',data:'life/world-map.json'}},
+        layers:[
+          {id:'space',type:'background',paint:{'background-color':'#0b1226'}},
+          {id:'sat',type:'raster',source:'sat',paint:{'raster-fade-duration':200}},
+          {id:'visited',type:'fill',source:'world',filter:['==',['get','v'],1],paint:{'fill-color':'#f4a7c5','fill-opacity':['interpolate',['linear'],['zoom'],1,.28,5,.08]}},
+          {id:'visited-line',type:'line',source:'world',filter:['==',['get','v'],1],paint:{'line-color':'#ffd1e3','line-width':1.2,'line-opacity':.9}}
+        ]}
+    });
+    lifeMap.scrollZoom.disable();
+    lifeMap.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');
+    GLOBE_PINS.forEach(([name,sub,place,lng,lat,img,home])=>{
+      const el=document.createElement('div');el.className='mpin'+(home?' home':'');el.title=name;
+      const cnt=place?` · ${GLOBE_COUNTS[place]} photos`:'';
+      const link=place?`life.html?place=${place}#gallery`:'life.html';
+      const pop=new maplibregl.Popup({offset:12,anchor:'bottom',maxWidth:'190px'}).setLngLat([lng,lat])
+        .setHTML(`<div class="gpop"><img src="${img}" alt=""><b>${name}</b><span>${sub}${cnt}</span><a href="${link}">see photos →</a></div>`);
+      el.addEventListener('click',e=>{e.stopPropagation();
+        document.querySelectorAll('.maplibregl-popup').forEach(x=>x.remove());
+        flyGlobe(lng,lat);pop.addTo(lifeMap)});
+      new maplibregl.Marker({element:el}).setLngLat([lng,lat]).addTo(lifeMap);
+    });
+    globeSpin=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+    ['mousedown','touchstart','wheel'].forEach(ev=>lifeMap.on(ev,()=>{globeSpin=false}));
+    (function spin(){if(globeSpin&&!lifeMap.isMoving()){const c=lifeMap.getCenter();c.lng-=0.1;lifeMap.jumpTo({center:c})}requestAnimationFrame(spin)})();
+  });
+}
+document.addEventListener('click',e=>{const s=e.target.closest('.lt-stop');if(!s)return;
+  document.querySelectorAll('.lt-stop').forEach(x=>x.classList.toggle('on',x===s));
+  flyGlobe(+s.dataset.lng,+s.dataset.lat,4)});
+
+/* ── CURSOR ── */
+const cur=document.getElementById('cur');
+let curX=0,curY=0,curRAF=false;
+document.addEventListener('mousemove',e=>{
+  curX=e.clientX;curY=e.clientY;
+  if(curRAF)return;curRAF=true;
+  requestAnimationFrame(()=>{cur.style.transform=`translate3d(${curX}px,${curY}px,0)`;curRAF=false});
+},{passive:true});
+
+/* ── SPARKLES + FLOATIES ── */
+const SC=['#f9a8d4','#a78bfa','#fcd34d','#6ee7b7','#7dd3fc','#f8c8d8'];
+let lastSpark=0;
+document.addEventListener('mousemove',e=>{
+  const now=performance.now();
+  if(now-lastSpark<120)return;lastSpark=now;
+  const s=document.createElement('div');s.className='sp';const sz=2+Math.random()*3;
+  s.style.cssText=`left:${e.clientX+(Math.random()*7-3.5)}px;top:${e.clientY+(Math.random()*7-3.5)}px;width:${sz}px;height:${sz}px;background:${SC[~~(Math.random()*SC.length)]}`;
+  document.body.appendChild(s);setTimeout(()=>s.remove(),520);
+},{passive:true});
+const FS=['✦','✧','♡','✿','·'];
+function sf(x,y,n=1){for(let i=0;i<n;i++)setTimeout(()=>{
+  const f=document.createElement('div');f.className='fl';
+  f.textContent=FS[~~(Math.random()*FS.length)];
+  f.style.cssText=`left:${x+(Math.random()*36-18)}px;top:${y+(Math.random()*18-9)}px;color:${SC[~~(Math.random()*SC.length)]};font-size:${.6+Math.random()*.5}rem`;
+  document.body.appendChild(f);setTimeout(()=>f.remove(),1000);
+},i*65)}
+document.addEventListener('click',e=>{if(e.target.closest('.tab'))return;sf(e.clientX,e.clientY,1)});
+
+/* ── LIFE PHOTO HOVER FIELD (the desk around the notebook) ── */
+const lifePhotos=[
+  'life/UNC1.jpg','life/UNC2.jpg','life/UNC3.jpg','life/UNC4.jpg','life/UNC5.jpg',
+  'life/UNC6.jpg','life/UNC7.jpg','life/UNC8.jpg','life/UNC9.jpg',
+  'life/UNC10.jpg','life/UNC12.jpg','life/ChapelHillKaren.jpg','life/Bahamas.jpg','life/Dominican.jpg',
+  'life/alas.jpg','life/aurora.jpg','life/bace.jpg','life/bj.jpg','life/blu.jpg',
+  'life/bos.jpg','life/bostonchild.jpg','life/busan.jpg','life/chapel.jpg','life/cq.jpg',
+  'life/crys.jpg','life/fuj.jpg','life/grad1.jpg','life/grad2.jpg','life/ha.jpg',
+  'life/ie.jpg','life/ir.jpg','life/ireland.jpg','life/it.jpg','life/Italy.jpg','life/jp.jpg',
+  'life/kor.jpg','life/korsea.jpg','life/la.jpg','life/mt.jpg','life/nc.jpg',
+  'life/not.jpg','life/por.jpg','life/SC.jpg','life/sea.jpg','life/sging.jpg','life/we.jpg',
+  'life/UNCholymoly.jpg','life/Friendsch.jpg','life/NCfreinds.jpg','life/meandkaren.jpg','life/Halloween25.jpg','life/673df2806c465e4030219e94dee3f86b.jpg','life/Google.jpg','life/google1.jpg','life/Alaskadog.jpg','life/Alaskagla.jpg','life/alaska.jpg','life/snow.jpg','life/California.jpg','life/LABeach.jpg','life/LAnature.jpg','life/lasculpture.jpg','life/Madison.jpg','life/wiscon.jpg','life/Wisconsin.jpg','life/willingtonbeach.jpg','life/chogq.jpg','life/quanzhou.jpg','life/Singapore.jpg','life/prom.jpg','life/Yonsei.jpg','life/galway.jpg'
+];
+const lifeCache=new Map();
+function preloadLife(src){if(lifeCache.has(src))return;const img=new Image();img.decoding='async';img.src=src;lifeCache.set(src,img)}
+lifePhotos.slice(0,8).forEach(preloadLife);
+let lifePreloadIndex=8;
+(function preloadLifeBatch(){
+  const end=Math.min(lifePreloadIndex+4,lifePhotos.length);
+  for(;lifePreloadIndex<end;lifePreloadIndex++)preloadLife(lifePhotos[lifePreloadIndex]);
+  if(lifePreloadIndex<lifePhotos.length)(window.requestIdleCallback||(cb=>setTimeout(cb,220)))(preloadLifeBatch);
+})();
+const lifeField=document.getElementById('lifeHoverField');
+let lifeFloat=null,lifeTX=0,lifeTY=0,lifeX=0,lifeY=0,lifeIdx=-1,lifeRAF=null,lastSwap=0,lifeActive=false;
+function ensureLifeFloat(){
+  if(lifeFloat)return lifeFloat;
+  lifeFloat=document.createElement('img');lifeFloat.className='life-float-photo';lifeFloat.alt='';lifeFloat.src=lifePhotos[0];
+  document.body.appendChild(lifeFloat);return lifeFloat;
+}
+function moveLifeFloat(){
+  if(!lifeFloat)return;
+  lifeX+=(lifeTX-lifeX)*.18;lifeY+=(lifeTY-lifeY)*.18;
+  lifeFloat.style.transform=`translate3d(${lifeX}px,${lifeY}px,0) translate(-50%,-50%) rotate(-3deg)`;
+  lifeRAF=lifeActive?requestAnimationFrame(moveLifeFloat):null;
+}
+[lifeField,document.querySelector('.pg-left')].forEach(field=>{if(!field)return;
+  field.addEventListener('mouseenter',e=>{
+    ensureLifeFloat();lifeActive=true;lifeX=lifeTX=e.clientX;lifeY=lifeTY=e.clientY;
+    document.body.classList.add('life-wall-on');
+    if(!lifeRAF)lifeRAF=requestAnimationFrame(moveLifeFloat);
+  });
+  field.addEventListener('mousemove',e=>{
+    const now=performance.now();
+    lifeTX=e.clientX+26;lifeTY=e.clientY;
+    if(now-lastSwap>150){
+      const col=Math.floor(e.clientX/108),row=Math.floor(e.clientY/108);
+      const next=(row*9+col)%lifePhotos.length;
+      if(next!==lifeIdx){lifeIdx=next;preloadLife(lifePhotos[next]);ensureLifeFloat().src=lifePhotos[next]}
+      lastSwap=now;
+    }
+  },{passive:true});
+  field.addEventListener('mouseleave',()=>{lifeActive=false;document.body.classList.remove('life-wall-on')});
+});
+
+/* ── PIXEL AVATAR ── */
+const avPoses=['sprite_1.png','sprite_2.png','sprite_3.png','sprite_4.png'];
+let avIdx=0,bubbleTimer=null,avDrag=false,avMoved=false,avDX=0,avDY=0;
+avPoses.forEach(s=>{const i=new Image();i.src=s});
+function cycleAvatar(e){
+  if(e)e.stopPropagation();
+  if(avMoved){avMoved=false;return}
+  avIdx=(avIdx+1)%avPoses.length;
+  document.getElementById('avImg').src=avPoses[avIdx];
+  const r=document.getElementById('avWrap').getBoundingClientRect();
+  sf(r.left+r.width/2,r.top+r.height/3,3);
+  showBubble();
+}
+function showBubble(){
+  const b=document.getElementById('avBubble');b.classList.add('show');
+  clearTimeout(bubbleTimer);bubbleTimer=setTimeout(()=>b.classList.remove('show'),2800);
+}
+const _aw=document.getElementById('avWrap');
+_aw.addEventListener('mouseenter',()=>{clearTimeout(bubbleTimer);document.getElementById('avBubble').classList.add('show')});
+_aw.addEventListener('mouseleave',()=>{bubbleTimer=setTimeout(()=>document.getElementById('avBubble').classList.remove('show'),600)});
+_aw.addEventListener('pointerdown',e=>{
+  if(e.target.closest('a'))return;
+  avDrag=true;avMoved=false;_aw.classList.add('dragging');
+  const r=_aw.getBoundingClientRect();avDX=e.clientX-r.left;avDY=e.clientY-r.top;
+  _aw.setPointerCapture?.(e.pointerId);
+});
+_aw.addEventListener('pointermove',e=>{
+  if(!avDrag)return;
+  const r=_aw.getBoundingClientRect(),x=e.clientX-avDX,y=e.clientY-avDY;
+  if(Math.abs(x-r.left)>2||Math.abs(y-r.top)>2)avMoved=true;
+  _aw.style.left=Math.max(0,Math.min(window.innerWidth-_aw.offsetWidth,x))+'px';
+  _aw.style.top=Math.max(40,Math.min(window.innerHeight-_aw.offsetHeight,y))+'px';
+  _aw.style.bottom='auto';
+});
+_aw.addEventListener('pointerup',e=>{avDrag=false;_aw.classList.remove('dragging');_aw.releasePointerCapture?.(e.pointerId)});
+
+/* ── CLOCK + DATE STAMP ── */
+function uc(){const d=new Date();document.getElementById('clock').textContent=d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')}
+uc();setInterval(uc,12000);
+(function(){const d=new Date();document.getElementById('datestamp').textContent=d.toLocaleDateString('en-US',{month:'short',day:'numeric'}).toLowerCase()+' ♡'})();
+
+/* ── TIMELINE FILTERS ── */
+document.querySelectorAll('.fchip').forEach(c=>c.addEventListener('click',()=>{
+  const f=c.dataset.f;pc();
+  document.querySelectorAll('.fchip').forEach(x=>x.classList.toggle('on',x===c));
+  document.querySelectorAll('.ev').forEach(e=>e.classList.toggle('hide',f!=='all'&&e.dataset.c!==f));
+  document.querySelectorAll('.yr').forEach(y=>{const list=y.nextElementSibling;y.classList.toggle('empty',!list.querySelector('.ev:not(.hide)'))});
+}));
+
+/* ── KEYBOARD: cmd/ctrl + 1–4 flips tabs ── */
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&/^[1-6]$/.test(e.key)){e.preventDefault();show(PAGES[+e.key-1])}
+});
+</script>
+</body>
+</html>
