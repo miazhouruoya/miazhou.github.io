@@ -2621,6 +2621,46 @@ html body{background:#FACBC6!important}
   html body .r-contact-row{display:flex!important;flex-wrap:wrap!important;gap:8px!important}
   html body .r-contact-row a{width:auto!important;flex:0 0 auto!important;min-height:34px!important;padding:.3rem .8rem .3rem .45rem!important}
 }
+
+/* ── background = original desktop ── */
+html body{background:linear-gradient(140deg,#f0e4f8 0%,#e4eef8 55%,#f8eee4 100%) fixed!important}
+html body::before{background-image:radial-gradient(circle,rgba(255,255,255,.45) 1px,transparent 1px)!important;background-size:20px 20px!important}
+
+/* ── LIFE section ── */
+.life-grid2{display:grid;grid-template-columns:1.25fr 1fr;gap:20px;align-items:stretch}
+.globe-wrap{position:relative;min-height:340px;border-radius:20px;overflow:hidden;
+  background:radial-gradient(circle at 50% 50%,#1b2550 0,#0b1226 60%,#070b18 100%);box-shadow:0 10px 26px rgba(20,24,60,.25)}
+.globe,.globe.maplibregl-map{position:absolute!important;inset:0;width:100%;height:100%}
+.globe-hint{position:absolute;left:12px;bottom:10px;z-index:3;font:700 .68rem/1.4 -apple-system,BlinkMacSystemFont,Arial,sans-serif;color:#fff;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);border-radius:999px;padding:.2rem .6rem;pointer-events:none}
+.mpin{width:14px;height:14px;border-radius:50%;background:#ff7eb3;border:2.5px solid #fff;box-shadow:0 0 0 4px rgba(255,126,179,.25),0 2px 8px rgba(0,0,0,.4);cursor:pointer;transition:transform .15s}
+.mpin:hover{transform:scale(1.35)}
+.mpin.home{background:#a99bff;box-shadow:0 0 0 4px rgba(169,155,255,.28),0 2px 8px rgba(0,0,0,.4)}
+.maplibregl-popup-content{border-radius:16px!important;padding:6px!important;box-shadow:0 12px 30px rgba(0,0,0,.35)!important;font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif}
+.maplibregl-popup-tip{display:none}
+.maplibregl-popup-close-button{font-size:16px;right:6px!important;top:4px!important;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.maplibregl-ctrl-attrib{font-size:9px!important;background:rgba(255,255,255,.55)!important}
+.gpop img{width:160px;height:84px;object-fit:cover;border-radius:12px;display:block}
+.gpop b{display:block;font-size:.84rem;margin:6px 4px 0}
+.gpop span{display:block;font-size:.72rem;color:#6b7280;margin:0 4px}
+.gpop a{display:inline-block;font-size:.74rem;font-weight:800;color:#d4537e;margin:4px 4px 2px;text-decoration:none}
+.life-side{display:flex;flex-direction:column;gap:12px;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',Arial,sans-serif}
+.life-side .lintro{font-size:.9rem;line-height:1.55;color:#4b5160}
+.gstats{display:flex;gap:10px}
+.gstats div{flex:1;background:#fff;border-radius:14px;padding:10px 12px;box-shadow:0 6px 18px rgba(80,90,110,.08)}
+.gstats b{display:block;font-size:1.35rem;font-weight:800;letter-spacing:-.02em;color:#1c1d22}
+.gstats span{font-size:.72rem;font-weight:600;color:#6b7280}
+.lsocials{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lsoc,.lhs{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border-radius:14px;box-shadow:0 6px 18px rgba(80,90,110,.08);text-decoration:none;color:#1c1d22;transition:transform .12s,box-shadow .12s}
+.lsoc:hover,.lhs:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(80,90,110,.14)}
+.lsoc-ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;flex-shrink:0}
+.lsoc b,.lhs b{display:block;font-size:.86rem;font-weight:800}
+.lsoc small,.lhs small{display:block;font-size:.7rem;color:#6b7280;font-weight:600}
+.lhs img{width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.lhs .go{margin-left:auto;font-size:.74rem;font-weight:800;color:#d4537e;white-space:nowrap}
+.lalbum{display:inline-flex;align-self:flex-start;align-items:center;gap:6px;padding:.55rem 1rem;border-radius:999px;background:#F8C8D8;color:#1c1d22;font-weight:800;font-size:.82rem;text-decoration:none;transition:background .2s,color .2s}
+.lalbum:hover{background:#1c1d22;color:#fff}
+@media(max-width:780px){.life-grid2{grid-template-columns:1fr}.globe-wrap{min-height:300px}.globe-hint{display:none}}
+@media print{#sec-life{display:none}}
 </style>
 </head>
 <body>
@@ -2678,6 +2718,9 @@ html body{background:#FACBC6!important}
       </div>
       <div class="sb-item" data-sec="sec-lead" onclick="navTo(this,'sec-lead')">
         <div class="sb-dot" style="background:#34d399"></div>Leadership
+      </div>
+      <div class="sb-item" data-sec="sec-life" onclick="navTo(this,'sec-life')">
+        <div class="sb-dot" style="background:#ff7eb3"></div>Life
       </div>
       <div class="sb-item" data-sec="sec-skills" onclick="navTo(this,'sec-skills')">
         <div class="sb-dot" style="background:#5b8def"></div>Skills
@@ -3151,6 +3194,36 @@ html body{background:#FACBC6!important}
       </div>
     </div>
 
+    <!-- ── LIFE ── -->
+    <div class="r-card" id="sec-life">
+      <div class="r-card-bar">
+        <div class="tls"><div class="tl tl-r"></div><div class="tl tl-y"></div><div class="tl tl-g"></div></div>
+        <span class="r-card-title">life ✦</span>
+      </div>
+      <div class="r-card-body">
+        <div class="life-grid2">
+          <div class="globe-wrap">
+            <div id="lifeGlobe" class="globe" aria-label="Interactive satellite globe of places Mia has been"></div>
+            <div class="globe-hint">drag to spin · click a pin ✦</div>
+          </div>
+          <div class="life-side">
+            <p class="lintro">Grew up in China, high school in Singapore, now in Chapel Hill. Here's everywhere I've been so far.</p>
+            <div class="gstats">
+              <div><b>12</b><span>countries</span></div>
+              <div><b>6</b><span>homes</span></div>
+              <div><b>72</b><span>photos</span></div>
+            </div>
+            <a class="lhs" href="Landing.html?dest=ib.html&amp;title=ib+portfolio"><img src="life/sging.jpg" alt=""><span><b>High school · Singapore</b><small>IB Diploma · my IB portfolio</small></span><span class="go">open →</span></a>
+            <div class="lsocials">
+              <a class="lsoc" href="https://beliapp.co/profile/miaazhoou" target="_blank" rel="noopener"><span class="lsoc-ico" style="background:#e7f6ee;color:#1d9e75">🍽</span><span><b>Beli</b><small>Food Lovers</small></span></a>
+              <a class="lsoc" href="https://xhslink.cn/o/7dgpwBP1byX" target="_blank" rel="noopener"><span class="lsoc-ico" style="background:#ffe4e8;color:#ff2442">书</span><span><b>RedNote</b><small>Content Creator</small></span></a>
+            </div>
+            <a class="lalbum" href="Landing.html?dest=life.html&amp;title=my+life">open full album →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ── LANGUAGES & TOOLS ── -->
     <div class="r-card" id="sec-skills">
       <div class="r-card-bar">
@@ -3411,7 +3484,7 @@ function navTo(el,id){
   if(sec)sec.scrollIntoView({behavior:'smooth',block:'start'});
 }
 /* highlight active section on scroll */
-const sections=['sec-header','sec-intern','sec-pub','sec-res','sec-hack','sec-proj','sec-lead','sec-skills'];
+const sections=['sec-header','sec-intern','sec-pub','sec-res','sec-hack','sec-proj','sec-lead','sec-life','sec-skills'];
 let navRAF=false,scrolling=false,scrollTimer=0;
 function updateActiveNav(){
   navRAF=false;
@@ -3518,6 +3591,92 @@ document.querySelectorAll('.proj-card').forEach(c=>{
     b.addEventListener('click',e=>{e.stopPropagation();c.classList.toggle('m-open')});body.appendChild(b)}
   if(scrim)scrim.addEventListener('click',e=>{if(window.matchMedia('(max-width:680px)').matches&&!e.target.closest('a'))e.stopPropagation()});
 });
+</script>
+<script>
+const GLOBE_PINS=[
+ ['New York','birthplace',null,-74.0,40.71,'Mia.jpg',1],
+ ['Chapel Hill','home now · UNC','unc',-79.05,35.91,'life/chapel.jpg',1],
+ ['Boston','early years','us',-71.06,42.36,'life/bos.jpg',1],
+ ['Seattle','USA','us',-122.33,47.61,'life/sea.jpg'],
+ ['Los Angeles','USA','us',-118.24,34.05,'life/LABeach.jpg'],
+ ['Alaska','USA','us',-149.9,61.22,'life/Alaskadog.jpg'],
+ ['Madison, WI','USA','us',-89.4,43.07,'life/Madison.jpg'],
+ ['Wilmington','USA','us',-77.89,34.21,'life/willingtonbeach.jpg'],
+ ['Beijing','China','china',116.4,39.9,'life/bj.jpg'],
+ ['Chongqing','China','china',106.55,29.56,'life/chogq.jpg'],
+ ['Quanzhou','China','china',118.68,24.87,'life/quanzhou.jpg'],
+ ['Singapore','high school · IB','singapore',103.85,1.29,'life/Singapore.jpg',1],
+ ['Tokyo','Japan','japan',139.69,35.68,'life/jp.jpg'],
+ ['Mt. Fuji','Japan','japan',138.73,35.36,'life/fuj.jpg'],
+ ['Seoul · Yonsei','Korea','korea',126.98,37.57,'life/Yonsei.jpg'],
+ ['Busan','Korea','korea',129.08,35.18,'life/busan.jpg'],
+ ['Galway','study abroad · Ireland','ireland',-9.05,53.27,'life/galway.jpg',1],
+ ['Cliffs of Moher','Ireland','ireland',-9.43,52.97,'life/ir.jpg'],
+ ['Milan','Italy','italy',9.19,45.46,'life/Italy.jpg'],
+ ['Barcelona','Spain','spain',2.17,41.39,'life/bace.jpg'],
+ ['Portugal','Portugal','portugal',-9.14,38.72,'life/por.jpg'],
+ ['UK','United Kingdom','uk',-1.15,52.95,'life/not.jpg'],
+ ['Bahamas','Caribbean','caribbean',-77.4,25.03,'life/Bahamas.jpg'],
+ ['Dominican Republic','Caribbean','caribbean',-69.9,18.47,'life/Dominican.jpg']
+];
+const GLOBE_COUNTS={unc:20,us:23,china:4,singapore:6,japan:4,korea:4,ireland:4,italy:2,spain:1,portugal:1,uk:1,caribbean:2};
+var lifeMap=null,globeLoading=false,globeSpin=true;
+function loadMapLib(cb){
+  if(window.maplibregl)return cb();
+  const l=document.createElement('link');l.rel='stylesheet';l.href=window.MAPLIBRE_CSS||'https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css';document.head.appendChild(l);
+  const sc=document.createElement('script');sc.src=window.MAPLIBRE_JS||'https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js';sc.onload=cb;document.head.appendChild(sc);
+}
+function flyGlobe(lng,lat,z){
+  if(!lifeMap)return;globeSpin=false;
+  lifeMap.flyTo({center:[lng,lat],zoom:z||Math.max(lifeMap.getZoom(),3),speed:.9,curve:1.6,offset:[0,70],essential:true});
+}
+function initLifeMap(){
+  if(lifeMap){lifeMap.resize();return}
+  if(globeLoading)return;globeLoading=true;
+  loadMapLib(()=>{
+    lifeMap=new maplibregl.Map({
+      container:'lifeGlobe',attributionControl:{compact:true},
+      center:[-40,28],zoom:1.05,minZoom:0.6,maxZoom:17,
+      style:{version:8,projection:{type:'globe'},
+        sky:{'atmosphere-blend':['interpolate',['linear'],['zoom'],0,1,5,1,7,0]},
+        sources:{
+          sat:{type:'raster',tileSize:256,maxzoom:19,
+            tiles:['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+            attribution:'Imagery &copy; Esri, Maxar, Earthstar Geographics'},
+          world:{type:'geojson',data:'life/world-map.json'}},
+        layers:[
+          {id:'space',type:'background',paint:{'background-color':'#0b1226'}},
+          {id:'sat',type:'raster',source:'sat',paint:{'raster-fade-duration':200}},
+          {id:'visited',type:'fill',source:'world',filter:['==',['get','v'],1],paint:{'fill-color':'#f4a7c5','fill-opacity':['interpolate',['linear'],['zoom'],1,.28,5,.08]}},
+          {id:'visited-line',type:'line',source:'world',filter:['==',['get','v'],1],paint:{'line-color':'#ffd1e3','line-width':1.2,'line-opacity':.9}}
+        ]}
+    });
+    lifeMap.scrollZoom.disable();
+    lifeMap.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-right');
+    GLOBE_PINS.forEach(([name,sub,place,lng,lat,img,home])=>{
+      const el=document.createElement('div');el.className='mpin'+(home?' home':'');el.title=name;
+      const cnt=place?` · ${GLOBE_COUNTS[place]} photos`:'';
+      const link=place?`life.html?place=${place}#gallery`:'life.html';
+      const pop=new maplibregl.Popup({offset:12,anchor:'bottom',maxWidth:'190px'}).setLngLat([lng,lat])
+        .setHTML(`<div class="gpop"><img src="${img}" alt=""><b>${name}</b><span>${sub}${cnt}</span><a href="${link}">see photos →</a></div>`);
+      el.addEventListener('click',e=>{e.stopPropagation();
+        document.querySelectorAll('.maplibregl-popup').forEach(x=>x.remove());
+        flyGlobe(lng,lat);pop.addTo(lifeMap)});
+      new maplibregl.Marker({element:el}).setLngLat([lng,lat]).addTo(lifeMap);
+    });
+    globeSpin=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+    ['mousedown','touchstart','wheel'].forEach(ev=>lifeMap.on(ev,()=>{globeSpin=false}));
+    (function spin(){if(globeSpin&&!lifeMap.isMoving()){const c=lifeMap.getCenter();c.lng-=0.1;lifeMap.jumpTo({center:c})}requestAnimationFrame(spin)})();
+  });
+}
+document.addEventListener('click',e=>{const s=e.target.closest('.lt-stop');if(!s)return;
+  document.querySelectorAll('.lt-stop').forEach(x=>x.classList.toggle('on',x===s));
+  flyGlobe(+s.dataset.lng,+s.dataset.lat,4)});
+
+/* load the globe only when the life section comes near the screen */
+(function(){const t=document.getElementById('sec-life');if(!t)return;
+  if(!('IntersectionObserver' in window)){initLifeMap();return}
+  const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();initLifeMap()}},{rootMargin:'400px 0px'});io.observe(t)})();
 </script>
 </body>
 </html>
