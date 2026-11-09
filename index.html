@@ -2669,8 +2669,9 @@ html body::before{background-image:radial-gradient(circle,rgba(255,255,255,.45) 
 .r-shot:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(80,90,110,.18)}
 .r-shot img{display:block;width:100%;height:auto}
 
-/* ── default 85% zoom on laptop/desktop screens (phones stay 100%) ── */
-@media (min-width:1100px){#topbar,.layout{zoom:.85}}
+/* ── zoom: laptops 90%, big monitors 100%, phones/tablets 100% ── */
+@media (min-width:1100px){#topbar,.layout{zoom:.9}}
+@media (min-width:1600px){#topbar,.layout{zoom:1}}
 
 /* ── 1. pop-in after unlocking ── */
 html.locked .r-card,html.locked .sidebar{opacity:0}
