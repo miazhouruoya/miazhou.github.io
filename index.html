@@ -2794,6 +2794,27 @@ html.locked .r-card,html.locked .sidebar{opacity:0}
   html.print-cv .cv li{margin:0}
   @page{size:letter;margin:.45in .5in}
 }
+
+/* résumé PDF viewer */
+.cv-actions{gap:8px}
+.cv-frame{position:relative;height:min(74vh,1000px);border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 8px 26px rgba(80,90,110,.12)}
+.cv-frame iframe{width:100%;height:100%;border:0;display:block}
+.cv-miss{display:none;position:absolute;inset:0;align-items:center;justify-content:center;text-align:center;padding:24px;font:600 .95rem/1.5 -apple-system,BlinkMacSystemFont,'SF Pro Text',Arial,sans-serif;color:#4b5160;background:#fff}
+.cv-frame.missing .cv-miss{display:flex}
+.cv-frame.missing iframe{display:none}
+@media(max-width:640px){.cv-frame{height:68vh}}
+
+/* ── bigger top bar ── */
+html body #topbar{height:52px!important;padding:0 22px!important}
+html body #topbar .tls{gap:9px!important}
+html body #topbar .tl{width:14px!important;height:14px!important}
+html body #topbar .tb-title{font-size:1.02rem!important;font-weight:800!important;margin-left:10px}
+html body #topbar .tb-r{gap:14px!important}
+html body #topbar .tb-clock{font-size:.92rem!important;font-weight:700!important}
+html body #topbar .tb-wx{font-size:.88rem!important;gap:7px}
+html body #topbar .tb-quick{font-size:.86rem!important;padding:.5rem 1rem!important;gap:7px}
+html body .sidebar{top:68px!important}
+@media(max-width:600px){html body #topbar{height:48px!important;padding:0 14px!important}html body #topbar .tb-title{font-size:.95rem!important}html body #topbar .tb-quick{font-size:.78rem!important;padding:.42rem .8rem!important}}
 /* ── LOCK SCREEN (React) ── */
 #lock{position:fixed;inset:0;z-index:99000;overflow:hidden;color:#fff;user-select:none;-webkit-user-select:none;touch-action:none;
   font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Arial,sans-serif;
@@ -3901,75 +3922,12 @@ document.addEventListener('click',e=>{const s=e.target.closest('.lt-stop');if(!s
     </div>
 
     <div class="qk-pane qk-cvpane" data-qp="cv">
-      <div class="cv-actions qk-btns" style="margin-top:0"><button class="pri" type="button" onclick="printCV()"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8.5V4h10v4.5"/><rect x="4" y="8.5" width="16" height="8" rx="2"/><path d="M7.5 14h9v6h-9z"/></svg>Print / save as PDF</button></div>
-      <article class="cv">
-        <h1>Mia Zhou</h1>
-        <div class="cv-c"><a href="mailto:miazhou519@gmail.com">miazhou519@gmail.com</a> | 919-337-2313 | <a href="https://linkedin.com/in/miaazhoou/" target="_blank" rel="noopener">linkedin.com/in/miaazhoou</a> | <a href="https://miazhou.dev" target="_blank" rel="noopener">miazhou.dev</a></div>
-
-        <h2>Education</h2>
-        <div class="cv-r"><b>University of North Carolina – Chapel Hill</b></div>
-        <p><b>Bachelor of Science</b> in <b>Math &amp; Biostatistics</b>, Minor in Neuroscience</p>
-        <ul>
-          <li><b>Awards:</b> Best Statistical Analysis (Duke ASA DataFest 2026, Duke Datathon 2026), 1<sup>st</sup> Place Culture Track (SolHacks 2026), Dean’s List (all semesters), Honorable Mention (BUSI Symposium), NSF Research Fellow (RTG grant), Phi Beta Kappa</li>
-          <li><b>Leadership/Volunteer:</b> <b>UNC-Chapel Hill Women in Data Science</b> (Founder &amp; President), <b>MATH 523 Complex Analysis</b> (Undergraduate Learning Assistant), <b>UNC Biostatistics Program</b> (Ambassador), <b>Phi Beta Kappa</b> (Member)</li>
-        </ul>
-
-        <h2>Technical Skills</h2>
-        <ul>
-          <li><b>Languages:</b> R, Python, SAS, SQL, JavaScript, TypeScript, HTML/CSS</li>
-          <li><b>Libraries/Frameworks:</b> Pandas, NumPy, Scikit-learn, PyTorch, Hugging Face, React, Node.js</li>
-          <li><b>Tools:</b> BigQuery, Google Cloud Platform (GCP), Azure, Google Agent Development Kit (ADK), Git, GitHub, Docker, Linux, Jupyter, Tableau, Power BI, Microsoft Excel</li>
-        </ul>
-
-        <h2>Experience</h2>
-        <div class="cv-r"><span><b>Product Management &amp; Analytics Intern</b> | McLean, VA</span><span class="cv-d">Jun – Aug 2027</span></div>
-        <div class="cv-o">Capital One</div>
-        <ul>
-          <li>Will utilize SQL and Python (Pandas) to query AWS Snowflake data warehouses and model user behavioral KPIs.</li>
-          <li>Will translate machine learning insights and A/B test metrics into technical Agile backlogs, focused on business decisions.</li>
-        </ul>
-        <div class="cv-r"><span><b>Software Engineer Sprintern</b> | Durham, NC</span><span class="cv-d">Jul 2026</span></div>
-        <div class="cv-o">Google</div>
-        <ul>
-          <li>Led a 5-person Agile/cross-functional team to develop a 0-to-1 AI-powered educational accessibility product, integrating 41 transit datasets to assess transportation barriers across 2,400+ schools in 100 NC counties.</li>
-          <li>Led the MVP development with <b>Python, BigQuery, React, Google ADK,</b> and <b>machine learning</b> prediction.</li>
-          <li>Drove stakeholder engagement and go-to-market exploration, registering the product as a venture through UNC’s 1789 Hub and engaging a Wake County policymaker to explore public-sector adoption.</li>
-        </ul>
-        <div class="cv-r"><span><b>Biostatistics Researcher &amp; Honors Thesis</b> | Chapel Hill, NC</span><span class="cv-d">Mar 2026 – Present</span></div>
-        <div class="cv-o">PI: Dr. Ming Ding, UNC School of Medicine</div>
-        <ul>
-          <li>Developed a 10-year cardiovascular risk prediction framework using 3 longitudinal cohorts.</li>
-          <li>Evaluated model discrimination and calibration via machine learning across 4 disease trajectories and 6,466 validation participants, achieving a C-index up to 0.85 to assess predictive reliability.</li>
-          <li>Submitted an abstract to the AHA EPI 2027 conference, and received an honorable mention at the undergraduate research symposium.</li>
-        </ul>
-        <div class="cv-r"><span><b>Chapter Founder &amp; President</b> | Chapel Hill, NC</span><span class="cv-d">Sep 2026 – Present</span></div>
-        <div class="cv-o">UNC Women in Data Science</div>
-        <ul>
-          <li>Founded and led a campus organization focused on women in data science; oversee program strategy, industry partnerships, speaker recruitment, and professional networking.</li>
-        </ul>
-
-        <h2>Projects</h2>
-        <div class="cv-r"><span><b>Federal Funds Matchmaker | AI Product Strategy &amp; Development</b></span><a href="https://github.com/ErHxyun/Solve-a-thon-2026" target="_blank" rel="noopener">github.com/ErHxyun/Solve-a-thon-2026</a></div>
-        <ul>
-          <li>Developed a 0-to-1 AI-native product addressing a state agency’s resource-constrained grant review process, narrowing 1,364 listings to 15 prioritized recommendations (98.9% less to review).</li>
-          <li>Translated user pain points into product requirements and MVP features, cutting 257 staff working hours (87%) and increasing expected grant funding by <b>~$1M</b> through AI-assisted simulation.</li>
-          <li>Benchmarked 3 LLMs on 50 grants and contributed to testing 2,556 scoring configurations, achieving 80% precision.</li>
-        </ul>
-        <div class="cv-r"><span><b>WageGuard (1st Place at SolHacks) | AI Product &amp; UX Lead</b></span><a href="https://devpost.com/software/jornadajusta" target="_blank" rel="noopener">Devpost</a></div>
-        <ul>
-          <li>Led end-to-end product design and feature prioritization for a bilingual AI wage-protection assistant, prioritizing voice-first reporting to address language and documentation barriers for Latino workers.</li>
-          <li>Delivered a functional MVP and user workflows integrating React, an ElevenLabs speech agent, Supabase and the Gemini API.</li>
-        </ul>
-        <div class="cv-r"><span><b>Diabetes Patients Journey Analysis | Product Analyst</b></span><a href="https://github.com/miazhouruoya/dukeasafest26" target="_blank" rel="noopener">github.com/miazhouruoya/dukeasafest26</a></div>
-        <ul>
-          <li>Led data analysis for a 4-person team using Python, R, Scikit-learn on 7M+ healthcare records over 8 social risk domains.</li>
-          <li>Identified high-risk diabetic populations using logistic regression, projecting an 18% reduction in avoidable ED visits.</li>
-          <li>Developed a data-driven service deployment strategy targeting 32K+ high-risk patients through 15 mobile-clinic stops, communicating recommendations through an interactive dashboard.</li>
-        </ul>
-
-        <h2>Publications</h2>
-        <p>AAAI Submission, ICLR Submission, AHA EPI Submission (1st author), SLADS Accepted</p>
-      </article>
+      <div class="cv-actions qk-btns" style="margin-top:0">
+        <a href="resume.pdf" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/></svg>Open in new tab</a>
+        <a class="pri" href="resume.pdf" download="Mia_Zhou_Resume.pdf"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>Download PDF</a>
+      </div>
+      <div class="cv-frame"><iframe id="cvFrame" title="Mia Zhou résumé (PDF)" loading="lazy"></iframe>
+        <div class="cv-miss" id="cvMiss"><span>Résumé PDF coming soon — meanwhile, the <b>30 seconds</b> tab has the highlights.</span></div></div>
     </div>
   </div>
 </div>
@@ -3982,7 +3940,9 @@ window.revealSite=function(){
     el.addEventListener('animationend',()=>{el.classList.remove('pop-in');el.style.animationDelay=''},{once:true})}});
 };
 /* 6. recruiter 30-second view */
-function qkTab(t){document.querySelectorAll('.qk-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.qt===t));document.querySelectorAll('.qk-pane').forEach(p=>p.classList.toggle('on',p.dataset.qp===t));document.querySelector('.qk').scrollTop=0}
+function loadCV(){const f=document.getElementById('cvFrame');if(!f||f.dataset.done)return;f.dataset.done=1;
+  fetch('resume.pdf',{method:'HEAD'}).then(r=>{if(!r.ok)throw 0;f.src='resume.pdf#view=FitH&toolbar=1'}).catch(()=>f.parentNode.classList.add('missing'))}
+function qkTab(t){if(t==='cv')loadCV();document.querySelectorAll('.qk-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.qt===t));document.querySelectorAll('.qk-pane').forEach(p=>p.classList.toggle('on',p.dataset.qp===t));document.querySelector('.qk').scrollTop=0}
 function printCV(){qkTab('cv');document.documentElement.classList.add('print-cv');window.print();setTimeout(()=>document.documentElement.classList.remove('print-cv'),500)}
 addEventListener('afterprint',()=>document.documentElement.classList.remove('print-cv'));
 function openQuick(t){if(typeof t==='string')qkTab(t);document.querySelectorAll('.copied').forEach(x=>x.remove());document.getElementById('quick').classList.add('on');document.documentElement.style.overflow='hidden'}
