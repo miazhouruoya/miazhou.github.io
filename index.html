@@ -2669,8 +2669,65 @@ html body::before{background-image:radial-gradient(circle,rgba(255,255,255,.45) 
 .r-shot:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(80,90,110,.18)}
 .r-shot img{display:block;width:100%;height:auto}
 
-/* ── default 75% zoom on laptop/desktop screens (phones stay 100%) ── */
-@media (min-width:1100px){#topbar,.layout{zoom:.75}}
+/* ── default 85% zoom on laptop/desktop screens (phones stay 100%) ── */
+@media (min-width:1100px){#topbar,.layout{zoom:.85}}
+
+/* ── 1. pop-in after unlocking ── */
+html.locked .r-card,html.locked .sidebar{opacity:0}
+.pop-in{animation:popIn .7s cubic-bezier(.2,1.15,.35,1) both}
+@keyframes popIn{from{opacity:0;transform:translateY(34px) scale(.97)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.pop-in{animation:none}}
+
+/* ── 4. "now" widget ── */
+.now-w{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:12px;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',Arial,sans-serif}
+.now-w .now-l{display:inline-flex;align-items:center;gap:6px;font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#1d9e75;margin-right:2px}
+.now-w .now-l i{width:8px;height:8px;border-radius:50%;background:#2fd08a;box-shadow:0 0 0 0 rgba(47,208,138,.6);animation:nowPulse 1.8s infinite}
+@keyframes nowPulse{70%{box-shadow:0 0 0 7px rgba(47,208,138,0)}100%{box-shadow:0 0 0 0 rgba(47,208,138,0)}}
+.now-w span.ni{font-size:.74rem;font-weight:600;color:#1c1d22;background:rgba(118,118,128,.1);border-radius:999px;padding:.28rem .65rem;white-space:nowrap}
+
+/* ── 7. top bar: weather + 30-sec button ── */
+.tb-r{display:flex;align-items:center;gap:10px}
+.tb-wx{font:700 .62rem/1 -apple-system,BlinkMacSystemFont,'SF Pro Text',Arial,sans-serif;color:#4b5160;white-space:nowrap}
+.tb-quick{font:800 .62rem/1 -apple-system,BlinkMacSystemFont,'SF Pro Text',Arial,sans-serif;color:#1c1d22;background:#F8C8D8;border:0;border-radius:999px;padding:.32rem .7rem;cursor:pointer;transition:background .2s,color .2s}
+.tb-quick:hover{background:#1c1d22;color:#fff}
+@media(max-width:600px){.tb-wx{display:none}}
+
+/* ── 7. confetti + copied bubble ── */
+.cf{position:fixed;z-index:99990;pointer-events:none;width:8px;height:12px;border-radius:2px;will-change:transform,opacity}
+.copied{position:fixed;z-index:99995;transform:translate(-50%,-130%);background:#1c1d22;color:#fff;border-radius:12px;padding:.5rem .75rem;
+  font:600 .76rem/1.35 -apple-system,BlinkMacSystemFont,'SF Pro Text',Arial,sans-serif;box-shadow:0 10px 26px rgba(0,0,0,.25);animation:cpIn .25s ease both;white-space:nowrap}
+.copied a{color:#F8C8D8;font-weight:800;margin-left:6px;text-decoration:none}
+@keyframes cpIn{from{opacity:0;transform:translate(-50%,-100%)}to{opacity:1;transform:translate(-50%,-130%)}}
+.r-award-badge{cursor:pointer}
+
+/* ── 6. recruiter "30-second" view ── */
+#quick{position:fixed;inset:0;z-index:98000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(28,29,34,.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+#quick.on{display:flex}
+.qk{width:min(760px,100%);max-height:calc(100vh - 32px);overflow:auto;background:rgba(255,255,255,.92);border-radius:26px;box-shadow:0 30px 80px rgba(20,20,40,.3);
+  padding:26px 28px;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',Arial,sans-serif;color:#1c1d22;animation:qkIn .35s cubic-bezier(.2,1.2,.4,1) both;position:relative}
+@keyframes qkIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+.qk-x{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(118,118,128,.14);font-size:1rem;cursor:pointer}
+.qk-top{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+.qk-top img{width:64px;height:64px;border-radius:18px;object-fit:cover}
+.qk-top h3{font-size:1.5rem;font-weight:800;letter-spacing:-.03em}
+.qk-top p{font-size:.84rem;color:#4b5160}
+.qk-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.qk-box{background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 6px 18px rgba(80,90,110,.08)}
+.qk-box h4{font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#d4537e;margin-bottom:8px}
+.qk-box ul{list-style:none;display:grid;gap:6px}
+.qk-box li{font-size:.84rem;line-height:1.35}
+.qk-box li b{font-weight:800}
+.qk-box li small{color:#6b7280;font-weight:600}
+.qk-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.qk-stats div{background:#fff;border-radius:16px;padding:10px 12px;box-shadow:0 6px 18px rgba(80,90,110,.08)}
+.qk-stats b{display:block;font-size:1.4rem;font-weight:800;letter-spacing:-.02em}
+.qk-stats span{font-size:.7rem;font-weight:600;color:#6b7280}
+.qk-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.qk-btns a,.qk-btns button{font:800 .8rem/1 -apple-system,BlinkMacSystemFont,Arial,sans-serif;padding:.6rem 1rem;border-radius:999px;border:0;cursor:pointer;text-decoration:none;color:#1c1d22;background:rgba(118,118,128,.12)}
+.qk-btns .pri{background:#F8C8D8}
+.qk-btns a:hover,.qk-btns button:hover{background:#1c1d22;color:#fff}
+@media(max-width:640px){.qk-grid{grid-template-columns:1fr}.qk-stats{grid-template-columns:1fr 1fr}.qk{padding:22px 18px}}
+@media print{#quick,.tb-quick{display:none!important}}
 /* ── LOCK SCREEN (React) ── */
 #lock{position:fixed;inset:0;z-index:99000;overflow:hidden;color:#fff;user-select:none;-webkit-user-select:none;touch-action:none;
   font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Arial,sans-serif;
@@ -2715,6 +2772,8 @@ html.locked,html.locked body{overflow:hidden!important}
     <span class="tb-title">Mia Zhou</span>
   </div>
   <div class="tb-r">
+    <button class="tb-quick" type="button" onclick="openQuick()" title="Recruiter view">⚡ 30-sec version</button>
+    <span class="tb-wx" id="wx" title="Weather in Chapel Hill"></span>
     <span class="tb-clock" id="clock">00:00</span>
   </div>
 </div>
@@ -2792,6 +2851,13 @@ html.locked,html.locked body{overflow:hidden!important}
               <a href="https://linkedin.com/in/miaazhoou" target="_blank" title="linkedin.com/in/miaazhoou"><svg viewBox="0 0 24 24"><path d="M4.7 4.9c4.9-.7 9.7-.6 14.6.1.5 4.7.5 9.3 0 14.1-4.9.6-9.7.5-14.6-.1-.4-4.6-.4-9.3 0-14.1z"/><text x="12" y="16.5" font-family="'Segoe Print','Comic Sans MS',cursive" font-weight="700" font-size="10.5" fill="currentColor" stroke="none" text-anchor="middle">in</text></svg>LinkedIn</a>
               <a href="https://github.com/miazhouruoya" target="_blank" title="github.com/miazhouruoya"><svg viewBox="0 0 24 24"><path d="M12 4.6c3.3-.3 6.1 1.9 6.7 5 .5 2.6-.6 5.1-2.7 6.6.1 1.5.1 2.5-.7 3.3-1.7-.2-2-.9-2.1-2-1.4.2-2.9.2-4.3 0-.1 1.1-.4 1.8-2.1 2-.8-.8-.8-1.8-.7-3.3-2.1-1.5-3.2-4-2.7-6.6.6-3.1 3.4-5.3 6.6-5z"/><path d="M8.3 7.6l-1.6-2.3"/><path d="M15.7 7.6l1.6-2.3"/><circle cx="9.6" cy="12.2" r=".55" fill="currentColor" stroke="none"/><circle cx="14.4" cy="12.2" r=".55" fill="currentColor" stroke="none"/></svg>GitHub</a>
               <a href="https://scholar.google.com/citations?user=FcFW3d4AAAAJ&hl=en" target="_blank" title="Google Scholar"><svg viewBox="0 0 24 24"><path d="M3.5 9.5l8.5-4 8.5 4-8.5 4-8.5-4z"/><path d="M7 11.3v4c0 1.3 2.2 2.4 5 2.4s5-1.1 5-2.4v-4"/><path d="M20 9.7v5.2"/></svg>Scholar</a>
+            </div>
+            <div class="now-w" aria-label="What Mia is doing now">
+              <span class="now-l"><i></i>now</span>
+              <span class="ni">📍 Chapel Hill, NC</span>
+              <span class="ni">🔬 honors thesis · CVD modeling</span>
+              <span class="ni">📈 quant research · bond portfolios</span>
+              <span class="ni">💼 Capital One BA Intern · summer ’27</span>
             </div>
           </div>
         </div>
@@ -3717,13 +3783,89 @@ document.addEventListener('click',e=>{const s=e.target.closest('.lt-stop');if(!s
   if(!('IntersectionObserver' in window)){initLifeMap();return}
   const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();initLifeMap()}},{rootMargin:'400px 0px'});io.observe(t)})();
 </script>
+
+<div id="quick" onclick="if(event.target===this)closeQuick()" role="dialog" aria-modal="true" aria-label="Mia Zhou in 30 seconds">
+  <div class="qk">
+    <button class="qk-x" type="button" onclick="closeQuick()" aria-label="Close">✕</button>
+    <div class="qk-top"><img src="Mia.jpg" alt=""><div><h3>Mia Zhou in 30 seconds ⚡</h3>
+      <p>Math (B.S.) &amp; Biostatistics (B.S.P.H.) · Neuroscience minor · UNC Chapel Hill · May 2027<br>Aspiring AI &amp; Data Scientist · PM / DS / Applied Science</p></div></div>
+    <div class="qk-stats">
+      <div><b>3</b><span>papers (1 accepted)</span></div>
+      <div><b>6</b><span>research labs</span></div>
+      <div><b>3</b><span>competition wins</span></div>
+      <div><b>2</b><span>industry internships</span></div>
+    </div>
+    <div class="qk-grid">
+      <div class="qk-box"><h4>Experience</h4><ul>
+        <li><b>Capital One</b> · Business Analyst Intern <small>· incoming, summer 2027</small></li>
+        <li><b>Google</b> · Software Engineer Intern <small>· summer 2026</small></li>
+        <li><b>UNC RTG (NSF)</b> · Quantitative Research Intern <small>· 2026–now</small></li>
+        <li><b>UNC Biostatistics</b> · Honors thesis, CVD modeling <small>· 2026–now</small></li>
+      </ul></div>
+      <div class="qk-box"><h4>Honors</h4><ul>
+        <li><b>Phi Beta Kappa</b> <small>· 1 of 132 UNC students, fall 2026</small></li>
+        <li><b>1st Place</b> · SolHacks 2026 <small>· WageGuard</small></li>
+        <li><b>Best Statistical Analysis</b> · Duke ASA DataFest 2026</li>
+        <li><b>Best Statistical Analysis</b> · Duke Data Mini #3</li>
+        <li><b>Founder &amp; President</b> · UNC Women in Data Science</li>
+      </ul></div>
+      <div class="qk-box"><h4>Research</h4><ul>
+        <li>AI security · vision-language-action models &amp; LLM gateways <small>(AAAI / ICLR submissions)</small></li>
+        <li>Network science · NIH team-science dataset <small>(SLADS, accepted)</small></li>
+        <li>Survival analysis · biostatistics · spatial transcriptomics</li>
+      </ul></div>
+      <div class="qk-box"><h4>Skills</h4><ul>
+        <li><b>Languages</b> · Python, R, SQL, SAS, MATLAB, JavaScript</li>
+        <li><b>ML / data</b> · PyTorch, scikit-learn, XGBoost, pandas</li>
+        <li><b>Cloud / tools</b> · GCP, Azure, Tableau, Power BI, React</li>
+      </ul></div>
+    </div>
+    <div class="qk-btns">
+      <a class="pri" href="mailto:zhoumia@ad.unc.edu">✉️ Email me</a>
+      <a href="https://linkedin.com/in/miaazhoou" target="_blank" rel="noopener">LinkedIn</a>
+      <button type="button" onclick="closeQuick();setTimeout(()=>window.print(),200)">🖨 Résumé PDF</button>
+      <button type="button" onclick="closeQuick()">See the full site →</button>
+    </div>
+  </div>
+</div>
+<script>
+/* 1. cards pop in after the lock screen opens */
+window.revealSite=function(){
+  const els=[document.querySelector('.sidebar'),...document.querySelectorAll('.r-card')].filter(Boolean);let d=0;
+  els.forEach(el=>{const r=el.getBoundingClientRect();if(r.top<innerHeight){el.style.animationDelay=(d*110)+'ms';el.classList.add('pop-in');d++;
+    el.addEventListener('animationend',()=>{el.classList.remove('pop-in');el.style.animationDelay=''},{once:true})}});
+};
+/* 6. recruiter 30-second view */
+function openQuick(){document.querySelectorAll('.copied').forEach(x=>x.remove());document.getElementById('quick').classList.add('on');document.documentElement.style.overflow='hidden'}
+function closeQuick(){document.getElementById('quick').classList.remove('on');document.documentElement.style.overflow=''}
+addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('quick').classList.contains('on'))closeQuick()});
+/* 7a. weather in Chapel Hill (Open-Meteo, no key) */
+(function(){const el=document.getElementById('wx');if(!el)return;
+  const ic=c=>c===0?'☀️':c<=2?'🌤':c===3?'☁️':c<=48?'🌫':c<=67?'🌧':c<=77?'❄️':c<=82?'🌦':'⛈';
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=35.91&longitude=-79.05&current=temperature_2m,weather_code&temperature_unit=fahrenheit')
+    .then(r=>r.json()).then(d=>{const c=d.current;el.textContent=`${ic(c.weather_code)} ${Math.round(c.temperature_2m)}°F Chapel Hill`}).catch(()=>{})})();
+/* 7b. confetti on award badges */
+function confetti(x,y){const C=['#F8C8D8','#ff7eb3','#a99bff','#fff1a8','#b8f0d8','#9fd3ff'];
+  for(let i=0;i<46;i++){const p=document.createElement('i');p.className='cf';p.style.background=C[i%C.length];p.style.left=x+'px';p.style.top=y+'px';document.body.appendChild(p);
+    const a=Math.random()*Math.PI*2,v=4+Math.random()*7;let vx=Math.cos(a)*v,vy=Math.sin(a)*v-6,px=0,py=0,r=Math.random()*360,t=0;
+    (function f(){t++;vy+=.32;vx*=.985;px+=vx;py+=vy;r+=9;p.style.transform=`translate(${px}px,${py}px) rotate(${r}deg)`;p.style.opacity=1-t/80;t<80?requestAnimationFrame(f):p.remove()})()}}
+document.addEventListener('click',e=>{const b=e.target.closest('.r-award-badge');if(!b||!matchMedia('(hover:none)').matches)return;e.stopPropagation();e.preventDefault();confetti(e.clientX,e.clientY)},true);
+document.querySelectorAll('.proj-card').forEach(c=>{if(!c.querySelector('.r-award-badge'))return;let fired=false;
+  c.addEventListener('mouseenter',()=>{if(fired||matchMedia('(hover:none)').matches)return;fired=true;const r=c.getBoundingClientRect();confetti(r.left+r.width/2,r.top+30)})});
+/* 7c. copy email with a little bubble */
+document.addEventListener('click',e=>{const a=e.target.closest('.r-contact-row a[href^="mailto:"]');if(!a)return;e.preventDefault();
+  const mail=a.getAttribute('href').slice(7);(navigator.clipboard?navigator.clipboard.writeText(mail):Promise.reject()).catch(()=>{});
+  document.querySelectorAll('.copied').forEach(x=>x.remove());const r=a.getBoundingClientRect(),b=document.createElement('div');b.className='copied';
+  b.innerHTML=`email copied ✓ <a href="mailto:${mail}">open mail ↗</a>`;b.style.left=(r.left+r.width/2)+'px';b.style.top=r.top+'px';document.body.appendChild(b);setTimeout(()=>b.remove(),3200)});
+addEventListener('scroll',()=>document.querySelectorAll('.copied').forEach(x=>x.remove()),{passive:true});
+</script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
 <script>
 /* ── LOCK SCREEN: React component; click, swipe up, scroll or press a key to unlock ── */
 (function(){
   const root=document.getElementById('lock');if(!root)return;
-  function finish(){root.classList.add('gone');document.documentElement.classList.remove('locked');setTimeout(()=>root.remove(),800)}
+  function finish(){root.classList.add('gone');document.documentElement.classList.remove('locked');if(window.revealSite)revealSite();setTimeout(()=>root.remove(),800)}
   if(!window.React||!window.ReactDOM){root.addEventListener('click',finish);return}   // fallback if the CDN is blocked
   const h=React.createElement,{useState,useEffect,useRef}=React;
   const fmtT=d=>d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}).replace(/\s?[AP]M/i,'');
