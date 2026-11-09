@@ -2728,7 +2728,72 @@ html.locked .r-card,html.locked .sidebar{opacity:0}
 .qk-btns .pri{background:#F8C8D8}
 .qk-btns a:hover,.qk-btns button:hover{background:#1c1d22;color:#fff}
 @media(max-width:640px){.qk-grid{grid-template-columns:1fr}.qk-stats{grid-template-columns:1fr 1fr}.qk{padding:22px 18px}}
-@media print{#quick,.tb-quick{display:none!important}}
+@media print{html:not(.print-cv) #quick,.tb-quick{display:none!important}}
+
+/* ── cute line icons (replace emoji) ── */
+.ic{width:1em;height:1em;display:inline-block;vertical-align:-.14em;flex-shrink:0}
+.ib{display:inline-flex;align-items:center;justify-content:center;width:1.55em;height:1.55em;border-radius:.55em;margin-right:.38em;flex-shrink:0}
+.ib .ic{width:.95em;height:.95em}
+.ib.pk{background:#ffe1ec;color:#d4537e}.ib.lv{background:#ebe4fb;color:#7f77dd}.ib.mt{background:#dcf5ea;color:#1d9e75}
+.ib.sk{background:#ddefff;color:#3f86c6}.ib.lm{background:#fff3c4;color:#b7791f}.ib.pc{background:#ffe7d6;color:#d0803a}
+.now-w span.ni{display:inline-flex;align-items:center;padding:.22rem .7rem .22rem .26rem!important}
+.tb-wx{display:inline-flex;align-items:center;gap:5px}.tb-wx .ic{width:1.15em;height:1.15em;color:#d0803a}
+.tb-quick{display:inline-flex;align-items:center;gap:5px}.tb-quick .ic{width:1.05em;height:1.05em}
+.lk-wid span{display:inline-flex;align-items:center;gap:6px}.lk-wid .ic{width:1.05em;height:1.05em}
+.lk-note i .ic{width:1.15rem;height:1.15rem;color:#d4537e}
+.qk-btns a,.qk-btns button{display:inline-flex;align-items:center;gap:6px}
+.qk-btns .ic{width:1.05em;height:1.05em}
+.qk-x{display:grid;place-items:center;color:#1c1d22}.qk-x .ic{width:15px;height:15px}
+
+/* ── bigger sidebar navigation (laptop/desktop) ── */
+@media(min-width:781px){
+  html body .sidebar{width:262px!important;min-width:262px!important;flex:0 0 262px!important}
+  html body .sb-name{font-size:1.5rem!important;letter-spacing:-.03em!important}
+  html body .sb-nav{padding:.7rem .55rem!important}
+  html body .sb-item{font-size:1.04rem!important;padding:.66rem .95rem!important;gap:.7rem!important;border-radius:14px!important;margin:.12rem 0!important}
+  html body .sb-dot{width:10px!important;height:10px!important}
+  html body .sb-print{font-size:.86rem!important;padding:.55rem .8rem!important}
+}
+
+/* ── quick view tabs + résumé sheet ── */
+.qk{width:min(840px,100%)}
+.qk-tabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:rgba(118,118,128,.12);margin-bottom:16px}
+.qk-tabs button{display:inline-flex;align-items:center;gap:6px;border:0;background:transparent;border-radius:999px;padding:.5rem 1rem;font:800 .82rem/1 -apple-system,BlinkMacSystemFont,'SF Pro Text',Arial,sans-serif;color:#5d6270;cursor:pointer}
+.qk-tabs button .ic{width:1.05em;height:1.05em}
+.qk-tabs button.on{background:#fff;color:#1c1d22;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.qk-pane{display:none}.qk-pane.on{display:block}
+.cv{background:#fff;border-radius:14px;box-shadow:0 8px 26px rgba(80,90,110,.12);padding:34px 40px;color:#111;
+  font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,'Times New Roman',serif;font-size:13.5px;line-height:1.42}
+.cv h1{text-align:center;font-size:26px;font-weight:700;letter-spacing:-.01em;margin:0}
+.cv .cv-c{text-align:center;font-size:12.5px;margin:3px 0 10px;color:#222}
+.cv .cv-c a{color:#222;text-decoration:none;border-bottom:1px solid #bbb}
+.cv h2{font-size:13.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-bottom:1.3px solid #111;padding-bottom:1px;margin:13px 0 6px}
+.cv .cv-r{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-top:7px}
+.cv .cv-r b{font-weight:700}
+.cv .cv-r .cv-d{white-space:nowrap}
+.cv .cv-r a{color:#111;font-size:12.5px;white-space:nowrap}
+.cv .cv-o{font-style:italic;margin-top:1px}
+.cv ul{margin:3px 0 0 20px;padding:0}
+.cv li{margin:1px 0}
+.cv p{margin:3px 0}
+.cv-actions{display:flex;justify-content:flex-end;margin-bottom:10px}
+@media(max-width:640px){.cv{padding:22px 18px;font-size:12.5px}.cv .cv-r{flex-direction:column;gap:0}}
+/* print only the résumé when asked */
+@media print{
+  html.print-cv body>*:not(#quick){display:none!important}
+  html.print-cv #quick{display:block!important;position:static;background:none;backdrop-filter:none;padding:0}
+  html.print-cv .qk{box-shadow:none;background:none;padding:0;max-height:none;overflow:visible;width:100%;animation:none}
+  html.print-cv .qk>*:not(.qk-cvpane){display:none!important}
+  html.print-cv .qk-cvpane{display:block!important}
+  html.print-cv .cv-actions{display:none!important}
+  html.print-cv .cv{box-shadow:none;padding:0;border-radius:0;font-size:10.6px;line-height:1.3}
+  html.print-cv .cv h1{font-size:20px}
+  html.print-cv .cv .cv-c,html.print-cv .cv .cv-r a{font-size:10px}
+  html.print-cv .cv h2{font-size:11px;margin:8px 0 4px}
+  html.print-cv .cv .cv-r{margin-top:4px}
+  html.print-cv .cv li{margin:0}
+  @page{size:letter;margin:.45in .5in}
+}
 /* ── LOCK SCREEN (React) ── */
 #lock{position:fixed;inset:0;z-index:99000;overflow:hidden;color:#fff;user-select:none;-webkit-user-select:none;touch-action:none;
   font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Arial,sans-serif;
@@ -2773,7 +2838,7 @@ html.locked,html.locked body{overflow:hidden!important}
     <span class="tb-title">Mia Zhou</span>
   </div>
   <div class="tb-r">
-    <button class="tb-quick" type="button" onclick="openQuick()" title="Recruiter view">⚡ 30-sec version</button>
+    <button class="tb-quick" type="button" onclick="openQuick()" title="Recruiter view"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.2 3 5.6 13.4h5.6l-1 7.6 7.6-10.5h-5.6z"/></svg>30-sec version</button>
     <span class="tb-wx" id="wx" title="Weather in Chapel Hill"></span>
     <span class="tb-clock" id="clock">00:00</span>
   </div>
@@ -2855,10 +2920,10 @@ html.locked,html.locked body{overflow:hidden!important}
             </div>
             <div class="now-w" aria-label="What Mia is doing now">
               <span class="now-l"><i></i>now</span>
-              <span class="ni">📍 Chapel Hill, NC</span>
-              <span class="ni">🔬 honors thesis · CVD modeling</span>
-              <span class="ni">📈 quant research · bond portfolios</span>
-              <span class="ni">💼 Capital One BA Intern · summer ’27</span>
+              <span class="ni"><span class="ib pk"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c-3.6-4-6-7.2-6-10.2A6 6 0 0 1 18 10.8c0 3-2.4 6.2-6 10.2z"/><circle cx="12" cy="10.6" r="2.2"/></svg></span>Chapel Hill, NC</span>
+              <span class="ni"><span class="ib lv"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 3.5h5"/><path d="M10.4 3.7v5.4L5.3 18a2 2 0 0 0 1.8 2.9h9.8a2 2 0 0 0 1.8-2.9l-5.1-8.9V3.7"/><path d="M7.6 14.6h8.8"/></svg></span>honors thesis · CVD modeling</span>
+              <span class="ni"><span class="ib mt"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5h16"/><path d="M5.5 15.5l4-4.3 3.3 2.8 5.7-6.5"/><path d="M15.2 7.4h3.4v3.4"/></svg></span>quant research · bond portfolios</span>
+              <span class="ni"><span class="ib sk"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.6" y="7.4" width="16.8" height="12.2" rx="2.6"/><path d="M8.8 7.4V5.9a1.9 1.9 0 0 1 1.9-1.9h2.6a1.9 1.9 0 0 1 1.9 1.9v1.5"/><path d="M3.8 12.6h16.4"/></svg></span>Capital One BA Intern · summer ’27</span>
             </div>
           </div>
         </div>
@@ -3785,23 +3850,29 @@ document.addEventListener('click',e=>{const s=e.target.closest('.lt-stop');if(!s
   const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();initLifeMap()}},{rootMargin:'400px 0px'});io.observe(t)})();
 </script>
 
-<div id="quick" onclick="if(event.target===this)closeQuick()" role="dialog" aria-modal="true" aria-label="Mia Zhou in 30 seconds">
+<div id="quick" onclick="if(event.target===this)closeQuick()" role="dialog" aria-modal="true" aria-label="Mia Zhou at a glance">
   <div class="qk">
-    <button class="qk-x" type="button" onclick="closeQuick()" aria-label="Close">✕</button>
-    <div class="qk-top"><img src="Mia.jpg" alt=""><div><h3>Mia Zhou in 30 seconds ⚡</h3>
-      <p>Math (B.S.) &amp; Biostatistics (B.S.P.H.) · Neuroscience minor · UNC Chapel Hill · May 2027<br>Aspiring AI &amp; Data Scientist · PM / DS / Applied Science</p></div></div>
+    <button class="qk-x" type="button" onclick="closeQuick()" aria-label="Close"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg></button>
+    <div class="qk-tabs" role="tablist">
+      <button type="button" class="on" data-qt="fast" onclick="qkTab('fast')"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.2 3 5.6 13.4h5.6l-1 7.6 7.6-10.5h-5.6z"/></svg>30 seconds</button>
+      <button type="button" data-qt="cv" onclick="qkTab('cv')"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.5h7l4 4v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z"/><path d="M14 3.5v4h4"/><path d="M9 12.5h6M9 15.8h6"/></svg>résumé</button>
+    </div>
+
+    <div class="qk-pane on" data-qp="fast">
+    <div class="qk-top"><img src="Mia.jpg" alt=""><div><h3>Mia Zhou in 30 seconds</h3>
+      <p>Math (B.S.) &amp; Biostatistics (B.S.P.H.) · Neuroscience minor · UNC Chapel Hill<br>Aspiring AI &amp; Data Scientist · PM / DS / Applied Science</p></div></div>
     <div class="qk-stats">
-      <div><b>3</b><span>papers (1 accepted)</span></div>
+      <div><b>4</b><span>papers &amp; abstracts</span></div>
       <div><b>6</b><span>research labs</span></div>
       <div><b>3</b><span>competition wins</span></div>
       <div><b>2</b><span>industry internships</span></div>
     </div>
     <div class="qk-grid">
       <div class="qk-box"><h4>Experience</h4><ul>
-        <li><b>Capital One</b> · Business Analyst Intern <small>· incoming, summer 2027</small></li>
-        <li><b>Google</b> · Software Engineer Intern <small>· summer 2026</small></li>
+        <li><b>Capital One</b> · Product Management &amp; Analytics Intern <small>· summer 2027</small></li>
+        <li><b>Google</b> · Software Engineer Sprintern <small>· summer 2026</small></li>
         <li><b>UNC RTG (NSF)</b> · Quantitative Research Intern <small>· 2026–now</small></li>
-        <li><b>UNC Biostatistics</b> · Honors thesis, CVD modeling <small>· 2026–now</small></li>
+        <li><b>UNC School of Medicine</b> · Biostatistics researcher &amp; honors thesis <small>· 2026–now</small></li>
       </ul></div>
       <div class="qk-box"><h4>Honors</h4><ul>
         <li><b>Phi Beta Kappa</b> <small>· 1 of 132 UNC students, fall 2026</small></li>
@@ -3813,23 +3884,97 @@ document.addEventListener('click',e=>{const s=e.target.closest('.lt-stop');if(!s
       <div class="qk-box"><h4>Research</h4><ul>
         <li>AI security · vision-language-action models &amp; LLM gateways <small>(AAAI / ICLR submissions)</small></li>
         <li>Network science · NIH team-science dataset <small>(SLADS, accepted)</small></li>
-        <li>Survival analysis · biostatistics · spatial transcriptomics</li>
+        <li>Cardiovascular risk prediction <small>(AHA EPI abstract, 1st author)</small></li>
       </ul></div>
       <div class="qk-box"><h4>Skills</h4><ul>
-        <li><b>Languages</b> · Python, R, SQL, SAS, MATLAB, JavaScript</li>
-        <li><b>ML / data</b> · PyTorch, scikit-learn, XGBoost, pandas</li>
-        <li><b>Cloud / tools</b> · GCP, Azure, Tableau, Power BI, React</li>
+        <li><b>Languages</b> · R, Python, SAS, SQL, JavaScript, TypeScript</li>
+        <li><b>ML / data</b> · PyTorch, scikit-learn, Hugging Face, pandas</li>
+        <li><b>Cloud / tools</b> · BigQuery, GCP, Azure, Google ADK, Docker</li>
       </ul></div>
     </div>
     <div class="qk-btns">
-      <a class="pri" href="mailto:zhoumia@ad.unc.edu">✉️ Email me</a>
-      <a href="https://linkedin.com/in/miaazhoou" target="_blank" rel="noopener">LinkedIn</a>
-      <button type="button" onclick="closeQuick();setTimeout(()=>window.print(),200)">🖨 Résumé PDF</button>
-      <button type="button" onclick="closeQuick()">See the full site →</button>
+      <a class="pri" href="mailto:miazhou519@gmail.com"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="6" width="17" height="12.5" rx="2.4"/><path d="M4.2 7.4 12 13l7.8-5.6"/></svg>Email me</a>
+      <a href="https://linkedin.com/in/miaazhoou" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l2.8-2.8a4 4 0 0 0-5.7-5.7l-1.2 1.2"/><path d="M14 10a4 4 0 0 0-5.7 0l-2.8 2.8a4 4 0 0 0 5.7 5.7l1.2-1.2"/></svg>LinkedIn</a>
+      <button type="button" onclick="qkTab('cv')"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.5h7l4 4v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1z"/><path d="M14 3.5v4h4"/><path d="M9 12.5h6M9 15.8h6"/></svg>Résumé</button>
+      <button type="button" onclick="closeQuick()"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="M13 7l5 5-5 5"/></svg>See the full site</button>
+    </div>
+    </div>
+
+    <div class="qk-pane qk-cvpane" data-qp="cv">
+      <div class="cv-actions qk-btns" style="margin-top:0"><button class="pri" type="button" onclick="printCV()"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8.5V4h10v4.5"/><rect x="4" y="8.5" width="16" height="8" rx="2"/><path d="M7.5 14h9v6h-9z"/></svg>Print / save as PDF</button></div>
+      <article class="cv">
+        <h1>Mia Zhou</h1>
+        <div class="cv-c"><a href="mailto:miazhou519@gmail.com">miazhou519@gmail.com</a> | 919-337-2313 | <a href="https://linkedin.com/in/miaazhoou/" target="_blank" rel="noopener">linkedin.com/in/miaazhoou</a> | <a href="https://miazhou.dev" target="_blank" rel="noopener">miazhou.dev</a></div>
+
+        <h2>Education</h2>
+        <div class="cv-r"><b>University of North Carolina – Chapel Hill</b></div>
+        <p><b>Bachelor of Science</b> in <b>Math &amp; Biostatistics</b>, Minor in Neuroscience</p>
+        <ul>
+          <li><b>Awards:</b> Best Statistical Analysis (Duke ASA DataFest 2026, Duke Datathon 2026), 1<sup>st</sup> Place Culture Track (SolHacks 2026), Dean’s List (all semesters), Honorable Mention (BUSI Symposium), NSF Research Fellow (RTG grant), Phi Beta Kappa</li>
+          <li><b>Leadership/Volunteer:</b> <b>UNC-Chapel Hill Women in Data Science</b> (Founder &amp; President), <b>MATH 523 Complex Analysis</b> (Undergraduate Learning Assistant), <b>UNC Biostatistics Program</b> (Ambassador), <b>Phi Beta Kappa</b> (Member)</li>
+        </ul>
+
+        <h2>Technical Skills</h2>
+        <ul>
+          <li><b>Languages:</b> R, Python, SAS, SQL, JavaScript, TypeScript, HTML/CSS</li>
+          <li><b>Libraries/Frameworks:</b> Pandas, NumPy, Scikit-learn, PyTorch, Hugging Face, React, Node.js</li>
+          <li><b>Tools:</b> BigQuery, Google Cloud Platform (GCP), Azure, Google Agent Development Kit (ADK), Git, GitHub, Docker, Linux, Jupyter, Tableau, Power BI, Microsoft Excel</li>
+        </ul>
+
+        <h2>Experience</h2>
+        <div class="cv-r"><span><b>Product Management &amp; Analytics Intern</b> | McLean, VA</span><span class="cv-d">Jun – Aug 2027</span></div>
+        <div class="cv-o">Capital One</div>
+        <ul>
+          <li>Will utilize SQL and Python (Pandas) to query AWS Snowflake data warehouses and model user behavioral KPIs.</li>
+          <li>Will translate machine learning insights and A/B test metrics into technical Agile backlogs, focused on business decisions.</li>
+        </ul>
+        <div class="cv-r"><span><b>Software Engineer Sprintern</b> | Durham, NC</span><span class="cv-d">Jul 2026</span></div>
+        <div class="cv-o">Google</div>
+        <ul>
+          <li>Led a 5-person Agile/cross-functional team to develop a 0-to-1 AI-powered educational accessibility product, integrating 41 transit datasets to assess transportation barriers across 2,400+ schools in 100 NC counties.</li>
+          <li>Led the MVP development with <b>Python, BigQuery, React, Google ADK,</b> and <b>machine learning</b> prediction.</li>
+          <li>Drove stakeholder engagement and go-to-market exploration, registering the product as a venture through UNC’s 1789 Hub and engaging a Wake County policymaker to explore public-sector adoption.</li>
+        </ul>
+        <div class="cv-r"><span><b>Biostatistics Researcher &amp; Honors Thesis</b> | Chapel Hill, NC</span><span class="cv-d">Mar 2026 – Present</span></div>
+        <div class="cv-o">PI: Dr. Ming Ding, UNC School of Medicine</div>
+        <ul>
+          <li>Developed a 10-year cardiovascular risk prediction framework using 3 longitudinal cohorts.</li>
+          <li>Evaluated model discrimination and calibration via machine learning across 4 disease trajectories and 6,466 validation participants, achieving a C-index up to 0.85 to assess predictive reliability.</li>
+          <li>Submitted an abstract to the AHA EPI 2027 conference, and received an honorable mention at the undergraduate research symposium.</li>
+        </ul>
+        <div class="cv-r"><span><b>Chapter Founder &amp; President</b> | Chapel Hill, NC</span><span class="cv-d">Sep 2026 – Present</span></div>
+        <div class="cv-o">UNC Women in Data Science</div>
+        <ul>
+          <li>Founded and led a campus organization focused on women in data science; oversee program strategy, industry partnerships, speaker recruitment, and professional networking.</li>
+        </ul>
+
+        <h2>Projects</h2>
+        <div class="cv-r"><span><b>Federal Funds Matchmaker | AI Product Strategy &amp; Development</b></span><a href="https://github.com/ErHxyun/Solve-a-thon-2026" target="_blank" rel="noopener">github.com/ErHxyun/Solve-a-thon-2026</a></div>
+        <ul>
+          <li>Developed a 0-to-1 AI-native product addressing a state agency’s resource-constrained grant review process, narrowing 1,364 listings to 15 prioritized recommendations (98.9% less to review).</li>
+          <li>Translated user pain points into product requirements and MVP features, cutting 257 staff working hours (87%) and increasing expected grant funding by <b>~$1M</b> through AI-assisted simulation.</li>
+          <li>Benchmarked 3 LLMs on 50 grants and contributed to testing 2,556 scoring configurations, achieving 80% precision.</li>
+        </ul>
+        <div class="cv-r"><span><b>WageGuard (1st Place at SolHacks) | AI Product &amp; UX Lead</b></span><a href="https://devpost.com/software/jornadajusta" target="_blank" rel="noopener">Devpost</a></div>
+        <ul>
+          <li>Led end-to-end product design and feature prioritization for a bilingual AI wage-protection assistant, prioritizing voice-first reporting to address language and documentation barriers for Latino workers.</li>
+          <li>Delivered a functional MVP and user workflows integrating React, an ElevenLabs speech agent, Supabase and the Gemini API.</li>
+        </ul>
+        <div class="cv-r"><span><b>Diabetes Patients Journey Analysis | Product Analyst</b></span><a href="https://github.com/miazhouruoya/dukeasafest26" target="_blank" rel="noopener">github.com/miazhouruoya/dukeasafest26</a></div>
+        <ul>
+          <li>Led data analysis for a 4-person team using Python, R, Scikit-learn on 7M+ healthcare records over 8 social risk domains.</li>
+          <li>Identified high-risk diabetic populations using logistic regression, projecting an 18% reduction in avoidable ED visits.</li>
+          <li>Developed a data-driven service deployment strategy targeting 32K+ high-risk patients through 15 mobile-clinic stops, communicating recommendations through an interactive dashboard.</li>
+        </ul>
+
+        <h2>Publications</h2>
+        <p>AAAI Submission, ICLR Submission, AHA EPI Submission (1st author), SLADS Accepted</p>
+      </article>
     </div>
   </div>
 </div>
 <script>
+window.ICO={"pin": "<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21c-3.6-4-6-7.2-6-10.2A6 6 0 0 1 18 10.8c0 3-2.4 6.2-6 10.2z\"/><circle cx=\"12\" cy=\"10.6\" r=\"2.2\"/></svg>", "cap": "<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M2.8 9.4 12 5l9.2 4.4L12 13.8z\"/><path d=\"M6.6 11.4v4.2c0 1.4 2.4 2.6 5.4 2.6s5.4-1.2 5.4-2.6v-4.2\"/><path d=\"M21 9.6v4.6\"/></svg>", "spark": "<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3.5c.6 4.3 2.2 5.9 6.5 6.5-4.3.6-5.9 2.2-6.5 6.5-.6-4.3-2.2-5.9-6.5-6.5 4.3-.6 5.9-2.2 6.5-6.5z\"/><path d=\"M18.6 16.2c.2 1.5.8 2.1 2.3 2.3-1.5.2-2.1.8-2.3 2.3-.2-1.5-.8-2.1-2.3-2.3 1.5-.2 2.1-.8 2.3-2.3z\"/></svg>", "heart": "<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 19.6s-7.4-4.4-7.4-9.6A4.1 4.1 0 0 1 12 7.6a4.1 4.1 0 0 1 7.4 2.4c0 5.2-7.4 9.6-7.4 9.6z\"/></svg>"};
 /* 1. cards pop in after the lock screen opens */
 window.revealSite=function(){
   const els=[document.querySelector('.sidebar'),...document.querySelectorAll('.r-card')].filter(Boolean);let d=0;
@@ -3837,14 +3982,17 @@ window.revealSite=function(){
     el.addEventListener('animationend',()=>{el.classList.remove('pop-in');el.style.animationDelay=''},{once:true})}});
 };
 /* 6. recruiter 30-second view */
-function openQuick(){document.querySelectorAll('.copied').forEach(x=>x.remove());document.getElementById('quick').classList.add('on');document.documentElement.style.overflow='hidden'}
+function qkTab(t){document.querySelectorAll('.qk-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.qt===t));document.querySelectorAll('.qk-pane').forEach(p=>p.classList.toggle('on',p.dataset.qp===t));document.querySelector('.qk').scrollTop=0}
+function printCV(){qkTab('cv');document.documentElement.classList.add('print-cv');window.print();setTimeout(()=>document.documentElement.classList.remove('print-cv'),500)}
+addEventListener('afterprint',()=>document.documentElement.classList.remove('print-cv'));
+function openQuick(t){if(typeof t==='string')qkTab(t);document.querySelectorAll('.copied').forEach(x=>x.remove());document.getElementById('quick').classList.add('on');document.documentElement.style.overflow='hidden'}
 function closeQuick(){document.getElementById('quick').classList.remove('on');document.documentElement.style.overflow=''}
 addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('quick').classList.contains('on'))closeQuick()});
 /* 7a. weather in Chapel Hill (Open-Meteo, no key) */
 (function(){const el=document.getElementById('wx');if(!el)return;
-  const ic=c=>c===0?'☀️':c<=2?'🌤':c===3?'☁️':c<=48?'🌫':c<=67?'🌧':c<=77?'❄️':c<=82?'🌦':'⛈';
+  const WX={"sun": "<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2.8v2M12 19.2v2M4.6 4.6 6 6M18 18l1.4 1.4M2.8 12h2M19.2 12h2M4.6 19.4 6 18M18 6l1.4-1.4\"/></svg>", "part": "<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8.5 6.6a3.6 3.6 0 0 1 6 2.1\"/><path d=\"M6.4 4.2l.8 1M3.8 8.4h1.3M11.6 3v1.3\"/><path d=\"M8 19.5h9.2a3.5 3.5 0 0 0 .4-7 5 5 0 0 0-9.6 1.3A2.9 2.9 0 0 0 8 19.5z\"/></svg>", "cloud": "<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7.5 18.8h10a3.8 3.8 0 0 0 .4-7.6 5.6 5.6 0 0 0-10.8 1.4 3.1 3.1 0 0 0 .4 6.2z\"/></svg>", "fog": "<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 9h13M7 13h13M4 17h13\"/></svg>", "rain": "<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7.5 14.5h10a3.6 3.6 0 0 0 .4-7.2 5.4 5.4 0 0 0-10.4 1.3 3 3 0 0 0 0 5.9z\"/><path d=\"M8.5 17.5l-1 2.3M12.5 17.5l-1 2.3M16.5 17.5l-1 2.3\"/></svg>", "snow": "<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3.5v17M4.6 7.8l14.8 8.4M19.4 7.8 4.6 16.2\"/><path d=\"M9.8 4.8 12 6.6l2.2-1.8M9.8 19.2 12 17.4l2.2 1.8\"/></svg>", "storm": "<svg class=\"ic\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7.5 14h10a3.6 3.6 0 0 0 .4-7.2 5.4 5.4 0 0 0-10.4 1.3 3 3 0 0 0 0 5.9z\"/><path d=\"M12.6 14.4 10.4 18h3l-1.8 3.4\"/></svg>"};const ic=c=>c===0?WX.sun:c<=2?WX.part:c===3?WX.cloud:c<=48?WX.fog:c<=67?WX.rain:c<=77?WX.snow:c<=82?WX.rain:WX.storm;
   fetch('https://api.open-meteo.com/v1/forecast?latitude=35.91&longitude=-79.05&current=temperature_2m,weather_code&temperature_unit=fahrenheit')
-    .then(r=>r.json()).then(d=>{const c=d.current;el.textContent=`${ic(c.weather_code)} ${Math.round(c.temperature_2m)}°F Chapel Hill`}).catch(()=>{})})();
+    .then(r=>r.json()).then(d=>{const c=d.current;el.innerHTML=`${ic(c.weather_code)}${Math.round(c.temperature_2m)}°F Chapel Hill`}).catch(()=>{})})();
 /* 7b. confetti on award badges */
 function confetti(x,y){const C=['#F8C8D8','#ff7eb3','#a99bff','#fff1a8','#b8f0d8','#9fd3ff'];
   for(let i=0;i<46;i++){const p=document.createElement('i');p.className='cf';p.style.background=C[i%C.length];p.style.left=x+'px';p.style.top=y+'px';document.body.appendChild(p);
@@ -3891,9 +4039,9 @@ addEventListener('scroll',()=>document.querySelectorAll('.copied').forEach(x=>x.
     return h('div',{className:'lk-in',style:{opacity:1+dy/400}},
       h('div',{className:'lk-date'},fmtD(now)),
       h('div',{className:'lk-time'},fmtT(now)),
-      h('div',{className:'lk-wid'},h('span',null,'📍 Chapel Hill'),h('span',null,'🎓 UNC ’27'),h('span',null,'✦ Mia Zhou')),
-      h('div',{className:'lk-note'},h('i',null,'👋'),
-        h('div',null,h('b',null,'Mia Zhou'),h('span',null,'hi! welcome to my page — come on in ✦')),h('small',null,'now')),
+      h('div',{className:'lk-wid'},h('span',{dangerouslySetInnerHTML:{__html:ICO.pin+'Chapel Hill'}}),h('span',{dangerouslySetInnerHTML:{__html:ICO.cap+'Math & Biostats'}}),h('span',{dangerouslySetInnerHTML:{__html:ICO.spark+'Mia Zhou'}})),
+      h('div',{className:'lk-note'},h('i',{dangerouslySetInnerHTML:{__html:ICO.heart}}),
+        h('div',null,h('b',null,'Mia Zhou'),h('span',null,'hi! welcome to my page — come on in')),h('small',null,'now')),
       h('div',{className:'lk-hint'},matchMedia('(hover:none)').matches?'swipe up to open ↑':'click or swipe up to open ↑'),
       h('div',{className:'lk-bar'}));
   }
