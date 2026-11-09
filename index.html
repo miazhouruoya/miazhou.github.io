@@ -2815,6 +2815,30 @@ html body #topbar .tb-wx{font-size:.88rem!important;gap:7px}
 html body #topbar .tb-quick{font-size:.86rem!important;padding:.5rem 1rem!important;gap:7px}
 html body .sidebar{top:68px!important}
 @media(max-width:600px){html body #topbar{height:48px!important;padding:0 14px!important}html body #topbar .tb-title{font-size:.95rem!important}html body #topbar .tb-quick{font-size:.78rem!important;padding:.42rem .8rem!important}}
+
+/* ── pixel guide (bottom-right) ── */
+#guide{position:fixed;right:22px;bottom:18px;z-index:9000;width:78px;cursor:pointer;user-select:none;-webkit-user-select:none;
+  transform:translateX(160px);opacity:0;transition:transform 1.3s cubic-bezier(.3,.9,.4,1),opacity .4s}
+#guide.in{transform:none;opacity:1}
+#guide img{display:block;width:100%;height:auto;filter:drop-shadow(0 6px 10px rgba(60,40,80,.22));transform-origin:50% 100%}
+#guide.walk img{animation:gBob .32s steps(2) infinite}
+#guide:hover img{transform:scale(1.06)}
+@keyframes gBob{0%{translate:0 0}50%{translate:0 -4px}}
+#guide .gb{position:absolute;right:62px;bottom:92px;max-width:190px;width:max-content;background:#fff;color:#1c1d22;border-radius:16px 16px 4px 16px;
+  padding:.5rem .8rem;font:700 .8rem/1.35 -apple-system,BlinkMacSystemFont,'SF Pro Text',Arial,sans-serif;box-shadow:0 10px 26px rgba(60,40,80,.18);
+  opacity:0;transform:translateY(6px) scale(.96);transform-origin:100% 100%;transition:opacity .25s,transform .25s;pointer-events:none}
+#guide .gb.on{opacity:1;transform:none}
+.g-heart{position:fixed;z-index:9001;pointer-events:none;color:#ff7eb3;font-size:18px;animation:gHeart 1.2s ease-out forwards}
+@keyframes gHeart{to{transform:translate(var(--dx),-70px) scale(1.3);opacity:0}}
+@media(max-width:700px){#guide{width:54px;right:10px;bottom:10px}#guide .gb{display:none}}
+@media print{#guide{display:none!important}}
+@media(prefers-reduced-motion:reduce){#guide{transition:opacity .3s}#guide.walk img{animation:none}}
+/* lock screen avatar */
+.lk-av{position:absolute;right:max(6vw,24px);bottom:calc(clamp(96px,15vh,150px) + 86px);width:clamp(90px,9vw,130px);animation:lkWalkIn 1.4s cubic-bezier(.3,.9,.4,1) both}
+.lk-av img{display:block;width:100%;height:auto;filter:drop-shadow(0 8px 14px rgba(0,0,0,.3));transform-origin:50% 100%}
+.lk-av.walk img{animation:gBob .32s steps(2) infinite}
+@keyframes lkWalkIn{from{transform:translateX(40vw)}to{transform:none}}
+@media(max-width:700px){.lk-av{width:80px;right:20px}}
 /* ── LOCK SCREEN (React) ── */
 #lock{position:fixed;inset:0;z-index:99000;overflow:hidden;color:#fff;user-select:none;-webkit-user-select:none;touch-action:none;
   font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Arial,sans-serif;
@@ -3961,13 +3985,45 @@ document.addEventListener('click',e=>{const a=e.target.closest('.r-contact-row a
   b.innerHTML=`email copied ✓ <a href="mailto:${mail}">open mail ↗</a>`;b.style.left=(r.left+r.width/2)+'px';b.style.top=r.top+'px';document.body.appendChild(b);setTimeout(()=>b.remove(),3200)});
 addEventListener('scroll',()=>document.querySelectorAll('.copied').forEach(x=>x.remove()),{passive:true});
 </script>
+<div id="guide" role="button" tabindex="0" aria-label="Mia's pixel avatar — click to say hi"><div class="gb" id="gBubble"></div><img id="gImg" src="sprite_2.png" alt=""></div>
+<script>
+/* ── pixel guide: walks while you scroll, talks per section, blows a kiss when clicked ── */
+(function(){
+  const P={wave:'sprite_1.png',stand:'sprite_2.png',walk:'sprite_3.png',kiss:'sprite_4.png'};
+  Object.values(P).forEach(u=>{const i=new Image();i.src=u});
+  const g=document.getElementById('guide'),img=document.getElementById('gImg'),bub=document.getElementById('gBubble');if(!g)return;
+  let busy=false,scT=0,bT=0,started=false,last='';
+  const pose=k=>{img.src=P[k];g.classList.toggle('walk',k==='walk')};
+  const say=(t,ms)=>{if(matchMedia('(max-width:700px)').matches)return;bub.textContent=t;bub.classList.add('on');clearTimeout(bT);bT=setTimeout(()=>bub.classList.remove('on'),ms||2600)};
+  const MSG={'sec-header':"hi! I'm Mia ♡",'sec-intern':"where I've worked ✦",'sec-pub':'my papers! ✎','sec-res':'research is my fav ♡',
+    'sec-hack':'these won awards ★','sec-proj':"things I've built ⚒",'sec-lead':'clubs & honors ✿','sec-life':"here's where I've been ✈",'sec-skills':'my toolbox ⌘'};
+  window.guideEnter=function(){if(started)return;started=true;pose('walk');
+    requestAnimationFrame(()=>g.classList.add('in'));
+    setTimeout(()=>{pose('wave');say("hi! I'm Mia ♡ scroll around!",3200);setTimeout(()=>{if(!busy)pose('stand')},1600)},1350);
+    setTimeout(watch,1500)};
+  function watch(){
+    addEventListener('scroll',()=>{if(busy)return;pose('walk');clearTimeout(scT);scT=setTimeout(()=>{if(!busy)pose('stand')},260)},{passive:true});
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&e.target.id!==last){last=e.target.id;if(MSG[last]&&last!=='sec-header')say(MSG[last])}}),{rootMargin:'-40% 0px -55% 0px'});
+    Object.keys(MSG).forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el)});
+  }
+  function kiss(){if(busy)return;busy=true;pose('kiss');say('thanks for visiting ♡',2200);
+    const r=g.getBoundingClientRect();
+    for(let i=0;i<5;i++)setTimeout(()=>{const h=document.createElement('span');h.className='g-heart';h.textContent='♥';
+      h.style.left=(r.left+r.width*.7)+'px';h.style.top=(r.top+r.height*.25)+'px';h.style.setProperty('--dx',(Math.random()*50-25)+'px');
+      document.body.appendChild(h);setTimeout(()=>h.remove(),1300)},i*140);
+    setTimeout(()=>{busy=false;pose('stand')},1500)}
+  g.addEventListener('click',kiss);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();kiss()}});
+  // if there's no lock screen (e.g. it failed to load), still bring her in
+  setTimeout(()=>{if(!document.getElementById('lock'))guideEnter()},1200);
+})();
+</script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
 <script>
 /* ── LOCK SCREEN: React component; click, swipe up, scroll or press a key to unlock ── */
 (function(){
   const root=document.getElementById('lock');if(!root)return;
-  function finish(){root.classList.add('gone');document.documentElement.classList.remove('locked');if(window.revealSite)revealSite();setTimeout(()=>root.remove(),800)}
+  function finish(){root.classList.add('gone');document.documentElement.classList.remove('locked');if(window.revealSite)revealSite();if(window.guideEnter)setTimeout(guideEnter,450);setTimeout(()=>root.remove(),800)}
   if(!window.React||!window.ReactDOM){root.addEventListener('click',finish);return}   // fallback if the CDN is blocked
   const h=React.createElement,{useState,useEffect,useRef}=React;
   const fmtT=d=>d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}).replace(/\s?[AP]M/i,'');
@@ -3975,6 +4031,8 @@ addEventListener('scroll',()=>document.querySelectorAll('.copied').forEach(x=>x.
   function LockScreen(){
     const [now,setNow]=useState(new Date());
     const [dy,setDy]=useState(0);
+    const [av,setAv]=useState('walk');
+    useEffect(()=>{const t=setTimeout(()=>setAv('wave'),1400);return()=>clearTimeout(t)},[]);
     const start=useRef(null),done=useRef(false);
     useEffect(()=>{const t=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(t)},[]);
     const unlock=()=>{if(done.current)return;done.current=true;root.style.transform='';finish()};
@@ -3995,6 +4053,7 @@ addEventListener('scroll',()=>document.querySelectorAll('.copied').forEach(x=>x.
       h('div',{className:'lk-wid'},h('span',{dangerouslySetInnerHTML:{__html:ICO.pin+'Chapel Hill'}}),h('span',{dangerouslySetInnerHTML:{__html:ICO.cap+'Math & Biostats'}}),h('span',{dangerouslySetInnerHTML:{__html:ICO.spark+'Mia Zhou'}})),
       h('div',{className:'lk-note'},h('i',{dangerouslySetInnerHTML:{__html:ICO.heart}}),
         h('div',null,h('b',null,'Mia Zhou'),h('span',null,'hi! welcome to my page — come on in')),h('small',null,'now')),
+      h('div',{className:'lk-av'+(av==='walk'?' walk':'')},h('img',{src:av==='walk'?'sprite_3.png':'sprite_1.png',alt:''})),
       h('div',{className:'lk-hint'},matchMedia('(hover:none)').matches?'swipe up to open ↑':'click or swipe up to open ↑'),
       h('div',{className:'lk-bar'}));
   }
