@@ -3735,10 +3735,10 @@ document.addEventListener('click',e=>{const s=e.target.closest('.lt-stop');if(!s
     useEffect(()=>{const t=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(t)},[]);
     const unlock=()=>{if(done.current)return;done.current=true;root.style.transform='';finish()};
     useEffect(()=>{
-      const key=e=>{if(!e.metaKey&&!e.ctrlKey){e.preventDefault();unlock()}};
+      const key=e=>{if(done.current||e.metaKey||e.ctrlKey)return;e.preventDefault();unlock()};
       const wheel=e=>{if(e.deltaY>8)unlock()};
       const down=e=>{start.current=e.clientY;root.style.transition='none'};
-      const move=e=>{if(start.current==null)return;const d=Math.min(0,e.clientY-start.current);setDy(d);root.style.transform=`translateY(${d}px)`};
+      const move=e=>{if(done.current||start.current==null)return;const d=Math.min(0,e.clientY-start.current);setDy(d);root.style.transform=`translateY(${d}px)`};
       const up=e=>{if(start.current==null)return;const d=e.clientY-start.current;start.current=null;root.style.transition='';
         if(d<-90||Math.abs(d)<6)unlock();else{root.style.transform='';setDy(0)}};
       root.addEventListener('pointerdown',down);addEventListener('pointermove',move);addEventListener('pointerup',up);
